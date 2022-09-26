@@ -1,0 +1,17 @@
+export {default as InstegramFont} from './Components/InstegramFont';
+export {default as Footer} from './Components/Footer';
+export {default as Header} from './Components/Header';
+export {default as Stories} from './Components/Stories';
+export {default as Posts} from './Components/Posts';
+export {default as Chat} from './Components/Chat';
+export {default as EmptySendChat} from './Components/EmptySendChat';
+export {default as ModalConfirm} from './Components/ModalConfirm';
+export {default as ConfirmModal2} from './Components/ConfirmModal2';
+export {default as ModalAddPost} from './Components/ModalAddPost';
+export {default as AddPost} from './Components/AddPost';
+export {default as Suggestions} from './Components/Suggestions';
+export {default as PieCharts} from './Components/PieCharts';
+export {default as SignIn} from './Screens/SignIn';
+export {default as SignUp} from './Screens/SignUp';
+export {default as Home} from './Screens/Home';
+export {default as Messages} from './Screens/Messages';

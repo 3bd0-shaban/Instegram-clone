@@ -4,6 +4,8 @@ import dotenv from "dotenv"
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
+import cookieparser from 'cookie-parser';
+import fileupload from 'express-fileupload';
 import router from './Routes/UserRegister&Login.js';
 
 const app = express();
@@ -21,10 +23,14 @@ mongoose.connect(process.env.MongoDB_URL, {
 })
 app.use(helmet());
 app.use(morgan("common"));
+app.use(cookieparser());
+app.use(fileupload({
+    useTempFiles:true
+}));
 app.use(cors({
     origin: "http://localhost:3000", //react location
     credentials: true
 }))
 
 app.use(express.json())
-app.use('/', router);
+app.use('/api/auth', router);

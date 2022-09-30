@@ -13,6 +13,7 @@ const usesrSchema = new mongoose.Schema(
     },
     username: {
       type: String,
+      lowercase:true,
       min: 3,
       max: 20
     },
@@ -24,7 +25,7 @@ const usesrSchema = new mongoose.Schema(
       type: String,
       required: true,
       min: 6,
-      select: false
+      // select: false
     },
     avatar: {
       type: String,

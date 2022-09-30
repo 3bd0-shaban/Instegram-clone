@@ -1,8 +1,12 @@
 import Users from '../Models/Users.js';
 import bcrypt from 'bcrypt';
 import Jwt from 'jsonwebtoken';
-import sendEmail from './sendEmail.js';
+import { google } from 'googleapis';
+const { OAuth2 } = google.auth;
+import send_Email from './sendEmail.js';
 const { Client_URL } = process.env
+const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID)
+
 export const SignUp = async (req, res, next) => {
     const { username, email, password, fullname } = req.body;
     try {
@@ -25,41 +29,102 @@ export const SignUp = async (req, res, next) => {
                 email, password, username, fullname
             }
             const token = createActivationToken(newuser)
-            // const url = `${Client_URL}`/user/`${token}`;
-            // sendEmail(email, url);
-            new Users({
-                email, username, password: HashedPassword, fullname
-            }).save()
-                .then(newuser => {
-                    return res.status(200).json({ msg: 'Account Created successfully , Please activate your acount', newuser, token });
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+
+
+            const url = `${Client_URL}` / user / `${token}`;
+            send_Email(email, url);
+            return res.status(200).json({ msg: 'Account Created successfully , Please activate your acount', newuser, token });
+
+            // new Users({
+            //     email, username, password: HashedPassword, fullname
+            // }).save()
+            //     .then(newuser => {
+            // return res.status(200).json({ msg: 'Account Created successfully , Please activate your acount', newuser, token });
+            //     })
+            //     .catch(err => {
+            //         return res.status(400).json({ msg: err.message });
+            //     })
         }
     } catch (error) {
         return res.status(400).json({ msg: error.message });
     }
 }
-export const SignIn = async (req, res, next) => {
+
+export const SignIn = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
             return res.status(400).json({ msg: 'Please fill all fields' });
         } else {
-            const user = await Users.findOne({ email});
+            const user = await Users.findOne({ email });
             if (!user) {
                 return res.status(400).json({ msg: 'Invalid Email' });
             } else {
                 const isMatch = await bcrypt.compare(password, user.password);
-                
+
                 if (!isMatch) {
                     return res.status(400).json({ msg: 'Invalid Password' });
                 }
             }
+            const refresh_Token = createRefressToken({ id: user._id })
+            res.cookie('authcookie', refresh_Token, {
+                httpOnly: true,
+                path: '/api/auth/refresh_token',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+            })
+            return res.status(200).json({ msg: 'Successfully Logged in', refresh_Token });
+
         }
     } catch (error) {
-        return res.status(400).json({ msg: error.message });
+        return res.status(500).json({ msg: error.message });
+    }
+}
+export const GetAccessToken = (req, res) => {
+    try {
+        const rf_token = req.cookies.authcookie;
+        if (!rf_token) {
+            res.status(400).json({ msg: 'Log In First' })
+        }
+        Jwt.verify(rf_token, process.env.JWT_REFRESH, (err, user) => {
+            if (err) {
+                res.status(400).json({ msg: 'Log In First Man' });
+            }
+            const access_Token = createAccessToken({ id: user.id });
+            res.json({ access_Token })
+        })
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
+    }
+};
+export const ForgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ msg: 'Please Enter Valid Email' });
+        }
+        const user = await Users.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ msg: 'Invalid Email' });
+        }
+        const access_Token = createAccessToken({ id: user._id });
+        const url = `${Client_URL}` / user / `${access_Token}`;
+        send_Email(email, url, "reset Your Password");
+        res.status(200).json({ msg: 'Email Send Successfully' });
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
+
+    }
+}
+export const ResetPassword = async (req, res) => {
+    try {
+        const { password } = req.body;
+        const slat = await bcrypt.genSalt();
+        const HashedPassword = await bcrypt.hash(password, slat);
+        await Users.findByIdAndUpdate({ _id: req.user.id });
+        password: HashedPassword;
+        res.status(200).json({ msg: 'Password Cahnged Successfully' });
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
     }
 }
 

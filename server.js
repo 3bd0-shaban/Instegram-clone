@@ -7,7 +7,7 @@ import cors from "cors";
 import cookieparser from 'cookie-parser';
 import fileupload from 'express-fileupload';
 import router from './Routes/UserRegister&Login.js';
-
+import path from 'path';
 const app = express();
 const port = process.env.Port || 5000;
 
@@ -16,7 +16,7 @@ mongoose.connect(process.env.MongoDB_URL, {
     useNewUrlParser: true,
 }).then(() => {
     app.listen(port, () => {
-        console.log(`Started successfully at port http:localhost:${port}`);
+        console.log(`Started successfully at port http://localhost:${port}`);
     })
 }).catch((err) => {
     console.log(err)

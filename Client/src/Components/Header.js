@@ -55,7 +55,7 @@ const Header = () => {
                             <img className="p-1 w-10 h-10 rounded-full focus:ring-2 focus:ring-gray-300" src="/Images/profile.jpg" alt="" />
                         </button>
                         <div id="menu-button" aria-expanded="true" aria-haspopup="true" className='hidden dropdown-toggle dropdowntoggle'>
-                            <div   role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                            <div>
                                 <Link to='/' className='dropdown-items' ><CgProfile style={{ 'marginTop': '3px', 'fontSize': '1.3rem' }} />Profile</Link>
                                 <Link to='/' className='dropdown-items' ><BsSave2 style={{ 'marginTop': '3px', 'fontSize': '1.3rem' }} />Saved</Link>
                                 <Link to='/' className='dropdown-items' ><IoSettingsOutline style={{ 'marginTop': '3px', 'fontSize': '1.3rem' }} />Settings</Link>

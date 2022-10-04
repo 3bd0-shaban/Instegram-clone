@@ -55,15 +55,18 @@ export const SignIn = async (req, res) => {
         const { email, password } = req.body;
         if (!email || !password) {
             return res.status(400).json({ msg: 'Please fill all fields' });
+        }
+        if (!validateEmail(email)) {
+            return res.status(400).json({ msg: 'Invalid Email' });
         } else {
             const user = await Users.findOne({ email });
             if (!user) {
-                return res.status(400).json({ msg: 'Invalid Email' });
+                return res.status(400).json({ msg: 'wrong Email' });
             } else {
                 const isMatch = await bcrypt.compare(password, user.password);
 
                 if (!isMatch) {
-                    return res.status(400).json({ msg: 'Invalid Password' });
+                    return res.status(400).json({ msg: 'wrong Password' });
                 }
             }
             const refresh_Token = createRefressToken({ id: user._id })
@@ -127,7 +130,30 @@ export const ResetPassword = async (req, res) => {
         return res.status(500).json({ msg: error.message });
     }
 }
-
+export const UserInfo = async (req, res) => {
+    try {
+        const user = await Users.findById(req.user._id);
+        res.json(user);
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
+    }
+}
+export const AllUsers = async (req, res) => {
+    try {
+        const user = await Users.find().select('-password');
+        res.json(user);
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
+    }
+}
+export const LogOut = async (req, res) => {
+    try {
+        res.clearCookie('authcookie',{path: '/api/auth/refresh_token',})
+        res.json({msg:'LogedOut'});
+    } catch (error) {
+        return res.status(500).json({ msg: error.message });
+    }
+}
 function validateEmail(email) {
     var re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     return re.test(email);

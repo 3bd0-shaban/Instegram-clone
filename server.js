@@ -6,7 +6,7 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieparser from 'cookie-parser';
 import fileupload from 'express-fileupload';
-import router from './Routes/UserRegister&Login.js';
+import router from './Routes/Router.js';
 import path from 'path';
 const app = express();
 const port = process.env.Port || 5000;

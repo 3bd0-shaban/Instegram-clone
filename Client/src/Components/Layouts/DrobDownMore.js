@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { BsBookmarkCheck, BsGear, BsJournals, BsMoon, BsPeople, BsQuestionCircle, BsToggleOff } from 'react-icons/bs'
-import { ShowDrobdownMore } from '../../Redux/Slices/FeaturesSlice';
+import {FeatureAction} from '../../Redux/Slices/FeaturesSlice';
 import { useLogOutMutation } from '../../Redux/APIs/AuthApi';
 const DrobDownMore = () => {
     const { DrobdownMore } = useSelector(state => state.Features);
@@ -12,7 +12,7 @@ const DrobDownMore = () => {
     const HandleLogOut = async () => {
         await logOut().unwrap()
             .then((payload) => {
-                dispatch(ShowDrobdownMore(false));
+                dispatch(FeatureAction.ShowDrobdownMore(false));
                 navigate('/signin')
             })
             .catch((err) => {
@@ -21,7 +21,7 @@ const DrobDownMore = () => {
     }
     const DropItem = (props) => {
         return (
-            <Link onClick={() => dispatch(ShowDrobdownMore(false))} className='flex gap-3 items-center justify-between px-3 rounded-lg hover:bg-gray-200'>
+            <Link onClick={() => dispatch(FeatureAction.ShowDrobdownMore(false))} className='flex gap-3 items-center justify-between px-3 rounded-lg hover:bg-gray-200'>
                 <div className='flex gap-3 items-center py-2 duration-200 focus:px-1'>
                     <div className='text-[1.4rem]'>{props.Icon}</div>
                     <span className='whitespace-nowrap'>{props.Title}</span>
@@ -33,7 +33,7 @@ const DrobDownMore = () => {
     return (
         DrobdownMore &&
         <>
-            <div onClick={() => dispatch(ShowDrobdownMore(false))} className="fixed inset-0 z-20"></div>
+            <div onClick={() => dispatch(FeatureAction.ShowDrobdownMore(false))} className="fixed inset-0 z-20"></div>
             <div className='absolute z-30 top-[3rem] right-0 shadow-gray-200 drop-shadow-lg rounded-lg bg-[rgb(255,255,255,.9)] backdrop-blur-xl text-base font-semibold w-[19rem]'>
                 <div className='px-2 py-2'>
                     <DropItem Icon={<BsPeople />} Title={'Profile'} />

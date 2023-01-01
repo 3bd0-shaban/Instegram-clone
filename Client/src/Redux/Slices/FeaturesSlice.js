@@ -1,9 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit';
 const FeaturesSlice = createSlice({
-    name: "Upload_Product",
+    name: 'Upload_Product',
     initialState: {
         SideBar: false,
         DrobdownMore: false,
+        isModalAddPost: false,
+        IsModalPreviewImages: false,
+        isModalConfirm: false,
+
     },
     reducers: {
         ShowSideBar(state) {
@@ -12,10 +16,18 @@ const FeaturesSlice = createSlice({
         ShowDrobdownMore(state) {
             state.DrobdownMore = !state.DrobdownMore;
         },
+        ShowModalAddPost(state) {
+            state.isModalAddPost = !state.isModalAddPost;
+        },
+        Show_ModalConfirm(state) {
+            state.isModalConfirm = !state.isModalConfirm;
+        },
+        Show_ModalPreviewImages(state) {
+            state.IsModalPreviewImages = !state.IsModalPreviewImages;
+        },
     },
+});
 
-})
-
-
-export const { ShowDrobdownMore } = FeaturesSlice.actions;
-export default FeaturesSlice.reducer
+export const FeatureAction =
+    FeaturesSlice.actions;
+export default FeaturesSlice.reducer;

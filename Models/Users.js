@@ -23,7 +23,7 @@ const usesrSchema = new mongoose.Schema(
       type: String,
       required: true,
       min: 6,
-      // select: false
+      select: false
     },
     avatar: {
       type: String,
@@ -34,6 +34,10 @@ const usesrSchema = new mongoose.Schema(
       default: []
     },
     following: {
+      type: Array,
+      default: []
+    },
+    blocklist: {
       type: Array,
       default: []
     },

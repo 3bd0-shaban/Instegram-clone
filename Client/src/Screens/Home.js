@@ -1,6 +1,8 @@
 import React from 'react'
-import { Header, Stories, Suggestions, Posts } from '../Exports'
+import { Header, Stories, Suggestions, Posts } from '../Components/Exports'
+import useTitle from './../Hooks/useTitle';
 const Home = () => {
+  useTitle('Instegram')
   return (
     <div>
       <Header />

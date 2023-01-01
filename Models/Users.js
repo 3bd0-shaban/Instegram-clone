@@ -37,12 +37,19 @@ const usesrSchema = new mongoose.Schema(
       type: Array,
       default: []
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
+    roles: {
+      type: [String],
+      default: ["user"],
     },
-    // resetPasswordToken: String,
-    // resetPasswordExpire: Date
+    bio:{
+      type:String,
+    },
+    phonenumber:{
+      type:String
+    },
+    gender:{
+      type:String
+    }
   },
   { timestamps: true }
 );

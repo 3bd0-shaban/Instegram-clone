@@ -1,5 +1,5 @@
 import React from 'react'
-import { DashboardNavBar,Header } from '../Exports'
+import { DashboardNavBar,Header } from '../Components/Exports'
 
 const Dashboard = () => {
   return (

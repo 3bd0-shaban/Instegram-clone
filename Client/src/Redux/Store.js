@@ -1,11 +1,18 @@
-// import React from 'react'
-// import {createStore} from 'redux'
-// import rootReducer from './reducers/'
-// import {Provider} from 'react-redux'
+import { setupListeners } from "@reduxjs/toolkit/query"
 import { configureStore } from '@reduxjs/toolkit'
+import UserSlice from "./Slices/UserSlice";
+import FeaturesSlice from './Slices/FeaturesSlice';
+import { apiSlice } from './ApiSlice';
+export const Store = configureStore({
+    reducer: {
+        auth: UserSlice,
+        Features: FeaturesSlice,
+        [apiSlice.reducerPath]: apiSlice.reducer,
 
-export const store = configureStore({
-  reducer: {},
-})
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
+        apiSlice.middleware),
+    devTools: process.env.NODE_ENV !== 'production',
+});
+setupListeners(Store.dispatch)
 
-export default store

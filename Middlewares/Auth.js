@@ -1,55 +1,29 @@
 import jwt from "jsonwebtoken";
-import Users from './../Models/Users.js';
+import Users from '../Models/Users.js';
+import ErrorHandler from './../Utils/ErrorHandler.js';
+import { asyncHandler } from "./asyncErrorHandler.js";
+export const auth = asyncHandler(async (req, res, next) => {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader) return next(
+        new ErrorHandler('You qre not authorized, Please log in again', 403)
+    );
+    const token = authHeader.split(' ')[1]
+    const verify = jwt.verify(token, process.env.JWT_SECRET);
+    if (!verify) return next(
+        new ErrorHandler('You Are Not Authorized, Please log in again', 403)
+    );
+    req.user = await Users.findById(verify.id);
+    next()
+});
 
-export const auth = async (req, res, next) => {
-    let token
-    const authHeader = req.headers.authorization
+export const authorizeRoles = (...roles) => {
+    return (req, res, next) => {
 
-    if (authHeader && authHeader.startsWith('Bearer')) {
-        try {
-            // extract token from authHeader string
-            token = authHeader.split(' ')[1]
-
-            // verified token returns user id
-            const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-            // find user's obj in db and assign to req.user 
-            req.user = await User.findById(decoded.id).select('-password')
-
-            next()
-        } catch (error) {
-            res.status(401).json('Not authorized, invalid token')
+        if (!roles.some(role => req.user.roles.includes(role))) {
+            return next(
+                new ErrorHandler(`Role: ${roles.includes(req.user)} is not allowed to access this resouce `, 403)
+            );
         }
-    }
-
-    if (!token) {
-        res.status(401).json('Not authorized, no token found')
-    }
-
-    // try {
-    //     const token = req.header("Authorization")
-    //     if (!token) return res.status(400).json({ msg: "Invalid Authentication." })
-    //     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    //         if (err) return res.status(400).json({ msg: "Invalid Authentication." })
-    //         req.user = user
-    //         next()
-    //     })
-    // } catch (err) {
-    //     return res.status(500).json({ msg: err.message })
-    // }
-}
-export const isAdmin = async (req, res, next) => {
-    try {
-        // const admin = req.user && req.user.isAdmin;
-        // if (!admin) {
-        //     res.status(401).json({ msg: 'Not authorized, no token found' })
-        // }
-        // next()
-        const user = await Users.findOne({ _id: req.user.id })
-        if (!user) {
-            return res.status(500).json({ msg: "No Authorization to see that page" })
-        }
-    } catch (error) {
-        return res.status(500).json({ msg: error.message })
-    }
-}
+        next();
+    };
+};

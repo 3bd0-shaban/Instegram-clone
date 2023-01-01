@@ -4,7 +4,7 @@ import { BsClockHistory } from 'react-icons/bs'
 import { MdOutlineArticle, MdDashboardCustomize } from 'react-icons/md'
 import { IoAnalytics, IoSettingsOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom';
-import {Users} from '../../Exports'
+import {Users} from '../../Components/Exports'
 const DashboardNavBar = () => {
     return (
         <div>

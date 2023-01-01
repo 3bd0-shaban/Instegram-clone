@@ -1,8 +1,45 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import { InstegramFont, Footer } from '../Exports'
-import { AiFillFacebook } from 'react-icons/ai'
+import React, { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { InstegramFont, Footer, useTitle } from '../Components/Exports';
+import { AiFillFacebook } from 'react-icons/ai';
+import { useSignupMutation } from '../Redux/APIs/AuthApi';
+import { ImSpinner7 } from 'react-icons/im'
 const SignUp = () => {
+    useTitle('Sign Up');
+    const navigate = useNavigate();
+    const userRef = useRef();
+    useEffect(() => {
+        if (localStorage.getItem("Logedin ?")) {
+            navigate("/");
+        }
+    })
+    const [inputs, setInputs] = useState({
+        email: '',
+        password: '',
+        fullname: '',
+        username: '',
+        confirmpassword: ''
+    })
+    const handleChange = ({ currentTarget: input }) => {
+        setInputs({ ...inputs, [input.name]: input.value });
+    };
+    useEffect(() => {
+        userRef.current.focus()
+    }, []);
+    const [signup, { isError, error, isLoading }] = useSignupMutation();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const { email, password, fullname, username, confirmpassword } = inputs;
+        const data = { email, password, fullname, username, confirmpassword }
+        await signup(data).unwrap()
+            .then((payload) => {
+                navigate('/signin')
+            })
+            .catch((err) => {
+                console.log(err.data.msg);
+            });
+    }
+
     return (
         <div>
             <div className='container max-w-4xl flex place-content-center h-[80%] lg:mt-20 mb-28'>
@@ -21,14 +58,17 @@ const SignUp = () => {
                             <p className='mx-3 font-semibold text-gray-500'>OR</p>
                             <hr className='w-[40%] mt-3'></hr>
                         </div>
-                        <form className='flex flex-col'>
-                            <input type='email' className='inputfield' placeholder='Mobile Number Or Email' />
-                            <input type='text' className='inputfield' placeholder='Full Name' />
-                            <input type='text' className='inputfield' placeholder='Username' />
-                            <input type='password' className='inputfield' placeholder='Password' />
+                        <form onSubmit={handleSubmit} className='flex flex-col'>
+                            <input onChange={handleChange} value={inputs.email} ref={userRef} name='email' type='email' className='inputfield' placeholder='Mobile Number Or Email' />
+                            <input onChange={handleChange} value={inputs.fullname} name='fullname' type='text' className='inputfield' placeholder='Full Name' />
+                            <input onChange={handleChange} value={inputs.username} name='username' type='text' className='inputfield' placeholder='Username' />
+                            <input onChange={handleChange} value={inputs.password} name='password' type='password' className='inputfield' placeholder='Password' />
+                            <input onChange={handleChange} value={inputs.confirmpassword} name='confirmpassword' type='password' className='inputfield' placeholder='Password' />
                             <p className='text-sm font-normal text-gray-500'>People who use our service may have uploaded your contact information to Instagram. <Link to='/more' className='font-semibold text-gray-500'>Learn More</Link></p>
                             <p className='text-sm font-normal text-gray-500 mt-5'>By signing up, you agree to our Terms , <Link to='/privacy' className='font-semibold text-gray-500'>Privacy Policy </Link>and<Link to='/cookies' className='font-semibold text-gray-500'> Cookies Policy .</Link></p>
-                            <button className='btn-primary mt-4 !mb-8'>Sign up</button>
+                            <button type='submit' className='btn-primary mt-4 !mb-8' disabled={isLoading}>
+                                {isLoading ? <span className='flex items-center justify-center text-2xl py-1 animate-spin'><ImSpinner7 /> </span> : 'Sign Up'}</button>
+                            {isError && <span className="text-red-500 pb-3 font-poppins font-medium">{error?.data?.msg}</span>}
                         </form>
                     </div>
                     <div className='lg:border border-gray-300 justify-center flex mt-5 lg:bg-white'>

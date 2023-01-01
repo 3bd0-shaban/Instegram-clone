@@ -1,30 +1,25 @@
-// eslint-disable-next-line
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { InstegramFont, ModalAddPost, ModalConfirm } from '../Exports'
+import { InstegramFont, ModalAddPost, ModalConfirm, DrobDownMore } from '../Exports'
 import { MdKeyboardArrowDown, MdOutlineSearch } from 'react-icons/md'
-import { IoHomeOutline, IoSettingsOutline } from 'react-icons/io5'
+import { IoHomeOutline } from 'react-icons/io5'
 import { RiMessengerLine } from 'react-icons/ri'
-import { TbMessageShare, TbMessageReport, TbHeart } from 'react-icons/tb'
+import { TbMessageShare, TbHeart } from 'react-icons/tb'
 import { MdAddCircleOutline } from 'react-icons/md'
-import { CgProfile } from 'react-icons/cg'
-import { BsSave2 } from 'react-icons/bs'
+import { useDispatch } from 'react-redux'
+import { ShowDrobdownMore } from '../../Redux/Slices/FeaturesSlice';
+
 const Header = () => {
     const [show, setShow] = useState();
     const [showSub, setShowSub] = useState();
-
+    const dispatch = useDispatch();
     const handleshow = () => setShow(true);
-    // const handleclose = () => setShow(true);
     const handleshowSub = () => setShowSub(true);
     const handlecloseSub = () => setShowSub(false);
     const handlecloseAll = () => {
         setShow(false);
         setShowSub(false)
     };
-    const [dropdown, setDropdown] = useState();
-    const showDropdown = () => setDropdown(true);
-    const hideDropdown = () => setDropdown(false);
-
     return (
         <div className='border-b border-gray-300 bg-white'>
             <div className='container max-w-6xl flex py-3 px-2'>
@@ -51,20 +46,10 @@ const Header = () => {
                     <Link to='/'><TbMessageShare /></Link>
                     <Link to='/'><TbHeart /></Link>
                     <div className='relative'>
-                        <button onClick={showDropdown} className="flex text-sm rounded-full md:mr-0" data-dropdown-toggle="dropdown" id="dropdown-button" type="button">
+                        <button onClick={() => dispatch(ShowDrobdownMore(true))} className="flex text-sm rounded-full md:mr-0" data-dropdown-toggle="dropdown" id="dropdown-button" type="button">
                             <img className="p-1 w-10 h-10 rounded-full focus:ring-2 focus:ring-gray-300" src="/Images/profile.jpg" alt="" />
                         </button>
-                        <div id="menu-button" aria-expanded="true" aria-haspopup="true" className='hidden dropdown-toggle dropdowntoggle'>
-                            <div>
-                                <Link to='/' className='dropdown-items' ><CgProfile style={{ 'marginTop': '3px', 'fontSize': '1.3rem' }} />Profile</Link>
-                                <Link to='/' className='dropdown-items' ><BsSave2 style={{ 'marginTop': '3px', 'fontSize': '1.3rem' }} />Saved</Link>
-                                <Link to='/' className='dropdown-items' ><IoSettingsOutline style={{ 'marginTop': '3px', 'fontSize': '1.3rem' }} />Settings</Link>
-                                <Link to='/' className='dropdown-items' ><TbMessageReport style={{ 'marginTop': '3px', 'fontSize': '1.3rem' }} />Report a problem</Link>
-                            </div>
-                            <div className="py-1 hover:bg-gray-100">
-                                <Link to="/signup" className="text-gray-700 px-4 py-2 text-base font-poppins flex gap-3 mt-1 ">Log Out</Link>
-                            </div>
-                        </div>
+                        <DrobDownMore />
                     </div>
                 </div>
             </div>

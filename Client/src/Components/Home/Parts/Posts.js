@@ -1,5 +1,5 @@
 import React from 'react'
-import { BsThreeDots, BsSave2 } from 'react-icons/bs'
+import { BsThreeDots, BsSave2, BsBookmarkCheck } from 'react-icons/bs'
 import { FaRegHeart, FaRegComment,FaRegSmile } from 'react-icons/fa'
 import { RiShareForwardLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom';
@@ -28,7 +28,7 @@ const Posts = () => {
             <FaRegComment />
             <RiShareForwardLine />
           </div>
-          <div><BsSave2 /></div>
+          <div><BsBookmarkCheck /></div>
         </div>
         <div className='ml-4 mt-4'>
           <p className='text-md font-semibold'>551 Likes</p>

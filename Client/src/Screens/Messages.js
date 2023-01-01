@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import { Header, EmptySendChat, Chat } from '../Exports'
+import { Header, EmptySendChat, Chat } from '../Components/Exports'
 import { IoIosArrowDown } from 'react-icons/io'
 import { TbMessage2Share } from 'react-icons/tb'
 const Messages = () => {

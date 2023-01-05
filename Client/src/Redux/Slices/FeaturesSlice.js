@@ -7,6 +7,9 @@ const FeaturesSlice = createSlice({
         isModalAddPost: false,
         IsModalPreviewImages: false,
         isModalConfirm: false,
+        isPostMore: false,
+        isModalSittings: false,
+        isModalPostDetails: false
 
     },
     reducers: {
@@ -24,6 +27,15 @@ const FeaturesSlice = createSlice({
         },
         Show_ModalPreviewImages(state) {
             state.IsModalPreviewImages = !state.IsModalPreviewImages;
+        },
+        Show_isPostMore(state) {
+            state.isPostMore = !state.isPostMore;
+        },
+        Show_iSModalSittings(state) {
+            state.isModalSittings = !state.isModalSittings;
+        },
+        Show_ModalPostDetails(state) {
+            state.isModalPostDetails = !state.isModalPostDetails;
         },
     },
 });

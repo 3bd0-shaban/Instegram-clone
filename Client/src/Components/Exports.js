@@ -6,19 +6,33 @@ export { default as Posts } from './Home/Parts/Posts';
 export { default as Chat } from './Screens/Chat';
 export { default as DashboardNavBar } from './Dashboard/DashboardNavBar';
 export { default as Users } from './Dashboard/Users';
+
+
 export { default as EmptySendChat } from './Screens/EmptySendChat';
+export { default as UserSaves } from './Screens/UserSaves';
+export { default as UsersPosts } from './Screens/UsersPosts';
+export { default as UsersTages } from './Screens/UsersTages';
+
+export { default as UserSavesById } from './Screens/ProfileById/UserSavesById';
+export { default as UsersPostsById } from './Screens/ProfileById/UsersPostsById';
+export { default as UsersTagesById } from './Screens/ProfileById/UsersTagesById';
 
 export { default as ModalConfirm } from './Layouts/ModalConfirm';
+export { default as ModalPostDetails } from './Layouts/ModalPostDetails';
+export { default as ModalSittings } from './Layouts/ModalSittings';
 export { default as ModalPreviewImages } from './Layouts/ModalPreviewImages';
 export { default as ConfirmModal2 } from './Layouts/ConfirmModal2';
 
 export { default as ModalAddPost } from './Layouts/ModalAddPost';
+export { default as ModalPostMoreLogged } from './Layouts/ModalPostMoreLogged';
+export { default as PostMore } from './Layouts/PostMore';
 export { default as AddPost } from './Screens/AddPost';
 export { default as Suggestions } from './Home/Parts/Suggestions';
-export { default as PieCharts } from './Layouts/PieCharts';
 export { default as SignIn } from '../Screens/SignIn';
 export { default as SignUp } from '../Screens/SignUp';
 export { default as Home } from '../Screens/Home';
+export { default as Profile } from '../Screens/Profile';
+export { default as ProfileById } from '../Screens/ProfileById';
 export { default as Messages } from '../Screens/Messages';
 export { default as Dashboard } from '../Screens/Dashboard';
 

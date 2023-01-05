@@ -12,13 +12,16 @@ const postsSchema = new mongoose.Schema(
         },
         location: {
             type: String,
+            default: '',
             max: 50
         },
         likesnumber: {
-            type: Number
+            type: Number,
+            default: 0
         },
         commentsnumber: {
-            type: Number
+            type: Number,
+            default: 0
         },
         hiddenlikes: {
             type: Boolean,
@@ -58,7 +61,8 @@ const postsSchema = new mongoose.Schema(
                     required: [true, 'The Product image is Required'],
                 },
                 imageDes: {
-                    type: String
+                    type: String,
+                    default: ''
                 },
                 url: {
                     type: String,

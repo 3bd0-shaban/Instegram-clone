@@ -82,18 +82,18 @@ export const RefreshToken = asyncHandler((req, res, next) => {
     });
 });
 export const UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.find({ _id: req.user.id });
+    const user = await Users.findOne({ _id: req.user.id });
     if (!user) {
         return next(new ErrorHandler('User Not Founded', 400));
     }
-    res.json(user);
+    return res.json(user);
 })
 export const Get_UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.findById(req.params.id);
+    const user = await Users.findOne({ username: req.params.username });
     if (!user) {
         return next(new ErrorHandler('User Not Founded', 400));
     }
-    res.json(user);
+    return res.json(user);
 })
 export const Update_UserInfo = asyncHandler(async (req, res, next) => {
     const user = await Users.findById(req.params.id);
@@ -130,24 +130,27 @@ export const Delete_UserInfo = asyncHandler(async (req, res, next) => {
         return res.json({ msg: 'User deleted successfully' });
     }
 })
-export const logout = asyncHandler((req, res, next) => {
+export const LogOut = asyncHandler((req, res, next) => {
     const cookies = req.headers.cookie;
     const prevToken = cookies.split("=")[1];
     if (!prevToken) {
         return next(new ErrorHandler('You Are Not Logged In', 400));
-    }
-    Jwt.verify(String(prevToken), process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            Jwt.verify(String(prevToken), process.env.JWT_SECRET, (err, user) => {
-                if (err) {
-                    return next(new ErrorHandler('Authorization Failed, Please Log In Again', 400));
-                }
-                res.clearCookie(`${user.id}`);
-                req.cookies[`${user.id}`] = "";
-                return res.json({ msg: "Successfully Logged Out" });
-            })
-        }
-    });
+    };
+    res.clearCookie('Jwt');
+    return res.json({ msg: "Successfully Logged Out" });
+
+    // Jwt.verify(String(prevToken), process.env.JWT_REFRESH, (err, user) => {
+    //     if (err) {
+    //         Jwt.verify(String(prevToken), process.env.JWT_REFRESH, (err, user) => {
+    //             if (err) {
+    //                 return next(new ErrorHandler('Authorization Failed, Please Log In Again', 400));
+    //             }
+    //             res.clearCookie('Jwt');
+    //             // req.cookies[`${user.id}`] = "";
+    //             return res.json({ msg: "Successfully Logged Out" });
+    //         })
+    //     }
+    // });
 })
 
 export const ForgotPassword = asyncHandler(async (req, res, next) => {
@@ -176,12 +179,12 @@ export const AllUsers = asyncHandler(async (req, res, next) => {
     const user = await Users.find().select('-password');
     return res.json(user);
 })
-export const LogOut = asyncHandler(async (req, res, next) => {
-    res.clearCookie('token', { path: '/', maxAge: 1 });
-    res.clearCookie('Logged_in', { path: '/', maxAge: 1 });
-    res.clearCookie('Admin', { path: '/' });
-    return res.json({ msg: 'Loged Out' });
-})
+// export const LogOut = asyncHandler(async (req, res, next) => {
+//     res.clearCookie('token', { path: '/', maxAge: 1 });
+//     res.clearCookie('Logged_in', { path: '/', maxAge: 1 });
+//     res.clearCookie('Admin', { path: '/' });
+//     return res.json({ msg: 'Loged Out' });
+// })
 function validateEmail(email) {
     var re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     return re.test(email);

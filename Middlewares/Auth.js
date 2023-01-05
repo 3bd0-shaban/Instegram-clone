@@ -5,7 +5,7 @@ import { asyncHandler } from "./asyncErrorHandler.js";
 export const auth = asyncHandler(async (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;
     if (!authHeader) return next(
-        new ErrorHandler('You qre not authorized, Please log in again', 403)
+        new ErrorHandler('You are not authorized, Please log in again', 403)
     );
     const token = authHeader.split(' ')[1]
     const verify = jwt.verify(token, process.env.JWT_SECRET);
@@ -27,3 +27,11 @@ export const authorizeRoles = (...roles) => {
         next();
     };
 };
+// export const ChechPrivacy = asyncHandler(async (req, res, next) => {
+//     const user = await Users.findOne({ username: req.params.username });
+//     console.log(user)
+//     if (user.isprivat) {
+//         new ErrorHandler('This account is privat you can not see posts unless you follow it', 403);
+//     }
+//     next();
+// })

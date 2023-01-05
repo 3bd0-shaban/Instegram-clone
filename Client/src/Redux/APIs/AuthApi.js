@@ -4,8 +4,8 @@ export const AuthApi = apiSlice.injectEndpoints({
     tagTypes: ['Auth'],
     endpoints: builder => ({
         getUserById: builder.query({
-            query: (id) => ({
-                url: `/api/auth/get/${id}`,
+            query: (username) => ({
+                url: `/api/auth/get/${username}`,
                 credentials: 'include',
             }),
             providesTags: ['Auth'],

@@ -25,9 +25,28 @@ const usesrSchema = new mongoose.Schema(
       min: 6,
       select: false
     },
-    avatar: {
+    bio: {
       type: String,
-      default: "https://res.cloudinary.com/abdo9/image/upload/v1664213293/samples/people/istockphoto-1300845620-612x612_ose5xw.jpg"
+    },
+    phonenumber: {
+      type: String
+    },
+    gender: {
+      type: String
+    },
+    avatar: {
+      public_id: {
+        type: String,
+        default: ""
+      },
+      url: {
+        type: String,
+        default: "https://res.cloudinary.com/abdo9/image/upload/v1672925254/images_v2tobb.jpg",
+      }
+    },
+    isprivat: {
+      type: Boolean,
+      default: false
     },
     followers: {
       type: Array,
@@ -41,19 +60,14 @@ const usesrSchema = new mongoose.Schema(
       type: Array,
       default: []
     },
+    saves: {
+      type: Array,
+      default: []
+    },
     roles: {
       type: [String],
       default: ["user"],
     },
-    bio:{
-      type:String,
-    },
-    phonenumber:{
-      type:String
-    },
-    gender:{
-      type:String
-    }
   },
   { timestamps: true }
 );

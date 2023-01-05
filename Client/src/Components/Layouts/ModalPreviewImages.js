@@ -6,7 +6,7 @@ const ModalPreviewImages = (props) => {
     return (
         IsModalPreviewImages &&
         <div key={props.mykey}>
-            <div className="fixed inset-0 bg-gray-800 bg-opacity-80 transition-opacity z-10" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(true))}></div>
+            <div className="fixed inset-0 bg-black/40 z-10" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(true))}></div>
             <div className="fixed inset-0 top-[10%] w-screen container px-0 max-w-4xl z-20 bg-white ">
                 <div className="relative rounded-lg shadow">
                     <div className="flex justify-between items-start py-4 rounded-t border-b px-4">

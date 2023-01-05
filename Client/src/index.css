@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    -webkit-tap-highlight-color:transparent;
+}
 .instalogo >SVG{
     width: 75%;
     height: 50px;
@@ -37,7 +40,11 @@ body{
 }
 .dropdowntoggle{
     @apply
-    right-0 bg-white group-focus:block  absolute inset-[0,auto,0,auto] z-10 mt-2 w-64 origin-top-right divide-y divide-gray-300 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
+    absolute z-30 top-[3rem] right-0 shadow-gray-200 drop-shadow-lg rounded-lg bg-[rgb(255,255,255,.9)] backdrop-blur-xl text-base font-semibold w-[19rem]
+}
+.ModalConfirm {
+    @apply
+    flex fixed z-50 inset-0 justify-center items-center
 }
 .Searchbar{
     @apply
@@ -47,3 +54,22 @@ body{
     @apply
     text-gray-700 px-4 py-3 text-base font-poppins flex gap-3 hover:bg-gray-100
 }
+.addpostmodal {
+    @apply
+    fixed inset-0 top-[10%] p-4 container max-w-4xl z-20 
+}
+.Modal {
+    @apply
+    fixed inset-0 top-[20%] p-4 container max-w-xl z-20 
+}
+.ModalPostDetails {
+    @apply
+    fixed inset-0 inset-x-0 h-[70%] top-[15%] xl:h-full xl:top-[5%] p-4 container max-w-[75%] z-20 
+}
+.profileitems {
+    @apply
+    flex gap-3 items-center pt-5 text-base font-medium text-gray-500 uppercase cursor-pointer
+}
+  .bounce {
+    animation: bounce 1s ease-in-out;
+  }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Header, Stories, Suggestions, Posts } from '../Components/Exports'
 import useTitle from './../Hooks/useTitle';
 const Home = () => {
-  useTitle('Instegram')
+  useTitle('Instegram');
   return (
     <div>
       <Header />
@@ -11,10 +11,7 @@ const Home = () => {
           <div className='gap-3 col-span-3'>
             <Stories />
             <div className='mt-5'>
-              <Posts />
-              <Posts />
-              <Posts />
-              <Posts />
+                <Posts />
             </div>
           </div>
           <div className='col-span-2 hidden md:block'>

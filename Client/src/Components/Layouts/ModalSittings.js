@@ -18,8 +18,8 @@ const ModalSittings = (props) => {
                 <div ref={nodeRef}>
                     <div onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} className="fixed inset-0 bg-black/40 z-10"></div>
 
-                    <div className={state === 'entering' ? 'Modal scale-[1.05] duration-75'
-                        : state === 'exiting' ? 'Modal scale-[1.4] duration-75' : 'Modal scale-100'}>
+                    <div className={state === 'entering' ? 'Modal scale-[1.05] !top-[10%] duration-75'
+                        : state === 'exiting' ? 'Modal !top-[10%] scale-[1.4] duration-75' : 'Modal !top-[10%] scale-100'}>
 
                         <div className="bg-white w-full rounded-xl shadow drop-shadow-xl flex justify-center items-center">
                             <div className='space-y-5 w-full text-center mx-auto py-6'>

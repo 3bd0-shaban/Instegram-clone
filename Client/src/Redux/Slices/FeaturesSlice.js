@@ -9,7 +9,8 @@ const FeaturesSlice = createSlice({
         isModalConfirm: false,
         isPostMore: false,
         isModalSittings: false,
-        isModalPostDetails: false
+        isModalPostDetails: false,
+        isModalPostMoreLogged:false
 
     },
     reducers: {
@@ -36,6 +37,9 @@ const FeaturesSlice = createSlice({
         },
         Show_ModalPostDetails(state) {
             state.isModalPostDetails = !state.isModalPostDetails;
+        },
+        Show_ModalPostMoreLogged(state) {
+            state.isModalPostMoreLogged = !state.isModalPostMoreLogged;
         },
     },
 });

@@ -1,6 +1,5 @@
 import { apiSlice } from '../ApiSlice';
 export const PostsApi = apiSlice.injectEndpoints({
-    tagTypes: ['Posts'],
     endpoints: (builder) => ({
         getPosts: builder.query({
             query: () => '/api/post/get',
@@ -23,12 +22,12 @@ export const PostsApi = apiSlice.injectEndpoints({
         getUserPostsById: builder.query({
             query: (id) => `/api/post/get/all/${id}`,
             keepUnusedDataFor: 5,
-            providesTags: ['Posts'],
+            providesTags: ['Posts', 'Comments'],
         }),
         getPostDetails: builder.query({
             query: (id) => `/api/post/get/${id}`,
             keepUnusedDataFor: 5,
-            providesTags: ['Posts'],
+            providesTags: ['Posts', 'Comments'],
         }),
         createPost: builder.mutation({
             query: (data) => ({

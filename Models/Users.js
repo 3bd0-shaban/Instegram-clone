@@ -60,10 +60,11 @@ const usesrSchema = new mongoose.Schema(
       type: Array,
       default: []
     },
-    saves: {
-      type: Array,
+    saves: [{
+      type: mongoose.Schema.ObjectId,
+      ref: 'Posts',
       default: []
-    },
+    }],
     roles: {
       type: [String],
       default: ["user"],

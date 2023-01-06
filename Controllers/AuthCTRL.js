@@ -82,14 +82,15 @@ export const RefreshToken = asyncHandler((req, res, next) => {
     });
 });
 export const UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.findOne({ _id: req.user.id });
+    const user = await Users.findOne({ _id: req.user.id }).populate('saves.$');
+    console.log(user)
     if (!user) {
         return next(new ErrorHandler('User Not Founded', 400));
     }
     return res.json(user);
 })
 export const Get_UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.findOne({ username: req.params.username });
+    const user = await Users.findOne({ username: req.params.username }).populate('saves.$');
     if (!user) {
         return next(new ErrorHandler('User Not Founded', 400));
     }

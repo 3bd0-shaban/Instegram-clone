@@ -8,10 +8,8 @@ import { useDispatch } from 'react-redux';
 import { useGetUserQuery } from '../Redux/APIs/AuthApi';
 
 const Profile = () => {
-    useTitle('Profile');
-    // const params = useParams();
-    // const { username } = params;
     const { data: userInfo, isError, isFeatching, error } = useGetUserQuery() || {};
+    useTitle(userInfo?.username);
     const dispatch = useDispatch();
     const [posts, setPosts] = useState(true);
     const [saved, setSaved] = useState(false);

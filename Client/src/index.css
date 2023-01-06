@@ -60,7 +60,7 @@ body{
 }
 .Modal {
     @apply
-    fixed inset-0 top-[20%] p-4 container max-w-xl z-20 
+    fixed inset-0 top-[25%] p-4 container max-w-xl z-40
 }
 .ModalPostDetails {
     @apply
@@ -70,6 +70,43 @@ body{
     @apply
     flex gap-3 items-center pt-5 text-base font-medium text-gray-500 uppercase cursor-pointer
 }
-  .bounce {
+.imageslide{
+    @apply
+    h-full w-full object-contain rounded-t-lg md:rounded-none
+}
+
+.slide-right-enter{
+    @apply
+    translate-x-[100%]
+}
+.slide-right-enter-active{
+    @apply
+    translate-x-[0%] transition-transform ease-in-out duration-500
+}
+.slide-right-exit{
+    @apply
+    translate-x-[0%]
+}
+.slide-right-exit-active{
+    @apply
+    -translate-x-[100%] transition-transform ease-in-out duration-500
+} 
+.slide-left-enter{
+    @apply
+    -translate-x-[100%]
+}
+.slide-left-enter-active{
+    @apply
+    translate-x-[0%] transition-transform ease-in-out duration-500
+}
+.slide-left-exit{
+    @apply
+    translate-x-[0%]
+}
+.slide-left-exit-active{
+    @apply
+    translate-x-[100%] transition-transform ease-in-out duration-500
+} 
+.bounce {
     animation: bounce 1s ease-in-out;
   }

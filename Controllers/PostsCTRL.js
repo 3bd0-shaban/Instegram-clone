@@ -59,7 +59,7 @@ export const Get_PostDetails = asyncHandler(async (req, res, next) => {
     return res.json(userPosts);
 });
 export const FollowersPosts = asyncHandler(async (req, res, next) => {
-    const userPosts = await Posts.find().populate('user','fullname avatar');
+    const userPosts = await Posts.find().populate('user','username avatar');
     console.log(userPosts)
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)

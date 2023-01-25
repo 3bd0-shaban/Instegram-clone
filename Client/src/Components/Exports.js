@@ -3,6 +3,7 @@ export { default as Footer } from './Layouts/Footer';
 export { default as Header } from './Layouts/Header';
 export { default as Stories } from './Home/Stories';
 export { default as Posts } from './Home/Parts/Posts';
+export { default as SinglePost } from './Home/Parts/SinglePost';
 export { default as Chat } from './Screens/Chat';
 export { default as DashboardNavBar } from './Dashboard/DashboardNavBar';
 export { default as Users } from './Dashboard/Users';
@@ -39,6 +40,7 @@ export { default as Dashboard } from '../Screens/Dashboard';
 
 export { default as DrobDownMore } from '../Components/Layouts/DrobDownMore'
 export { default as LoadingScreen } from '../Components/Layouts/LoadingScreen'
+export { default as ImagesSlider } from '../Components/Layouts/ImagesSlider'
 
 export { default as RequireAuth } from './RequiredAuth';
 export { default as PersistLogin } from './PersistLogin';

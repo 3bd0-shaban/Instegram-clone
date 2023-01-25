@@ -72,7 +72,7 @@ body{
 }
 .imageslide{
     @apply
-    h-full w-full object-contain rounded-t-lg md:rounded-none
+    h-full w-full object-cover rounded-l-lg rounded-t-lg md:rounded-tr-none
 }
 
 .slide-right-enter{

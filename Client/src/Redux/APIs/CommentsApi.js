@@ -13,7 +13,7 @@ export const CommentsApi = apiSlice.injectEndpoints({
         Like: builder.mutation({
             query: (id) => ({
                 url: `/api/comment/like/${id}`,
-                method: 'Post',
+                method: 'PUT',
                 credentials: 'include',
             }),
             invalidatesTags: ['Comments'],
@@ -21,10 +21,18 @@ export const CommentsApi = apiSlice.injectEndpoints({
         UnLike: builder.mutation({
             query: (id) => ({
                 url: `/api/comment/unlike/${id}`,
-                method: 'Post',
+                method: 'PUT',
                 credentials: 'include',
             }),
             invalidatesTags: ['Comments'],
+        }),
+        getCounter: builder.query({
+            query: (id) => ({
+                url: `/api/comment/length/${id}`,
+                method: 'Post',
+                credentials: 'include',
+                providesTags: ['Comments','Posts'],
+            }),
         }),
         updateComment: builder.mutation({
             query: ({ data, id }) => ({
@@ -50,6 +58,7 @@ export const {
     useCreateCommentMutation,
     useUpdateCommentMutation,
     useDeleteCommentMutation,
+    useGetCounterQuery,
     useLikeMutation,
     useUnLikeMutation,
 } = CommentsApi;

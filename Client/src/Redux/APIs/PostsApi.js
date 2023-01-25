@@ -12,12 +12,12 @@ export const PostsApi = apiSlice.injectEndpoints({
         getUserPosts: builder.query({
             query: () => '/api/post/getuser',
             keepUnusedDataFor: 5,
-            providesTags: ['Posts']
+            providesTags: ['Posts', 'Comments'],
         }),
         getFollowersPosts: builder.query({
             query: () => '/api/post/get/followers/posts',
             keepUnusedDataFor: 5,
-            providesTags: ['Posts']
+            providesTags: ['Posts', 'Comments'],
         }),
         getUserPostsById: builder.query({
             query: (id) => `/api/post/get/all/${id}`,

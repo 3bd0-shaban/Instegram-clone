@@ -34,7 +34,7 @@ app.use(
     cors({
         origin: [
             'http://localhost:3000',
-            'https://market-gcww.onrender.com/',
+            'https://instegram-backend.onrender.com/',
         ],
         credentials: true,
     })

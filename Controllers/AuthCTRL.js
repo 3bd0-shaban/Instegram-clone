@@ -65,7 +65,7 @@ export const SignIn = asyncHandler(async (req, res, next) => {
             expires: new Date(Date.now() + 7 * 1000 * 60 * 60 * 24), // 7d
             sameSite: 'lax'
         });
-        return res.json({ msg: 'successfully Logged In', accessToken, refresh_Token });
+        return res.json({ msg: 'successfully Logged In', accessToken });
     }
 })
 export const RefreshToken = asyncHandler((req, res, next) => {

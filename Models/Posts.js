@@ -15,14 +15,6 @@ const postsSchema = new mongoose.Schema(
             default: '',
             max: 50
         },
-        likesnumber: {
-            type: Number,
-            default: 0
-        },
-        commentsnumber: {
-            type: Number,
-            default: 0
-        },
         hiddenlikes: {
             type: Boolean,
             default: false,
@@ -31,13 +23,20 @@ const postsSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
+        numComments: {
+            type: Number,
+            default: 0
+        },
+        numLikes: {
+            type: Number,
+            default: 0
+        },
         likes: [
             {
-                user: {
-                    type: mongoose.Schema.ObjectId,
-                    ref: 'Users',
-                    required: true
-                }
+                type: mongoose.Schema.ObjectId,
+                ref: 'Users',
+                required: true,
+                default: []
             },
         ],
         comments: [
@@ -51,7 +50,7 @@ const postsSchema = new mongoose.Schema(
                 }, time: {
                     type: Date,
                     default: Date.now()
-                },
+                }, default: []
             },
         ],
         images: [

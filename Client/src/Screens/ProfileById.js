@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Header, useTitle, Footer, UsersTagesById, UserSavesById, UsersPostsById, ModalUserByIdSettings } from '../Components/Exports'
+import { Header, useTitle, Footer, UsersTagesById, UserSavesById, UsersPostsById, ModalUserByIdSettings, ModalFollowing, ModalFollowers } from '../Components/Exports'
 import { BsBookmarks, BsThreeDots, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { useGetUserByIdQuery } from '../Redux/APIs/UserApi';
+import { useFollowMutation, useGetUserByIdQuery, useGetUserQuery } from '../Redux/APIs/UserApi';
 import { BiChevronDown } from 'react-icons/bi';
 import { IoPersonAddOutline } from 'react-icons/io5';
 
@@ -14,11 +14,24 @@ const Profile = () => {
     const params = useParams();
     const { username } = params;
     const { data: userInfo, isError, isFeatching, error } = useGetUserByIdQuery(username) || {};
+    const { data: loggeduser } = useGetUserQuery() || {};
+    const [Follow] = useFollowMutation() || {};
     const dispatch = useDispatch();
     const [isFollowing, setIsFollowing] = useState(false);
     const [posts, setPosts] = useState(true);
     const [saved, setSaved] = useState(false);
     const [tagged, setTaged] = useState(false);
+    const FollowUser = () => {
+        const id = userInfo._id
+        Follow(id).unwrap()
+            .catch(err => console.log(err))
+    };
+
+    useEffect(() => {// eslint-disable-next-line
+        const isInclude = userInfo?.followers?.some(p => p == loggeduser?._id);
+        isInclude ? setIsFollowing(true) : setIsFollowing(false);
+    }, [loggeduser, setIsFollowing, userInfo]);
+
     const OpenPosts = () => {
         setPosts(true); setSaved(false); setTaged(false);
     }
@@ -31,6 +44,8 @@ const Profile = () => {
     return (
         <div className='mt-24'>
             <Header />
+            <ModalFollowers id={userInfo?._id} />
+            <ModalFollowing id={userInfo?._id} />
             <ModalUserByIdSettings />
             {isFeatching ? <p>Featching</p> : isError && <p>{error?.data?.msg}</p>}
             <div className='container px-0 max-w-[85rem] mt-5'>
@@ -43,21 +58,21 @@ const Profile = () => {
                                     <p className='text-xl font-semibold'>{userInfo?.fullname}</p>
                                     {isFollowing ?
                                         <>
-                                            <Link to='/' className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'>Following <BiChevronDown size={22} /></Link>
-                                            <Link to='/' className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'>Message</Link>
+                                            <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'>Following <BiChevronDown size={22} /></button>
+                                            <Link to={`message/${userInfo?._id}`} className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'>Message</Link>
                                         </>
                                         :
                                         <>
-                                            <Link to='/' className='bg-blue-500 text-white font-medium rounded-md flex items-center px-6 py-2 gap-2'>Follow</Link>
-                                            <Link to='/' className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'><IoPersonAddOutline size={22} /></Link>
+                                            <button onClick={FollowUser} className='bg-blue-500 text-white font-medium rounded-md flex items-center px-6 py-2 gap-2'>Follow</button>
+                                            <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'><IoPersonAddOutline size={22} /></button>
                                         </>
                                     }
                                     <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsThreeDots size={24} /></button>
                                 </div>
                                 <div className='flex gap-5'>
-                                    <p className='text-lg font-mono'>{userInfo?.posts?.length} posts</p>
-                                    <p className='text-lg font-mono'>{userInfo?.followers?.length} follower</p>
-                                    <p className='text-lg font-mono'>{userInfo?.following?.length} following</p>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModal(true))} className='text-lg font-mono'>{userInfo?.posts?.length} posts</button>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userInfo?.followers?.length} follower</button>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userInfo?.following?.length} following</button>
                                 </div>
                                 <p className='text-lg font-semibold'>{userInfo?.username}</p>
                             </div>

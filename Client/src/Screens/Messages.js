@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import { Header, EmptySendChat, Chat } from '../Components/Exports'
+import { Header, Chat } from '../Components/Exports'
 import { IoIosArrowDown } from 'react-icons/io'
 import { TbMessage2Share } from 'react-icons/tb'
 const Messages = () => {
@@ -9,7 +9,7 @@ const Messages = () => {
     return (
         <div>
             <Header />
-            <div className='container px-0 max-w-[70rem] border rounded-md mt-4 bg-white'>
+            <div className='container px-0 max-w-[70rem] mt-24 border rounded-md bg-white'>
                 <div className='grid grid-cols-3 h-[90vh] '>
                     <div className='col-span-1  border-r mt-5'>
                         <div className='flex border-b pb-2 h-12'>

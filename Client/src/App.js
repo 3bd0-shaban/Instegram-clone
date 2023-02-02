@@ -17,7 +17,7 @@ function App() {
           <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
             <Route index element={<Home />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Customer]} />}>
-              <Route path="Messages" element={<Messages />} />
+              <Route path=":username/message/:id" element={<Messages />} />
               <Route path={userInfo?.username} element={<Profile />} />
               <Route path="/:username" element={<ProfileById />} />
               <Route path="dashboard" element={<Dashboard />} />

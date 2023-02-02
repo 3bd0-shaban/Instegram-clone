@@ -21,7 +21,7 @@ export const UserApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            invalidatesTags: ['Auth', 'Saves', 'Posts'],
+            providesTags: ['Auth', 'Saves', 'Posts'],
         }),
         Suggestion: builder.query({
             query: () => ({
@@ -29,7 +29,7 @@ export const UserApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            invalidatesTags: ['Auth', 'Saves', 'Posts'],
+            providesTags: ['Auth', 'Saves', 'Posts'],
         }),
         getAllUsers: builder.query({
             query: () => ({
@@ -37,7 +37,23 @@ export const UserApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            invalidatesTags: ['Auth'],
+            providesTags: ['Auth'],
+        }),
+        FollowersList: builder.query({
+            query: (id) => ({
+                url: `/api/user/fowllowerslist/${id}`,
+                method: 'GET',
+                credentials: 'include',
+            }),
+            providesTags: ['Auth'],
+        }),
+        FollowingList: builder.query({
+            query: (id) => ({
+                url: `/api/user/fowllowerslist/${id}`,
+                method: 'GET',
+                credentials: 'include',
+            }),
+            providesTags: ['Auth'],
         }),
         DeleteUser: builder.mutation({
             query: (id) => ({
@@ -64,6 +80,22 @@ export const UserApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Auth'],
         }),
+        Follow: builder.mutation({
+            query: (id) => ({
+                url: `/api/user/follow/${id}`,
+                method: 'PUT',
+                credentials: 'include',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        UnFollow: builder.mutation({
+            query: (id) => ({
+                url: `/api/user/unfollow/${id}`,
+                method: 'PUT',
+                credentials: 'include',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
     }),
 
 });
@@ -73,6 +105,10 @@ export const {
     useDeleteUserMutation,
     useUpdateUserInfoMutation,
     useUpdateUserRoleMutation,
+    useFollowersListQuery,
+    useFollowingListQuery,
+    useFollowMutation,
+    useUnFollowMutation,
     useSuggestionQuery,
     useGetUserByIdQuery,
     useGetAllUsersQuery,

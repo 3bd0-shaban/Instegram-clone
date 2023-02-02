@@ -19,20 +19,17 @@ const PostMore = (props) => {
                 <div ref={nodeRef}>
                     <div onClick={() => dispatch(FeatureAction.Show_isPostMore(false))} className="fixed inset-0 bg-black/40 z-20"></div>
 
-                    <div className={state === 'entering' ? 'Modal scale-[1.05] duration-200'
-                        : state === 'exiting' ? 'Modal scale-[1.4] duration-200' : 'Modal scale-100'}>
-
-                        <div className="bg-white w-full rounded-xl shadow drop-shadow-xl flex justify-center items-center">
-                            <div className='space-y-5 w-full text-center mx-auto py-6'>
-                                <span className='block text-red-600 font-medium cursor-pointer'>Report</span><hr />
-                                <span className='block text-red-600 font-medium cursor-pointer'>unfollow</span><hr />
-                                <span className='block cursor-pointer'>Add to favorite</span><hr />
-                                <span className='block cursor-pointer'>Go to post</span><hr />
-                                <span className='block cursor-pointer'>Share to ...</span><hr />
-                                <span className='block cursor-pointer'>Copy link</span><hr />
-                                <span className='block cursor-pointer'>Embed</span><hr />
-                                <span className='block cursor-pointer' onClick={() => dispatch(FeatureAction.Show_isPostMore(false))} >Cancel</span>
-                            </div>
+                    <div className={state === 'entering' ? 'Modal scale-[1.05] !overflow-hidden duration-200'
+                        : state === 'exiting' ? 'Modal scale-[1.4] !overflow-hidden duration-200' : 'Modal !overflow-hidden scale-100'}>
+                        <div className='space-y-5 w-full text-center mx-auto py-6'>
+                            <span className='block text-red-600 font-medium cursor-pointer'>Report</span><hr />
+                            <span className='block text-red-600 font-medium cursor-pointer'>unfollow</span><hr />
+                            <span className='block cursor-pointer'>Add to favorite</span><hr />
+                            <span className='block cursor-pointer'>Go to post</span><hr />
+                            <span className='block cursor-pointer'>Share to ...</span><hr />
+                            <span className='block cursor-pointer'>Copy link</span><hr />
+                            <span className='block cursor-pointer'>Embed</span><hr />
+                            <span className='block cursor-pointer' onClick={() => dispatch(FeatureAction.Show_isPostMore(false))} >Cancel</span>
                         </div>
                     </div>
                 </div>)}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { BsCamera, BsFillChatFill } from 'react-icons/bs'
 import { useGetUserPostsByIdQuery } from '../../../Redux/APIs/PostsApi';
+import { ImSpinner3 } from 'react-icons/im';
 
 const UsersPosts = (props) => {
     const { data: userPostsById, isFeatching, error, isError } = useGetUserPostsByIdQuery(props.ID) || {};
@@ -25,7 +26,7 @@ const UsersPosts = (props) => {
     return (
         <div className='container max-w-6xl px-0'>
             {isError && <p>{error?.data?.msg}</p>}
-            {isFeatching && <p className='flex justify-center items-center text-3xl font-medium '>Loading ....</p>}
+            {isFeatching && <p className='flex justify-center items-center text-3xl font-medium animate-spin'><ImSpinner3/></p>}
             {(userPostsById === [] || !userPostsById || userPostsById?.length === 0) && <EmptyPosts />}
             <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
                 {userPostsById && userPostsById?.map((post) => (

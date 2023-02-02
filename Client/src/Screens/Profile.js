@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Header, useTitle, UserSaves, UsersPosts, UsersTages, Footer, ModalSittings } from '../Components/Exports'
+import { Header, useTitle, UserSaves, UsersPosts, UsersTages, Footer, ModalSittings, ModalFollowers, ModalFollowing } from '../Components/Exports'
 import { BsBookmarks, BsGear, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
@@ -27,6 +27,8 @@ const Profile = () => {
     return (
         <div className='mt-24'>
             <Header />
+            <ModalFollowers id={userInfo?._id} />
+            <ModalFollowing id={userInfo?._id} />
             <ModalSittings />
             {isFeatching ? <p>Featching</p> : isError && <p>{error?.data?.msg}</p>}
             <div className='container px-0 max-w-[85rem] mt-5'>
@@ -41,9 +43,9 @@ const Profile = () => {
                                     <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsGear size={24} /></button>
                                 </div>
                                 <div className='flex gap-5'>
-                                    <p className='text-lg font-mono'>0 posts</p>
-                                    <p className='text-lg font-mono'>0 follower</p>
-                                    <p className='text-lg font-mono'>0 following</p>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModal(true))} className='text-lg font-mono'>{userInfo?.posts?.length} posts</button>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userInfo?.followers?.length} follower</button>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userInfo?.following?.length} following</button>
                                 </div>
                                 <p className='text-lg font-semibold'>{userInfo?.username}</p>
                             </div>

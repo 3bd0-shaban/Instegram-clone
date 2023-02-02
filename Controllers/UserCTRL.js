@@ -14,6 +14,29 @@ export const Follow_Public_User = asyncHandler(async (req, res, next) => {
     return res.json({ msg: 'you are now follwing this user' })
 });
 
+export const UnFollow = asyncHandler(async (req, res, next) => {
+    await Users.findByIdAndUpdate(req.params.id, {
+        $pull: { followers: req.user.id }
+    }, { new: true });
+    await Users.findByIdAndUpdate({ user: req.user.id }, {
+        $pull: { following: req.params.id }
+    }, { new: true });
+    return res.json({ msg: 'you are now follwing this user' })
+});
+
+export const FollowingList = asyncHandler(async (req, res, next) => {
+    const followingUsers = await Users.findOne({ _id: req.params.id })
+        .select('following')
+        .populate('folloing', 'username avatar');
+    return res.json(followingUsers);
+});
+
+export const FollowersList = asyncHandler(async (req, res, next) => {
+    const followersUsers = await Users.findOne({ _id: req.params.id })
+        .select('followers')
+        .populate('followers', 'username avatar');
+    return res.json(followersUsers);
+});
 
 export const UserInfo = asyncHandler(async (req, res, next) => {
     const user = await Users.findOne({ _id: req.user.id }).populate('saves.$');

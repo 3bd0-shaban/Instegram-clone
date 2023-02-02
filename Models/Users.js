@@ -53,18 +53,27 @@ const usesrSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    followers: {
-      type: Array,
-      default: []
-    },
-    following: {
-      type: Array,
-      default: []
-    },
-    blocklist: {
-      type: Array,
-      default: []
-    },
+    followers: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Users',
+        default: []
+      }
+    ],
+    following: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Users',
+        default: []
+      }
+    ],
+    blocklist: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Users',
+        default: []
+      }
+    ],
     saves: [{
       type: mongoose.Schema.ObjectId,
       ref: 'Posts',

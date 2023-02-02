@@ -64,7 +64,7 @@ body{
 }
 .Modal {
     @apply
-    fixed inset-0 top-[25%] p-4 container max-w-xl z-40
+    fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[25%] container max-w-xl z-40 bg-white w-full rounded-xl shadow drop-shadow-xl p-4
 }
 .ModalPostDetails {
     @apply

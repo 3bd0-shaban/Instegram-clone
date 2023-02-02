@@ -47,7 +47,6 @@ const SinglePost = ({ post, postID, setPostID }) => {
     const SaveSubmit = async (id) => {
         await Save(id).unwrap()
     }
-    console.log(isLiked)
     return (
         <div key={post?._id} className='mt-4'>
             <div className='w-full h-auto pb-5 bg-white rounded-lg border'>

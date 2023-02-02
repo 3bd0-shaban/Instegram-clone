@@ -72,16 +72,20 @@ export const AllUsers = asyncHandler(async (req, res, next) => {
     const users = await features.query;
     return res.json(users);
 });
+export const Suggestion = asyncHandler(async (req, res, next) => {
+    const users = await Users.find().limit(5)
+    return res.json(users);
+});
 
 
 export const Search = asyncHandler(async (req, res, next) => {
     const resultperpage = 10;
     const features = new Features(Users.find(), req.query).Pagination(resultperpage).Search()
-    const userPosts = await features
+    const userPosts = await features.query
     // .querysort("-createdAt");
 
     if (!userPosts) {
-        return next(new ErrorHandler('No Posts For that user'), 400)
+        return next(new ErrorHandler('No results founded'), 400)
     }
-    return res.json({ msg: 'you are now follwing this user' })
+    return res.json(userPosts)
 })

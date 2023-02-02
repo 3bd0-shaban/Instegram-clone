@@ -7,11 +7,15 @@ import { TbMessageShare, TbHeart } from 'react-icons/tb'
 import { MdAddCircleOutline } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
-// import { useSelector } from 'react-redux'
+import { useState } from 'react'
 
 const Header = () => {
-    // const { isModalConfirm } = useSelector(state => state.Features);
     const dispatch = useDispatch();
+    const [keyword, setKeyword] = useState('');
+    // eslint-disable-next-line
+    const [pagnum, setPagenum] = useState(1);
+    const [openSerach, setOpenSearch] = useState(false);
+    console.log(keyword)
     return (
         <>
             <AddPost />
@@ -22,14 +26,22 @@ const Header = () => {
                         <div className='place-content-center align-middle mt-1 text-2xl'><MdKeyboardArrowDown /></div>
                     </Link>
                     <div className='ml-auto hidden md:block'>
-                        <form >
+                        <div>
                             <div className="relative">
                                 <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none font-extralight text-2xl text-gray-400">
                                     <MdOutlineSearch />
                                 </div>
-                                <input type="search" className="Searchbar" placeholder="Search" required="" />
+                                <input type="search"
+                                    onFocus={() => setOpenSearch(true)}
+                                    // onBlur={() => setOpenSearch(false)}
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                    value={keyword}
+                                    autoComplete='off'
+                                    name='keyword'
+                                    className="Searchbar"
+                                    placeholder="Search" required="" />
                             </div>
-                        </form>
+                        </div>
                     </div>
                     <div className='flex ml-auto gap-3 sm:gap-5 text-3xl text-gray-600 align-middle mt-2'>
                         <Link to='/'><IoHomeOutline /></Link>
@@ -46,8 +58,8 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <div className='fixed flex justify-center inset-x-0 top-[4.4rem]'>
-                <Search />
+            <div className='fixed flex justify-center inset-x-0 right-32 top-[3.8rem]'>
+                {(openSerach && keyword) && <Search keyword={keyword} pagnum={pagnum} setOpenSearch={setOpenSearch} />}
             </div>
         </>
     )

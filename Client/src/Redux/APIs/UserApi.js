@@ -1,9 +1,9 @@
 import { apiSlice } from '../ApiSlice';
-export const SearchApi = apiSlice.injectEndpoints({
+export const UserApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         Search: builder.query({
-            query: () => ({
-                url: '/api/user/search',
+            query: ({ keyword, pagnum }) => ({
+                url: `/api/user/search?keyword=${keyword}&page=${pagnum}`,
                 method: 'GET',
                 credentials: 'include',
             }),
@@ -18,6 +18,14 @@ export const SearchApi = apiSlice.injectEndpoints({
         getUser: builder.query({
             query: () => ({
                 url: '/api/user/info',
+                method: 'GET',
+                credentials: 'include',
+            }),
+            invalidatesTags: ['Auth', 'Saves', 'Posts'],
+        }),
+        Suggestion: builder.query({
+            query: () => ({
+                url: '/api/user/suggestion',
                 method: 'GET',
                 credentials: 'include',
             }),
@@ -65,7 +73,8 @@ export const {
     useDeleteUserMutation,
     useUpdateUserInfoMutation,
     useUpdateUserRoleMutation,
+    useSuggestionQuery,
     useGetUserByIdQuery,
     useGetAllUsersQuery,
     useGetUserQuery,
-} = SearchApi;
+} = UserApi;

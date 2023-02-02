@@ -25,7 +25,7 @@ const Profile = () => {
         setPosts(false); setSaved(false); setTaged(true);
     }
     return (
-        <div>
+        <div className='mt-24'>
             <Header />
             <ModalSittings />
             {isFeatching ? <p>Featching</p> : isError && <p>{error?.data?.msg}</p>}

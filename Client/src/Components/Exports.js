@@ -25,6 +25,7 @@ export { default as ModalPreviewImages } from './Layouts/Modals/ModalPreviewImag
 export { default as ConfirmModal2 } from './Layouts/Modals/ConfirmModal2';
 
 export { default as ModalAddPost } from './Layouts/Modals/ModalAddPost';
+export { default as ModalUserByIdSettings } from './Layouts/Modals/ModalUserByIdSettings';
 export { default as ModalPostMoreLogged } from './Layouts/Modals/ModalPostMoreLogged';
 export { default as PostMore } from './Layouts/Modals/PostMore';
 export { default as AddPost } from './Screens/AddPost';

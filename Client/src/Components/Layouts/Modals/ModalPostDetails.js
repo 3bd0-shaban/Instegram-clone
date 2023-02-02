@@ -46,8 +46,6 @@ const ModalPostDetails = (props) => {
         const Save = userInfo?.saves?.some(p => p == postDetails?._id);
         isInclude ? setIsLiked(true) : setIsLiked(false);
         Save ? setIsSaved(true) : setIsSaved(false);
-        console.log(`saved ? : ${isSaved} , include : ${Save}`)
-
     }, [postDetails, userInfo]);
 
     const Comment = async (id) => {

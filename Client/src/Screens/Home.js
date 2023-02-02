@@ -4,7 +4,7 @@ import useTitle from './../Hooks/useTitle';
 const Home = () => {
   useTitle('Instegram');
   return (
-    <div>
+    <div className='mt-24'>
       <Header />
       <div className='container max-w-5xl py-3 px-2 mt-5'>
         <div className='grid md:grid-cols-5 gap-3'>

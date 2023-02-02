@@ -3,16 +3,12 @@ class Features {
         this.query = query;
         this.queryStr = queryStr;
     };
-    search() {
+    Search() {
         const keyword = this.queryStr.keyword ? {
-            name: {
+            username: {
                 $regex: this.queryStr.keyword,
                 $options: 'i'
             },
-            des: {
-                $regex: this.queryStr.keyword,
-                $options: 'i'
-            }
         }
             : {
 
@@ -33,7 +29,7 @@ class Features {
         const currentPage = Number(this.queryStr.page) || 1;
         const skip = resultperpage * (currentPage - 1);
 
-        this.query= this.query.limit(resultperpage).skip(skip);
+        this.query = this.query.limit(resultperpage).skip(skip);
         return this;
     }
 }

@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { IoIosClose } from 'react-icons/io'
 import { BsCloudUpload } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux';
-import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
+import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { Transition } from 'react-transition-group';
 
 const ModalAddPost = (props) => {

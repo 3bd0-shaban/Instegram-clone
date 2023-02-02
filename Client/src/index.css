@@ -30,6 +30,10 @@ html {
     @apply
     text-sm font-medium text-gray-900 border py-3 pl-3 rounded-md mb-3 bg-zinc-50 focus:outline-none focus:border-gray-500 block placeholder:font-extralight
 }
+.selectfield {
+    @apply
+    text-sm font-medium text-gray-900 border py-3 px-0 pl-3 rounded-md mb-3 bg-zinc-50 focus:outline-none focus:border-gray-500 block placeholder:font-extralight
+}
 .btn-primary{
     @apply
     bg-blue-500 rounded-md text-base font-bold text-white py-2 mb-3 focus:bg-blue-400 

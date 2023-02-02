@@ -9,7 +9,8 @@ const ImagesSlider = (props) => {
     const [images, setImages] = useState([]);
     
     useEffect(() => {
-        setImages([props.Details]?.images)
+        const details = props.Details
+        setImages(details?.images)
     }, [props.Details]);
     const prevSlide = () => {
         const isFirstSlide = curIndex === 0;

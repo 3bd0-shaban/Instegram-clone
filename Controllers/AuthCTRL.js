@@ -23,12 +23,16 @@ export const SignUp = asyncHandler(async (req, res, next) => {
         return next(new ErrorHandler('Email Already Registered', 400));
     } else {
         const slat = await bcrypt.genSalt();
-        const HashedPassword = await bcrypt.hash(password, slat)
+        const HashedPassword = await bcrypt.hash(password, slat);
+        req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+
         new Users({
-            email, password: HashedPassword, fullname, username
+            email, password: HashedPassword, fullname, username, otp: req.app.locals.OTP
         }).save()
             .then(newuser => {
-                return res.json({ msg: 'Account Created successfully' });
+
+                send_Email(email, 'Here is the OTP to recover your account, please do not share it with anyone', req.app.locals.OTP)
+                return res.json({ msg: 'Account Created successfully , Please activate your acount' });
             })
             .catch(err => {
                 return res.status(400).json({ msg: err.message });
@@ -45,8 +49,6 @@ export const SignIn = asyncHandler(async (req, res, next) => {
         return next(new ErrorHandler('Invalid Email', 400));
     } else {
         const user = await Users.findOne({ email }).select('+password');
-
-
         if (!user) {
             return res.status(400).json({ msg: 'wrong Email' });
         } else {
@@ -67,7 +69,56 @@ export const SignIn = asyncHandler(async (req, res, next) => {
         });
         return res.json({ msg: 'successfully Logged In', accessToken });
     }
-})
+});
+
+
+export const SetBirthday = asyncHandler(async (req, res, next) => {
+    const { email } = req.query;
+    const { year, month, day } = req.body;
+    const user = await Users.findOne({ email })
+    if (user) {
+        await Users.updateOne({ email: user.email },
+            { birthday: req.body }, { new: true });
+        return res.json({ msg: "Birthday Done!" })
+    }
+    return next(new ErrorHandler('Email not founded !', 400));
+
+});
+
+export const activateEmail = asyncHandler(async (req, res, next) => {
+    const { email, code } = req.query;
+    const user = await Users.findOne({ email })
+    if (user) {
+        if (user.otp == parseInt(code)) {
+            req.app.locals.OTP = null;
+            await Users.updateOne({ email: user.email },
+                { isVerified: true }, { new: true });
+            const accessToken = createAccessToken({ id: user.id, roles: user.roles });
+            const refresh_Token = createRefreshToken({ id: user._id, roles: user.roles });
+            res.cookie('Jwt', refresh_Token, {
+                httpOnly: true,
+                path: '/',
+                secure: process.env.NODE_ENV === "production" ? true : false,
+                expires: new Date(Date.now() + 7 * 1000 * 60 * 60 * 24), // 7d
+                sameSite: 'none'
+            });
+            return res.json({ msg: "Your email verified successfully", accessToken })
+        }
+        return next(new ErrorHandler('Invalid OTP !', 400));
+
+    }
+    return next(new ErrorHandler('Email not founded !', 400));
+
+});
+
+export const Request2OTPActivate = asyncHandler(async (req, res, next) => {
+    const { email } = req.body;
+    req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+    send_Email(email, 'Here is the OTP to recover your account, please do not share it with anyone', req.app.locals.OTP)
+    await Users.updateOne({ email }, { otp: req.app.locals.OTP }, { new: true });
+    return res.json({ msg: "Access Granted !" })
+});
+
 export const RefreshToken = asyncHandler((req, res, next) => {
     const refreshToken = req.cookies.Jwt
     if (!refreshToken) {
@@ -81,111 +132,78 @@ export const RefreshToken = asyncHandler((req, res, next) => {
         return res.json({ accessToken })
     });
 });
-export const UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.findOne({ _id: req.user.id }).populate('saves.$');
-    console.log(user)
-    if (!user) {
-        return next(new ErrorHandler('User Not Founded', 400));
-    }
-    return res.json(user);
-})
-export const Get_UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.findOne({ username: req.params.username }).populate('saves.$');
-    if (!user) {
-        return next(new ErrorHandler('User Not Founded', 400));
-    }
-    return res.json(user);
-})
-export const Update_UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.findById(req.params.id);
-    if (!user) {
-        return next(new ErrorHandler('User Not Founded with that ID', 400));
-    } else {
-        const user = await Users.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true,
-            useFindAndModify: false,
-        });
-        return res.json(user);
-    }
-})
-export const Update_UserRole = asyncHandler(async (req, res, next) => {
-    const user = await Users.findById(req.params.id);
-    if (!user) {
-        return next(new ErrorHandler('User Not Founded with that ID', 400));
-    } else {
-        const user = await Users.findByIdAndUpdate(req.params.id, req.body.isAdmin, {   //{$set :{isAdmin:true}}
-            new: true,
-            runValidators: true,
-            useFindAndModify: false,
-        });
-        return res.json({ msg: 'User Updated Successfully', user });
-    }
-})
-export const Delete_UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.findById(req.params.id);
-    if (!user) {
-        return next(new ErrorHandler('User Not Founded with that ID', 400));
-    } else {
-        await Users.deleteOne({ _id: req.params.id });
-        return res.json({ msg: 'User deleted successfully' });
-    }
-})
-export const LogOut = asyncHandler((req, res, next) => {
-    const cookies = req.headers.cookie;
-    const prevToken = cookies.split("=")[1];
-    if (!prevToken) {
-        return next(new ErrorHandler('You Are Not Logged In', 400));
-    };
-    res.clearCookie('Jwt');
-    return res.json({ msg: "Successfully Logged Out" });
 
-    // Jwt.verify(String(prevToken), process.env.JWT_REFRESH, (err, user) => {
-    //     if (err) {
-    //         Jwt.verify(String(prevToken), process.env.JWT_REFRESH, (err, user) => {
-    //             if (err) {
-    //                 return next(new ErrorHandler('Authorization Failed, Please Log In Again', 400));
-    //             }
-    //             res.clearCookie('Jwt');
-    //             // req.cookies[`${user.id}`] = "";
-    //             return res.json({ msg: "Successfully Logged Out" });
-    //         })
-    //     }
-    // });
-})
+export const GenerateOtp = asyncHandler(async (req, res, next) => {
+    const { email } = req.query
+    req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+    const user = await Users.findOneAndUpdate({ email }, { otp: req.app.locals.OTP }, { new: true });
+    const to = user.email
+    send_Email(to, 'Here is the OTP to recover your account, please do not share it with anyone', req.app.locals.OTP)
+    return res.send({ code: req.app.locals.OTP });
+});
 
-export const ForgotPassword = asyncHandler(async (req, res, next) => {
-    const { email } = req.body;
-    if (!email) {
-        return next(new ErrorHandler('Please Enter Vailed Email', 400));
+
+export const VerifyOtp = asyncHandler(async (req, res, next) => {
+    const { code, email } = req.query;
+    const user = await Users.findOne({ email })
+    if (parseInt(req.app.locals.OTP) === parseInt(code) && user.otp == parseInt(code)) {
+        req.app.locals.OTP = null;
+        req.app.locals.resetsession = true
+        return res.json({ msg: 'Verified Successflly' })
     }
-    const user = await Users.findOne({ email });
-    if (!user) {
-        return next(new ErrorHandler('Invailed Email', 400));
+    return next(new ErrorHandler('Invalid OTP !', 400));
+});
+
+export const CreateResetSession = asyncHandler(async (req, res, next) => {
+    // const { code } = req.query;
+    if (req.app.locals.resetsession) {
+        req.app.locals.resetsession = true
+        return res.json({ msg: "Access Granted !" })
     }
-    const access_Token = createAccessToken({ id: user._id });
-    const url = `${Client_URL}` / user / `${access_Token}`;
-    send_Email(email, url, "reset Your Password");
-    return res.json({ msg: 'Email Send Successfully' });
-})
+    return next(new ErrorHandler('OTP Expired !', 400));
+});
+
 export const ResetPassword = asyncHandler(async (req, res, next) => {
-    const { password } = req.body;
-    const slat = await bcrypt.genSalt();
-    const HashedPassword = await bcrypt.hash(password, slat);
-    await Users.findByIdAndUpdate({ _id: req.user.id });
-    password: HashedPassword;
-    return res.json({ msg: 'Password Cahnged Successfully' });
-})
-export const AllUsers = asyncHandler(async (req, res, next) => {
-    const user = await Users.find().select('-password');
-    return res.json(user);
-})
-// export const LogOut = asyncHandler(async (req, res, next) => {
-//     res.clearCookie('token', { path: '/', maxAge: 1 });
-//     res.clearCookie('Logged_in', { path: '/', maxAge: 1 });
-//     res.clearCookie('Admin', { path: '/' });
-//     return res.json({ msg: 'Loged Out' });
-// })
+
+    if (!req.app.locals.resetsession) {
+        return next(new ErrorHandler('Session Expired !', 400));
+    }
+    const { password, confirmpassword, email } = req.body;
+    if (!password || !confirmpassword) {
+        return next(new ErrorHandler('Fill all fields'), 400)
+    }
+    if (password !== confirmpassword) {
+        return next(new ErrorHandler('Passwords do not match'), 400);
+    }
+    if (password.lenght <= 6) {
+        return next(new ErrorHandler('Passowrd must be more than 6 characters', 400));
+    }
+    Users.findOne({ email })
+        .then(user => {
+            bcrypt.hash(password, 10)
+                .then(hashedPassword => {
+                    Users.updateOne({ email: user.email },
+                        { password: hashedPassword }, function (err, data) {
+                            if (err) throw err;
+                            req.app.locals.resetsession = false; // reset session
+                            return res.json({ msg: "Record Updated...!" })
+                        });
+                })
+                .catch(e => {
+                    return next(new ErrorHandler('Enable to hashed password', e.message, 400));
+                })
+        })
+        .catch(error => {
+            return next(new ErrorHandler('Email not founded', 400));
+        })
+});
+
+export const LogOut = asyncHandler(async (req, res, next) => {
+    res.clearCookie('token', { path: '/', maxAge: 1 });
+    res.clearCookie('Logged_in', { path: '/', maxAge: 1 });
+    res.clearCookie('Admin', { path: '/' });
+    return res.json({ msg: 'Loged Out' });
+});
 function validateEmail(email) {
     var re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     return re.test(email);

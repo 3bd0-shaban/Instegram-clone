@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { BsBookmarkCheck, BsGear, BsJournals, BsMoon, BsPeople, BsQuestionCircle, BsToggleOff } from 'react-icons/bs'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
-import { useGetUserQuery, useLogOutMutation } from '../../Redux/APIs/AuthApi';
+import { useLogOutMutation } from '../../Redux/APIs/AuthApi';
+import { useGetUserQuery } from '../../Redux/APIs/UserApi';
 import { Transition } from 'react-transition-group';
 
 const DrobDownMore = () => {

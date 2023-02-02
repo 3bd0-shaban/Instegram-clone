@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
+import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 const ModalPreviewImages = (props) => {
     const dispatch = useDispatch();
     const { IsModalPreviewImages } = useSelector(state => state.Features);

@@ -5,7 +5,7 @@ import { BsBookmarks, BsGear, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { useGetUserByIdQuery } from '../Redux/APIs/AuthApi';
+import { useGetUserByIdQuery } from '../Redux/APIs/UserApi';
 
 const Profile = () => {
     useTitle('Profile');

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { InstegramFont, AddPost, DrobDownMore } from '../Exports'
+import { InstegramFont, AddPost, DrobDownMore, Search } from '../Exports'
 import { MdKeyboardArrowDown, MdOutlineSearch } from 'react-icons/md'
 import { IoHomeOutline } from 'react-icons/io5'
 import { RiMessengerLine } from 'react-icons/ri'
@@ -15,7 +15,7 @@ const Header = () => {
     return (
         <>
             <AddPost />
-            <div className='border-b border-gray-300 bg-white'>
+            <div className='border-b border-gray-300 bg-white fixed w-full top-0'>
                 <div className='container max-w-6xl flex py-3 px-2'>
                     <Link to='/' className='align-middle flex mt-2 gap-1'>
                         <InstegramFont />
@@ -45,6 +45,9 @@ const Header = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className='fixed flex justify-center inset-x-0 top-[4.4rem]'>
+                <Search />
             </div>
         </>
     )

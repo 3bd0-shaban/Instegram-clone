@@ -5,7 +5,7 @@ import { BsBookmarks, BsGear, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { useGetUserQuery } from '../Redux/APIs/AuthApi';
+import { useGetUserQuery } from '../Redux/APIs/UserApi';
 
 const Profile = () => {
     const { data: userInfo, isError, isFeatching, error } = useGetUserQuery() || {};

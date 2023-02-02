@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsBookmarks, BsFillChatFill } from 'react-icons/bs'
 import { useDispatch } from 'react-redux';
 import { useGetSaveQuery } from '../../Redux/APIs/SavesApi';
@@ -9,8 +9,16 @@ const UserSaves = () => {
     const { data: usersaves, isFeatching, error, isError } = useGetSaveQuery() || {};
     const dispatch = useDispatch()
     const [postID, setPostID] = useState('');
-    const remove = usersaves?._id
-    const saves = usersaves?.filter(item => item !== remove);
+    const [saves,setSaves] = useState([]);
+
+    //Get rid of _id returned from user saves
+    useEffect(() => {
+        const fliteredsaves = usersaves?.filter(item => item === usersaves?.saves);
+        setSaves(fliteredsaves)
+    }, [usersaves])
+
+    console.log(saves)
+
     const EmptyTagges = () => {
         return (
             <>

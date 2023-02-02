@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
+import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 const ModalConfirm = (props) => {
     const dispatch = useDispatch();
     const discartall = () => {

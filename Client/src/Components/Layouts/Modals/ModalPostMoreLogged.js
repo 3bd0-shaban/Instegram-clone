@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { Transition } from 'react-transition-group';
-import { FeatureAction } from './../../Redux/Slices/FeaturesSlice';
+import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 
 const ModalPostMoreLogged = () => {
     const { isModalPostMoreLogged } = useSelector(state => state.Features);

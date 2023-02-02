@@ -12,22 +12,22 @@ export const PostsApi = apiSlice.injectEndpoints({
         getUserPosts: builder.query({
             query: () => '/api/post/getuser',
             keepUnusedDataFor: 5,
-            providesTags: ['Posts', 'Comments'],
+            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         getFollowersPosts: builder.query({
             query: () => '/api/post/get/followers/posts',
             keepUnusedDataFor: 5,
-            providesTags: ['Posts', 'Comments'],
+            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         getUserPostsById: builder.query({
             query: (id) => `/api/post/get/all/${id}`,
             keepUnusedDataFor: 5,
-            providesTags: ['Posts', 'Comments'],
+            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         getPostDetails: builder.query({
             query: (id) => `/api/post/get/${id}`,
             keepUnusedDataFor: 5,
-            providesTags: ['Posts', 'Comments'],
+            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         createPost: builder.mutation({
             query: (data) => ({

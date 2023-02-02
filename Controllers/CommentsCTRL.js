@@ -43,15 +43,9 @@ export const UnLike = asyncHandler(async (req, res, next) => {
 });
 export const checkLike = asyncHandler(async (req, res, next) => {
     const { post_id } = req.body;
-    const post = await Posts.findOne({ _id: post_id });
-    if (post) {
-        const isLiked = Posts.find({ likes: { $in: [req.user.id] } })
-        console.log(isLiked)
-        if (isLiked) {
-            return res.json(true);
-        }
-        return res.json(false);
-    }
+    const post = await Posts.find({ _id: post_id, user: req.user.id });
+    if (post.length > 0) return res.json(true);
+    return res.json(false);
 });
 export const CommentsLikesCounter = asyncHandler(async (req, res, next) => {
     const length = await Posts.aggregate([

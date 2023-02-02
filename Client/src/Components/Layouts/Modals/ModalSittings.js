@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
+import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { Transition } from 'react-transition-group';
 
 const ModalSittings = (props) => {

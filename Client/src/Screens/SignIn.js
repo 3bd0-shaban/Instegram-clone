@@ -72,7 +72,7 @@ const SignIn = () => {
                 <input type='checkbox' id='persist' onChange={HandleToggle} checked={persist} />
                 Remmber ME
               </label>
-              <Link to='forgetpassword' className='text-blue-800 focus:text-blue-300 md:mb-7 text-sm mt-2'>Forgot password ?</Link>
+              <Link to='birthday' className='text-blue-800 focus:text-blue-300 md:mb-7 text-sm mt-2'>Forgot password ?</Link>
               {isError && <span className="text-red-500 pb-3 font-poppins font-medium">{error?.data?.msg}</span>}
             </form>
           </div>

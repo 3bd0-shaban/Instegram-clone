@@ -34,6 +34,11 @@ const usesrSchema = new mongoose.Schema(
     gender: {
       type: String
     },
+    birthday: {
+      year: String,
+      month: String,
+      day: String,
+    },
     avatar: {
       public_id: {
         type: String,

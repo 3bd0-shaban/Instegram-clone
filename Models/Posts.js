@@ -68,7 +68,13 @@ const postsSchema = new mongoose.Schema(
                     required: [true, 'The Product image is Required'],
                 }
             }
-        ]
+        ],
+        reports: [
+            {
+                type: mongoose.Types.ObjectId,
+                ref: "user",
+            },
+        ],
     },
     { timestamps: true }
 );

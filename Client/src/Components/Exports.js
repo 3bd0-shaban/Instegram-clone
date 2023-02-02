@@ -18,19 +18,20 @@ export { default as UserSavesById } from './Screens/ProfileById/UserSavesById';
 export { default as UsersPostsById } from './Screens/ProfileById/UsersPostsById';
 export { default as UsersTagesById } from './Screens/ProfileById/UsersTagesById';
 
-export { default as ModalConfirm } from './Layouts/ModalConfirm';
-export { default as ModalPostDetails } from './Layouts/ModalPostDetails';
-export { default as ModalSittings } from './Layouts/ModalSittings';
-export { default as ModalPreviewImages } from './Layouts/ModalPreviewImages';
-export { default as ConfirmModal2 } from './Layouts/ConfirmModal2';
+export { default as ModalConfirm } from './Layouts/Modals/ModalConfirm';
+export { default as ModalPostDetails } from './Layouts/Modals/ModalPostDetails';
+export { default as ModalSittings } from './Layouts/Modals/ModalSittings';
+export { default as ModalPreviewImages } from './Layouts/Modals/ModalPreviewImages';
+export { default as ConfirmModal2 } from './Layouts/Modals/ConfirmModal2';
 
-export { default as ModalAddPost } from './Layouts/ModalAddPost';
-export { default as ModalPostMoreLogged } from './Layouts/ModalPostMoreLogged';
-export { default as PostMore } from './Layouts/PostMore';
+export { default as ModalAddPost } from './Layouts/Modals/ModalAddPost';
+export { default as ModalPostMoreLogged } from './Layouts/Modals/ModalPostMoreLogged';
+export { default as PostMore } from './Layouts/Modals/PostMore';
 export { default as AddPost } from './Screens/AddPost';
 export { default as Suggestions } from './Home/Parts/Suggestions';
 export { default as SignIn } from '../Screens/SignIn';
 export { default as SignUp } from '../Screens/SignUp';
+export { default as SetBirthday } from '../Screens/SetBirthday';
 export { default as Home } from '../Screens/Home';
 export { default as Profile } from '../Screens/Profile';
 export { default as ProfileById } from '../Screens/ProfileById';
@@ -41,6 +42,7 @@ export { default as Dashboard } from '../Screens/Dashboard';
 export { default as DrobDownMore } from '../Components/Layouts/DrobDownMore'
 export { default as LoadingScreen } from '../Components/Layouts/LoadingScreen'
 export { default as ImagesSlider } from '../Components/Layouts/ImagesSlider'
+export { default as Search } from '../Components/Layouts/Search'
 
 export { default as RequireAuth } from './RequiredAuth';
 export { default as PersistLogin } from './PersistLogin';

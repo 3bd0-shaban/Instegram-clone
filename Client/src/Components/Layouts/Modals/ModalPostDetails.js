@@ -3,29 +3,29 @@ import PostMore from './PostMore';
 import EmojiPicker from 'emoji-picker-react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
-import { Transition, TransitionGroup, CSSTransition } from 'react-transition-group';
-import { useGetPostDetailsQuery } from '../../Redux/APIs/PostsApi';
-import { useGetUserQuery } from '../../Redux/APIs/AuthApi';
-import { BsBookmarkCheck, BsThreeDots } from 'react-icons/bs';
+import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
+import { Transition } from 'react-transition-group';
+import { useGetPostDetailsQuery } from '../../../Redux/APIs/PostsApi';
+import { useGetUserQuery } from '../../../Redux/APIs/UserApi';
+import { BsBookmark, BsBookmarkFill, BsThreeDots } from 'react-icons/bs';
 import { FaHeart, FaRegComment, FaRegHeart, FaRegSmile } from 'react-icons/fa';
 import { IoMdPaperPlane } from 'react-icons/io';
 import { ImSpinner3 } from 'react-icons/im';
-import { BiChevronRight } from 'react-icons/bi';
-import { useSaveMutation } from '../../Redux/APIs/SavesApi';
-import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../Redux/APIs/CommentsApi';
+import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
+import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
+import ImagesSlider from '../ImagesSlider';
 const ModalPostDetails = (props) => {
     const { isModalPostDetails } = useSelector(state => state.Features);
     const { data: postDetails, isFeatching, isError, error } = useGetPostDetailsQuery(props.ID) || {};
     const [createComment] = useCreateCommentMutation();
     const { data: userInfo } = useGetUserQuery() || {};
     const [Save] = useSaveMutation();
+    const [Unsave] = useUnsaveMutation();
     const [Like] = useLikeMutation();
     const [UnLike] = useUnLikeMutation();
-    const [images, setImages] = useState([]);
     const [isLiked, setIsLiked] = useState(false);
-    const [curIndex, setCurIndex] = useState(0);
-    const [dirSlide, setDirSlide] = useState('slide-right');
+    const [isSaved, setIsSaved] = useState(false);
+
     // const [emoji, setEmoji] = useState();
     const dispatch = useDispatch();
     const nodeRef = useRef(null);
@@ -39,46 +39,30 @@ const ModalPostDetails = (props) => {
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value });
     };
-    useEffect(() => {
-        setImages(postDetails?.images)
-    }, [postDetails]);
-    useEffect(() => {
-        const isInclude = postDetails?.likes?.some(p => p == userInfo?._id)
-        if (isInclude) {
-            setIsLiked(true);
-        }
-        setIsLiked(false)
-        console.log(isInclude)
-        console.log(postDetails?.likes)
-        console.log(userInfo?._id)
+
+    useEffect(() => {// eslint-disable-next-line
+        const isInclude = postDetails?.likes?.some(p => p == userInfo?._id);
+        // eslint-disable-next-line
+        const Save = userInfo?.saves?.some(p => p == postDetails?._id);
+        isInclude ? setIsLiked(true) : setIsLiked(false);
+        Save ? setIsSaved(true) : setIsSaved(false);
+        console.log(`saved ? : ${isSaved} , include : ${Save}`)
+
     }, [postDetails, userInfo]);
 
-    const prevSlide = () => {
-        const isFirstSlide = curIndex === 0;
-        const newIndex = isFirstSlide ? images.length - 1 : curIndex - 1;
-        setCurIndex(newIndex);
-        setDirSlide('slide-left');
-    };
-
-    const nextSlide = () => {
-        const isLastSlide = curIndex === images.length - 1;
-        const newIndex = isLastSlide ? 0 : curIndex + 1;
-        setCurIndex(newIndex);
-        setDirSlide('slide-right');
-    };
     const Comment = async (id) => {
         if (!data) return {};
         await createComment({ data, id }).unwrap()
             .then((payload) => setData({ comment: '' }))
             .catch((error) => console.log(error));
     }
-    const goToSlide = (slideIndex) => {
-        setCurIndex(slideIndex);
-    };
+
     const SaveSubmit = async (id) => {
         await Save(id).unwrap()
     }
-
+    const UnSaveSubmit = async (id) => {
+        await Unsave(id).unwrap()
+    }
     const LikeSubmit = async (id) => {
         await Like(id).unwrap()
     }
@@ -133,14 +117,17 @@ const ModalPostDetails = (props) => {
             <div className='md:absolute w-full z-20 bg-white md:bottom-0 mb-5 border-t'>
                 <div className='flex justify-between mt-4 px-4 text-2xl py-3'>
                     <div className='flex gap-6'>
-                        {isLiked ? <button onClick={() => UnLikeSubmit(postDetails?._id)} className='hover:text-gray-500 text-red-500'><FaHeart style={{ color: 'red' }} /></button> :
+                        {isLiked ? <button onClick={() => UnLikeSubmit(postDetails?._id)} className='hover:text-gray-500 text-red-500'><FaHeart size={28} style={{ color: 'red' }} /></button> :
                             <button onClick={() => LikeSubmit(postDetails?._id)} className='hover:text-gray-500'><FaRegHeart size={28} /></button>}
                         <div className='cursor-pointer focus:animate-bounce hover:text-gray-500'>
                             <FaRegComment size={28} />
                         </div>
                         <button className='hover:text-gray-500 cursor-pointer'><IoMdPaperPlane size={28} /></button>
                     </div>
-                    <button onClick={() => SaveSubmit(postDetails?._id)} className='hover:text-gray-500 cursor-pointer'><BsBookmarkCheck size={28} /></button>
+                    {isSaved ?
+                        <button onClick={() => UnSaveSubmit(postDetails?._id)} className='hover:text-gray-500 cursor-pointer'><BsBookmarkFill size={28} /></button> :
+                        <button onClick={() => SaveSubmit(postDetails?._id)} className='hover:text-gray-500 cursor-pointer'><BsBookmark size={28} /></button>
+                    }
                 </div>
                 <div className='ml-4 my-3 mb-5 space-y-2'>
                     {postDetails?.numLikes === 0 ? <p className='text-[1.1rem] font-semibold'>Be the first to like this</p> :
@@ -173,22 +160,8 @@ const ModalPostDetails = (props) => {
                                 <div className='grid grid-cols-6 h-full'>
                                     <div className='col-span-6 md:col-span-3 xl:col-span-4 relative h-full flex justify-center overflow-hidden'>
                                         {isFeatching ? <div className='h-full flex items-center justify-center animate-spin'><ImSpinner3 /></div> :
-
-                                            <TransitionGroup >
-                                                <CSSTransition nodeRef={nodeRef} key={images && images[curIndex]?.url} timeout={500} classNames={dirSlide}>
-                                                    <img ref={nodeRef} className='imageslide' src={images && images[curIndex]?.url} alt='' />
-                                                </CSSTransition>
-                                            </TransitionGroup>
+                                            <ImagesSlider Details={postDetails} />
                                         }
-                                        <div className='absolute inset-y-1/2 flex justify-between w-full px-4'>
-                                            <button onClick={prevSlide} className='bg-white/30 text-black h-8 w-8 rounded-full flex justify-center items-center'><BiChevronRight size={25} /></button>
-                                            <button onClick={nextSlide} className='bg-white/30 text-black h-8 w-8 rounded-full flex justify-center items-center'><BiChevronRight size={25} /></button>
-                                        </div>
-                                        <div className='flex gap-2 justify-center text-7xl inset-x-1/2 bottom-0 absolute py-2'>
-                                            {images?.map((slide, slideIndex) => (
-                                                <div key={slideIndex} onClick={() => goToSlide(slideIndex)} className={slideIndex === curIndex ? ' cursor-pointer text-white' : 'text-gray-500 cursor-pointer'}><span className='h-5 w-5'>.</span></div>
-                                            ))}
-                                        </div>
                                     </div>
                                     <div className='col-span-6 md:col-span-3 xl:col-span-2 max-h-1/2 relative md:border-l overflow-hidden'>
                                         <ShowUpperPart /><hr />

@@ -2,7 +2,7 @@ import Posts from "../Models/Posts.js";
 import { asyncHandler } from "../Middlewares/asyncErrorHandler.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import cloudinary from "../Utils/cloudinary.js";
-import { mongoose } from 'mongoose';
+import Features from './../Utils/Features.js';
 
 export const New_Post = asyncHandler(async (req, res, next) => {
     const { user, des, location, images } = req.body
@@ -62,7 +62,12 @@ export const Get_PostDetails = asyncHandler(async (req, res, next) => {
     return res.json(userPosts);
 });
 export const FollowersPosts = asyncHandler(async (req, res, next) => {
-    const userPosts = await Posts.find().populate('user', 'username avatar');
+    const resultperpage = 10;
+    const features = new Features(Posts.find(), req.query).Pagination(resultperpage)
+    const userPosts = await features.query
+        .populate('user', 'username avatar')
+        // .querysort("-createdAt");
+
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)
     }

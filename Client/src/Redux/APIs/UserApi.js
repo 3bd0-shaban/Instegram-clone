@@ -13,7 +13,7 @@ export const UserApi = apiSlice.injectEndpoints({
                 url: `/api/user/get/${username}`,
                 credentials: 'include',
             }),
-            providesTags: ['Auth'],
+            providesTags: [ 'Auth', 'Chat', 'Message'],
         }),
         getUser: builder.query({
             query: () => ({
@@ -21,7 +21,7 @@ export const UserApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            providesTags: ['Auth', 'Saves', 'Posts'],
+            providesTags: ['Auth', 'Saves', 'Posts', 'Chat', 'Message'],
         }),
         Suggestion: builder.query({
             query: () => ({

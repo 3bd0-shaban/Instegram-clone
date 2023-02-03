@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { BsTelephone } from 'react-icons/bs'
 import { VscDeviceCameraVideo } from 'react-icons/vsc'
@@ -10,18 +10,27 @@ import { useGetUserByIdQuery } from '../../../../Redux/APIs/UserApi'
 import { useNewChatMutation } from '../../../../Redux/APIs/ChatApi'
 import { IoMdPaperPlane } from 'react-icons/io'
 import { Message } from '../../../Exports'
-import { useGetMessagesQuery } from '../../../../Redux/APIs/MessageApi'
+import { useGetMessagesQuery, useNewMessageMutation } from '../../../../Redux/APIs/MessageApi'
 const Chat = () => {
     const { username, id } = useParams();
     const { data: userInfo } = useGetUserByIdQuery(username) || {};
     const { data: FollowerMessages } = useGetMessagesQuery(id) || {};
     const [NewChat] = useNewChatMutation() || {};
+    const [MewMessage] = useNewMessageMutation() || {};
+    const [msg, setMSG] = useState();
     useEffect(() => {
         NewChat(id).unwrap()
             // .then(payload =>return)
             .catch(err => console.log(err))
     }, [NewChat, id]);
-    console.log(FollowerMessages)
+    const NewMSG = (e) => {
+        e.preventDefault();
+        const data = { msg }
+        MewMessage({ data, id }).unwrap()
+            .then(payload => setMSG(''))
+            .catch(err => console.log(err))
+    }
+
     const MainNoChat = () => {
         return (
             <div>
@@ -58,16 +67,28 @@ const Chat = () => {
                 <div className='pt-3 p-3 '>
                     <div>
                         {FollowerMessages?.map(message => (
-                            <Message message={message} />
-                        ))}
-                        <div className='border rounded-full w-[97%] mb-5 py-5 px-6 flex items-end mt-auto absolute bottom-0'>
-                            <div className='text-2xl'><FaRegSmile /></div>
-                            <input className='outline-none bg-transparent w-full mx-4' placeholder='Message ...' />
-                            <div className='ml-auto flex text-2xl gap-4'>
-                                <IoImageOutline />
-                                <HiOutlineHeart />
+                            <div key={message?._id}>
+                                <Message message={message} FollowerChating={message?.sender === userInfo?._id} />
                             </div>
-                        </div>
+                        ))}
+                        <form onSubmit={NewMSG} className='border rounded-full w-[97%] mb-5 py-5 px-6 flex items-end mt-auto absolute bottom-0'>
+                            <div className='text-2xl'><FaRegSmile /></div>
+                            <input
+                                className='outline-none bg-transparent w-full mx-4'
+                                onChange={(e) => setMSG(e.target.value)}
+                                value={msg}
+                                name='msg'
+                                autoComplete='aff'
+                                placeholder='Message ...' />
+                            {msg ?
+                                <button className='text-blue-500 font-semibold'>Send</button>
+                                :
+                                <div className='ml-auto flex text-2xl gap-4'>
+                                    <IoImageOutline />
+                                    <HiOutlineHeart />
+                                </div>
+                            }
+                        </form>
                     </div>
                 </div>
             </>

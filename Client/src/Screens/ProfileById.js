@@ -10,10 +10,11 @@ import { BiChevronDown } from 'react-icons/bi';
 import { IoPersonAddOutline } from 'react-icons/io5';
 
 const Profile = () => {
-    useTitle('Profile');
+
     const params = useParams();
     const { username } = params;
     const { data: userInfo, isError, isFeatching, error } = useGetUserByIdQuery(username) || {};
+    useTitle(userInfo?.fullname);
     const { data: loggeduser } = useGetUserQuery() || {};
     const [Follow] = useFollowMutation() || {};
     const dispatch = useDispatch();

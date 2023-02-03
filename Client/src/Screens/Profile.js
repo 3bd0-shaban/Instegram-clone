@@ -9,7 +9,7 @@ import { useGetUserQuery } from '../Redux/APIs/UserApi';
 
 const Profile = () => {
     const { data: userInfo, isError, isFeatching, error } = useGetUserQuery() || {};
-    useTitle(userInfo?.username);
+    useTitle(userInfo?.fullname);
     const dispatch = useDispatch();
     const [posts, setPosts] = useState(true);
     const [saved, setSaved] = useState(false);

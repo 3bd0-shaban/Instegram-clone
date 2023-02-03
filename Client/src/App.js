@@ -16,10 +16,10 @@ function App() {
           <Route path="birthday" element={<SetBirthday />} />
           <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
             <Route index element={<Home />} />
+            <Route path=":username/message/:id" element={<Messages />} />
+            <Route path={userInfo?.username} element={<Profile />} />
+            <Route path="/:username" element={<ProfileById />} />
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Customer]} />}>
-              <Route path=":username/message/:id" element={<Messages />} />
-              <Route path={userInfo?.username} element={<Profile />} />
-              <Route path="/:username" element={<ProfileById />} />
               <Route path="dashboard" element={<Dashboard />} />
             </Route>
           </Route>

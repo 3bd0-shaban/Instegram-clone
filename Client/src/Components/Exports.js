@@ -42,6 +42,18 @@ export { default as Messages } from '../Screens/Messages';
 export { default as Dashboard } from '../Screens/Dashboard';
 
 
+export { default as Ads } from './Home/Settings/Ads';
+export { default as AppsAndWebsite } from './Home/Settings/AppsAndWebsite';
+export { default as Changepassword } from './Home/Settings/Changepassword';
+export { default as EditProfile } from './Home/Settings/EditProfile';
+export { default as EmailNotification } from './Home/Settings/EmailNotification';
+export { default as InstegramEmail } from './Home/Settings/InstegramEmail';
+export { default as MangeContacts } from './Home/Settings/MangeContacts';
+export { default as PrivacyAndSecurity } from './Home/Settings/PrivacyAndSecurity';
+export { default as SittingsSide } from './Home/Settings/SittingsSide';
+export { default as Settings } from './Home/Settings/Settings';
+
+
 export { default as DrobDownMore } from '../Components/Layouts/DrobDownMore'
 export { default as LoadingScreen } from '../Components/Layouts/LoadingScreen'
 export { default as ImagesSlider } from '../Components/Layouts/ImagesSlider'

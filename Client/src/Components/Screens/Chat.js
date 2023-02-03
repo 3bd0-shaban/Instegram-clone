@@ -1,18 +1,25 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { BsTelephone } from 'react-icons/bs'
 import { VscDeviceCameraVideo } from 'react-icons/vsc'
 import { FaRegSmile } from 'react-icons/fa'
 import { IoImageOutline } from 'react-icons/io5'
 import { MdOutlineInfo } from 'react-icons/md'
 import { HiOutlineHeart } from 'react-icons/hi'
+import { useGetUserByIdQuery } from '../../Redux/APIs/UserApi'
 const Chat = () => {
+    // const [searchQuery] = useSearchParams();
+    // const username = searchQuery.getAll();
+    const { username, id } = useParams();
+
+    const { data: userInfo } = useGetUserByIdQuery(username) || {};
+
     return (
         <div>
             <div className='flex border-b pb-2 px-6 justify-between h-12'>
                 <div className='flex'>
                     <img className="p-1 w-10 h-10 rounded-full focus:ring-2 focus:ring-gray-300" src="/Images/profile.jpg" alt="" />
-                    <p className='ml-2 my-auto'>AbdElrahjamab</p>
+                    <p className='ml-2 my-auto'>{userInfo?.username}</p>
                 </div>
                 <div className='flex text-3xl gap-4'>
                     <Link to='/call'><BsTelephone /></Link>

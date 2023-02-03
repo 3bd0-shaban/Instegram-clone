@@ -3,8 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { Header, Chat } from '../Components/Exports'
 import { IoIosArrowDown } from 'react-icons/io'
 import { TbMessage2Share } from 'react-icons/tb'
+import { useGetUserQuery } from '../Redux/APIs/UserApi';
 const Messages = () => {
-    // eslint-disable-next-line
+    const { data: userInfo} = useGetUserQuery() || {};
+    
     let selected = useLocation;
     return (
         <div>
@@ -14,7 +16,7 @@ const Messages = () => {
                     <div className='col-span-1  border-r mt-5'>
                         <div className='flex border-b pb-2 h-12'>
                             <div className='flex mx-auto text-lg font-semibold'>
-                                <p>3bdoo</p>
+                                <p>{userInfo?.username}</p>
                                 <div className='mt-2 ml-2'>
                                     <IoIosArrowDown />
                                 </div>

@@ -12,6 +12,8 @@ import UserRouter from './Routes/UserRouter.js';
 import CommetsRouter from './Routes/CommetsRouter.js';
 import SavesRouter from './Routes/SavesRouter.js';
 import PostsRouter from './Routes/PostsRouter.js';
+import MessageRouter from './Routes/MessageRouter.js';
+import ChatRouter from './Routes/ChatRouter.js';
 const app = express();
 const port = process.env.Port || 5000;
 
@@ -47,5 +49,7 @@ app.use('/api/auth', AuthRouter);
 app.use('/api/user', UserRouter);
 app.use('/api/post', PostsRouter);
 app.use('/api/auth', SavesRouter);
+app.use('/api/message', MessageRouter);
+app.use('/api/chat', ChatRouter);
 app.use('/api/comment', CommetsRouter);
 app.use(errorMiddleware);

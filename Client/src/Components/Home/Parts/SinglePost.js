@@ -81,7 +81,7 @@ const SinglePost = ({ post, postID, setPostID }) => {
                 </div>
                 <div className='ml-4 mt-4'>
                     <p className='text-md font-semibold'>{post?.numLikes} Likes</p>
-                    <Link className='font-bold mr-2'>emilia clark</Link>
+                    <Link className='font-bold mr-2'>{post?.user?.username}</Link>
                     <p className=' inline font-semilight'>{post?.des}</p>
                     <Link onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }} className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments</Link>
                     <p className='font-light text-sm my-3 text-gray-500'>{moment(post?.createdAt).from()}</p>

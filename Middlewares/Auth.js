@@ -13,7 +13,7 @@ export const auth = asyncHandler(async (req, res, next) => {
         new ErrorHandler('You Are Not Authorized, Please log in again', 403)
     );
     req.user = await Users.findById(verify.id);
-    next()
+    next();
 });
 
 export const authorizeRoles = (...roles) => {

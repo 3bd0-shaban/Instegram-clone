@@ -4,7 +4,6 @@ export { default as Header } from './Layouts/Header';
 export { default as Stories } from './Home/Stories';
 export { default as Posts } from './Home/Parts/Posts';
 export { default as SinglePost } from './Home/Parts/SinglePost';
-export { default as Chat } from './Screens/Chat';
 export { default as DashboardNavBar } from './Dashboard/DashboardNavBar';
 export { default as Users } from './Dashboard/Users';
 
@@ -38,9 +37,13 @@ export { default as SetBirthday } from '../Screens/SetBirthday';
 export { default as Home } from '../Screens/Home';
 export { default as Profile } from '../Screens/Profile';
 export { default as ProfileById } from '../Screens/ProfileById';
-export { default as Messages } from '../Screens/Messages';
 export { default as Dashboard } from '../Screens/Dashboard';
 
+
+export { default as Chat } from './Home/Parts/Messenger/Chat';
+export { default as FollowerCart } from './Home/Parts/Messenger/FollowerCart';
+export { default as ListMessaging } from './Home/Parts/Messenger/ListMessaging';
+export { default as Message } from './Home/Parts/Messenger/Message';
 
 export { default as Ads } from './Home/Settings/Ads';
 export { default as AppsAndWebsite } from './Home/Settings/AppsAndWebsite';

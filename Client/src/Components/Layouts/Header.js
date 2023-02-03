@@ -15,7 +15,6 @@ const Header = () => {
     // eslint-disable-next-line
     const [pagnum, setPagenum] = useState(1);
     const [openSerach, setOpenSearch] = useState(false);
-    console.log(keyword)
     return (
         <>
             <AddPost />

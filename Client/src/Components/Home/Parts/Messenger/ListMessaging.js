@@ -1,13 +1,12 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom';
-import { Header, Chat } from '../Components/Exports'
+import { Header, Chat, FollowerCart } from '../../../Exports'
 import { IoIosArrowDown } from 'react-icons/io'
 import { TbMessage2Share } from 'react-icons/tb'
-import { useGetUserQuery } from '../Redux/APIs/UserApi';
-const Messages = () => {
-    const { data: userInfo} = useGetUserQuery() || {};
-    
-    let selected = useLocation;
+import { useGetUserQuery } from '../../../../Redux/APIs/UserApi';
+import { useUserChatsQuery } from '../../../../Redux/APIs/ChatApi';
+const ListMessaging = () => {
+    const { data: userInfo } = useGetUserQuery() || {};
+    const { data: Chats } = useUserChatsQuery() || {};
+
     return (
         <div>
             <Header />
@@ -25,13 +24,11 @@ const Messages = () => {
                                 <button><TbMessage2Share /></button>
                             </div>
                         </div>
-                        <div className='pt-3 p-3 flex hover:bg-gray-100'>
-                            <img className="p-1 w-20 h-20 rounded-full focus:ring-2 focus:ring-gray-300" src="/Images/profile.jpg" alt="" />
-                            <div className='ml-3 my-auto'>
-                                <p>AbdElrahjamab</p>
-                                <p className='text-gray-500 text-sm'>Active Yesterday</p>
+                        {Chats?.map(chat => (
+                            <div key={chat?._id}>
+                                <FollowerCart chat={chat} userInfo={userInfo} />
                             </div>
-                        </div>
+                        ))}
                     </div>
                     <div className='col-span-2 mt-5 relative'>
                         <Chat />
@@ -42,4 +39,4 @@ const Messages = () => {
     )
 }
 
-export default Messages
+export default ListMessaging

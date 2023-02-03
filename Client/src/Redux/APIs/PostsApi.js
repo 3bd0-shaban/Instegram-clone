@@ -2,31 +2,43 @@ import { apiSlice } from '../ApiSlice';
 export const PostsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getPosts: builder.query({
-            query: () => '/api/post/get',
-            keepUnusedDataFor: 5,
-            providesTags: (result, error, arg) =>
-                result
-                    ? [...result.map(({ id }) => ({ type: 'Posts', id })), 'Posts']
-                    : ['Posts'],
+            query: () => ({
+                url: '/api/post/get',
+                method: 'GET',
+                credentials: 'include',
+            }),
+            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         getUserPosts: builder.query({
-            query: () => '/api/post/getuser',
-            keepUnusedDataFor: 5,
+            query: () => ({
+                url: '/api/post/get/followers/posts',
+                method: 'GET',
+                credentials: 'include',
+            }),
             providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         getFollowersPosts: builder.query({
-            query: () => '/api/post/get/followers/posts',
-            keepUnusedDataFor: 5,
+            query: () => ({
+                url: '/api/post/get/followers/posts',
+                method: 'GET',
+                credentials: 'include',
+            }),
             providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         getUserPostsById: builder.query({
-            query: (id) => `/api/post/get/all/${id}`,
-            keepUnusedDataFor: 5,
+            query: (id) => ({
+                url: `/api/post/get/all/${id}`,
+                method: 'GET',
+                credentials: 'include',
+            }),
             providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         getPostDetails: builder.query({
-            query: (id) => `/api/post/get/${id}`,
-            keepUnusedDataFor: 5,
+            query: (id) => ({
+                url: `/api/post/get/${id}`,
+                method: 'GET',
+                credentials: 'include',
+            }),
             providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
         }),
         createPost: builder.mutation({

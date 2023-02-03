@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useGetFollowersPostsQuery } from '../../../Redux/APIs/PostsApi';
 import { PostMore, ModalPostDetails, SinglePost } from '../../Exports';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
-import {  useState } from 'react';
+import { useState } from 'react';
 
 const Posts = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,9 @@ const Posts = () => {
       <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} />
       {isFeatching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
         followerposts?.map(post => (
-          <SinglePost post={post} postID={postID} setPostID={setPostID} />
+          <div key={post?._id} className='mt-4'>
+            <SinglePost post={post} postID={postID} setPostID={setPostID} />
+          </div>
         ))}
     </>
   )

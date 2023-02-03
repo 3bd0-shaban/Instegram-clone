@@ -11,7 +11,7 @@ const Suggestions = () => {
         <Link to='/'>See All</Link>
       </div>
       {data?.map(res => (
-        <div className='flex justify-between items-center'>
+        <div key={res._id} className='flex justify-between items-center'>
           <Link
             to={`/${res.username}`}
             key={res._id}

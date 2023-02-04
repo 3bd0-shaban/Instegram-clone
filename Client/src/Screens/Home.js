@@ -7,7 +7,7 @@ const Home = () => {
     <div className='mt-24'>
       <Header />
       <div className='container max-w-5xl py-3 px-2 mt-5'>
-        <div className='grid md:grid-cols-5 gap-3'>
+        <div className='grid md:grid-cols-5 gap-3 duration-300'>
           <div className='gap-3 col-span-3'>
             <Stories />
             <div className='mt-5'>

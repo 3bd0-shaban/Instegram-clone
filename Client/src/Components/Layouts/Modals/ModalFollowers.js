@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { useFollowersListQuery } from '../../../Redux/APIs/UserApi';
 import { Link } from 'react-router-dom';
@@ -7,12 +7,11 @@ import AnimModal from './../../../Animation/AnimModal';
 
 
 const ModalFollowers = ({ id }) => {
-  const { isModalFollowersList } = useSelector(state => state.Features);
   const dispatch = useDispatch();
   const { data: FollowersList } = useFollowersListQuery(id) || {};
   return (
 
-    isModalFollowersList &&
+    
     <>
       <div onClick={() => dispatch(FeatureAction.setIsModalFollowersList(false))} className="fixed inset-0 bg-black/30 z-10"></div>
       <motion.div

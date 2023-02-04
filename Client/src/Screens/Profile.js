@@ -6,9 +6,11 @@ import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
 import { useGetUserQuery } from '../Redux/APIs/UserApi';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
     const { data: userInfo, isError, isFeatching, error } = useGetUserQuery() || {};
+    const { isModalFollowersList, isModalFollowingList } = useSelector(state => state.Features);
     useTitle(userInfo?.fullname);
     const dispatch = useDispatch();
     const [posts, setPosts] = useState(true);
@@ -27,8 +29,8 @@ const Profile = () => {
     return (
         <div className='mt-24'>
             <Header />
-            <ModalFollowers id={userInfo?._id} />
-            <ModalFollowing id={userInfo?._id} />
+            {isModalFollowingList && <ModalFollowers id={userInfo?._id} />}
+            {isModalFollowersList && <ModalFollowing id={userInfo?._id} />}
             <ModalSittings />
             {isFeatching ? <p>Featching</p> : isError && <p>{error?.data?.msg}</p>}
             <div className='container px-0 max-w-[85rem] mt-5'>
@@ -43,7 +45,7 @@ const Profile = () => {
                                     <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsGear size={24} /></button>
                                 </div>
                                 <div className='flex gap-5'>
-                                    <button onClick={() => dispatch(FeatureAction.setIsModal(true))} className='text-lg font-mono'>{userInfo?.posts?.length} posts</button>
+                                    <span className='text-lg font-mono'>{userInfo?.posts?.length} posts</span>
                                     <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userInfo?.followers?.length} follower</button>
                                     <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userInfo?.following?.length} following</button>
                                 </div>
@@ -59,7 +61,7 @@ const Profile = () => {
                             <p>Posts</p>
                         </div>
                         <div onClick={OpenSaved} className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
-                            <BsBookmarks />
+                            <BsBookmarks /> 
                             <p>Saved</p>
                         </div>
                         <div onClick={OpenTaged} className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>

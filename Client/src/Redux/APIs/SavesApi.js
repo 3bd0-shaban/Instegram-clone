@@ -6,8 +6,8 @@ export const SavesApi = apiSlice.injectEndpoints({
                 url: '/api/auth/saves',
                 method: 'GET',
                 credentials: 'include',
-                providesTags: ['Saves', 'Posts','Auth'],
             }),
+            providesTags: ['Saves', 'Posts', 'Auth'],
         }),
         Save: builder.mutation({
             query: (id) => ({

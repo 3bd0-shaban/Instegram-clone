@@ -31,8 +31,8 @@ export const CommentsApi = apiSlice.injectEndpoints({
                 url: `/api/comment/length/${id}`,
                 method: 'Post',
                 credentials: 'include',
-                providesTags: ['Comments','Posts'],
             }),
+            providesTags: ['Comments'],
         }),
         updateComment: builder.mutation({
             query: ({ data, id }) => ({

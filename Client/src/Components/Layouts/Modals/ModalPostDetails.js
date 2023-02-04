@@ -16,7 +16,6 @@ import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi
 import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
 import ImagesSlider from '../ImagesSlider';
 const ModalPostDetails = ({ ID }) => {
-    const { isModalPostDetails } = useSelector(state => state.Features);
     const { data: postDetails, isFeatching, isError, error } = useGetPostDetailsQuery(ID) || {};
     const [createComment] = useCreateCommentMutation();
     const { data: userInfo } = useGetUserQuery() || {};
@@ -48,8 +47,10 @@ const ModalPostDetails = ({ ID }) => {
         Save ? setIsSaved(true) : setIsSaved(false);
     }, [postDetails, userInfo]);
 
-    const Comment = async (id) => {
-        if (!data) return {};
+    const Comment = async (e) => {
+        if (!data) return;
+        const id = postDetails?._id
+        e.preventDefault();
         await createComment({ data, id }).unwrap()
             .then((payload) => setData({ comment: '' }))
             .catch((error) => console.log(error));
@@ -133,10 +134,10 @@ const ModalPostDetails = ({ ID }) => {
                     }
                     <p className='font-normal text-sm text-gray-800 uppercase'>{moment(postDetails?.createdAt).from()}</p>
                 </div>
-                <form onSubmit={(e) => Comment(postDetails?._id, e.preventDefault())} className='flex px-3 border-t pt-3 mt-2'>
+                <form onSubmit={Comment} className='flex px-3 border-t pt-3 mt-2'>
                     <div className='text-2xl pl-1 pr-2 cursor-pointer'><FaRegSmile /></div>
                     <input onChange={handleChange} name='comment' value={data.comment} autoComplete='off' className='outline-none w-full pr-3' placeholder='Add Comment ...' />
-                    <button type='submit' className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
+                    <button className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
                 </form>
             </div>
         )
@@ -145,22 +146,20 @@ const ModalPostDetails = ({ ID }) => {
     return (
         <>
             <PostMore />
-            {isModalPostDetails &&
-                <AnimatePresence>
-                    <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setData({ comment: '' }) }} className="fixed inset-0 bg-black/40 z-10"></div>
-                    <motion.div
-                        variants={AnimModal}
-                        initial='initial'
-                        animate='animate'
-                        exit='exit'
-                        className='ModalPostDetails'>
-                        <div className="relative bg-white rounded-lg shadow md:h-[90%]">
-                            {isError && <p>{error?.data?.msg}</p>}
+            <AnimatePresence>
+                <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setData({ comment: '' }) }} className="fixed inset-0 bg-black/40 z-10"></div>
+                <motion.div
+                    variants={AnimModal}
+                    initial='initial'
+                    animate='animate'
+                    exit='exit'
+                    className='fixed inset-x-0 h-[70%] top-[15%] xl:h-full xl:top-[5%] p-4 container max-w-[75%] z-20 duration-300'>
+                    <div className="relative bg-white rounded-lg shadow md:h-[90%]">
+                        {isError && <p>{error?.data?.msg}</p>}
+                        {isFeatching ? <div className='h-full flex items-center justify-center animate-spin'><ImSpinner3 /></div> :
                             <div className='grid grid-cols-6 h-full'>
                                 <div className='col-span-6 md:col-span-3 xl:col-span-4 relative h-full flex justify-center overflow-hidden'>
-                                    {isFeatching ? <div className='h-full flex items-center justify-center animate-spin'><ImSpinner3 /></div> :
-                                        <ImagesSlider Details={postDetails} />
-                                    }
+                                    <ImagesSlider Details={postDetails} />
                                 </div>
                                 <div className='col-span-6 md:col-span-3 xl:col-span-2 max-h-1/2 relative md:border-l overflow-hidden'>
                                     <ShowUpperPart /><hr />
@@ -168,10 +167,12 @@ const ModalPostDetails = ({ ID }) => {
                                     <ShowPostCtrl />
                                 </div>
                             </div>
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
-            }
+                        }
+
+
+                    </div>
+                </motion.div>
+            </AnimatePresence>
         </>
     )
 }

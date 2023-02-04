@@ -63,10 +63,6 @@ body{
     @apply
     fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[25%] container max-w-xl z-40 bg-white w-full rounded-xl shadow drop-shadow-xl p-4
 }
-.ModalPostDetails {
-    @apply
-    fixed inset-0 inset-x-0 h-[70%] top-[15%] xl:h-full xl:top-[5%] p-4 container max-w-[75%] z-20 
-}
 .profileitems {
     @apply
     flex gap-3 items-center pt-5 text-base font-medium text-gray-500 uppercase cursor-pointer

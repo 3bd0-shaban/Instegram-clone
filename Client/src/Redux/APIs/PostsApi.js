@@ -7,7 +7,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
+            providesTags: ['Posts', 'Saves', 'Auth'],
         }),
         getUserPosts: builder.query({
             query: () => ({
@@ -15,7 +15,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
+            providesTags: ['Posts', 'Saves', 'Auth'],
         }),
         getFollowersPosts: builder.query({
             query: () => ({

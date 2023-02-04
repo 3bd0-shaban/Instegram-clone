@@ -40,7 +40,8 @@ export { default as ProfileById } from '../Screens/ProfileById';
 export { default as Dashboard } from '../Screens/Dashboard';
 
 
-export { default as Chat } from './Home/Messenger/Chat';
+export { default as Chat } from './Home/Messenger/ChatBox';
+export { default as MainNoSelection } from './Home/Messenger/MainNoSelection';
 export { default as FollowerCart } from './Home/Messenger/FollowerCart';
 export { default as ListMessaging } from './Home/Messenger/ListMessaging';
 export { default as Message } from './Home/Messenger/Message';

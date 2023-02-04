@@ -1,11 +1,22 @@
-import { Header, Chat, FollowerCart } from '../../Exports'
+import { Header, Chat, FollowerCart, MainNoSelection } from '../../Exports'
 import { IoIosArrowDown } from 'react-icons/io'
 import { TbMessage2Share } from 'react-icons/tb'
 import { useGetUserQuery } from '../../../Redux/APIs/UserApi';
 import { useUserChatsQuery } from '../../../Redux/APIs/ChatApi';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 const ListMessaging = () => {
     const { data: userInfo } = useGetUserQuery() || {};
     const { data: Chats } = useUserChatsQuery() || {};
+    const [selected, setSelected] = useState(false);
+    const { username, id } = useParams();
+    useEffect(() => {
+        if (id && username) {
+            setSelected(true)
+        }
+
+    }, [id, username]);
 
     return (
         <div>
@@ -31,7 +42,11 @@ const ListMessaging = () => {
                         ))}
                     </div>
                     <div className='col-span-2 mt-5 relative'>
-                        <Chat />
+                        {selected ?
+                            <Chat/>
+                            :
+                            <MainNoSelection />
+                        }
                     </div>
                 </div>
             </div>

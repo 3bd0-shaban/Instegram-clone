@@ -8,12 +8,13 @@ import { useDispatch } from 'react-redux';
 import { useFollowMutation, useGetUserByIdQuery, useGetUserQuery } from '../Redux/APIs/UserApi';
 import { BiChevronDown } from 'react-icons/bi';
 import { IoPersonAddOutline } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
 
-    const params = useParams();
-    const { username } = params;
+    const { username } = useParams();
     const { data: userInfo, isError, isFeatching, error } = useGetUserByIdQuery(username) || {};
+    const { isModalFollowersList, isModalFollowingList } = useSelector(state => state.Features);
     useTitle(userInfo?.fullname);
     const { data: loggeduser } = useGetUserQuery() || {};
     const [Follow] = useFollowMutation() || {};
@@ -45,8 +46,8 @@ const Profile = () => {
     return (
         <div className='mt-24'>
             <Header />
-            <ModalFollowers id={userInfo?._id} />
-            <ModalFollowing id={userInfo?._id} />
+            {isModalFollowingList && <ModalFollowers id={userInfo?._id} />}
+            {isModalFollowersList && <ModalFollowing id={userInfo?._id} />}
             <ModalUserByIdSettings />
             {isFeatching ? <p>Featching</p> : isError && <p>{error?.data?.msg}</p>}
             <div className='container px-0 max-w-[85rem] mt-5'>
@@ -71,7 +72,7 @@ const Profile = () => {
                                     <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsThreeDots size={24} /></button>
                                 </div>
                                 <div className='flex gap-5'>
-                                    <button onClick={() => dispatch(FeatureAction.setIsModal(true))} className='text-lg font-mono'>{userInfo?.posts?.length} posts</button>
+                                    <span className='text-lg font-mono'>{userInfo?.posts?.length} posts</span>
                                     <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userInfo?.followers?.length} follower</button>
                                     <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userInfo?.following?.length} following</button>
                                 </div>

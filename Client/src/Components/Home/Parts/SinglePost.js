@@ -25,7 +25,6 @@ const SinglePost = ({ post, postID, setPostID }) => {
     useEffect(() => {// eslint-disable-next-line
         followerposts?.map(post => {
             setIsLiked({ ...isLiked, [post._id]: followerposts?.likes?.includes(userInfo?._id) });
-            // console.log(isLiked)
         })// eslint-disable-next-line
     }, [followerposts, userInfo]);
 

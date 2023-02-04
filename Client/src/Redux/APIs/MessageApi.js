@@ -16,7 +16,7 @@ export const MessageApi = apiSlice.injectEndpoints({
                 method: 'Get',
                 credentials: 'include',
             }),
-            invalidatesTags: [ 'Auth', 'Chat', 'Message'],
+            providesTags: [ 'Auth', 'Chat', 'Message'],
         }),
     }),
 });

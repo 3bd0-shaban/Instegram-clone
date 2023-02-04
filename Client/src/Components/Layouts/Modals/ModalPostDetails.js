@@ -1,22 +1,23 @@
 import moment from 'moment'
 import PostMore from './PostMore';
-import EmojiPicker from 'emoji-picker-react';
-import { useEffect, useRef, useState } from 'react';
+// import EmojiPicker from 'emoji-picker-react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
-import { Transition } from 'react-transition-group';
 import { useGetPostDetailsQuery } from '../../../Redux/APIs/PostsApi';
 import { useGetUserQuery } from '../../../Redux/APIs/UserApi';
 import { BsBookmark, BsBookmarkFill, BsThreeDots } from 'react-icons/bs';
 import { FaHeart, FaRegComment, FaRegHeart, FaRegSmile } from 'react-icons/fa';
 import { IoMdPaperPlane } from 'react-icons/io';
 import { ImSpinner3 } from 'react-icons/im';
+import AnimModal from '../../../Animation/AnimModal';
+import { motion, AnimatePresence } from 'framer-motion'
 import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
 import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
 import ImagesSlider from '../ImagesSlider';
-const ModalPostDetails = (props) => {
+const ModalPostDetails = ({ ID }) => {
     const { isModalPostDetails } = useSelector(state => state.Features);
-    const { data: postDetails, isFeatching, isError, error } = useGetPostDetailsQuery(props.ID) || {};
+    const { data: postDetails, isFeatching, isError, error } = useGetPostDetailsQuery(ID) || {};
     const [createComment] = useCreateCommentMutation();
     const { data: userInfo } = useGetUserQuery() || {};
     const [Save] = useSaveMutation();
@@ -28,7 +29,6 @@ const ModalPostDetails = (props) => {
 
     // const [emoji, setEmoji] = useState();
     const dispatch = useDispatch();
-    const nodeRef = useRef(null);
     const [data, setData] = useState({
         comment: ''
     });
@@ -83,7 +83,7 @@ const ModalPostDetails = (props) => {
 
     const ShowComment = () => {
         return (
-            postDetails?.comments.length === 0 ?
+            postDetails?.comments?.length === 0 ?
                 <div className='mt-10 md:mt-0 flex h-[70%] justify-center items-center'>
                     <div className='text-center space-y-3'>
                         <p className='font-semibold text-3xl'>No comments yet.</p>
@@ -145,33 +145,33 @@ const ModalPostDetails = (props) => {
     return (
         <>
             <PostMore />
-            <Transition nodeRef={nodeRef} in={isModalPostDetails} timeout={50} mountOnEnter unmountOnExit>
-                {state => (
-                    <div ref={nodeRef}>
-                        <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setData({ comment: '' }) }} className="fixed inset-0 bg-black/40 z-10"></div>
-
-                        <div className={state === 'entering' ? 'ModalPostDetails scale-[.96] duration-75'
-                            : state === 'exiting' ? 'ModalPostDetails scale-[1.1] duration-200' : 'ModalPostDetails scale-100 duration-75'}>
-
-                            <div className="relative bg-white rounded-lg shadow md:h-[90%]">
-                                {isError && <p>{error?.data?.msg}</p>}
-                                <div className='grid grid-cols-6 h-full'>
-                                    <div className='col-span-6 md:col-span-3 xl:col-span-4 relative h-full flex justify-center overflow-hidden'>
-                                        {isFeatching ? <div className='h-full flex items-center justify-center animate-spin'><ImSpinner3 /></div> :
-                                            <ImagesSlider Details={postDetails} />
-                                        }
-                                    </div>
-                                    <div className='col-span-6 md:col-span-3 xl:col-span-2 max-h-1/2 relative md:border-l overflow-hidden'>
-                                        <ShowUpperPart /><hr />
-                                        <ShowComment />
-                                        <ShowPostCtrl />
-                                    </div>
+            {isModalPostDetails &&
+                <AnimatePresence>
+                    <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setData({ comment: '' }) }} className="fixed inset-0 bg-black/40 z-10"></div>
+                    <motion.div
+                        variants={AnimModal}
+                        initial='initial'
+                        animate='animate'
+                        exit='exit'
+                        className='ModalPostDetails'>
+                        <div className="relative bg-white rounded-lg shadow md:h-[90%]">
+                            {isError && <p>{error?.data?.msg}</p>}
+                            <div className='grid grid-cols-6 h-full'>
+                                <div className='col-span-6 md:col-span-3 xl:col-span-4 relative h-full flex justify-center overflow-hidden'>
+                                    {isFeatching ? <div className='h-full flex items-center justify-center animate-spin'><ImSpinner3 /></div> :
+                                        <ImagesSlider Details={postDetails} />
+                                    }
+                                </div>
+                                <div className='col-span-6 md:col-span-3 xl:col-span-2 max-h-1/2 relative md:border-l overflow-hidden'>
+                                    <ShowUpperPart /><hr />
+                                    <ShowComment />
+                                    <ShowPostCtrl />
                                 </div>
                             </div>
                         </div>
-                    </div>)
-                }
-            </Transition >
+                    </motion.div>
+                </AnimatePresence>
+            }
         </>
     )
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
+import { motion } from 'framer-motion';
+import AnimModal from './../../../Animation/AnimModal';
 const ModalConfirm = (props) => {
     const dispatch = useDispatch();
     const discartall = () => {
@@ -9,9 +11,13 @@ const ModalConfirm = (props) => {
     }
     return (
         <>
-            <div className="fixed inset-0 bg-black/40 z-40" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(false))}></div>
-            <div className={props.state === 'entering' ? 'ModalConfirm scale-[.96] duration-75'
-                : props.state === 'exiting' ? 'ModalConfirm scale-[1.1] duration-200' : 'ModalConfirm scale-100 duration-75'}>
+            <div className="fixed inset-0 bg-black/20 z-40" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(false))}></div>
+            <motion.div
+                variants={AnimModal}
+                initial='initial'
+                animate='animate'
+                exit='exit'
+                className='ModalConfirm'>
                 <div className="relative max-w-xl ">
                     <div className="relative bg-white rounded-lg shadow-[0_0px_100px_10px_rgba(0,0,0,0.3)]">
                         <div className="text-center pt-4">
@@ -24,7 +30,7 @@ const ModalConfirm = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </>
     )
 }

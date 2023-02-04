@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { BsTelephone } from 'react-icons/bs'
 import { VscDeviceCameraVideo } from 'react-icons/vsc'
@@ -6,23 +6,28 @@ import { FaRegSmile } from 'react-icons/fa'
 import { IoImageOutline } from 'react-icons/io5'
 import { MdOutlineInfo } from 'react-icons/md'
 import { HiOutlineHeart } from 'react-icons/hi'
-import { useGetUserByIdQuery } from '../../../../Redux/APIs/UserApi'
-import { useNewChatMutation } from '../../../../Redux/APIs/ChatApi'
+import { useGetUserByIdQuery } from '../../../Redux/APIs/UserApi'
+import { useNewChatMutation } from '../../../Redux/APIs/ChatApi'
 import { IoMdPaperPlane } from 'react-icons/io'
-import { Message } from '../../../Exports'
-import { useGetMessagesQuery, useNewMessageMutation } from '../../../../Redux/APIs/MessageApi'
+import { Message } from '../../Exports'
+import { useGetMessagesQuery, useNewMessageMutation } from '../../../Redux/APIs/MessageApi'
 const Chat = () => {
     const { username, id } = useParams();
     const { data: userInfo } = useGetUserByIdQuery(username) || {};
     const { data: FollowerMessages } = useGetMessagesQuery(id) || {};
     const [NewChat] = useNewChatMutation() || {};
-    const [MewMessage] = useNewMessageMutation() || {};
+    const [MewMessage, mutationResult] = useNewMessageMutation() || {};
     const [msg, setMSG] = useState();
+    const ScrollRef = useRef();
     useEffect(() => {
-        NewChat(id).unwrap()
-            // .then(payload =>return)
-            .catch(err => console.log(err))
-    }, [NewChat, id]);
+        ScrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [FollowerMessages]);
+
+    // useEffect(() => {
+    //     NewChat(id).unwrap()
+    //         // .then(payload =>return)
+    //         .catch(err => console.log(err))
+    // }, [NewChat, id]);
     const NewMSG = (e) => {
         e.preventDefault();
         const data = { msg }
@@ -30,7 +35,7 @@ const Chat = () => {
             .then(payload => setMSG(''))
             .catch(err => console.log(err))
     }
-
+    console.log(mutationResult);
     const MainNoChat = () => {
         return (
             <div>
@@ -64,10 +69,10 @@ const Chat = () => {
                         <Link to='/call'><MdOutlineInfo /></Link>
                     </div>
                 </div>
-                <div className='pt-3 p-3 '>
+                <div className='pt-3 p-3 overflow-y-scroll hideScrollBare h-[75vh]'>
                     <div>
                         {FollowerMessages?.map(message => (
-                            <div key={message?._id}>
+                            <div ref={ScrollRef} key={message?._id}>
                                 <Message message={message} FollowerChating={message?.sender === userInfo?._id} />
                             </div>
                         ))}
@@ -78,7 +83,7 @@ const Chat = () => {
                                 onChange={(e) => setMSG(e.target.value)}
                                 value={msg}
                                 name='msg'
-                                autoComplete='aff'
+                                autoComplete='off'
                                 placeholder='Message ...' />
                             {msg ?
                                 <button className='text-blue-500 font-semibold'>Send</button>

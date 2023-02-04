@@ -1,17 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useCreatePostMutation } from '../../Redux/APIs/PostsApi';
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
 import { ModalAddPost, ModalConfirm } from '../Exports';
 import { ImSpinner7 } from 'react-icons/im';
-import { Transition } from 'react-transition-group';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 
 const AddPost = () => {
   const { isModalAddPost, IsModalPreviewImages, isModalConfirm } = useSelector(state => state.Features);
   const [createPost, { isLoading }] = useCreatePostMutation();
-  const nodeRef = useRef(null);
   const dispatch = useDispatch();
   const [images, setImages] = useState([]);
   const [inputs, setInputs] = useState({
@@ -67,11 +65,9 @@ const AddPost = () => {
 
   return (
     <>
-      <Transition nodeRef={nodeRef} in={isModalConfirm} timeout={50} mountOnEnter unmountOnExit>
-        {state => (
-          <ModalConfirm state={state} />
-        )}
-      </Transition>
+
+      {isModalConfirm && <ModalConfirm />}
+
 
       {IsModalPreviewImages &&
         <>

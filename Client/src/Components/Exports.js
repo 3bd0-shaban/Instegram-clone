@@ -40,10 +40,10 @@ export { default as ProfileById } from '../Screens/ProfileById';
 export { default as Dashboard } from '../Screens/Dashboard';
 
 
-export { default as Chat } from './Home/Parts/Messenger/Chat';
-export { default as FollowerCart } from './Home/Parts/Messenger/FollowerCart';
-export { default as ListMessaging } from './Home/Parts/Messenger/ListMessaging';
-export { default as Message } from './Home/Parts/Messenger/Message';
+export { default as Chat } from './Home/Messenger/Chat';
+export { default as FollowerCart } from './Home/Messenger/FollowerCart';
+export { default as ListMessaging } from './Home/Messenger/ListMessaging';
+export { default as Message } from './Home/Messenger/Message';
 
 export { default as Ads } from './Home/Settings/Ads';
 export { default as AppsAndWebsite } from './Home/Settings/AppsAndWebsite';

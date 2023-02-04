@@ -9,6 +9,10 @@ class Features {
                 $regex: this.queryStr.keyword,
                 $options: 'i'
             },
+            fullname: {
+                $regex: this.queryStr.keyword,
+                $options: 'i'
+            },
         }
             : {
 

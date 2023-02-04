@@ -11,7 +11,7 @@ export const PostsApi = apiSlice.injectEndpoints({
         }),
         getUserPosts: builder.query({
             query: () => ({
-                url: '/api/post/get/followers/posts',
+                url: '/api/post/getuser',
                 method: 'GET',
                 credentials: 'include',
             }),

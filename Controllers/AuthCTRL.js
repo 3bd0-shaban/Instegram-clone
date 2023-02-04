@@ -3,7 +3,8 @@ import { asyncHandler } from './../Middlewares/asyncErrorHandler.js';
 import ErrorHandler from './../Utils/ErrorHandler.js';
 import bcrypt from 'bcrypt';
 import Jwt from 'jsonwebtoken';
-
+import otpGenerator from 'otp-generator';
+import send_Email from '../Utils/sendEmail.js'
 export const SignUp = asyncHandler(async (req, res, next) => {
     const { email, password, confirmpassword, fullname, username } = req.body;
     if (!email || !password || !confirmpassword || !fullname || !username) {
@@ -19,6 +20,10 @@ export const SignUp = asyncHandler(async (req, res, next) => {
         return next(new ErrorHandler('Invalid Email', 400));
     }
     const user = await Users.findOne({ email });
+    const isusername = await Users.findOne({ username });
+    if (isusername) {
+        return next(new ErrorHandler('Username Already Registered', 400));
+    }
     if (user) {
         return next(new ErrorHandler('Email Already Registered', 400));
     } else {

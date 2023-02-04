@@ -1,8 +1,8 @@
-import { Header, Chat, FollowerCart } from '../../../Exports'
+import { Header, Chat, FollowerCart } from '../../Exports'
 import { IoIosArrowDown } from 'react-icons/io'
 import { TbMessage2Share } from 'react-icons/tb'
-import { useGetUserQuery } from '../../../../Redux/APIs/UserApi';
-import { useUserChatsQuery } from '../../../../Redux/APIs/ChatApi';
+import { useGetUserQuery } from '../../../Redux/APIs/UserApi';
+import { useUserChatsQuery } from '../../../Redux/APIs/ChatApi';
 const ListMessaging = () => {
     const { data: userInfo } = useGetUserQuery() || {};
     const { data: Chats } = useUserChatsQuery() || {};

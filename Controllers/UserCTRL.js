@@ -5,6 +5,15 @@ import Users from "../Models/Users.js";
 import Features from "../Utils/Features.js";
 
 export const Follow_Public_User = asyncHandler(async (req, res, next) => {
+    const isfollowing = await Users.findOne({
+        _id: req.params.id,
+        $and: [
+            { following: { $elemMatch: { $eq: req.user.id } } },
+        ],
+    });
+    if (isfollowing) {
+        return next(new ErrorHandler('Already following this user', 400));
+    }
     await Users.findByIdAndUpdate(req.params.id, {
         $push: { followers: req.user.id }
     }, { new: true });
@@ -15,6 +24,15 @@ export const Follow_Public_User = asyncHandler(async (req, res, next) => {
 });
 
 export const UnFollow = asyncHandler(async (req, res, next) => {
+    const isfollowing = await Users.findOne({
+        _id: req.params.id,
+        $and: [
+            { following: { $elemMatch: { $eq: req.user.id } } },
+        ],
+    });
+    if (!isfollowing) {
+        return next(new ErrorHandler('You are not following this user', 400));
+    }
     await Users.findByIdAndUpdate(req.params.id, {
         $pull: { followers: req.user.id }
     }, { new: true });
@@ -40,7 +58,6 @@ export const FollowersList = asyncHandler(async (req, res, next) => {
 
 export const UserInfo = asyncHandler(async (req, res, next) => {
     const user = await Users.findOne({ _id: req.user.id }).populate('saves.$');
-    console.log(user)
     if (!user) {
         return next(new ErrorHandler('User Not Founded', 400));
     }

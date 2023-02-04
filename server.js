@@ -1,6 +1,6 @@
 import express from "express";
+import config from './config.js';
 import mongoose from "mongoose";
-import dotenv from "dotenv"
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
@@ -16,9 +16,7 @@ import MessageRouter from './Routes/MessageRouter.js';
 import ChatRouter from './Routes/ChatRouter.js';
 const app = express();
 const port = process.env.Port || 5000;
-
-dotenv.config();
-mongoose.connect(process.env.MongoDB_URL, {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
 }).then(() => {
     app.listen(port, () => {

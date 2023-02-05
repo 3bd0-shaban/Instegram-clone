@@ -6,61 +6,72 @@ import { useState } from 'react';
 const ModalChangeProfile = ({ onClose }) => {
     const [UpdateUserInfo] = useUpdateUserInfoMutation();
     const [avatar, setAvatar] = useState();
-    console.log({ avatar })
+    console.log({ avatar });
     const loadFile = (e) => {
         for (const file of e.target.files) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
                 setAvatar(reader.result);
-                UploadPhotoHandler()
-            }
+                UploadPhotoHandler();
+            };
         }
-    }
+    };
     const UploadPhotoHandler = () => {
-        const data = { avatar }
+        const data = { avatar };
         // console.log(data)
         // console.log(`data is: ${data}`)
-        UpdateUserInfo(data).unwrap()
-            .then(payload => onClose())
-            .catch(err => console.log(err))
-    }
+        UpdateUserInfo(data)
+            .unwrap()
+            .then((payload) => onClose())
+            .catch((err) => console.log(err));
+    };
     return (
         <>
             <div onClick={onClose} className="fixed inset-0 bg-black/30 z-10"></div>
             <motion.div
                 variants={AnimModal}
-                initial='initial'
-                animate='animate'
-                exit='exit'
-                className='Modal !max-w-[30rem] relative !p-0 !overflow-hidden'
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="Modal !max-w-[30rem] relative !p-0 !overflow-hidden"
             >
-                <button
-                    onClick={onClose}
-                    className='absolute right-0 m-2'><BsX size={25} />
+                <button onClick={onClose} className="absolute right-0 m-2">
+                    <BsX size={25} />
                 </button>
-                <div className='w-full py-3 flex justify-center'>
-                    <p className='text-2xl'>Change Profile Photo</p>
-                </div><hr />
-                <div className='w-full text-center mx-auto !mt-0'>
-                    <label
-                        className='block cursor-pointer px-5 text-blue-500 font-medium focus:bg-gray-500 py-4 hover:bg-gray-100'
-                    >
+                <div className="w-full py-3 flex justify-center">
+                    <p className="text-2xl">Change Profile Photo</p>
+                </div>
+                <hr />
+                <div className="w-full text-center mx-auto !mt-0">
+                    <label className="block cursor-pointer px-5 text-blue-500 font-medium focus:bg-gray-500 py-4 hover:bg-gray-100">
                         <p> Upload photo</p>
-                        <input onChange={loadFile} id="dropzone-file" type="file" multiple className="hidden" />
-                    </label><hr />
+                        <input
+                            onChange={loadFile}
+                            id="dropzone-file"
+                            type="file"
+                            multiple
+                            className="hidden"
+                        />
+                    </label>
+                    <hr />
                     <span
-                        className='block cursor-pointer px-5 text-red-500 font-medium focus:bg-gray-500 py-4 hover:bg-gray-100'
-                        onClick={onClose} >Remove photo
-                    </span><hr />
+                        className="block cursor-pointer px-5 text-red-500 font-medium focus:bg-gray-500 py-4 hover:bg-gray-100"
+                        onClick={onClose}
+                    >
+                        Remove photo
+                    </span>
+                    <hr />
                     <span
-                        className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'
-                        onClick={onClose} >Cancel
+                        className="block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100"
+                        onClick={onClose}
+                    >
+                        Cancel
                     </span>
                 </div>
             </motion.div>
         </>
-    )
-}
+    );
+};
 
-export default ModalChangeProfile
+export default ModalChangeProfile;

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BiChevronRight } from 'react-icons/bi';
+import { motion } from 'framer-motion';
+import AnimSlide from './../../Animation/AnimSlode';
 
 const ImagesSlider = (props) => {
     const [curIndex, setCurIndex] = useState(0);
@@ -24,8 +26,14 @@ const ImagesSlider = (props) => {
     };
     return (
         <>
-
-            <img className='imageslide' src={images && images[curIndex]?.url} alt='' />
+            <motion.img
+                variants={AnimSlide}
+                initial='initial'
+                animate='animate'
+                exit='exit'
+                src={images && images[curIndex]?.url}
+                className='h-full w-full object-cover rounded-l-lg rounded-t-lg md:rounded-tr-none'
+                alt='' />
             <div className='absolute inset-y-1/2 flex justify-between w-full px-4'>
                 <button onClick={prevSlide} className='bg-white/30 text-black h-8 w-8 rounded-full flex justify-center items-center'>
                     <BiChevronRight size={25} />

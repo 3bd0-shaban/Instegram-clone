@@ -13,7 +13,7 @@ export { default as UserSaves } from './Screens/UserSaves';
 export { default as UsersPosts } from './Screens/UsersPosts';
 export { default as UsersTages } from './Screens/UsersTages';
 
-export { default as UserSavesById } from './Screens/ProfileById/UserSavesById';
+export { default as UserReelsById } from './Screens/ProfileById/UserReelsById';
 export { default as UsersPostsById } from './Screens/ProfileById/UsersPostsById';
 export { default as UsersTagesById } from './Screens/ProfileById/UsersTagesById';
 
@@ -24,6 +24,7 @@ export { default as ModalPreviewImages } from './Layouts/Modals/ModalPreviewImag
 export { default as ConfirmModal2 } from './Layouts/Modals/ConfirmModal2';
 
 export { default as ModalAddPost } from './Layouts/Modals/ModalAddPost';
+export { default as ModalFollowerCTRL } from './Layouts/Modals/ModalFollowerCTRL';
 export { default as ModalFollowers } from './Layouts/Modals/ModalFollowers';
 export { default as ModalFollowing } from './Layouts/Modals/ModalFollowing';
 export { default as ModalUserByIdSettings } from './Layouts/Modals/ModalUserByIdSettings';

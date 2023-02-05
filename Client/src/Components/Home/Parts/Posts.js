@@ -7,7 +7,7 @@ import { useState } from 'react';
 const Posts = () => {
   const dispatch = useDispatch();
   const { isModalPostDetails } = useSelector(state => state.Features);
-  const { data: followerposts, isFeatching, error, isError } = useGetFollowersPostsQuery() || {};
+  const { data: followerposts, isFetching, error, isError } = useGetFollowersPostsQuery() || {};
   const [postID, setPostID] = useState('');
 
 
@@ -15,7 +15,7 @@ const Posts = () => {
     <>
       {isModalPostDetails && <ModalPostDetails ID={postID} />}
       <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} />
-      {isFeatching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
+      {isFetching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
         followerposts?.map(post => (
           <div key={post?._id} className='mt-4'>
             <SinglePost post={post} postID={postID} setPostID={setPostID} />

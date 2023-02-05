@@ -3,9 +3,10 @@ const FeaturesSlice = createSlice({
     name: 'Upload_Product',
     initialState: {
         SideBar: false,
+        DrobdownMore: false,
         isModalFollowersList: false,
         isModalFollowingList: false,
-        DrobdownMore: false,
+        isModalFollowerCTRL: false,
         isModalAddPost: false,
         IsModalPreviewImages: false,
         isModalConfirm: false,
@@ -24,6 +25,9 @@ const FeaturesSlice = createSlice({
         },
         setIsModalFollowingList(state) {
             state.isModalFollowingList = !state.isModalFollowingList;
+        },
+        setIsModalFollowerCTRL(state) {
+            state.isModalFollowerCTRL = !state.isModalFollowerCTRL;
         },
         ShowDrobdownMore(state) {
             state.DrobdownMore = !state.DrobdownMore;

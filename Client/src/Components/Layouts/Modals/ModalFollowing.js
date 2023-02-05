@@ -21,12 +21,13 @@ const ModalFollowing = ({ id }) => {
             >
                 <div className='flex justify-center items-center font-semibold text-xl pt-1'>Following</div><hr />
 
-                {FollowingList?.follwing?.map(res => (
+                {FollowingList?.following?.map(res => (
                     <div className='flex justify-between items-center'>
                         <Link
                             to={`/${res.username}`}
                             key={res._id}
                             className='flex'
+                            onClick={() => dispatch(FeatureAction.setIsModalFollowingList(false))}
                         >
                             <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url} alt="" />
                             <div className='ml-2 mt-1'>

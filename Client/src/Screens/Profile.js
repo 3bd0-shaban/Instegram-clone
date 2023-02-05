@@ -9,7 +9,7 @@ import { useGetUserQuery } from '../Redux/APIs/UserApi';
 import { useSelector } from 'react-redux';
 
 const Profile = () => {
-    const { data: userInfo, isError, isFeatching, error } = useGetUserQuery() || {};
+    const { data: userInfo, isError, isFetching, error } = useGetUserQuery() || {};
     const { isModalFollowersList, isModalFollowingList } = useSelector(state => state.Features);
     useTitle(userInfo?.fullname);
     const dispatch = useDispatch();
@@ -29,10 +29,13 @@ const Profile = () => {
     return (
         <div className='mt-24'>
             <Header />
-            {isModalFollowingList && <ModalFollowers id={userInfo?._id} />}
-            {isModalFollowersList && <ModalFollowing id={userInfo?._id} />}
+            {isModalFollowingList && <ModalFollowing id={userInfo?._id} />}
+            {isModalFollowersList && <ModalFollowers id={userInfo?._id} />}
             <ModalSittings />
-            {isFeatching ? <p>Featching</p> : isError && <p>{error?.data?.msg}</p>}
+            {isFetching ? <div>
+                {/* Animation Loading Her  */}
+            </div>
+                : isError && <p>{error?.data?.msg}</p>}
             <div className='container px-0 max-w-[85rem] mt-5'>
                 <div className='container px-.5 max-w-[70rem] px-0'>
                     <div className='grid grid-cols-6 md:grid-cols-7 gap-3 mb-8'>
@@ -61,7 +64,7 @@ const Profile = () => {
                             <p>Posts</p>
                         </div>
                         <div onClick={OpenSaved} className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
-                            <BsBookmarks /> 
+                            <BsBookmarks />
                             <p>Saved</p>
                         </div>
                         <div onClick={OpenTaged} className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>

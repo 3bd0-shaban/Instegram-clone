@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Header, useTitle, Footer, UsersTagesById, UserSavesById, UsersPostsById, ModalUserByIdSettings, ModalFollowing, ModalFollowers } from '../Components/Exports'
+import {
+    Header, useTitle, Footer, UsersTagesById,
+    UserReelsById, UsersPostsById, ModalUserByIdSettings,
+    ModalFollowing, ModalFollowers, ModalFollowerCTRL
+} from '../Components/Exports'
 import { BsBookmarks, BsThreeDots, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
@@ -13,8 +17,8 @@ import { useSelector } from 'react-redux';
 const Profile = () => {
 
     const { username } = useParams();
-    const { data: userInfo, isError, isFeatching, error } = useGetUserByIdQuery(username) || {};
-    const { isModalFollowersList, isModalFollowingList } = useSelector(state => state.Features);
+    const { data: userInfo, isError, isFetching, error } = useGetUserByIdQuery(username) || {};
+    const { isModalFollowersList, isModalFollowingList, isModalFollowerCTRL } = useSelector(state => state.Features);
     useTitle(userInfo?.fullname);
     const { data: loggeduser } = useGetUserQuery() || {};
     const [Follow] = useFollowMutation() || {};
@@ -46,10 +50,15 @@ const Profile = () => {
     return (
         <div className='mt-24'>
             <Header />
-            {isModalFollowingList && <ModalFollowers id={userInfo?._id} />}
-            {isModalFollowersList && <ModalFollowing id={userInfo?._id} />}
+            {isModalFollowingList && <ModalFollowing id={userInfo?._id} />}
+            {isModalFollowersList && <ModalFollowers id={userInfo?._id} />}
+            {isModalFollowerCTRL && <ModalFollowerCTRL userInfo={userInfo} />}
             <ModalUserByIdSettings />
-            {isFeatching ? <p>Featching</p> : isError && <p>{error?.data?.msg}</p>}
+            {isFetching ?
+                <div>
+{/* Animation Loading Her  */}
+                </div>
+                : isError && <p>{error?.data?.msg}</p>}
             <div className='container px-0 max-w-[85rem] mt-5'>
                 <div className='container px-.5 max-w-[70rem] px-0'>
                     <div className='grid grid-cols-6 md:grid-cols-7 gap-3 mb-8'>
@@ -60,7 +69,10 @@ const Profile = () => {
                                     <p className='text-xl font-semibold'>{userInfo?.fullname}</p>
                                     {isFollowing ?
                                         <>
-                                            <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'>Following <BiChevronDown size={22} /></button>
+                                            <button
+                                                onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))}
+                                                className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2 hover:bg-gray-300'>Following <BiChevronDown size={22} />
+                                            </button>
                                             <Link to={`message/${userInfo?._id}`} className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'>Message</Link>
                                         </>
                                         :
@@ -97,8 +109,8 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                {posts && <UsersPostsById ID={userInfo?._id} />}
-                {saved && <UserSavesById />}
+                {(posts && !isFetching) && <UsersPostsById ID={userInfo?._id} />}
+                {saved && <UserReelsById />}
                 {tagged && <UsersTagesById />}
             </div>
             <div className='mt-40'>

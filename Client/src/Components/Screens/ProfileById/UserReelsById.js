@@ -1,7 +1,7 @@
 import React from 'react'
 import { BsBookmarks } from 'react-icons/bs'
 
-const UserSaves = () => {
+const UserReelsById = () => {
     const EmptyTagges = () => {
         return (
             <>
@@ -26,4 +26,4 @@ const UserSaves = () => {
     )
 }
 
-export default UserSaves
+export default UserReelsById

@@ -17,17 +17,17 @@ export const Follow_Public_User = asyncHandler(async (req, res, next) => {
     await Users.findByIdAndUpdate(req.params.id, {
         $push: { followers: req.user.id }
     }, { new: true });
-    await Users.findByIdAndUpdate({ user: req.user.id }, {
+    await Users.findByIdAndUpdate({ _id: req.user.id }, {
         $push: { following: req.params.id }
     }, { new: true });
-    return res.json({ msg: 'you are now follwing this user' })
+    return res.json({ msg: 'Followd !' })
 });
 
 export const UnFollow = asyncHandler(async (req, res, next) => {
     const isfollowing = await Users.findOne({
         _id: req.params.id,
-        $and: [
-            { following: { $elemMatch: { $eq: req.user.id } } },
+        $in: [
+            { followers: { $elemMatch: { $eq: req.user.id } } },
         ],
     });
     if (!isfollowing) {
@@ -36,16 +36,16 @@ export const UnFollow = asyncHandler(async (req, res, next) => {
     await Users.findByIdAndUpdate(req.params.id, {
         $pull: { followers: req.user.id }
     }, { new: true });
-    await Users.findByIdAndUpdate({ user: req.user.id }, {
+    await Users.findByIdAndUpdate({ _id: req.user.id }, {
         $pull: { following: req.params.id }
     }, { new: true });
-    return res.json({ msg: 'you are now follwing this user' })
+    return res.json({ msg: 'UnFollowed !' })
 });
 
 export const FollowingList = asyncHandler(async (req, res, next) => {
     const followingUsers = await Users.findOne({ _id: req.params.id })
         .select('following')
-        .populate('folloing', 'username avatar');
+        .populate('following', 'username avatar');
     return res.json(followingUsers);
 });
 

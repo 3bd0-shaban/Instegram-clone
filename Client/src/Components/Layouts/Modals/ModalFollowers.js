@@ -28,6 +28,7 @@ const ModalFollowers = ({ id }) => {
               to={`/${res.username}`}
               key={res._id}
               className='flex'
+              onClick={() => dispatch(FeatureAction.setIsModalFollowersList(false))}
             >
               <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url} alt="" />
               <div className='ml-2 mt-1'>

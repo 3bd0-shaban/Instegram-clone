@@ -7,7 +7,7 @@ import { ModalPostDetails } from '../../Components/Exports'
 import { ImSpinner3 } from 'react-icons/im';
 import { useSelector } from 'react-redux';
 const UsersPosts = () => {
-    const { data: userPosts, isFeatching, error, isError } = useGetUserPostsQuery() || {};
+    const { data: userPosts, isFetching, error, isError } = useGetUserPostsQuery() || {};
     const { isModalPostDetails } = useSelector(state => state.Features);
     const dispatch = useDispatch();
     const [postID, setPostID] = useState('');
@@ -34,7 +34,7 @@ const UsersPosts = () => {
             {isModalPostDetails && <ModalPostDetails ID={postID} />}
             <div className='container max-w-6xl px-0'>
                 {isError && <p>{error?.data?.msg}</p>}
-                {isFeatching && <p className='flex justify-center items-center text-3xl font-medium animate-spin'><ImSpinner3 /></p>}
+                {isFetching && <p className='flex justify-center items-center text-3xl font-medium animate-spin'><ImSpinner3 /></p>}
                 {(userPosts === [] || !userPosts || userPosts?.length === 0) && <EmptyPosts />}
                 <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
                     {userPosts && userPosts?.map((post) => (

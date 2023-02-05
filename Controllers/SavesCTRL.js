@@ -4,7 +4,7 @@ import ErrorHandler from "../Utils/ErrorHandler.js";
 import Users from "../Models/Users.js";
 
 export const save = asyncHandler(async (req, res, next) => {
-    const user = await Users.find({
+    const user = await Users.findOne({
         _id: req.user.id,
         saved: req.params.id,
     });

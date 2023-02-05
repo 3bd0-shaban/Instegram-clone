@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import { BsBookmarks, BsFillChatFill } from 'react-icons/bs'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetSaveQuery } from '../../Redux/APIs/SavesApi';
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
 import { ModalPostDetails } from '../Exports';
 
 const UserSaves = () => {
-    const { data: usersaves, isFeatching, error, isError } = useGetSaveQuery() || {};
+    const { data: usersaves, isFetching, error, isError } = useGetSaveQuery() || {};
+    const { isModalPostDetails } = useSelector(state => state.Features);
     const dispatch = useDispatch()
     const [postID, setPostID] = useState('');
-    const [saves,setSaves] = useState([]);
-
-    //Get rid of _id returned from user saves
-    useEffect(() => {
-        const fliteredsaves = usersaves?.filter(item => item === usersaves?.saves);
-        setSaves(fliteredsaves)
-    }, [usersaves])
-
-    console.log(saves)
 
     const EmptyTagges = () => {
         return (
@@ -35,18 +27,17 @@ const UserSaves = () => {
             </>
         )
     }
-    console.log(saves)
     return (
         <>
-            <ModalPostDetails ID={postID} />
+            {isModalPostDetails && <ModalPostDetails ID={postID} />}
             <div className='container max-w-6xl px-0'>
                 {isError && <p>{error?.data?.msg}</p>}
-                {isFeatching && <p className='flex justify-center items-center text-3xl font-medium '>Loading ....</p>}
-                {(saves === [] || !saves || saves?.length === 0) && <EmptyTagges />}
+                {isFetching && <p className='flex justify-center items-center text-3xl font-medium '>Loading ....</p>}
+                {(usersaves?.saves === [] || !usersaves || usersaves?.saves?.length === 0) && <EmptyTagges />}
                 <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
-                    {saves && saves?.map((item) => (
+                    {usersaves?.saves?.map((item) => (
                         <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(item?._id) }} key={item?._id} className='h-80 cursor-pointer hover:brightness-50 duration-200 group relative'>
-                            {/* <img className='object-cover w-full h-full' src={item[0]?.url} alt='' /> */}
+                            <img className='object-cover w-full h-full' src={item?.images[0]?.url} alt='' />
                             <div className='absolute inset-1/2 left-[45%] z-10 gap-3 items-center text-white font-bold hidden group-hover:flex'>
                                 <div><BsFillChatFill size={25} /></div>
                                 <p className='inline-block'>0</p>

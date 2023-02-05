@@ -50,7 +50,7 @@ export const UserApi = apiSlice.injectEndpoints({
         }),
         FollowingList: builder.query({
             query: (id) => ({
-                url: `/api/user/fowllowerslist/${id}`,
+                url: `/api/user/followinglist/${id}`,
                 method: 'GET',
                 credentials: 'include',
             }),

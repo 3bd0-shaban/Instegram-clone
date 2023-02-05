@@ -1,16 +1,16 @@
 const AnimModal = {
     initial: {
         opacity: 0,
-        scale: 1.2
+        scale: 1.05
     },
     animate: {
         opacity: 1,
-        scale: [1, 1.05, 1],
-        transition: {
-            duration: .2,
-            ease: 'easeInOut',
-            type: 'spring'
-        }
+        scale: 1,
+        // transition: {
+        //     // duration: .1,
+        //     // ease: 'easeInOut',
+        //     // type: 'spring'
+        // }
 
     },
     exit: {

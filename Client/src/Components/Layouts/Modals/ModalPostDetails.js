@@ -2,7 +2,7 @@ import moment from 'moment'
 import PostMore from './PostMore';
 // import EmojiPicker from 'emoji-picker-react';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { useGetPostDetailsQuery } from '../../../Redux/APIs/PostsApi';
 import { useGetUserQuery } from '../../../Redux/APIs/UserApi';
@@ -16,7 +16,7 @@ import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi
 import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
 import ImagesSlider from '../ImagesSlider';
 const ModalPostDetails = ({ ID }) => {
-    const { data: postDetails, isFeatching, isError, error } = useGetPostDetailsQuery(ID) || {};
+    const { data: postDetails, isFetching, isError, error } = useGetPostDetailsQuery(ID) || {};
     const [createComment] = useCreateCommentMutation();
     const { data: userInfo } = useGetUserQuery() || {};
     const [Save] = useSaveMutation();
@@ -156,7 +156,7 @@ const ModalPostDetails = ({ ID }) => {
                     className='fixed inset-x-0 h-[70%] top-[15%] xl:h-full xl:top-[5%] p-4 container max-w-[75%] z-20 duration-300'>
                     <div className="relative bg-white rounded-lg shadow md:h-[90%]">
                         {isError && <p>{error?.data?.msg}</p>}
-                        {isFeatching ? <div className='h-full flex items-center justify-center animate-spin'><ImSpinner3 /></div> :
+                        {isFetching ? <p className='flex justify-center items-center text-3xl font-medium h-full animate-spin'><ImSpinner3 /></p> :
                             <div className='grid grid-cols-6 h-full'>
                                 <div className='col-span-6 md:col-span-3 xl:col-span-4 relative h-full flex justify-center overflow-hidden'>
                                     <ImagesSlider Details={postDetails} />

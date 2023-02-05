@@ -49,7 +49,7 @@ const DrobDownMore = () => {
                     <DropItem Icon={<BsPeople />} Link={`/${userInfo?.username}`} Title={'Profile'} />
                     <DropItem Icon={<BsJournals />} Title={'Saved'} />
                     <DropItem Icon={<BsMoon />} Title={'Switch Apperance'} />
-                    <DropItem Icon={<BsGear />} Title={'Settings'} Toggle={<BsToggleOff />} />
+                    <DropItem Icon={<BsGear />} Title={'Settings'} Link={'/settings/edit'} Toggle={<BsToggleOff />} />
                     <DropItem Icon={<BsBookmarkCheck />} Title={'Animations'} />
                     <DropItem Icon={<BsQuestionCircle />} Title={'Report a problem'} />
                     <DropItem Icon={<BsBookmarkCheck />} Title={'Switch accounts'} />

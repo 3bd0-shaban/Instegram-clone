@@ -17,6 +17,6 @@ router.get('/info', auth, UserInfo);
 router.put('/updateuserrole/:id', auth, authorizeRoles("admin"), Update_UserRole);
 router.get('/get/:username', auth, Get_UserInfo);
 router.get('/refresh', UserInfo);
-router.put('/updateuser/:id', auth, Update_UserInfo);
+router.put('/updateuser', auth, Update_UserInfo);
 router.get('/getall', auth, authorizeRoles("admin"), AllUsers);
 export default router

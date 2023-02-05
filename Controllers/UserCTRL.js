@@ -70,19 +70,37 @@ export const Get_UserInfo = asyncHandler(async (req, res, next) => {
     }
     return res.json(user);
 });
+
 export const Update_UserInfo = asyncHandler(async (req, res, next) => {
-    const user = await Users.findById(req.params.id);
-    if (!user) {
-        return next(new ErrorHandler('User Not Founded with that ID', 400));
-    } else {
-        const user = await Users.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true,
-            useFindAndModify: false,
-        });
-        return res.json(user);
+    const { fullname, username, website, bio, email, phoneNumber, gender } = req.body;
+    const file = req.body.avatar;
+    let newAvatar = {};
+    if (username == '' || fullname == '' || email == '') {
+        return next(new ErrorHandler('Fields can not be empty', 400));
     }
+    const checkusername = await Users.findOne({ username });
+    if (checkusername) {
+        return next(new ErrorHandler('username Already exist', 400));
+    };
+    const checkemail = await Users.findOne({ email });
+    if (checkemail) {
+        return next(new ErrorHandler('username Already exist', 400));
+    };
+    if (file) {
+        const result = await cloudinary.uploader.upload(file, {
+            folder: "Instegram/User",
+        });
+        newAvatar = {
+            public_id: result.public_id,
+            url: result.secure_url,
+        };
+    }
+    const user = await Users.findByIdAndUpdate({ _id: req.user.id },
+        { fullname, username, website, bio, email, phoneNumber, gender, avatar: newAvatar },
+        { new: true });
+    return res.json(user);
 });
+
 export const Update_UserRole = asyncHandler(async (req, res, next) => {
     const user = await Users.findById(req.params.id);
     if (!user) {

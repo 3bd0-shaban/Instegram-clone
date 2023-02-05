@@ -65,9 +65,9 @@ export const UserApi = apiSlice.injectEndpoints({
             invalidatesTags: ['Auth'],
         }),
         updateUserInfo: builder.mutation({
-            query: (data, id) => ({
-                url: `/api/user/updateuser/${id}`,
-                method: 'POST',
+            query: (data) => ({
+                url: '/api/user/updateuser',
+                method: 'PUT',
                 credentials: 'include',
                 body: data,
             }),

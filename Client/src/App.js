@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, SignIn, SignUp, ListMessaging, Dashboard, RequireAuth, Layout, Profile, PersistLogin, ProfileById, SetBirthday } from './Components/Exports'
+import { Home, SignIn, SignUp, ListMessaging, Dashboard, RequireAuth, Layout, Profile, Settings, PersistLogin, ProfileById, SetBirthday } from './Components/Exports'
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ROLES } from './Config/Roles';
 import { useGetUserQuery } from "./Redux/APIs/UserApi";
@@ -22,6 +22,8 @@ function App() {
                 <Route path=":username/message/:id" element={<ListMessaging />} />
                 <Route path="messages" element={<ListMessaging />} />
                 <Route path={userInfo?.username} element={<Profile />} />
+                <Route path='/settings'element={<Settings />} />
+                <Route path='/settings/:link' element={<Settings />} />
                 <Route path="/:username" element={<ProfileById />} />
               </Route>
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>

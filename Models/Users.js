@@ -28,7 +28,7 @@ const usesrSchema = new mongoose.Schema(
     bio: {
       type: String,
     },
-    phonenumber: {
+    phoneNumber: {
       type: String
     },
     gender: {

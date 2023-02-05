@@ -27,6 +27,7 @@ export { default as ModalAddPost } from './Layouts/Modals/ModalAddPost';
 export { default as ModalFollowerCTRL } from './Layouts/Modals/ModalFollowerCTRL';
 export { default as ModalFollowers } from './Layouts/Modals/ModalFollowers';
 export { default as ModalFollowing } from './Layouts/Modals/ModalFollowing';
+export { default as ModalChangeProfile } from './Layouts/Modals/ModalChangeProfile';
 export { default as ModalUserByIdSettings } from './Layouts/Modals/ModalUserByIdSettings';
 export { default as ModalPostMoreLogged } from './Layouts/Modals/ModalPostMoreLogged';
 export { default as PostMore } from './Layouts/Modals/PostMore';
@@ -55,7 +56,7 @@ export { default as EmailNotification } from './Home/Settings/EmailNotification'
 export { default as InstegramEmail } from './Home/Settings/InstegramEmail';
 export { default as MangeContacts } from './Home/Settings/MangeContacts';
 export { default as PrivacyAndSecurity } from './Home/Settings/PrivacyAndSecurity';
-export { default as SittingsSide } from './Home/Settings/SittingsSide';
+export { default as SettingsSide } from './Home/Settings/SettingsSide';
 export { default as Settings } from './Home/Settings/Settings';
 
 

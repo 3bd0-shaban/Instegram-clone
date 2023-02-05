@@ -7,6 +7,7 @@ const FeaturesSlice = createSlice({
         isModalFollowersList: false,
         isModalFollowingList: false,
         isModalFollowerCTRL: false,
+        isModalChangeProfile: false,
         isModalAddPost: false,
         IsModalPreviewImages: false,
         isModalConfirm: false,
@@ -28,6 +29,9 @@ const FeaturesSlice = createSlice({
         },
         setIsModalFollowerCTRL(state) {
             state.isModalFollowerCTRL = !state.isModalFollowerCTRL;
+        },
+        setIsModalChangeProfile(state) {
+            state.isModalChangeProfile = !state.isModalChangeProfile;
         },
         ShowDrobdownMore(state) {
             state.DrobdownMore = !state.DrobdownMore;

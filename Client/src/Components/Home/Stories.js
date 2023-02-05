@@ -1,94 +1,21 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Stories = () => {
+  const array = [1, 2, 3, 4, 5,6]
   return (
     <div className=''>
-      <div className='w-full h-32 bg-white rounded-lg border overflow-hidden snap-x scroll-smooth scrollbar-hide gap-4 overflow-x-auto hideScrollBare flex '>
-        <div className='flex mt-5 text-center gap-3 place-content-center justify-center '>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-          <div className='flex-[0_0_auto] w-[22.5%]'>
-            <div className='mx-auto gradient w-[4rem] h-[4rem] rounded-full'>
-              <div className='bg-white rounded-full w-[3.6rem] h-[3.6rem] mx-auto'>
-                <img className="p-1 rounded-full mx-auto mt-1" src="/Images/profile.jpg" alt="" />
-              </div>
-              <p className='text-sm place-content-center mt-3'>AbdElrahaman</p>
-            </div>
-          </div>
-
+      <div className='w-full flex items-center justify-center'>
+        <div className='w-full grid grid-cols-5 items-center justify-center md:grid-cols-6 gap-x-3'>
+          {array.map(item => (
+            <Link to='/stories/abdo/215' className='w-full'>
+              <img className="w-16 h-16 mx-auto rounded-full p-0.5 bg-origin-border ringStory" src="/Images/profile.jpg" alt="" />
+              <p className='text-sm flex justify-center text-start mt-3 overflow-hidden'>AbdElrahaman</p>
+            </Link>
+          ))
+          }
         </div>
       </div>
-
     </div>
   )
 }

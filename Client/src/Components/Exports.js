@@ -1,8 +1,10 @@
 export { default as InstegramFont } from './Layouts/InstegramFont';
 export { default as Footer } from './Layouts/Footer';
 export { default as Header } from './Layouts/Header';
+export { default as SideBar } from './Layouts/SideBar';
 export { default as Stories } from './Home/Stories';
 export { default as Posts } from './Home/Parts/Posts';
+export { default as VideoStory } from './Home/Parts/VideoStory';
 export { default as SinglePost } from './Home/Parts/SinglePost';
 export { default as DashboardNavBar } from './Dashboard/DashboardNavBar';
 export { default as Users } from './Dashboard/Users';
@@ -64,10 +66,12 @@ export { default as DrobDownMore } from '../Components/Layouts/DrobDownMore'
 export { default as LoadingScreen } from '../Components/Layouts/LoadingScreen'
 export { default as ImagesSlider } from '../Components/Layouts/ImagesSlider'
 export { default as Search } from '../Components/Layouts/Search'
+export { default as Notifications } from '../Components/Layouts/Notifications'
 
 export { default as RequireAuth } from './RequiredAuth';
 export { default as PersistLogin } from './PersistLogin';
 export { default as Layout } from './Layout';
 export { default as useTitle } from '../Hooks/useTitle';
+export { default as useBreakpoint } from '../Hooks/useBreakpoint';
 export { default as usePersist } from '../Hooks/usePersist';
 export { default as useAuth } from '../Hooks/useAuth';

@@ -7,6 +7,13 @@
 html {
     -webkit-tap-highlight-color:transparent;
 }
+.ringStory {
+    border: double 3px transparent;
+    background-image: linear-gradient(white, rgb(255, 255, 255)), 
+                      linear-gradient(to right, orange,rgb(235, 92, 49), rgb(247, 100, 56),rgb(250, 92, 92));
+                      
+    background-clip: padding-box, border-box;
+  }
 .instalogo >SVG{
     width: 75%;
     height: 50px;

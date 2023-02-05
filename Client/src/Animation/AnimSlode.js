@@ -1,6 +1,6 @@
 const AnimSlide = {
     initial: {
-        x: "100vw",
+        x: "-100vw",
         opacity: 0,
     },
     animate: {

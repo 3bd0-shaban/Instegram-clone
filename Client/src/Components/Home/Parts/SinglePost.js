@@ -10,10 +10,13 @@ import { useSaveMutation } from '../../../Redux/APIs/SavesApi';
 import { useGetFollowersPostsQuery } from '../../../Redux/APIs/PostsApi';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
+import { useBreakpoint } from '../../Exports';
 const SinglePost = ({ post, postID, setPostID }) => {
     const [createComment] = useCreateCommentMutation();
     const { data: userInfo } = useGetUserQuery() || {};
     const { data: followerposts } = useGetFollowersPostsQuery() || {};
+    const breakpoint = useBreakpoint();
+    const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
     const dispatch = useDispatch();
     const [Like] = useLikeMutation();
     const [Save] = useSaveMutation();
@@ -28,6 +31,7 @@ const SinglePost = ({ post, postID, setPostID }) => {
         })// eslint-disable-next-line
     }, [followerposts, userInfo]);
 
+    
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value });
     };
@@ -78,11 +82,20 @@ const SinglePost = ({ post, postID, setPostID }) => {
                         <button onClick={() => LikeSubmit(post?._id)} className='hover:text-gray-500'>
                             <FaRegHeart />
                         </button>}
-                    <div
-                        onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }}
-                        className='cursor-pointer focus:animate-bounce hover:text-gray-500'>
+
+                    {MobileView ? <Link
+                        to={`/p/${post?._id}`}
+                        className='cursor-pointer hover:text-gray-500'>
                         <FaRegComment />
-                    </div>
+                    </Link>
+                        :
+                        <div
+                            onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }}
+                            className='cursor-pointer hover:text-gray-500'>
+                            <FaRegComment />
+                        </div>}
+
+
                     <button className='hover:text-gray-500 cursor-pointer'><IoMdPaperPlane /></button>
                 </div>
                 <button onClick={() => SaveSubmit(postID)} className='hover:text-gray-500 cursor-pointer'><BsBookmarkCheck /></button>
@@ -91,10 +104,16 @@ const SinglePost = ({ post, postID, setPostID }) => {
                 <p className='text-md font-semibold'>{post?.numLikes} Likes</p>
                 <Link className='font-bold mr-2'>{post?.user?.username}</Link>
                 <p className=' inline font-semilight'>{post?.des}</p>
-                <Link
-                    onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }}
-                    className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
-                </Link>
+                {MobileView ?
+                    <Link
+                        to={`/p/${post?._id}`}
+                        className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
+                    </Link> :
+                    <Link
+                        onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }}
+                        className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
+                    </Link>
+                }
             </div>
             <form onSubmit={(e) => Comment(post?._id, e.preventDefault())} className='flex px-3 mt-2'>
                 <input onChange={handleChange} name='comment' value={data.comment} autoComplete='off' className='outline-none w-full pr-3' placeholder='Add Comment ...' />

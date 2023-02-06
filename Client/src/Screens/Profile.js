@@ -36,18 +36,18 @@ const Profile = () => {
                 {/* Animation Loading Her  */}
             </div>
                 : isError && <p>{error?.data?.msg}</p>}
-            <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 xl:mr-0 xxxl:mr-60'>
-                <div className='container px-.5 max-w-[70rem] px-0'>
-                    <div className='grid grid-cols-6 md:grid-cols-7 gap-3 mb-8'>
-                        <img className='h-60 max-w-60 rounded-full col-span-2  flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
+            <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 xl:mr-0 xxxl:mr-60 mt-5'>
+                <div className='container px-3 max-w-[70rem]'>
+                    <div className='flex gap-3 items-center lg:gap-7 mb-8'>
+                        <img className='w-40 h-40 lg:w-60 lg:h-60 rounded-full col-span-2  flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                             <div className='space-y-5'>
+                                <p className='text-lg font-semibold'>{userInfo?.fullname}</p>
                                 <div className='flex items-center gap-6'>
-                                    <p className='text-xl font-semibold'>{userInfo?.fullname}</p>
-                                    <Link to='/settings/edit' className='bg-[#DBDBDB] font-medium rounded-md flex items-center px-3 py-2 focus:bg-gray-300'>Edit Profile</Link>
+                                    <Link to='/settings/edit' className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 focus:bg-gray-300'>Edit Profile</Link>
                                     <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsGear size={24} /></button>
                                 </div>
-                                <div className='flex gap-5'>
+                                <div className='hidden lg:flex gap-5 whitespace-nowrap'>
                                     <span className='text-lg font-mono'>{userInfo?.posts?.length} posts</span>
                                     <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userInfo?.followers?.length} follower</button>
                                     <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userInfo?.following?.length} following</button>
@@ -55,6 +55,20 @@ const Profile = () => {
                                 <p className='text-lg font-semibold'>{userInfo?.username}</p>
                             </div>
                         </div>
+                    </div>
+                    <div className='grid lg:hidden grid-cols-3 gap-5 text-center whitespace-nowrap border-t py-2'>
+                        <span className='text-lg font-mono'>
+                            <p>{userInfo?.posts?.length || 0}</p>
+                            <p className='text-gray-500'>posts</p>
+                        </span>
+                        <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))}>
+                            <p className='text-lg font-mono'>{userInfo?.followers?.length}</p>
+                            <p className='text-gray-500'>follower</p>
+                        </button>
+                        <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))}>
+                            <p className='text-lg font-mono'>{userInfo?.following?.length}</p>
+                            <p className='text-gray-500'>following</p>
+                        </button>
                     </div>
                 </div><hr className='bg-black/60' />
                 <div className='conatiner max-w-[85rem]'>

@@ -34,7 +34,7 @@ const ModalChangeProfile = ({ onClose }) => {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="fixed inset-x-0 space-y-5 top-[25%] container z-30 bg-white w-full rounded-xl shadow drop-shadow-xl !max-w-[30rem] !p-0"
+                className="fixed inset-x-0 space-y-5 top-[25%] container z-30 bg-white w-full rounded-xl shadow drop-shadow-xl !p-0 max-w-xs sm:max-w-[30rem] duration-500 "
             >
                 <button onClick={onClose} className="absolute right-0 m-2">
                     <BsX size={25} />

@@ -19,7 +19,7 @@ const Settings = () => {
   return (
     <div className='bg-white'>
       <SideBar />
-      <div className="min-h-[90vh] container px-0 max-w-5xl bg-white border mt-16 lg:mt-0 xl:mr-60 xxxl:mr-[26rem]">
+      <div className="min-h-[90vh] container px-0 max-w-5xl bg-white border mt-0 lg:mt-0 xl:mr-60 xxxl:mr-[26rem]">
         <div className="grid grid-cols-6 gap-6 min-h-[90vh]">
           <div className="col-span-2 min-h-[90vh] border-r hidden lg:block">
             <SettingsSide />

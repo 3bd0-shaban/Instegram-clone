@@ -1,5 +1,9 @@
 import React from "react";
-import { Home, SignIn, SignUp, MessengerWindow, Dashboard, RequireAuth, Layout, Profile, Settings, PersistLogin, ProfileById, SetBirthday,VideoStory } from './Components/Exports'
+import {
+  Home, SignIn, SignUp, MessengerWindow, Dashboard, RequireAuth,
+  Layout, Profile, Settings, PersistLogin, ProfileById, SetBirthday,
+  VideoStory, SearchMobileView, PostComments
+} from './Components/Exports'
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ROLES } from './Config/Roles';
 import { useGetUserQuery } from "./Redux/APIs/UserApi";
@@ -7,6 +11,8 @@ import { AnimatePresence } from 'framer-motion';
 
 function App() {
   const { data: userInfo } = useGetUserQuery() || {};
+  // const breakpoint = useBreakpoint();
+  // const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
   const location = useLocation();
   return (
     <AnimatePresence>
@@ -22,8 +28,10 @@ function App() {
                 <Route path=":username/message/:id" element={<MessengerWindow />} />
                 <Route path="stories/:username/:id" element={<VideoStory />} />
                 <Route path="messages" element={<MessengerWindow />} />
+                <Route path="search" element={<SearchMobileView />} />
+                <Route path="p/:id" element={<PostComments />} />
                 <Route path={userInfo?.username} element={<Profile />} />
-                <Route path='/settings'element={<Settings />} />
+                <Route path='/settings' element={<Settings />} />
                 <Route path='/settings/:link' element={<Settings />} />
                 <Route path="/:username" element={<ProfileById />} />
               </Route>

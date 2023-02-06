@@ -1,6 +1,5 @@
 import moment from 'moment'
 import PostMore from './PostMore';
-// import EmojiPicker from 'emoji-picker-react';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
@@ -14,7 +13,7 @@ import AnimModal from '../../../Animation/AnimModal';
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
 import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
-import ImagesSlider from '../ImagesSlider';
+import { Comments, ImagesSlider } from '../../Exports'
 const ModalPostDetails = ({ ID }) => {
     const { data: postDetails, isFetching, isError, error } = useGetPostDetailsQuery(ID) || {};
     const [createComment] = useCreateCommentMutation();
@@ -26,18 +25,8 @@ const ModalPostDetails = ({ ID }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
 
-    // const [emoji, setEmoji] = useState();
     const dispatch = useDispatch();
-    const [data, setData] = useState({
-        comment: ''
-    });
-    // const [chosenEmoji, setChosenEmoji] = useState(null);
-    // function handleEmojiClick(newEmoji) {
-    //     setChosenEmoji(newEmoji);
-    // }
-    const handleChange = ({ currentTarget: input }) => {
-        setData({ ...data, [input.name]: input.value });
-    };
+    const [comment, setComment] = useState('');
 
     useEffect(() => {// eslint-disable-next-line
         const isInclude = postDetails?.likes?.some(p => p == userInfo?._id);
@@ -47,15 +36,16 @@ const ModalPostDetails = ({ ID }) => {
         Save ? setIsSaved(true) : setIsSaved(false);
     }, [postDetails, userInfo]);
 
-    const Comment = async (e) => {
-        if (!data) return;
-        const id = postDetails?._id
+
+    const id = postDetails?._id
+    const data = { comment }
+    const CommentHandle = async (e) => {
         e.preventDefault();
+        if (!comment) return;
         await createComment({ data, id }).unwrap()
-            .then((payload) => setData({ comment: '' }))
+            .then((payload) => setComment(''))
             .catch((error) => console.log(error));
     }
-
     const SaveSubmit = async (id) => {
         await Save(id).unwrap()
     }
@@ -81,36 +71,6 @@ const ModalPostDetails = ({ ID }) => {
             </div>
         )
     }
-
-    const ShowComment = () => {
-        return (
-            postDetails?.comments?.length === 0 ?
-                <div className='mt-10 md:mt-0 flex h-[70%] justify-center items-center'>
-                    <div className='text-center space-y-3'>
-                        <p className='font-semibold text-3xl'>No comments yet.</p>
-                        <p className='text-base font-light '>Start the conversation.</p>
-                    </div>
-                </div>
-                :
-                <div className='overflow-y-scroll md:h-[80%] pb-14'>
-                    {postDetails?.comments?.map((comment) => (
-                        <div key={comment?._id} className='px-3 py-3 '>
-                            <div className='flex'>
-                                <img className="p-1 w-14 h-14 rounded-full focus:ring-2 focus:ring-gray-300" src={comment?.user?.avatar?.url} alt="" />
-                                <div className='mt-2'>
-                                    <div className='flex gap-3'>
-                                        <span className='text-[1.1rem] font-poppins font-medium inline'>{comment?.user?.username}
-                                            <p className='font-poppins text-[1rem] font-thin inline mx-3'>{comment?.comment}</p>
-                                        </span>
-                                    </div>
-                                    <p className='text-sm text-gray-500'>{moment(comment?.time).from()}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-        )
-    }
     const ShowPostCtrl = () => {
         return (
             <div className='md:absolute w-full z-20 bg-white md:bottom-0 mb-5 border-t'>
@@ -134,9 +94,14 @@ const ModalPostDetails = ({ ID }) => {
                     }
                     <p className='font-normal text-sm text-gray-800 uppercase'>{moment(postDetails?.createdAt).from()}</p>
                 </div>
-                <form onSubmit={Comment} className='flex px-3 border-t pt-3 mt-2'>
+                <form onSubmit={CommentHandle} className='flex px-3 border-t pt-3 mt-2'>
                     <div className='text-2xl pl-1 pr-2 cursor-pointer'><FaRegSmile /></div>
-                    <input onChange={handleChange} name='comment' value={data.comment} autoComplete='off' className='outline-none w-full pr-3' placeholder='Add Comment ...' />
+                    <input
+                        onChange={(e) => setComment(e.target.value)}
+                        value={comment}
+                        autoComplete='off'
+                        className='outline-none w-full pr-3'
+                        placeholder='Add Comment ...' />
                     <button className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
                 </form>
             </div>
@@ -147,7 +112,7 @@ const ModalPostDetails = ({ ID }) => {
         <>
             <PostMore />
             <AnimatePresence>
-                <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setData({ comment: '' }) }} className="fixed inset-0 bg-black/40 z-20"></div>
+                <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setComment() }} className="fixed inset-0 bg-black/40 z-20"></div>
                 <motion.div
                     variants={AnimModal}
                     initial='initial'
@@ -163,7 +128,9 @@ const ModalPostDetails = ({ ID }) => {
                                 </div>
                                 <div className='col-span-6 md:col-span-3 xl:col-span-2 max-h-1/2 relative md:border-l overflow-hidden'>
                                     <ShowUpperPart /><hr />
-                                    <ShowComment />
+                                    <Comments postDetails={postDetails} />
+                                    <div className='px-3'>
+                                    </div>
                                     <ShowPostCtrl />
                                 </div>
                             </div>

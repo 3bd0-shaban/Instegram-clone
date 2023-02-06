@@ -49,10 +49,6 @@ body{
     @apply
     bg-zinc-50
 }
-.ModalConfirm {
-    @apply
-    flex fixed z-50 inset-0 justify-center items-center
-}
 .Searchbar{
     @apply
     block p-3 w-80 pl-10 outline-none text-sm text-gray-900 bg-gray-100  rounded-xl placeholder:font-extralight placeholder:text-base
@@ -60,10 +56,6 @@ body{
 .dropdown-items{
     @apply
     text-gray-700 px-4 py-3 text-base font-poppins flex gap-3 hover:bg-gray-100
-}
-.Modal {
-    @apply
-    fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[25%] container max-w-xl z-40 bg-white w-full rounded-xl shadow drop-shadow-xl p-4
 }
 .profileitems {
     @apply

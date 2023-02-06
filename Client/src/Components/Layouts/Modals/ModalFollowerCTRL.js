@@ -24,7 +24,7 @@ const ModalFollowerCTRL = ({ userInfo }) => {
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='fixed inset-x-0 container z-30 top-[20%] bg-white w-full rounded-xl shadow drop-shadow-xl !max-w-[30rem] p-0 !overflow-hidden'
+                className='fixed inset-x-0 container z-30 top-[20%] bg-white w-full rounded-xl shadow drop-shadow-xl p-0 max-w-xs sm:max-w-[30rem] duration-500 '
             >
                 <button
                     onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))}

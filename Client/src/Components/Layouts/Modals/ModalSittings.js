@@ -23,22 +23,22 @@ const ModalSittings = (props) => {
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='Modal !top-[10%] !max-h-[50rem] !overflow-hidden '
+                className='fixed inset-x-0 container px-0 z-40 bg-white w-full rounded-xl shadow drop-shadow-xl top-[10%] max-h-[50rem] !overflow-hidden max-w-xs sm:max-w-[30rem] duration-500 '
             >
 
-                <div className='space-y-5 w-full text-center mx-auto py-6'>
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/edit' className='block cursor-pointer'>Change Password</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/changepassword' className='block cursor-pointer'>QR Code</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/manage_access' className='block cursor-pointer'>Apps and Websites</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/email_settings' className='block cursor-pointer'>Notifications</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/privacy_and_security' className='block cursor-pointer'>Privacy and scurity</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/contact_history' className='block cursor-pointer'>Mange Contacts</Link><hr />
-                    {/* <Link to='/settings/edit' className='block cursor-pointer'>Login activity</Link><hr /> */}
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/emails_sent' className='block cursor-pointer'>Emails from Instegram</Link><hr />
-                    {/* <Link to='/settings/edit' className='block cursor-pointer'>Report a propblem</Link><hr /> */}
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/ads' className='block cursor-pointer'>Ads</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/logout' className='block cursor-pointer'>Log Out</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} className='block cursor-pointer focus:bg-gray-500'>Cancel</Link>
+                <div className='w-full text-center '>
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/edit' className='block hover:bg-gray-100 py-4 cursor-pointer'>Change Password</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/changepassword' className='block hover:bg-gray-100 py-4 cursor-pointer'>QR Code</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/manage_access' className='block hover:bg-gray-100 py-4 cursor-pointer'>Apps and Websites</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/email_settings' className='block hover:bg-gray-100 py-4 cursor-pointer'>Notifications</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/privacy_and_security' className='block hover:bg-gray-100 py-4 cursor-pointer'>Privacy and scurity</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/contact_history' className='block hover:bg-gray-100 py-4 cursor-pointer'>Mange Contacts</Link><hr />
+                    {/* <Link to='/settings/edit' className='block hover:bg-gray-100 cursor-pointer'>Login activity</Link><hr /> */}
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/emails_sent' className='block hover:bg-gray-100 py-4 cursor-pointer'>Emails from Instegram</Link><hr />
+                    {/* <Link to='/settings/edit' className='block hover:bg-gray-100 cursor-pointer'>Report a propblem</Link><hr /> */}
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/ads' className='block hover:bg-gray-100 py-4 cursor-pointer'>Ads</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/logout' className='block hover:bg-gray-100 py-4 cursor-pointer'>Log Out</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} className='block hover:bg-gray-100 py-4 cursor-pointer focus:bg-gray-500'>Cancel</Link>
                 </div>
             </motion.div>
         </>

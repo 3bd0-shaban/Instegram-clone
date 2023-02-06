@@ -1,5 +1,6 @@
 import React, {  useState } from 'react'
 import { BsBookmarks, BsFillChatFill } from 'react-icons/bs'
+import { ImSpinner3 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetSaveQuery } from '../../Redux/APIs/SavesApi';
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
@@ -32,7 +33,7 @@ const UserSaves = () => {
             {isModalPostDetails && <ModalPostDetails ID={postID} />}
             <div className='container max-w-6xl px-0'>
                 {isError && <p>{error?.data?.msg}</p>}
-                {isFetching && <p className='flex justify-center items-center text-3xl font-medium '>Loading ....</p>}
+                {isFetching && <p className='flex justify-center items-center text-3xl font-medium h-full animate-spin'><ImSpinner3 /></p> }
                 {(usersaves?.saves === [] || !usersaves || usersaves?.saves?.length === 0) && <EmptyTagges />}
                 <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
                     {usersaves?.saves?.map((item) => (

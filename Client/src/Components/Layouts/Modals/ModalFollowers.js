@@ -11,7 +11,7 @@ const ModalFollowers = ({ id }) => {
   const { data: FollowersList } = useFollowersListQuery(id) || {};
   return (
 
-    
+
     <>
       <div onClick={() => dispatch(FeatureAction.setIsModalFollowersList(false))} className="fixed inset-0 bg-black/30 z-20"></div>
       <motion.div
@@ -19,7 +19,7 @@ const ModalFollowers = ({ id }) => {
         initial='initial'
         animate='animate'
         exit='exit'
-        className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container z-30 hideScrollBare bg-white w-full rounded-xl shadow drop-shadow-xl !max-w-[30rem]'
+        className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container max-w-xs sm:max-w-[30rem] duration-500 z-30 hideScrollBare bg-white w-full rounded-xl shadow drop-shadow-xl '
       >
         <div className='flex justify-center items-center font-semibold text-xl pt-1'>Followers</div><hr />
         {FollowersList?.followers?.map(res => (

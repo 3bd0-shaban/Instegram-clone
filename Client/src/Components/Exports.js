@@ -46,6 +46,7 @@ export { default as Dashboard } from '../Screens/Dashboard';
 
 export { default as Chat } from './Home/Messenger/ChatBox';
 export { default as MainNoSelection } from './Home/Messenger/MainNoSelection';
+export { default as SideBarChats } from './Home/Messenger/SideBarChats';
 export { default as FollowerCart } from './Home/Messenger/FollowerCart';
 export { default as MessengerWindow } from './Home/Messenger/MessengerWindow';
 export { default as Message } from './Home/Messenger/Message';
@@ -67,6 +68,12 @@ export { default as LoadingScreen } from '../Components/Layouts/LoadingScreen'
 export { default as ImagesSlider } from '../Components/Layouts/ImagesSlider'
 export { default as Search } from '../Components/Layouts/Search'
 export { default as Notifications } from '../Components/Layouts/Notifications'
+
+export { default as SearchMobileView } from './Home/MobileView/SearchMobileView'
+export { default as PostComments } from './Home/MobileView/PostComments'
+export { default as Comments } from './Home/MobileView/Comments'
+
+
 
 export { default as RequireAuth } from './RequiredAuth';
 export { default as PersistLogin } from './PersistLogin';

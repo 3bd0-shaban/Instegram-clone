@@ -2,13 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetFollowersPostsQuery } from '../../../Redux/APIs/PostsApi';
 import { PostMore, ModalPostDetails, SinglePost } from '../../Exports';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Posts = () => {
   const dispatch = useDispatch();
   const { isModalPostDetails } = useSelector(state => state.Features);
   const { data: followerposts, isFetching, error, isError } = useGetFollowersPostsQuery() || {};
   const [postID, setPostID] = useState('');
+  useEffect(() => {
+    const body = document.querySelector('body');
+    body.style.overflow = isModalPostDetails ? 'hidden' : 'auto';
+  }, [isModalPostDetails]);
 
 
   return (

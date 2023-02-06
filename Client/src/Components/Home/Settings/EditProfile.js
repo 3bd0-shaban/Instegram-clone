@@ -41,12 +41,12 @@ const EditProfile = () => {
           onClose={() => dispatch(FeatureAction.setIsModalChangeProfile(false))}
         />
       )}
-      <div className="container max-w-3xl mb-8">
+      <div className="container max-w-3xl mb-8 mt-2 lg:mt-2">
         <form className="w-full grid grid-cols-6 items-center justify-start text-start">
           <img
-            className="col-span-2 h-28 max-w-[28rem] rounded-full flex justify-center items-center"
+            className="col-span-2 h-20 w-20 lg:h-28 lg:w-28 rounded-full flex justify-center items-center"
             src={userInfo?.avatar?.url}
-            alt=""
+            alt={userInfo?.username}
           />
           <div className="col-span-4">
             <p className="text-lg font-semibold">{userInfo?.username}</p>

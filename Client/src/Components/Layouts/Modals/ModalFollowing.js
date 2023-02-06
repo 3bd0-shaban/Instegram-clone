@@ -17,7 +17,7 @@ const ModalFollowing = ({ id }) => {
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container hideScrollBare z-30 bg-white w-full rounded-xl shadow drop-shadow-xl !max-w-[30rem]'
+                className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container hideScrollBare z-30 bg-white w-full rounded-xl shadow drop-shadow-xl max-w-xs sm:max-w-[30rem] duration-500 '
             >
                 <div className='flex justify-center items-center font-semibold text-xl pt-1'>Following</div><hr />
 

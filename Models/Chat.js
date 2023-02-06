@@ -5,6 +5,9 @@ const chatSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Users',
         }],
+        lastMSG:{
+            type:String
+        }
     },
     { timestamps: true, minimize: false }
 );

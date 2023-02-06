@@ -7,26 +7,18 @@ import { IoImageOutline } from 'react-icons/io5'
 import { MdOutlineInfo } from 'react-icons/md'
 import { HiOutlineHeart } from 'react-icons/hi'
 import { useGetUserByIdQuery } from '../../../Redux/APIs/UserApi'
-import { useNewChatMutation } from '../../../Redux/APIs/ChatApi'
 import { Message } from '../../Exports'
 import { useGetMessagesQuery, useNewMessageMutation } from '../../../Redux/APIs/MessageApi'
 const ChatBox = ({ setSelected }) => {
     const { username, id } = useParams();
     const { data: userInfo } = useGetUserByIdQuery(username) || {};
     const { data: FollowerMessages } = useGetMessagesQuery(id) || {};
-    const [NewChat] = useNewChatMutation() || {};
     const [MewMessage] = useNewMessageMutation() || {};
     const [msg, setMSG] = useState();
     const ScrollRef = useRef();
     useEffect(() => {
         ScrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [FollowerMessages]);
-
-    // useEffect(() => {
-    //     NewChat(id).unwrap()
-    //         // .then(payload =>return)
-    //         .catch(err => console.log(err))
-    // }, [NewChat, id]);
     const NewMSG = (e) => {
         e.preventDefault();
         const data = { msg }
@@ -34,8 +26,6 @@ const ChatBox = ({ setSelected }) => {
             .then(payload => setMSG(''))
             .catch(err => console.log(err))
     }
-
-
     return (
         <div>
             <>

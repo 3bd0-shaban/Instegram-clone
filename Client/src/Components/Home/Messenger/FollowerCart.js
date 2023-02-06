@@ -8,13 +8,13 @@ const FollowerCart = ({ chat, userInfo }) => {
         setFollowerchat(follower);
     }, [chat, userInfo]);
     return (
-        <Link to={`/${followerchat?.username}/message/${followerchat?._id}`} className='pt-3 p-3 flex hover:bg-gray-100'>
+        <Link to={`/${followerchat?.username}/message/${chat?._id}`} className='pt-3 p-3 flex hover:bg-gray-100'>
             <img className="p-1 w-20 h-20 rounded-full focus:ring-2 focus:ring-gray-300"
                 src={followerchat?.avatar?.url} alt=""
             />
             <div className='ml-3 my-auto'>
                 <p>{followerchat?.username}</p>
-                <p className='text-gray-500 text-sm'>Active Yesterday</p>
+                <p className='text-gray-500 text-sm'>{chat?.lastMSG}</p>
             </div>
         </Link>
     )

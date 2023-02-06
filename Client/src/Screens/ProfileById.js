@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
     SideBar, useTitle, Footer, UsersTagesById,
     UserReelsById, UsersPostsById, ModalUserByIdSettings,
@@ -13,15 +13,21 @@ import { useFollowMutation, useGetUserByIdQuery, useGetUserQuery } from '../Redu
 import { BiChevronDown } from 'react-icons/bi';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
+import { useNewChatMutation } from '../Redux/APIs/ChatApi';
+import { ImSpinner3 } from 'react-icons/im';
 
 const Profile = () => {
 
     const { username } = useParams();
     const { data: userInfo, isError, isFetching, error } = useGetUserByIdQuery(username) || {};
+    // const { data: getfollowerchatID } = useSingleChatQuery(id) || {};
     const { isModalFollowersList, isModalFollowingList, isModalFollowerCTRL } = useSelector(state => state.Features);
     useTitle(userInfo?.fullname);
+    const navigate = useNavigate();
     const { data: loggeduser } = useGetUserQuery() || {};
     const [Follow] = useFollowMutation() || {};
+    const [NewChat, { isFetching: Loading }] = useNewChatMutation() || {};
+
     const dispatch = useDispatch();
     const [isFollowing, setIsFollowing] = useState(false);
     const [posts, setPosts] = useState(true);
@@ -32,6 +38,12 @@ const Profile = () => {
         Follow(id).unwrap()
             .catch(err => console.log(err))
     };
+    const NewChatifNot = () => {
+        const id = userInfo?._id
+        NewChat(id).unwrap()
+            .then(payload => navigate(`message/${payload}`))
+            .catch(err => console.log(err))
+    }
 
     useEffect(() => {// eslint-disable-next-line
         const isInclude = userInfo?.followers?.some(p => p == loggeduser?._id);
@@ -73,7 +85,14 @@ const Profile = () => {
                                                 onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))}
                                                 className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2 hover:bg-gray-300'>Following <BiChevronDown size={22} />
                                             </button>
-                                            <Link to={`message/${userInfo?._id}`} className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'>Message</Link>
+                                            <Link
+                                                onClick={NewChatifNot}
+                                                // to={`message/${getfollowerchatID?._id}`}
+                                                className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'>
+                                                {Loading ?
+                                                    <div>
+                                                        <ImSpinner3 />
+                                                    </div> : 'Message'}</Link>
                                         </>
                                         :
                                         <>

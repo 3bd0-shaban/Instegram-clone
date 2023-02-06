@@ -51,7 +51,7 @@ const SideBar = () => {
                     <SideLink Icon={<BsSearch size={30} />} Title='Search' OnClick={HandleOpenSearch} />
                     <SideLink Icon={<IoHeartDislikeCircleOutline size={30} />} Title='Explore' />
                     <SideLink Icon={<BsInstagram size={28} />} Title='Reels' />
-                    <SideLink Icon={<RiMessengerLine size={30} />} Title='Messages' />
+                    <SideLink Icon={<RiMessengerLine size={30} />} Title='Messages' Linkdirect='/messages' />
                     <SideLink Icon={<BsHeart size={30} />} Title='Notification' onClick={HandleOpenNotification} />
                     <SideLink Linkdirect='/'
                         onClick={() => dispatch(FeatureAction.ShowModalAddPost(true))}

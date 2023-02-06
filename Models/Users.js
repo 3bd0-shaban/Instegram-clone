@@ -43,10 +43,9 @@ const usesrSchema = new mongoose.Schema(
       public_id: {
         type: String,
         default: ""
-      },
-      url: {
+      },url: {
         type: String,
-        default: "https://res.cloudinary.com/abdo9/image/upload/v1672925254/images_v2tobb.jpg",
+        default: "https://res.cloudinary.com/abdo9/image/upload/v1675708532/profileicon_av1ogg.jpg",
       }
     },
     isprivat: {

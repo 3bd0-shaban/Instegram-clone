@@ -47,7 +47,7 @@ export { default as Dashboard } from '../Screens/Dashboard';
 export { default as Chat } from './Home/Messenger/ChatBox';
 export { default as MainNoSelection } from './Home/Messenger/MainNoSelection';
 export { default as FollowerCart } from './Home/Messenger/FollowerCart';
-export { default as ListMessaging } from './Home/Messenger/ListMessaging';
+export { default as MessengerWindow } from './Home/Messenger/MessengerWindow';
 export { default as Message } from './Home/Messenger/Message';
 
 export { default as Ads } from './Home/Settings/Ads';

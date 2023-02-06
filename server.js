@@ -5,7 +5,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import cookieparser from 'cookie-parser';
-import fileupload from 'express-fileupload';
 import errorMiddleware from './Middlewares/Error.js';
 import AuthRouter from './Routes/AuthRoute.js';
 import UserRouter from './Routes/UserRouter.js';
@@ -28,9 +27,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(helmet());
 app.use(morgan("common"));
 app.use(cookieparser());
-app.use(fileupload({
-    useTempFiles: true
-}));
 app.use(
     cors({
         origin: [

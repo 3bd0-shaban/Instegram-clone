@@ -13,13 +13,13 @@ const ModalFollowers = ({ id }) => {
 
     
     <>
-      <div onClick={() => dispatch(FeatureAction.setIsModalFollowersList(false))} className="fixed inset-0 bg-black/30 z-10"></div>
+      <div onClick={() => dispatch(FeatureAction.setIsModalFollowersList(false))} className="fixed inset-0 bg-black/30 z-20"></div>
       <motion.div
         variants={AnimModal}
         initial='initial'
         animate='animate'
         exit='exit'
-        className='Modal'
+        className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container z-30 hideScrollBare bg-white w-full rounded-xl shadow drop-shadow-xl !max-w-[30rem]'
       >
         <div className='flex justify-center items-center font-semibold text-xl pt-1'>Followers</div><hr />
         {FollowersList?.followers?.map(res => (

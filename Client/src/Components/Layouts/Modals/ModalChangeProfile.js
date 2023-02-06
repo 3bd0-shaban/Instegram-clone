@@ -28,13 +28,13 @@ const ModalChangeProfile = ({ onClose }) => {
     };
     return (
         <>
-            <div onClick={onClose} className="fixed inset-0 bg-black/30 z-10"></div>
+            <div onClick={onClose} className="fixed inset-0 bg-black/30 z-20"></div>
             <motion.div
                 variants={AnimModal}
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="Modal !max-w-[30rem] relative !p-0 !overflow-hidden"
+                className="fixed inset-x-0 space-y-5 top-[25%] container z-30 bg-white w-full rounded-xl shadow drop-shadow-xl !max-w-[30rem] !p-0"
             >
                 <button onClick={onClose} className="absolute right-0 m-2">
                     <BsX size={25} />
@@ -63,7 +63,7 @@ const ModalChangeProfile = ({ onClose }) => {
                     </span>
                     <hr />
                     <span
-                        className="block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100"
+                        className="block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100 hover:rounded-b-xl"
                         onClick={onClose}
                     >
                         Cancel

@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { BsBookmarkCheck, BsGear, BsJournals, BsMoon, BsPeople, BsQuestionCircle, BsToggleOff } from 'react-icons/bs'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
@@ -9,7 +9,6 @@ import AnimDropdown from '../../Animation/AnimDropdown';
 
 const DrobDownMore = () => {
     const { data: userInfo } = useGetUserQuery() || {};
-    const { DrobdownMore } = useSelector(state => state.Features);
     const dispatch = useDispatch();
     const [logOut] = useLogOutMutation();
     const navigate = useNavigate();
@@ -35,7 +34,6 @@ const DrobDownMore = () => {
         )
     }
     return (
-        DrobdownMore &&
         <AnimatePresence>
             <div onClick={() => dispatch(FeatureAction.ShowDrobdownMore(false))} className="fixed inset-0 z-20"></div>
             <motion.div
@@ -43,7 +41,8 @@ const DrobDownMore = () => {
                 initial='exit'
                 animate='animate'
                 exit='exit'
-                className='dropdowntoggle'
+                className='
+               z-30 absolute bottom-24 left-3 shadow-gray-200 drop-shadow-lg rounded-lg bg-[rgb(255,255,255,.9)] backdrop-blur-xl text-base font-semibold w-[19rem]'
             >
                 <div className='px-2 py-2'>
                     <DropItem Icon={<BsPeople />} Link={`/${userInfo?.username}`} Title={'Profile'} />

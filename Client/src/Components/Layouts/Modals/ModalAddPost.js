@@ -10,13 +10,13 @@ const ModalAddPost = (props) => {
     return (
         isModalAddPost &&
         <>
-            <div onClick={() => dispatch(FeatureAction.ShowModalAddPost(false))} className="fixed inset-0 bg-black/30 z-10"></div>
+            <div onClick={() => dispatch(FeatureAction.ShowModalAddPost(false))} className="fixed inset-0 bg-black/30 z-20"></div>
             <motion.div
                 variants={AnimModal}
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='fixed inset-x-0 top-[10%] p-4 container max-w-4xl z-20 '
+                className='fixed inset-x-0 top-[10%] p-4 container max-w-4xl z-30 '
             >
                 <div className="relative bg-white rounded-lg shadow">
                     <div className="flex justify-between items-start p-4 rounded-t border-b">

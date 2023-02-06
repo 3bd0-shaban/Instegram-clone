@@ -147,7 +147,7 @@ const ModalPostDetails = ({ ID }) => {
         <>
             <PostMore />
             <AnimatePresence>
-                <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setData({ comment: '' }) }} className="fixed inset-0 bg-black/40 z-10"></div>
+                <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setData({ comment: '' }) }} className="fixed inset-0 bg-black/40 z-20"></div>
                 <motion.div
                     variants={AnimModal}
                     initial='initial'

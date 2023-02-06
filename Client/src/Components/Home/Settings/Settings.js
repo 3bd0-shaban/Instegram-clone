@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  Header,
+  SideBar,
   Footer,
   SettingsSide,
   EditProfile,
@@ -17,14 +17,14 @@ import {
 const Settings = () => {
   const { link } = useParams();
   return (
-    <div>
-      <Header />
-      <div className="min-h-[90vh] mt-24 container px-0 max-w-5xl bg-white border">
+    <div className='bg-white'>
+      <SideBar />
+      <div className="min-h-[90vh] container px-0 max-w-5xl bg-white border mt-16 lg:mt-0 xl:mr-60 xxxl:mr-[26rem]">
         <div className="grid grid-cols-6 gap-6 min-h-[90vh]">
-          <div className="col-span-2 min-h-[90vh] border-r">
+          <div className="col-span-2 min-h-[90vh] border-r hidden lg:block">
             <SettingsSide />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-6 lg:col-span-4">
             {link === 'edit' && <EditProfile />}
             {link === 'changepassword' && <Changepassword />}
             {link === 'manage_access' && <AppsAndWebsite />}

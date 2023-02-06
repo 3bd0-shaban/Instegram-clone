@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
-    Header, useTitle, Footer, UsersTagesById,
+    SideBar, useTitle, Footer, UsersTagesById,
     UserReelsById, UsersPostsById, ModalUserByIdSettings,
     ModalFollowing, ModalFollowers, ModalFollowerCTRL
 } from '../Components/Exports'
@@ -48,19 +48,19 @@ const Profile = () => {
         setPosts(false); setSaved(false); setTaged(true);
     }
     return (
-        <div className='mt-24'>
-            <Header />
+        <div className='bg-white'>
+            <SideBar />
             {isModalFollowingList && <ModalFollowing id={userInfo?._id} />}
             {isModalFollowersList && <ModalFollowers id={userInfo?._id} />}
             {isModalFollowerCTRL && <ModalFollowerCTRL userInfo={userInfo} />}
             <ModalUserByIdSettings />
             {isFetching ?
                 <div>
-{/* Animation Loading Her  */}
+                    {/* Animation Loading Her  */}
                 </div>
                 : isError && <p>{error?.data?.msg}</p>}
-            <div className='container px-0 max-w-[85rem] mt-5'>
-                <div className='container px-.5 max-w-[70rem] px-0'>
+            <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 xl:mr-0 xxxl:mr-60'>
+                <div className='container px-.5 max-w-[70rem] px-0 '>
                     <div className='grid grid-cols-6 md:grid-cols-7 gap-3 mb-8'>
                         <img className='h-60 max-w-60 rounded-full col-span-2  flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>

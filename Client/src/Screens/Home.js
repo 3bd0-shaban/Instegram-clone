@@ -7,7 +7,7 @@ const Home = () => {
     <div className='bg-white'>
       {/* <Header /> */}
       <SideBar />
-      <div className='container max-w-5xl md:max-w-3xl xl:max-w-4xl xxl:max-w-5xl py-3 mt-16 lg:mt-0 px-2'>
+      <div className='container max-w-5xl md:max-w-3xl xl:max-w-4xl xxl:max-w-5xl py-3 mt-16 px-2 lg:mt-0 xl:mr-60 xxxl:mr-[26rem]'>
         <div className='grid xl:grid-cols-5 gap-3 duration-300 lg:mt-10'>
           <div className='gap-3 col-span-3'>
             {/* <Stories /> */}

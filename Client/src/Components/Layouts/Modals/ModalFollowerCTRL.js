@@ -18,19 +18,19 @@ const ModalFollowerCTRL = ({ userInfo }) => {
 
     return (
         <>
-            <div onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))} className="fixed inset-0 bg-black/30 z-10"></div>
+            <div onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))} className="fixed inset-0 bg-black/30 z-20"></div>
             <motion.div
                 variants={AnimModal}
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='Modal !max-w-[30rem] relative !p-0 !overflow-hidden'
+                className='fixed inset-x-0 container z-30 top-[20%] bg-white w-full rounded-xl shadow drop-shadow-xl !max-w-[30rem] p-0 !overflow-hidden'
             >
                 <button
                     onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))}
                     className='absolute right-0 m-2'><BsX size={25} />
                 </button>
-                <div className='w-full flex justify-center'>
+                <div className='w-full flex justify-center py-5'>
                     <div>
                         <img className='h-28 max-w-28 rounded-full col-span-2  flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
                         <p className='text-lg font-semibold flex justify-center'>{userInfo?.username}</p>

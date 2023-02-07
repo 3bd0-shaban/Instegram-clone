@@ -31,7 +31,7 @@ app.use(
     cors({
         origin: [
             'http://localhost:3000',
-            'https://instegram-backend.onrender.com/',
+            'https://instegram-clone.onrender.com/',
         ],
         credentials: true,
     })

@@ -10,7 +10,7 @@ import { FaHeart, FaRegComment, FaRegHeart, FaRegSmile } from 'react-icons/fa';
 import { IoMdPaperPlane } from 'react-icons/io';
 import { ImSpinner3 } from 'react-icons/im';
 import AnimModal from '../../../Animation/AnimModal';
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
 import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
 import { Comments, ImagesSlider } from '../../Exports'
@@ -111,35 +111,33 @@ const ModalPostDetails = ({ ID }) => {
     return (
         <>
             <PostMore />
-            <AnimatePresence>
-                <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setComment() }} className="fixed inset-0 bg-black/40 z-20"></div>
-                <motion.div
-                    variants={AnimModal}
-                    initial='initial'
-                    animate='animate'
-                    exit='exit'
-                    className='fixed inset-x-0 h-[70%] top-[15%] xl:h-full xl:top-[5%] p-4 container max-w-[75%] z-20 duration-300'>
-                    <div className="relative bg-white rounded-lg shadow md:h-[90%]">
-                        {isError && <p>{error?.data?.msg}</p>}
-                        {isFetching ? <p className='flex justify-center items-center text-3xl font-medium h-full animate-spin'><ImSpinner3 /></p> :
-                            <div className='grid grid-cols-6 h-full'>
-                                <div className='col-span-6 md:col-span-3 xl:col-span-4 relative h-full flex justify-center overflow-hidden'>
-                                    <ImagesSlider Details={postDetails} />
-                                </div>
-                                <div className='col-span-6 md:col-span-3 xl:col-span-2 max-h-1/2 relative md:border-l overflow-hidden'>
-                                    <ShowUpperPart /><hr />
-                                    <Comments postDetails={postDetails} />
-                                    <div className='px-3'>
-                                    </div>
-                                    <ShowPostCtrl />
-                                </div>
+            <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setComment() }} className="fixed inset-0 bg-black/40 z-20"></div>
+            <motion.div
+                variants={AnimModal}
+                initial='initial'
+                animate='animate'
+                exit='exit'
+                className='fixed inset-x-0 h-[70%] top-[15%] xl:h-full xl:top-[5%] p-4 container max-w-[75%] z-20 duration-300'>
+                <div className="relative bg-white rounded-lg shadow md:h-[90%]">
+                    {isError && <p>{error?.data?.msg}</p>}
+                    {isFetching ? <p className='flex justify-center items-center text-3xl font-medium h-full animate-spin'><ImSpinner3 /></p> :
+                        <div className='grid grid-cols-6 h-full'>
+                            <div className='col-span-6 md:col-span-3 xl:col-span-4 relative h-full flex justify-center overflow-hidden'>
+                                <ImagesSlider Details={postDetails} />
                             </div>
-                        }
+                            <div className='col-span-6 md:col-span-3 xl:col-span-2 max-h-1/2 relative md:border-l overflow-hidden'>
+                                <ShowUpperPart /><hr />
+                                <Comments postDetails={postDetails} />
+                                <div className='px-3'>
+                                </div>
+                                <ShowPostCtrl />
+                            </div>
+                        </div>
+                    }
 
 
-                    </div>
-                </motion.div>
-            </AnimatePresence>
+                </div>
+            </motion.div>
         </>
     )
 }

@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
@@ -8,10 +7,6 @@ import AnimModal from '../../../Animation/AnimModal';
 const ModalPostMoreLogged = () => {
     const { isModalPostMoreLogged } = useSelector(state => state.Features);
     const dispatch = useDispatch();
-    useEffect(() => {
-        const body = document.querySelector('body');
-        body.style.overflow = isModalPostMoreLogged ? 'hidden' : 'auto';
-    }, [isModalPostMoreLogged]);
 
     return (
         isModalPostMoreLogged &&

@@ -3,6 +3,7 @@ import { useGetFollowersPostsQuery } from '../../../Redux/APIs/PostsApi';
 import { PostMore, ModalPostDetails, SinglePost } from '../../Exports';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useEffect, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 const Posts = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,9 @@ const Posts = () => {
 
   return (
     <>
-      {isModalPostDetails && <ModalPostDetails ID={postID} />}
+      <AnimatePresence>
+        {isModalPostDetails && <ModalPostDetails ID={postID} />}
+      </AnimatePresence>
       <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} />
       {isFetching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
         followerposts?.map(post => (

@@ -13,6 +13,7 @@ import SavesRouter from './Routes/SavesRouter.js';
 import PostsRouter from './Routes/PostsRouter.js';
 import MessageRouter from './Routes/MessageRouter.js';
 import ChatRouter from './Routes/ChatRouter.js';
+import AllowedOrigins from "./Origins.js";
 const app = express();
 const port = process.env.Port || 5000;
 mongoose.connect(process.env.MONGODB_URI, {
@@ -29,10 +30,7 @@ app.use(morgan("common"));
 app.use(cookieparser());
 app.use(
     cors({
-        origin: [
-            'http://localhost:3000',
-            'https://instegram-clone.onrender.com/',
-        ],
+        origin: AllowedOrigins,
         credentials: true,
     })
 );

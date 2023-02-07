@@ -17,24 +17,22 @@ function App() {
   return (
     <AnimatePresence>
       <Routes location={location} key={location.pathname}>
-        <Route element={<PersistLogin />}>
-          <Route path='/' element={<Layout />}>
-            <Route path="signin" element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
+        <Route path='/' element={<Layout />}>
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route element={<PersistLogin />}>
             <Route path="birthday" element={<SetBirthday />} />
             <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
-              <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.User]} />}>
-                <Route index element={<Home />} />
-                <Route path=":username/message/:id" element={<MessengerWindow />} />
-                <Route path="stories/:username/:id" element={<VideoStory />} />
-                <Route path="messages" element={<MessengerWindow />} />
-                <Route path="search" element={<SearchMobileView />} />
-                <Route path="p/:id" element={<PostComments />} />
-                <Route path={userInfo?.username} element={<Profile />} />
-                <Route path='/settings' element={<Settings />} />
-                <Route path='/settings/:link' element={<Settings />} />
-                <Route path="/:username" element={<ProfileById />} />
-              </Route>
+              <Route index element={<Home />} />
+              <Route path=":username/message/:id" element={<MessengerWindow />} />
+              <Route path="stories/:username/:id" element={<VideoStory />} />
+              <Route path="messages" element={<MessengerWindow />} />
+              <Route path="search" element={<SearchMobileView />} />
+              <Route path="p/:id" element={<PostComments />} />
+              <Route path={userInfo?.username} element={<Profile />} />
+              <Route path='/settings' element={<Settings />} />
+              <Route path='/settings/:link' element={<Settings />} />
+              <Route path="/:username" element={<ProfileById />} />
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
                 <Route path="dashboard" element={<Dashboard />} />
               </Route>

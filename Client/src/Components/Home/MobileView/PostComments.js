@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { BiChevronLeft } from 'react-icons/bi'
 import { ImSpinner3 } from 'react-icons/im'
 import { IoMdPaperPlane } from 'react-icons/io'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useCreateCommentMutation } from '../../../Redux/APIs/CommentsApi'
 import { useGetPostDetailsQuery } from '../../../Redux/APIs/PostsApi'
 import { useGetUserQuery } from '../../../Redux/APIs/UserApi'
@@ -11,6 +11,8 @@ import { Comments, SideBar } from '../../Exports'
 const PostComments = () => {
     const { data: userInfo } = useGetUserQuery() || {};
     const { id } = useParams();
+    const [searchQuery] = useSearchParams();
+    const user = searchQuery.get('profile')
     const { data: postDetails, isFetching } = useGetPostDetailsQuery(id) || {};
     const [createComment] = useCreateCommentMutation();
     const [comment, setComment] = useState('');
@@ -27,7 +29,7 @@ const PostComments = () => {
             <SideBar />
             <div className='container max-w-5xl mt-16'>
                 <div className='flex justify-between items-center border-b'>
-                    <Link to='/' className=''><BiChevronLeft size={30} /></Link>
+                    <Link to={user ? `/${user}` : '/'} className=''><BiChevronLeft size={30} /></Link>
                     <p className='m-2 mb-5 font-medium text-3xl'>Comments</p>
                     <button className='hover:text-gray-500 cursor-pointer'><IoMdPaperPlane size={30} /></button>
                 </div>
@@ -47,7 +49,9 @@ const PostComments = () => {
                 </div>
                 <hr />
                 {isFetching ? <p className='flex justify-center items-center text-4xl font-medium h-[80vh] animate-spin'><ImSpinner3 /></p> :
-                    <Comments postDetails={postDetails} id={id} />
+                    <div className='min-h-[90vh]'>
+                        <Comments postDetails={postDetails} id={id} />
+                    </div>
                 }
             </div>
         </>

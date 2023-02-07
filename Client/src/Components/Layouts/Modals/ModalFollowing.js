@@ -10,19 +10,19 @@ const ModalFollowing = ({ id }) => {
     const { data: FollowingList } = useFollowingListQuery(id) || {};
     return (
         <>
-            <div onClick={() => dispatch(FeatureAction.setIsModalFollowingList(false))} className="fixed inset-0 bg-black/40 z-10"></div>
+            <div onClick={() => dispatch(FeatureAction.setIsModalFollowingList(false))} className="fixed inset-0 bg-black/40 z-20"></div>
 
             <motion.div
                 variants={AnimModal}
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container hideScrollBare z-30 bg-white w-full rounded-xl shadow drop-shadow-xl max-w-xs sm:max-w-[30rem] duration-500 '
+                className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container hideScrollBare z-30 bg-white w-full rounded-xl shadow drop-shadow-xl max-w-xs sm:max-w-[30rem]  '
             >
                 <div className='flex justify-center items-center font-semibold text-xl pt-1'>Following</div><hr />
 
-                {FollowingList?.following?.map(res => (
-                    <div className='flex justify-between items-center'>
+                {FollowingList?.following?.map((res, index) => (
+                    <div key={index} className='flex justify-between items-center'>
                         <Link
                             to={`/${res.username}`}
                             key={res._id}

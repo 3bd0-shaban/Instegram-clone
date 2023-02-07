@@ -44,8 +44,8 @@ const SignIn = () => {
   }
 
   return (
-    <div>
-      <div className='container max-w-4xl flex place-content-center h-[80%] mt-28 mb-28'>
+    <>
+      <div className='container max-w-4xl bg-white flex place-content-center h-[80%] mt-28 mb-28'>
         <div className='hidden md:block '>
           <img src='Images/insta.png' className='w-full' alt='' />
         </div>
@@ -82,7 +82,7 @@ const SignIn = () => {
         </div>
       </div>
       <Footer />
-    </div>
+    </>
   )
 }
 

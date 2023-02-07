@@ -36,10 +36,10 @@ const Profile = () => {
                 {/* Animation Loading Her  */}
             </div>
                 : isError && <p>{error?.data?.msg}</p>}
-            <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 xl:mr-0 xxxl:mr-60 mt-5'>
+            <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 mt-5'>
                 <div className='container px-3 max-w-[70rem]'>
-                    <div className='flex gap-3 items-center lg:gap-7 mb-8'>
-                        <img className='w-40 h-40 lg:w-60 lg:h-60 rounded-full col-span-2  flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
+                    <div className='flex gap-3 sm:gap-24 justify-center items-center mb-8'>
+                        <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                             <div className='space-y-5'>
                                 <p className='text-lg font-semibold'>{userInfo?.fullname}</p>
@@ -87,8 +87,8 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                {posts && <UsersPosts />}
-                {saved && <UserSaves />}
+                {posts && <UsersPosts userInfo={userInfo} />}
+                {saved && <UserSaves userInfo={userInfo} />}
                 {tagged && <UsersTages />}
             </div>
             <div className='mt-40'>

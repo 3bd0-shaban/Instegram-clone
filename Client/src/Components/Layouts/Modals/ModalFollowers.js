@@ -19,11 +19,11 @@ const ModalFollowers = ({ id }) => {
         initial='initial'
         animate='animate'
         exit='exit'
-        className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container max-w-xs sm:max-w-[30rem] duration-500 z-30 hideScrollBare bg-white w-full rounded-xl shadow drop-shadow-xl '
+        className='fixed inset-x-0 max-h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container max-w-xs sm:max-w-[30rem]  z-30 hideScrollBare bg-white w-full rounded-xl shadow drop-shadow-xl '
       >
         <div className='flex justify-center items-center font-semibold text-xl pt-1'>Followers</div><hr />
-        {FollowersList?.followers?.map(res => (
-          <div className='flex justify-between items-center'>
+        {FollowersList?.followers?.map((res, index) => (
+          <div key={index} className='flex justify-between items-center'>
             <Link
               to={`/${res.username}`}
               key={res._id}

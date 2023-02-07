@@ -15,7 +15,7 @@ const SideBar = () => {
     const breakpoint = useBreakpoint();
     const dispatch = useDispatch();
     const location = useLocation();
-    const settingHeadline = location.pathname.split('/').slice(-1)[0] 
+    const settingHeadline = location.pathname.split('/').slice(-1)[0]
     const [openSerach, setOpenSearch] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
     const { DrobdownMore } = useSelector(state => state.Features);
@@ -82,7 +82,7 @@ const SideBar = () => {
 
             <>
                 {location.pathname.includes('settings') ?
-                    <div className='flex gap-3 items-center py-2'>
+                    <div className='flex lg:hidden gap-3 items-center py-2'>
                         <Link to={`/${userInfo?.username}`}><BiChevronLeft size={30} /></Link>
                         <span className='mx-auto'>{settingHeadline}</span>
                     </div> :
@@ -113,7 +113,7 @@ const SideBar = () => {
                 }
 
 
-                <div className='fixed w-full bottom-0 duration-500 bg-white border-t lg:hidden block z-10'>
+                <div className='fixed w-full bottom-0  bg-white border-t lg:hidden block z-10'>
                     <div className='flex gap-5 w-full'>
                         <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={30} />} Title='Home' />
                         <SideLink Linkdirect='/search' Icon={<BsSearch size={28} />} Title='Search' />

@@ -17,7 +17,7 @@ const ModalConfirm = (props) => {
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='flex fixed z-50 inset-0 justify-center items-center max-w-xs sm:max-w-[30rem] duration-500 '>
+                className='flex fixed z-50 inset-0 justify-center items-center max-w-xs sm:max-w-[30rem]  '>
                 <div className="relative max-w-xl ">
                     <div className="relative bg-white rounded-lg shadow-[0_0px_100px_10px_rgba(0,0,0,0.3)]">
                         <div className="text-center pt-4">

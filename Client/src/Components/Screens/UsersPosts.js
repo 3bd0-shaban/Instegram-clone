@@ -6,11 +6,17 @@ import { useDispatch } from 'react-redux';
 import { ModalPostDetails } from '../../Components/Exports'
 import { ImSpinner3 } from 'react-icons/im';
 import { useSelector } from 'react-redux';
-const UsersPosts = () => {
+import useBreakpoint from './../../Hooks/useBreakpoint';
+import { useNavigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+const UsersPosts = ({ userInfo }) => {
     const { data: userPosts, isFetching, error, isError } = useGetUserPostsQuery() || {};
     const { isModalPostDetails } = useSelector(state => state.Features);
     const dispatch = useDispatch();
     const [postID, setPostID] = useState('');
+    const breakpoint = useBreakpoint();
+    const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
+    const navigate = useNavigate();
     const EmptyPosts = () => {
         return (
             <>
@@ -31,22 +37,26 @@ const UsersPosts = () => {
     }
     return (
         <>
-            {isModalPostDetails && <ModalPostDetails ID={postID} />}
-            <div className='container max-w-6xl px-0'>
+            <AnimatePresence>
+                {isModalPostDetails && <ModalPostDetails ID={postID} />}
+            </AnimatePresence>
+            <div className='container max-w-5xl px-0'>
                 {isError && <p>{error?.data?.msg}</p>}
-                {isFetching && <p className='flex justify-center items-center text-3xl font-medium animate-spin'><ImSpinner3 /></p>}
-                {(userPosts === [] || !userPosts || userPosts?.length === 0) && <EmptyPosts />}
-                <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
-                    {userPosts && userPosts?.map((post) => (
-                        <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }} key={post?._id} className='h-80 cursor-pointer hover:brightness-50 duration-200 group relative'>
-                            <img className='object-cover w-full h-full' src={post?.images[0]?.url} alt='' />
-                            <div className='absolute inset-1/2 left-[45%] z-10 gap-3 items-center text-white font-bold hidden group-hover:flex'>
-                                <div><BsFillChatFill size={25} /></div>
-                                <p className='inline-block'>0</p>
+                {isFetching && <p className='flex justify-center h-[20vh] items-center text-3xl font-medium animate-spin'><ImSpinner3 size={30} /></p>}
+                {(userPosts === [] || userPosts?.length === 0) ? <EmptyPosts />
+                    :
+                    <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
+                        {userPosts && userPosts?.map((post) => (
+                            <div onClick={() => { MobileView ? navigate(`/p/${post?._id}?profile=${userInfo.username}`) : dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }} key={post?._id} className='h-80 cursor-pointer hover:brightness-50 duration-200 group relative'>
+                                <img className='object-cover w-full h-full' src={post?.images[0]?.url} alt='' />
+                                <div className='absolute inset-1/2 left-[45%] z-10 gap-3 items-center text-white font-bold hidden group-hover:flex'>
+                                    <div><BsFillChatFill size={25} /></div>
+                                    <p className='inline-block'>0</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                }
             </div>
         </>
     )

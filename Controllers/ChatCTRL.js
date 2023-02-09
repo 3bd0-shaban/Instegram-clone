@@ -17,11 +17,9 @@ export const New_Chat = asyncHandler(async (req, res, next) => {
         members: [req.user._id, req.params.id]
     }).save()
         .then((chat) => {
-            console.log(chat)
             return res.json(chat._id);
         })
         .catch((err) => {
-            console.log(err)
             return next(new ErrorHandler(err.message, 404));
         })
 });

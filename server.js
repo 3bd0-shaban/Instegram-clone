@@ -14,12 +14,16 @@ import PostsRouter from './Routes/PostsRouter.js';
 import MessageRouter from './Routes/MessageRouter.js';
 import ChatRouter from './Routes/ChatRouter.js';
 import AllowedOrigins from "./Origins.js";
+import SocketServer from "./SocketServer.js";
+import { createServer } from 'http';
+import { Server } from "socket.io";
 const app = express();
+const http = createServer(app);
 const port = process.env.Port || 5000;
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
 }).then(() => {
-    app.listen(port, () => {
+    http.listen(port, () => {
         console.log(`Started successfully at port http://localhost:${port}`);
     })
 }).catch((err) => {
@@ -28,6 +32,12 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(helmet());
 app.use(morgan("common"));
 app.use(cookieparser());
+const io = new Server(http, {
+    cors: {
+        origin: AllowedOrigins,
+        credentials: true
+    }
+});
 app.use(
     cors({
         origin: AllowedOrigins,
@@ -35,6 +45,9 @@ app.use(
     })
 );
 
+io.on('connection', (socket) => {
+    SocketServer(socket);
+});
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/api/auth', AuthRouter);

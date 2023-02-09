@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FaRegSmile } from 'react-icons/fa'
 import { IoImageOutline } from 'react-icons/io5'
@@ -8,23 +8,51 @@ import { useGetUserByIdQuery } from '../../../Redux/APIs/UserApi'
 import { Message } from '../../Exports'
 import { useGetMessagesQuery, useNewMessageMutation } from '../../../Redux/APIs/MessageApi'
 import { BiChevronLeft } from 'react-icons/bi'
+import { SocketContext } from '../../Exports'
 const ChatBox = ({ setSelected }) => {
     const { username, id } = useParams();
     const { data: userInfo } = useGetUserByIdQuery(username) || {};
     const { data: FollowerMessages } = useGetMessagesQuery(id) || {};
+    const [recievedmsg, setRecieved] = useState({});
+    const [allMSGs, setAllMSGs] = useState([]);
     const [MewMessage] = useNewMessageMutation() || {};
-    const [msg, setMSG] = useState();
+    const [msg, setMSG] = useState('');
     const ScrollRef = useRef();
+    const { socket } = useContext(SocketContext)
     useEffect(() => {
         ScrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [FollowerMessages]);
+    }, [allMSGs]);
+
+    useEffect(() => {
+        setAllMSGs(FollowerMessages);
+        socket.on('MessagetoClient', (data) => {
+            console.log(data)
+            setRecieved({
+                data
+            });
+            console.log(recievedmsg)
+        })
+        // eslint-disable-next-line 
+    }, [socket, FollowerMessages]);
+    // useEffect(() => {
+    //     recievedmsg &&
+    //         setAllMSGs([...allMSGs, recievedmsg]);
+    //     console.log(recievedmsg)
+    // }, [recievedmsg]);
     const NewMSG = (e) => {
         e.preventDefault();
         const data = { msg }
         MewMessage({ data, id }).unwrap()
-            .then(payload => setMSG(''))
+            .then(payload => {
+                // console.log(payload)
+                // setAllMSGs([...allMSGs, payload]);
+
+                socket.emit("Message", { payload, receiverId: userInfo?._id });
+                setMSG('')
+            })
             .catch(err => console.log(err))
     }
+    // console.log({ allMSGs })
     return (
         <div>
             <>
@@ -42,7 +70,7 @@ const ChatBox = ({ setSelected }) => {
                 </div>
                 <div className='pt-3 p-3 overflow-y-scroll hideScrollBare h-[75vh]'>
                     <div>
-                        {FollowerMessages?.map(message => (
+                        {allMSGs?.map(message => (
                             <div ref={ScrollRef} key={message?._id}>
                                 <Message message={message} FollowerChating={message?.sender === userInfo?._id} />
                             </div>
@@ -53,7 +81,6 @@ const ChatBox = ({ setSelected }) => {
                                 className='outline-none bg-transparent w-full mx-4'
                                 onChange={(e) => setMSG(e.target.value)}
                                 value={msg}
-                                name='msg'
                                 autoComplete='off'
                                 placeholder='Message ...' />
                             {msg ?

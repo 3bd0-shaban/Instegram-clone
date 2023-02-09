@@ -1,14 +1,16 @@
 import { SideBar, Chat, SideBarChats, MainNoSelection } from '../../Exports'
 import { useGetUserQuery } from '../../../Redux/APIs/UserApi';
 import { useUserChatsQuery } from '../../../Redux/APIs/ChatApi';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+// import { io } from 'socket.io-client'
 import useBreakpoint from './../../../Hooks/useBreakpoint';
+// const url = process.env.REACT_APP_API_KEY;
 const MessengerWindow = () => {
     const { data: userInfo } = useGetUserQuery() || {};
     const { data: Chats } = useUserChatsQuery() || {};
     const [selected, setSelected] = useState(false);
+    // const socket = useRef()
     const { username, id } = useParams();
     const breakpoint = useBreakpoint();
 
@@ -21,7 +23,17 @@ const MessengerWindow = () => {
             setSelected(true)
         }
     }, [id, username]);
-
+    // useEffect(() => {
+    //     socket.current = io(url);
+    //     // socket.current.on("getMessage", (data) => {
+    //     // });
+    // }, []);
+    // useEffect(() => {
+    //     socket.current.emit("joinUser", userInfo?._id)
+    //     socket.current.on("getUsers", users => {
+    //         console.log(users)
+    //     })
+    // }, [userInfo]);
     return (
         <div className='h-screen flex items-center bg-white overflow-hidden'>
             <SideBar />

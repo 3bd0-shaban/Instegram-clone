@@ -76,6 +76,7 @@ export { default as Comments } from './Home/MobileView/Comments'
 
 
 export { default as RequireAuth } from './RequiredAuth';
+export { default as SocketContext } from './SocketContext';
 export { default as PersistLogin } from './PersistLogin';
 export { default as Layout } from './Layout';
 export { default as useTitle } from '../Hooks/useTitle';

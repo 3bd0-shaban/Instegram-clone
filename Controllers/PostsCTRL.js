@@ -25,7 +25,6 @@ export const New_Post = asyncHandler(async (req, res, next) => {
             url: result.secure_url,
         });
     };
-    console.log(imagesLink)
     await new Posts({
         user: req.user.id, images: imagesLink, location, des
     }).save()
@@ -39,7 +38,6 @@ export const New_Post = asyncHandler(async (req, res, next) => {
 });
 export const User_Posts = asyncHandler(async (req, res, next) => {
     const userPosts = await Posts.find({ user: req.user.id });
-    console.log(userPosts)
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)
     }

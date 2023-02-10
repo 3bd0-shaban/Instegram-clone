@@ -35,10 +35,10 @@ const MessengerWindow = () => {
     //     })
     // }, [userInfo]);
     return (
-        <div className='h-screen flex items-center bg-white overflow-hidden'>
+        <div className='h-screen flex lg:items-center bg-white overflow-hidden'>
             <SideBar />
             <div className='container px-0 max-w-[70rem] border rounded-md bg-white xl:mr-48 xxxl:mr-[26rem]'>
-                <div className='grid grid-cols-3 h-[90vh]'>
+                <div className='grid grid-cols-3 h-[95vh]'>
                     {lapview &&
                         <div className='col-span-3 lg:col-span-1 border-r mt-5 overflow-y-scroll hideScrollBare'>
                             <SideBarChats Chats={Chats} userInfo={userInfo} />
@@ -49,7 +49,7 @@ const MessengerWindow = () => {
                             <SideBarChats Chats={Chats} userInfo={userInfo} />
                         </div>
                     }
-                    <div className={`col-span-2 mt-5 relative ${MobileView && '!col-span-3'}`}>
+                    <div className={`col-span-2 mt-2 relative ${MobileView && '!col-span-3'}`}>
                         {selected ?
                             <Chat />
                             :

@@ -27,7 +27,7 @@ const PostComments = () => {
     return (
         <>
             <SideBar />
-            <div className='container max-w-5xl mt-16'>
+            <div className='container max-w-5xl'>
                 <div className='flex justify-between items-center border-b'>
                     <Link to={user ? `/${user}` : '/'} className=''><BiChevronLeft size={30} /></Link>
                     <p className='m-2 mb-5 font-medium text-3xl'>Comments</p>

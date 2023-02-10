@@ -72,7 +72,7 @@ export const SignIn = asyncHandler(async (req, res, next) => {
             expires: new Date(Date.now() + 7 * 1000 * 60 * 60 * 24), // 7d
             sameSite: 'lax'
         });
-        return res.json({ msg: 'successfully Logged In', accessToken });
+        return res.json({ msg: 'successfully Logged In', accessToken, user });
     }
 });
 
@@ -124,18 +124,18 @@ export const Request2OTPActivate = asyncHandler(async (req, res, next) => {
     return res.json({ msg: "Access Granted !" })
 });
 
-export const RefreshToken = asyncHandler((req, res, next) => {
+export const RefreshToken = asyncHandler(async (req, res, next) => {
     const refreshToken = req.cookies.Jwt
     if (!refreshToken) {
         return next(new ErrorHandler('Sign In First', 400));
     }
-    Jwt.verify(refreshToken, process.env.JWT_REFRESH, (err, user) => {
-        if (err) {
-            return next(new ErrorHandler('Authorization Failed, Please Log In Again', 400));
-        }
-        const accessToken = createAccessToken({ id: user.id, roles: user.roles });
-        return res.json({ accessToken })
-    });
+    const user = Jwt.verify(refreshToken, process.env.JWT_REFRESH)
+    if (!user) {
+        return next(new ErrorHandler('Authorization Failed, Please Log In Again', 400));
+    }
+    const accessToken = createAccessToken({ id: user.id, roles: user.roles });
+    const auth = await Users.findOne({ _id: user.id })
+    return res.json({ accessToken, auth })
 });
 
 export const GenerateOtp = asyncHandler(async (req, res, next) => {

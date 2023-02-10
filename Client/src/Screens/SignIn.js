@@ -34,8 +34,8 @@ const SignIn = () => {
     const { email, password } = inputs;
     const data = { email, password }
     try {
-      const { accessToken } = await signin(data).unwrap()
-      dispatch(setCredentials({ accessToken }));
+      const { accessToken, user } = await signin(data).unwrap()
+      dispatch(setCredentials({ accessToken, user }));
       setInputs({ email: '', password: '' });
       navigate('/')
     } catch (error) {

@@ -40,13 +40,21 @@ const io = new Server(http, {
 });
 app.use(
     cors({
-        origin: AllowedOrigins,
+        origin: (origin, callback) => {
+            if (AllowedOrigins.indexOf(origin) !== -1 || !origin) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         credentials: true,
+        optionsSuccessStatus: 200
     })
 );
 
 io.on('connection', (socket) => {
     SocketServer(socket);
+    console.log('connected')
 });
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));

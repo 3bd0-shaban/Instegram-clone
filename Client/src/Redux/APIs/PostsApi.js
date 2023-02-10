@@ -23,7 +23,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
+            providesTags: ['Comments', 'Posts'],
         }),
         getUserPostsById: builder.query({
             query: (id) => ({
@@ -31,7 +31,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
+            providesTags: ['Posts', 'Comments'],
         }),
         getPostDetails: builder.query({
             query: (id) => ({
@@ -39,7 +39,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 method: 'GET',
                 credentials: 'include',
             }),
-            providesTags: ['Posts', 'Comments', 'Saves', 'Auth'],
+            providesTags: ['Posts', 'Comments'],
         }),
         createPost: builder.mutation({
             query: (data) => ({

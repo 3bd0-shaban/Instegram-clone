@@ -9,12 +9,13 @@ import { useGetUserQuery } from '../../Redux/APIs/UserApi'
 import { useBreakpoint, Search, Notifications } from '../Exports'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 const SideBar = () => {
     const breakpoint = useBreakpoint();
     const dispatch = useDispatch();
     const location = useLocation();
+    const { id } = useParams();
     const settingHeadline = location.pathname.split('/').slice(-1)[0]
     const [openSerach, setOpenSearch] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
@@ -85,11 +86,12 @@ const SideBar = () => {
                     <div className='flex lg:hidden gap-3 items-center py-2'>
                         <Link to={`/${userInfo?.username}`}><BiChevronLeft size={30} /></Link>
                         <span className='mx-auto'>{settingHeadline}</span>
-                    </div> :
-
+                    </div>
+                    :
+                    (!id && !location.pathname.includes('messages')) &&
                     <>
                         <div className='fixed top-0 flex lg:hidden justify-between items-center w-full border-b bg-white px-5 z-10'>
-                            <InstegramFont />
+                            <Link to='/'><InstegramFont /></Link>
                             <div className='flex gap-5 items-center'>
                                 <SideLink Icon={<BiMessageSquareAdd size={30} />} Title='Create' />
                                 <SideLink Icon={<BsHeart size={30} />} Title='Notification' />

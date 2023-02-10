@@ -8,6 +8,7 @@ export const MessageApi = apiSlice.injectEndpoints({
                 credentials: 'include',
                 body: data,
             }),
+            invalidatesTags: ['Message'],
             // invalidatesTags: ['Message','Chat'],
         }),
         GetMessages: builder.query({
@@ -16,7 +17,7 @@ export const MessageApi = apiSlice.injectEndpoints({
                 method: 'Get',
                 credentials: 'include',
             }),
-            // providesTags: ['Message'],
+            providesTags: ['Message'],
         }),
     }),
 });

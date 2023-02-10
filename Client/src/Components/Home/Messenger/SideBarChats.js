@@ -1,6 +1,7 @@
 import React from 'react'
 import { IoIosArrowDown } from 'react-icons/io';
 import { TbMessage2Share } from 'react-icons/tb';
+import { Link } from 'react-router-dom';
 import FollowerCart from './FollowerCart';
 
 const SideBarChats = ({ userInfo, Chats }) => {
@@ -8,7 +9,9 @@ const SideBarChats = ({ userInfo, Chats }) => {
         <>
             <div className='flex border-b pb-2 h-12'>
                 <div className='flex mx-auto text-lg font-semibold'>
-                    <p>{userInfo?.username}</p>
+                    <Link to={`/${userInfo?.username}`}>
+                        <p>{userInfo?.username}</p>
+                    </Link>
                     <div className='mt-2 ml-2'>
                         <IoIosArrowDown />
                     </div>

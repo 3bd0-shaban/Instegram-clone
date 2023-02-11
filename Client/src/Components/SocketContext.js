@@ -3,11 +3,12 @@ import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { selectCurrentToken } from './../Redux/Slices/UserSlice';
 import jwtDecode from 'jwt-decode';
+import { useLocation } from 'react-router-dom';
 const url = process.env.REACT_APP_API_KEY;
-
 const SocketContext = createContext({});
 
 export const SocketProvider = ({ children }) => {
+    const location = useLocation()
     const [socket, setSocket] = useState(io(url));
     const token = useSelector(selectCurrentToken);
     useEffect(() => {
@@ -23,8 +24,9 @@ export const SocketProvider = ({ children }) => {
         }
         return () => {
             socket.off('connect');
+            console.log('disconnected')
         };
-    }, [token, socket]);
+    }, [token, socket, location]);
 
     return <SocketContext.Provider value={{ socket, setSocket }}>{children}</SocketContext.Provider>;
 };

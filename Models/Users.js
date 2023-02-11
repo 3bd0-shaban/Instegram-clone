@@ -45,7 +45,7 @@ const usesrSchema = new mongoose.Schema(
         default: ""
       },url: {
         type: String,
-        default: "https://res.cloudinary.com/abdo9/image/upload/v1675708532/profileicon_av1ogg.jpg",
+        default: "https://res.cloudinary.com/abdo9/image/upload/v1676052171/profile_bikmhe.jpg",
       }
     },
     isprivat: {

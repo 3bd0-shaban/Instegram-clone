@@ -63,6 +63,7 @@ const SocketServer = (socket) => {
 
     socket.on('disconnect', () => {
         removeUser(socket.id);
+        console.log('disconnected')
     });
 }
 

@@ -70,7 +70,7 @@ export const SignIn = asyncHandler(async (req, res, next) => {
             path: '/',
             secure: process.env.NODE_ENV === "production" ? true : false,
             expires: new Date(Date.now() + 7 * 1000 * 60 * 60 * 24), // 7d
-            sameSite: 'lax'
+            sameSite: 'none'
         });
         return res.json({ msg: 'successfully Logged In', accessToken, user });
     }

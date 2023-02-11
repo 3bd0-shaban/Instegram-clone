@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
 import {
   Home, SignIn, SignUp, MessengerWindow, Dashboard, RequireAuth,
   Layout, Profile, Settings, PersistLogin, ProfileById, SetBirthday,
-  VideoStory, SearchMobileView, PostComments, useSocket
+  VideoStory, SearchMobileView, PostComments
 } from './Components/Exports'
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ROLES } from './Config/Roles';
@@ -11,15 +10,6 @@ import { AnimatePresence } from 'framer-motion';
 
 function App() {
   const { data: userInfo } = useGetUserQuery() || {};
-  const { socket } = useSocket();
-
-  useEffect(() => {
-    socket.on("getusers", (data) => {
-      console.log(data)
-    });
-  }, [socket]);
-  // const breakpoint = useBreakpoint();
-  // const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
   const location = useLocation();
   return (
     <AnimatePresence>

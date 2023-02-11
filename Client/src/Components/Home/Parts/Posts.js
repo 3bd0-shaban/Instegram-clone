@@ -4,7 +4,6 @@ import { PostMore, ModalPostDetails, SinglePost } from '../../Exports';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-
 const Posts = () => {
   const dispatch = useDispatch();
   const { isModalPostDetails } = useSelector(state => state.Features);
@@ -14,7 +13,6 @@ const Posts = () => {
     const body = document.querySelector('body');
     body.style.overflow = isModalPostDetails ? 'hidden' : 'auto';
   }, [isModalPostDetails]);
-
 
   return (
     <>

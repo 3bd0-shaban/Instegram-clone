@@ -11,7 +11,7 @@ const PersistLogin = () => {
     const effectRan = useRef(false);
     const [trueSuccess, setTrueSuccess] = useState(false)
 
-    const [refresh, { isUninitialized, isLoading, isSuccess, isError, error }] = useRefreshMutation();
+    const [refresh, { isUninitialized, isLoading, isSuccess, isError }] = useRefreshMutation();
 
     useEffect(() => {
 
@@ -50,11 +50,11 @@ const PersistLogin = () => {
                 <LoadingScreen />
             </>
     } else if (isError) { //persist: yes, token: no
-        console.log('error')
-        console.log(error)
+        // console.log('error')
+        // console.log(error)
         content = <Outlet />
     } else if (isSuccess && trueSuccess) { //persist: yes, token: yes
-        console.log('success')
+        // console.log('success')
         content = <Outlet />
     } else if (token && isUninitialized) { //persist: yes, token: yes
         // console.log('token and uninit')

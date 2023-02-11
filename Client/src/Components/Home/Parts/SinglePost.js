@@ -9,14 +9,11 @@ import { IoMdPaperPlane } from 'react-icons/io';
 import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { useBreakpoint } from '../../Exports';
+import { useBreakpoint, Emoji, ImageSwiper } from '../../Exports';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimScale from './../../../Animation/AnimScale';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper'
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
+
+import AnimDropdown from '../../../Animation/AnimDropdown';
 
 const SinglePost = ({ post, postID, setPostID }) => {
     const [createComment] = useCreateCommentMutation();
@@ -28,9 +25,8 @@ const SinglePost = ({ post, postID, setPostID }) => {
     const [Save] = useSaveMutation();
     const [Unsave] = useUnsaveMutation();
     const [UnLike] = useUnLikeMutation();
-    const [data, setData] = useState({
-        comment: ''
-    });
+    const [comment, setComment] = useState('');
+    const [isPikerVisiable, setIsPikerVisable] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
 
@@ -41,16 +37,11 @@ const SinglePost = ({ post, postID, setPostID }) => {
         isInclude ? setIsLiked(true) : setIsLiked(false);
         Save ? setIsSaved(true) : setIsSaved(false);
     }, [post, userInfo]);
-
-
-
-    const handleChange = ({ currentTarget: input }) => {
-        setData({ ...data, [input.name]: input.value });
-    };
-
-    const Comment = async (id) => {
+    const data = { comment };
+    const CommentHandle = async (id) => {
+        if (!comment) return;
         await createComment({ data, id }).unwrap()
-            .then((payload) => setData({ comment: '' }))
+            .then((payload) => setComment(''))
             .catch((error) => console.log(error));
     }
     const LikeSubmit = async (id) => {
@@ -88,25 +79,7 @@ const SinglePost = ({ post, postID, setPostID }) => {
                     <BsThreeDots size={22} />
                 </button>
             </div>
-            <div className='mt-3 z-0 '>
-                <Swiper
-                    modules={[Pagination]}
-                    spaceBetween={25}
-                    slidesPerView={1}
-                    pagination={{ clickable: true }}
-                // onSlideChange={() => console.log('slide change')}
-                // onSwiper={(swiper) => console.log(swiper)}
-                >
-                    {post?.images?.map(image => (
-                        <SwiperSlide key={image?.url}>
-                            <img className='rounded-md h-[30rem] min-w-full object-cover'
-                                src={image?.url}
-                                alt={post?.user?.username}
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
+            <ImageSwiper post={post} />
             <div className='flex justify-between mt-4 px-4 text-2xl'>
                 <div className='flex gap-4 items-center'>
                     {isLiked ?
@@ -180,26 +153,43 @@ const SinglePost = ({ post, postID, setPostID }) => {
                     </Link>
                 }
             </div>
-            <form onSubmit={(e) => Comment(post?._id, e.preventDefault())} className='flex px-3 mt-2'>
+            <form onSubmit={(e) => CommentHandle(post?._id, e.preventDefault())} className='flex relative px-3 mt-2'>
                 <input
-                    onChange={handleChange}
+                    onChange={(e) => setComment(e.target.value)}
+                    onFocus={() => setIsPikerVisable(false)}
+                    value={comment}
                     name='comment'
-                    value={data.comment}
                     autoComplete='off'
                     className='outline-none w-full pr-3'
                     placeholder='Add Comment ...'
                 />
                 <div className='flex gap-2'>
-                    {data.comment &&
+                    {comment &&
                         <button type='submit'
                             className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
                     }
-                    <div className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
+                    <div
+                        onClick={() => setIsPikerVisable(!isPikerVisiable)}
+                        className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
                         <FaRegSmile />
                     </div>
+                    <AnimatePresence>
+                        {isPikerVisiable &&
+                            <motion.div
+                                variants={AnimDropdown}
+                                initial='initial'
+                                animate='animated'
+                                exit='exit'
+                                className='absolute z-10 bottom-8 right-0'>
+                                <Emoji
+                                    setComment={setComment}
+                                    comment={comment} />
+                            </motion.div>
+                        }
+                    </AnimatePresence>
                 </div>
             </form>
-        </div >
+        </div>
     )
 }
 

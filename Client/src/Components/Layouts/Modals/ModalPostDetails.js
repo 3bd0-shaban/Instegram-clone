@@ -9,10 +9,11 @@ import { FaHeart, FaRegComment, FaRegHeart, FaRegSmile } from 'react-icons/fa';
 import { IoMdPaperPlane } from 'react-icons/io';
 import { ImSpinner3 } from 'react-icons/im';
 import AnimModal from '../../../Animation/AnimModal';
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
 import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
-import { Comments, ImagesSlider } from '../../Exports'
+import { Comments, ImagesSlider, Emoji } from '../../Exports'
+import AnimDropdown from '../../../Animation/AnimDropdown';
 const ModalPostDetails = ({ ID }) => {
     const { data: postDetails, isFetching, isError, error } = useGetPostDetailsQuery(ID) || {};
     const [createComment] = useCreateCommentMutation();
@@ -23,6 +24,7 @@ const ModalPostDetails = ({ ID }) => {
     const [UnLike] = useUnLikeMutation();
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
+    const [isPikerVisiable, setIsPikerVisable] = useState(false);
 
     const dispatch = useDispatch();
     const [comment, setComment] = useState('');
@@ -39,6 +41,7 @@ const ModalPostDetails = ({ ID }) => {
     const id = postDetails?._id
     const data = { comment }
     const CommentHandle = async (e) => {
+        if (!comment) return;
         e.preventDefault();
         if (!comment) return;
         await createComment({ data, id }).unwrap()
@@ -94,14 +97,39 @@ const ModalPostDetails = ({ ID }) => {
                     <p className='font-normal text-sm text-gray-800 uppercase'>{moment(postDetails?.createdAt).from()}</p>
                 </div>
                 <form onSubmit={CommentHandle} className='flex px-3 border-t pt-3 mt-2'>
-                    <div className='text-2xl pl-1 pr-2 cursor-pointer'><FaRegSmile /></div>
+                    <div
+                        onClick={() => setIsPikerVisable(!isPikerVisiable)}
+                        className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
+                        <FaRegSmile />
+                    </div>
+                    <AnimatePresence>
+                        {isPikerVisiable &&
+                            <motion.div
+                                variants={AnimDropdown}
+                                initial='initial'
+                                animate='animated'
+                                exit='exit'
+                                className='absolute z-50 bottom-8 left-0'
+                            >
+                                <Emoji
+                                    setComment={setComment}
+                                    comment={comment} />
+                            </motion.div>
+                        }
+                    </AnimatePresence>
                     <input
                         onChange={(e) => setComment(e.target.value)}
+                        onFocus={() => setIsPikerVisable(false)}
                         value={comment}
+                        name='comment'
                         autoComplete='off'
                         className='outline-none w-full pr-3'
-                        placeholder='Add Comment ...' />
-                    <button className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
+                        placeholder='Add Comment ...'
+                    />
+                    {comment &&
+                        <button type='submit'
+                            className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
+                    }
                 </form>
             </div>
         )

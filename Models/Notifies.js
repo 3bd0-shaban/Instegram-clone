@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const NotificationShema = new mongoose.Schema(
+const NotifySchema = new mongoose.Schema(
     {
         type: {
             type: String,
@@ -28,5 +28,5 @@ const NotificationShema = new mongoose.Schema(
     },
     { timestamps: true, minimize: false }
 );
-const Notification = mongoose.model('Notification', NotificationShema);
-export default Notification;
+const Notifies = mongoose.model('Notification', NotifySchema);
+export default Notifies;

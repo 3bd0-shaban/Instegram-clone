@@ -4,6 +4,8 @@
   "proxy": "http://localhost:5000/",
   "private": true,
   "dependencies": {
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -19,6 +21,7 @@
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.6.0",
+    "swiper": "^9.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

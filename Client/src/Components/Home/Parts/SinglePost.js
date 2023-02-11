@@ -12,6 +12,12 @@ import { useDispatch } from 'react-redux';
 import { useBreakpoint } from '../../Exports';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimScale from './../../../Animation/AnimScale';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper'
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 const SinglePost = ({ post, postID, setPostID }) => {
     const [createComment] = useCreateCommentMutation();
     const { data: userInfo } = useGetUserQuery() || {};
@@ -77,16 +83,29 @@ const SinglePost = ({ post, postID, setPostID }) => {
                     </div>
                 </div>
                 <button
-                    onClick={() => dispatch(FeatureAction.Show_isPostMore(true))}
+                    onClick={() => { dispatch(FeatureAction.Show_isPostMore(true)); setPostID(post?._id) }}
                     className='hover:text-gray-500'>
                     <BsThreeDots size={22} />
                 </button>
             </div>
-            <div className='mt-3'>
-                <img className='rounded-md'
-                    src={post?.images[0]?.url}
-                    alt={post?.user?.username}
-                />
+            <div className='mt-3 z-0 '>
+                <Swiper
+                    modules={[Pagination]}
+                    spaceBetween={25}
+                    slidesPerView={1}
+                    pagination={{ clickable: true }}
+                // onSlideChange={() => console.log('slide change')}
+                // onSwiper={(swiper) => console.log(swiper)}
+                >
+                    {post?.images?.map(image => (
+                        <SwiperSlide key={image?.url}>
+                            <img className='rounded-md h-[30rem] min-w-full object-cover'
+                                src={image?.url}
+                                alt={post?.user?.username}
+                            />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
             </div>
             <div className='flex justify-between mt-4 px-4 text-2xl'>
                 <div className='flex gap-4 items-center'>
@@ -180,7 +199,7 @@ const SinglePost = ({ post, postID, setPostID }) => {
                     </div>
                 </div>
             </form>
-        </div>
+        </div >
     )
 }
 

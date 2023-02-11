@@ -1,5 +1,4 @@
 import moment from 'moment'
-import PostMore from './PostMore';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
@@ -110,7 +109,6 @@ const ModalPostDetails = ({ ID }) => {
 
     return (
         <>
-            <PostMore />
             <div onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(false)); setComment() }} className="fixed inset-0 bg-black/40 z-20"></div>
             <motion.div
                 variants={AnimModal}

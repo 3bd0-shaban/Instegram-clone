@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 const FeaturesSlice = createSlice({
-    name: 'Upload_Product',
+    name: 'Features',
     initialState: {
         SideBar: false,
         DrobdownMore: false,
@@ -11,6 +11,7 @@ const FeaturesSlice = createSlice({
         isModalAddPost: false,
         IsModalPreviewImages: false,
         isModalConfirm: false,
+        isClipAlert: false,
         isPostMore: false,
         isModalSittings: false,
         isModalPostDetails: false,
@@ -41,6 +42,12 @@ const FeaturesSlice = createSlice({
         },
         Show_ModalConfirm(state) {
             state.isModalConfirm = !state.isModalConfirm;
+        },
+        setIsClipAlert: (state) => {
+            state.isClipAlert = true;
+            setTimeout(() => {
+              state.isClipAlert = !state.isClipAlert;
+            }, 1000);
         },
         Show_ModalPreviewImages(state) {
             state.IsModalPreviewImages = !state.IsModalPreviewImages;

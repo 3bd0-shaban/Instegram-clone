@@ -8,14 +8,13 @@ import { useUnFollowMutation } from '../../../Redux/APIs/UserApi';
 const ModalThanksReport = ({ postDetails }) => {
     const dispatch = useDispatch();
     const [UnFollow] = useUnFollowMutation();
-    const UnFollowHandle = () => {
-        const id = postDetails?.user?._id
-        UnFollow(id).unwrap()
+    const id = postDetails?.user?._id
+    const UnFollowHandle = async () => {
+        await UnFollow(id).unwrap()
             .then(payload => dispatch(FeatureAction.setIsModalThanksReport(false)))
             .catch(err => console.log(err))
     }
-    const BlockHandler = () => {
-    }
+
     return (
         <>
             <div onClick={() => dispatch(FeatureAction.setIsModalThanksReport(false))} className="fixed inset-0 bg-black/30 z-20"></div>
@@ -24,7 +23,7 @@ const ModalThanksReport = ({ postDetails }) => {
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='fixed inset-x-0 container z-30 top-[20%] bg-white w-full rounded-xl shadow drop-shadow-xl overflow-hidden p-0 max-w-xs sm:max-w-[30rem]  '
+                className='fixed inset-x-0 container z-30 top-[25%] bg-white w-full rounded-xl shadow drop-shadow-xl overflow-hidden p-0 max-w-xs sm:max-w-[30rem]  '
             >
                 <button
                     onClick={() => dispatch(FeatureAction.setIsModalThanksReport(false))}
@@ -41,7 +40,12 @@ const ModalThanksReport = ({ postDetails }) => {
                 </div><hr />
                 <div className='w-full text-start mx-auto !mt-0'>
                     <span
-                        onClick={BlockHandler}
+                        onClick={
+                            () => {
+                                dispatch(FeatureAction.setIsModalBlockConfirm(true));
+                                dispatch(FeatureAction.setIsModalThanksReport(false))
+                            }
+                        }
                         className='block cursor-pointer px-5 focus:bg-gray-500 text-red-500 font-medium py-4 hover:bg-gray-100'>Block {postDetails?.user?.username}
                     </span>
                     <span

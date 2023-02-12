@@ -40,7 +40,7 @@ const SignIn = () => {
     <>
       <div className='container px-5 max-w-5xl flex gap-1 place-content-center mt-[2rem] md:mt-[6rem] mb-5 md:mb-28'>
         <div className='hidden md:flex justify-center'>
-          <img src='https://res.cloudinary.com/abdo9/image/upload/v1676229228/insta_jwyqco.png' className='w-[85%] mt-8' alt='' />
+          <img src={`Images/insta.png` || 'https://res.cloudinary.com/abdo9/image/upload/v1676229228/insta_jwyqco.png'} className='w-[85%] mt-8' alt='' />
         </div>
         <div className='container px-3 max-w-md md:mt-16'>
           <div className='md:border rounded-lg  border-gray-300 md:max-w-[90%] xsm:px-5 md:px-12 items-center text-center md:bg-white'>

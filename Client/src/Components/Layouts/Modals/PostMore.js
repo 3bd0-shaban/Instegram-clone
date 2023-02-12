@@ -7,6 +7,7 @@ const Website = process.env.REACT_APP_Website
 const PostMore = ({ PostId, postDetails }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    console.log(postDetails)
     return (
         <>
             <div onClick={() => dispatch(FeatureAction.Show_isPostMore(false))} className="fixed inset-0 bg-black/30 z-20"></div>

@@ -20,26 +20,30 @@ export const Delete_User_Review = asyncHandler(async (req, res, next) => {
 })
 
 export const Like = asyncHandler(async (req, res, next) => {
-    await Posts.findByIdAndUpdate(req.params.id, {
+    const post = await Posts.findByIdAndUpdate(req.params.id, {
         $push: {
             likes: req.user._id
         },
         $inc: {
             numLikes: 1
         }
-    }, { new: true });
-    return res.json({ msg: "Liked !" });
+    }, { new: true })
+        .populate('comments.user')
+        .populate('user');
+    return res.json(post);
 });
 export const UnLike = asyncHandler(async (req, res, next) => {
-    await Posts.findByIdAndUpdate(req.params.id, {
+    const post = await Posts.findByIdAndUpdate(req.params.id, {
         $pull: {
             likes: req.user._id
         },
         $inc: {
             numLikes: -1
         }
-    }, { new: true });
-    return res.json({ msg: "UnLiked !" });
+    }, { new: true })
+        .populate('comments.user')
+        .populate('user');
+    return res.json(post);
 });
 export const checkLike = asyncHandler(async (req, res, next) => {
     const { post_id } = req.body;

@@ -16,7 +16,7 @@ export const CommentsApi = apiSlice.injectEndpoints({
                 method: 'PUT',
                 credentials: 'include',
             }),
-            invalidatesTags: ['Comments'],
+            // invalidatesTags: ['Comments'],
         }),
         UnLike: builder.mutation({
             query: (id) => ({
@@ -24,7 +24,7 @@ export const CommentsApi = apiSlice.injectEndpoints({
                 method: 'PUT',
                 credentials: 'include',
             }),
-            invalidatesTags: ['Comments'],
+            // invalidatesTags: ['Comments'],
         }),
         getCounter: builder.query({
             query: (id) => ({

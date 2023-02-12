@@ -5,7 +5,7 @@ import cloudinary from "../Utils/cloudinary.js";
 import Features from './../Utils/Features.js';
 
 export const New_Post = asyncHandler(async (req, res, next) => {
-    const { user, des, location, images } = req.body
+    const { des, location } = req.body
     let received = [...req.body.images];
     if (typeof req.body.images === "string") {
         received.push(req.body.images);
@@ -37,14 +37,22 @@ export const New_Post = asyncHandler(async (req, res, next) => {
         })
 });
 export const User_Posts = asyncHandler(async (req, res, next) => {
-    const userPosts = await Posts.find({ user: req.user.id });
+    const resultperpage = 10;
+    const features = new Features(Posts.find({ user: req.user.id }), req.query).Pagination(resultperpage)
+    const userPosts = await features.query
+        .populate('user', 'username avatar')
+        .sort("-createdAt");
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)
     }
     return res.json(userPosts);
 });
 export const User_Posts_ById = asyncHandler(async (req, res, next) => {
-    const userPosts = await Posts.find({ user: req.params.id });
+    const resultperpage = 10;
+    const features = new Features(Posts.find({ user: req.params.id }), req.query).Pagination(resultperpage)
+    const userPosts = await features.query
+        .populate('user', 'username avatar')
+        .sort("-createdAt");
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)
     }
@@ -61,12 +69,12 @@ export const Get_PostDetails = asyncHandler(async (req, res, next) => {
 });
 export const FollowersPosts = asyncHandler(async (req, res, next) => {
     const resultperpage = 10;
-    const newarr = [...req.user.followers, req.user.id]
+    const newarr = [...req.user.following, req.user.id]
     const features = new Features(Posts.find({ user: newarr }), req.query).Pagination(resultperpage)
     const userPosts = await features.query
         .populate('user', 'username avatar')
-    // .querysort("-createdAt");
-
+        .populate('comments.user', 'username avatar')
+        .sort("-createdAt");
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)
     }

@@ -32,6 +32,7 @@ export { default as ModalAddPost } from './Layouts/Modals/ModalAddPost';
 export { default as ModalFollowerCTRL } from './Layouts/Modals/ModalFollowerCTRL';
 export { default as ModalFollowers } from './Layouts/Modals/ModalFollowers';
 export { default as ModalFollowing } from './Layouts/Modals/ModalFollowing';
+export { default as ModalBlockConfirm } from './Layouts/Modals/ModalBlockConfirm';
 export { default as ModalUnFollowConfirm } from './Layouts/Modals/ModalUnFollowConfirm';
 export { default as ModalThanksReport } from './Layouts/Modals/ModalThanksReport';
 export { default as ModalChangeProfile } from './Layouts/Modals/ModalChangeProfile';

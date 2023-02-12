@@ -10,12 +10,12 @@ const Comments = ({ postDetails, id }) => {
                 </div>
             </div>
             :
-            <div className='overflow-y-scroll hideScrollBare md:h-[80%] pb-14'>
+            <div className='overflow-y-scroll hideScrollBare md:h-[80%] pb-24'>
                 {postDetails?.comments?.map((comment) => (
                     <div key={comment?._id} className={`py-3 ${!id && 'px-3'}`}>
-                        <div className='flex gap-3'>
-                            <img className="p-1 w-14 h-14 rounded-full focus:ring-2 focus:ring-gray-300" src={comment?.user?.avatar?.url} alt="" />
-                            <div className='mt-2'>
+                        <div className='grid grid-cols-12 gap-3'>
+                            <img className="col-span-2 flex justify-center mx-auto p-1 w-14 h-14 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={comment?.user?.avatar?.url} alt="" />
+                            <div className='col-span-10 mt-2'>
                                 <div className='flex gap-3'>
                                     <span className='text-[1.1rem] font-poppins font-medium inline'>{comment?.user?.username}
                                         <p className='font-poppins text-[1rem] font-thin inline mx-3'>{comment?.comment}</p>

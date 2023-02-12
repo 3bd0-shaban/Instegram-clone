@@ -3,21 +3,24 @@ import { BsBookmark, BsBookmarkFill, BsThreeDots } from 'react-icons/bs'
 import { FaRegHeart, FaRegComment, FaRegSmile, FaHeart } from 'react-icons/fa'
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { useGetUserQuery } from '../../../Redux/APIs/UserApi';
 import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
 import { IoMdPaperPlane } from 'react-icons/io';
 import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useBreakpoint, Emoji, ImageSwiper } from '../../Exports';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimScale from './../../../Animation/AnimScale';
 
 import AnimDropdown from '../../../Animation/AnimDropdown';
+import { selectCurrentToken, selectCurrentUser, setCredentials } from '../../../Redux/Slices/UserSlice';
 
-const SinglePost = ({ post, postID, setPostID, setPostDetails }) => {
+const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetails }) => {
+    const [post, setPost] = useState({});
+    useEffect(() => {
+        setPost(postDetail)
+    }, [postDetail])
     const [createComment] = useCreateCommentMutation();
-    const { data: userInfo } = useGetUserQuery() || {};
     const breakpoint = useBreakpoint();
     const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
     const dispatch = useDispatch();
@@ -29,7 +32,8 @@ const SinglePost = ({ post, postID, setPostID, setPostDetails }) => {
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
-
+    const userInfo = useSelector(selectCurrentUser)
+    const accessToken = useSelector(selectCurrentToken)
     useEffect(() => {// eslint-disable-next-line
         const isInclude = post?.likes?.some(p => p == userInfo?._id);
         // eslint-disable-next-line
@@ -45,16 +49,28 @@ const SinglePost = ({ post, postID, setPostID, setPostDetails }) => {
             .catch((error) => console.log(error));
     }
     const LikeSubmit = async (id) => {
-        await Like(id).unwrap()
+        const post = await Like(id).unwrap()
+        if (post) {
+            setPost(post)
+        }
     }
     const UnLikeSubmit = async (id) => {
-        await UnLike(id).unwrap()
+        const post = await UnLike(id).unwrap()
+        if (post) {
+            setPost(post)
+        }
     }
     const SaveSubmit = async (id) => {
-        await Save(id).unwrap()
+        const user = await Save(id).unwrap()
+        if (user) {
+            dispatch(setCredentials({ accessToken, user }))
+        }
     }
     const UnSaveSubmit = async (id) => {
-        await Unsave(id).unwrap()
+        const user = await Unsave(id).unwrap()
+        if (user) {
+            dispatch(setCredentials({ accessToken, user }))
+        }
     }
     return (
         <div className='w-full h-auto pb-5 bg-white border-b'>
@@ -83,16 +99,29 @@ const SinglePost = ({ post, postID, setPostID, setPostDetails }) => {
             <div className='flex justify-between mt-4 px-4 text-2xl'>
                 <div className='flex gap-4 items-center'>
                     {isLiked ?
-                        <button
-                            onClick={() => UnLikeSubmit(post?._id)}
-                            className='hover:text-gray-500 text-red-500'>
-                            <FaHeart size={28} style={{ color: 'red' }} />
-                        </button> :
-                        <button
+                        <AnimatePresence>
+                            <motion.button
+                                variants={AnimScale}
+                                initial='initial'
+                                animate='animate'
+                                exit='exit'
+                                onClick={() => UnLikeSubmit(post?._id)}
+
+                                className='hover:text-gray-500 cursor-pointer'>
+                                <FaHeart size={28} style={{ color: 'red' }} />
+                            </motion.button>
+                        </AnimatePresence>
+                        :
+                        <motion.button
+                            variants={AnimScale}
+                            initial='initial'
+                            animate='animate'
+                            exit='exit'
                             onClick={() => LikeSubmit(post?._id)}
-                            className='hover:text-gray-500'>
+                            className='hover:text-gray-500 cursor-pointer'>
                             <FaRegHeart size={25} />
-                        </button>}
+                        </motion.button>
+                    }
 
                     {MobileView ?
                         <Link
@@ -104,7 +133,8 @@ const SinglePost = ({ post, postID, setPostID, setPostDetails }) => {
                         <div
                             onClick={() => {
                                 dispatch(FeatureAction.Show_ModalPostDetails(true));
-                                setPostID(post?._id)
+                                setPostID(post?._id);
+                                setPostDetails(post)
                             }}
                             className='cursor-pointer hover:text-gray-500'>
                             <FaRegComment size={25} />
@@ -148,7 +178,7 @@ const SinglePost = ({ post, postID, setPostID, setPostDetails }) => {
                         className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
                     </Link> :
                     <Link
-                        onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }}
+                        onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post) }}
                         className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
                     </Link>
                 }

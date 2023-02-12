@@ -4,6 +4,7 @@ const usesrSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      trim: true,
       unique: true,
       min: 3,
       max: 50
@@ -12,6 +13,8 @@ const usesrSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       required: true,
+      trim: true,
+      unique: true,
       min: 3,
       max: 20
     },
@@ -55,27 +58,27 @@ const usesrSchema = new mongoose.Schema(
     },
     followers: [
       {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'Users',
         default: []
       }
     ],
     following: [
       {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'Users',
         default: []
       }
     ],
     blocklist: [
       {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'Users',
         default: []
       }
     ],
     saves: [{
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: 'Posts',
       default: []
     }],

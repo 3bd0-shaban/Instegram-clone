@@ -19,6 +19,7 @@ const FeaturesSlice = createSlice({
         isModalPostDetails: false,
         isModalPostMoreLogged: false,
         isModalUnfollowConfirm: false,
+        isModalBlockConfirm: false,
 
     },
     reducers: {
@@ -60,6 +61,9 @@ const FeaturesSlice = createSlice({
         },
         setIsModalThanksReport(state) {
             state.isModalThanksReport = !state.isModalThanksReport;
+        },
+        setIsModalBlockConfirm(state) {
+            state.isModalBlockConfirm = !state.isModalBlockConfirm;
         },
         setIsModalUnfollowConfirm(state) {
             state.isModalUnfollowConfirm = !state.isModalUnfollowConfirm;

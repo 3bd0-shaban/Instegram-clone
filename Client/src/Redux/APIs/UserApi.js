@@ -90,6 +90,22 @@ export const UserApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Auth'],
         }),
+        Block: builder.mutation({
+            query: (id) => ({
+                url: `/api/user/block/${id}`,
+                method: 'PUT',
+                credentials: 'include',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        UnBlock: builder.mutation({
+            query: (id) => ({
+                url: `/api/user/block/${id}`,
+                method: 'PUT',
+                credentials: 'include',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
         Follow: builder.mutation({
             query: (id) => ({
                 url: `/api/user/follow/${id}`,
@@ -124,4 +140,6 @@ export const {
     useGetUserByIdQuery,
     useGetAllUsersQuery,
     useGetUserQuery,
+    useBlockMutation,
+    useUnBlockMutation,
 } = UserApi;

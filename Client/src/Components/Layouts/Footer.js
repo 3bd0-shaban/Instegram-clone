@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
-        <div className='bg-white container max-w4xl whitespace-nowrap py-10 mb-10 text-sm'>
+        <div className='container max-w4xl whitespace-nowrap py-10 mb-10 text-sm'>
             <ul className='lg:flex justify-center gap-3'>
                 <div className='flex gap-3 justify-center mb-2' >
                     <li className='text-gray-400 focus:text-gray-200 text-[13px]'><Link to='/'>Meta</Link></li>

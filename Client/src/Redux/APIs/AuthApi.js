@@ -64,6 +64,44 @@ export const AuthApi = apiSlice.injectEndpoints({
             },
             invalidatesTags: ['Auth'],
         }),
+        VerifyEmail: builder.mutation({
+            query: ({ email, code }) => ({
+                url: `/api/auth/activateEmail?email=${email}&code=${code}`,
+                method: 'PUT',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        VerifyEmailtoResest: builder.mutation({
+            query: ({ email, code }) => ({
+                url: `/api/auth/verifyOtp?email=${email}&code=${code}`,
+                method: 'GET',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        RequestOTP2: builder.mutation({
+            query: (data) => ({
+                url: '/api/auth/request2otpactivate',
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        ForgetPassword: builder.mutation({
+            query: (email) => ({
+                url: `/api/auth/generateOtp?email=${email}&code=`,
+                method: 'GET',
+                // body: data
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        ResetPassword: builder.mutation({
+            query: (data) => ({
+                url: '/api/auth/resetpassword',
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Auth'],
+        }),
     }),
 });
 export const {
@@ -72,4 +110,9 @@ export const {
     useRefreshMutation,
     useSigninMutation,
     useSignupMutation,
+    useVerifyEmailMutation,
+    useRequestOTP2Mutation,
+    useVerifyEmailtoResestMutation,
+    useForgetPasswordMutation,
+    useResetPasswordMutation,
 } = AuthApi;

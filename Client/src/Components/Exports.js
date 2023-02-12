@@ -40,6 +40,8 @@ export { default as Suggestions } from './Home/Parts/Suggestions';
 export { default as SignIn } from '../Screens/SignIn';
 export { default as SignUp } from '../Screens/SignUp';
 export { default as SetBirthday } from '../Screens/SetBirthday';
+export { default as ForgetPassword } from '../Screens/ForgetPassword';
+export { default as Confirm } from '../Screens/Confirm';
 export { default as Home } from '../Screens/Home';
 export { default as Profile } from '../Screens/Profile';
 export { default as ProfileById } from '../Screens/ProfileById';

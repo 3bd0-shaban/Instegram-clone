@@ -4,7 +4,7 @@ import { InstegramFont, Footer, useTitle } from '../Components/Exports';
 import { AiFillFacebook } from 'react-icons/ai';
 import { useSignupMutation } from '../Redux/APIs/AuthApi';
 import { ImSpinner7 } from 'react-icons/im'
-const SignUp = () => {
+const ForgetPassword = () => {
     useTitle('Sign Up');
     const navigate = useNavigate();
     const userRef = useRef();
@@ -84,4 +84,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp
+export default ForgetPassword

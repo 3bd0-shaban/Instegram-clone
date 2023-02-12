@@ -1,7 +1,7 @@
 import {
   Home, SignIn, SignUp, MessengerWindow, Dashboard, RequireAuth,
   Layout, Profile, Settings, PersistLogin, ProfileById, SetBirthday,
-  VideoStory, SearchMobileView, PostComments
+  VideoStory, SearchMobileView, PostComments, Confirm,ForgetPassword
 } from './Components/Exports'
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ROLES } from './Config/Roles';
@@ -19,6 +19,8 @@ function App() {
           <Route path="signup" element={<SignUp />} />
           <Route element={<PersistLogin />}>
             <Route path="birthday" element={<SetBirthday />} />
+            <Route path="confirm" element={<Confirm />} />
+            <Route path="forgetpassword" element={<ForgetPassword />} />
             <Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
               <Route index element={<Home />} />
               <Route path=":username/message/:id" element={<MessengerWindow />} />

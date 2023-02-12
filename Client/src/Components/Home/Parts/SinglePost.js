@@ -15,7 +15,7 @@ import AnimScale from './../../../Animation/AnimScale';
 
 import AnimDropdown from '../../../Animation/AnimDropdown';
 
-const SinglePost = ({ post, postID, setPostID }) => {
+const SinglePost = ({ post, postID, setPostID, setPostDetails }) => {
     const [createComment] = useCreateCommentMutation();
     const { data: userInfo } = useGetUserQuery() || {};
     const breakpoint = useBreakpoint();
@@ -59,7 +59,7 @@ const SinglePost = ({ post, postID, setPostID }) => {
     return (
         <div className='w-full h-auto pb-5 bg-white border-b'>
             <div className='flex justify-between mt-3 px-3'>
-                <div className='flex'>
+                <Link to={`/${post?.user?.username}`} className='flex'>
                     <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
                         src={post?.user?.avatar?.url}
                         alt=""
@@ -72,9 +72,9 @@ const SinglePost = ({ post, postID, setPostID }) => {
                         </span>
                         <p className='font-then text-sm'>{post?.location}</p>
                     </div>
-                </div>
+                </Link>
                 <button
-                    onClick={() => { dispatch(FeatureAction.Show_isPostMore(true)); setPostID(post?._id) }}
+                    onClick={() => { dispatch(FeatureAction.Show_isPostMore(true)); setPostID(post?._id); setPostDetails(post) }}
                     className='hover:text-gray-500'>
                     <BsThreeDots size={22} />
                 </button>

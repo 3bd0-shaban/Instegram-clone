@@ -11,11 +11,14 @@ const FeaturesSlice = createSlice({
         isModalAddPost: false,
         IsModalPreviewImages: false,
         isModalConfirm: false,
+        isModalReports: false,
+        isModalThanksReport: false,
         isClipAlert: false,
         isPostMore: false,
         isModalSettings: false,
         isModalPostDetails: false,
-        isModalPostMoreLogged: false
+        isModalPostMoreLogged: false,
+        isModalUnfollowConfirm: false,
 
     },
     reducers: {
@@ -46,11 +49,20 @@ const FeaturesSlice = createSlice({
         setIsClipAlert: (state) => {
             state.isClipAlert = true;
             setTimeout(() => {
-              state.isClipAlert = !state.isClipAlert;
+                state.isClipAlert = !state.isClipAlert;
             }, 1000);
         },
         Show_ModalPreviewImages(state) {
             state.IsModalPreviewImages = !state.IsModalPreviewImages;
+        },
+        setIsModalReports(state) {
+            state.isModalReports = !state.isModalReports;
+        },
+        setIsModalThanksReport(state) {
+            state.isModalThanksReport = !state.isModalThanksReport;
+        },
+        setIsModalUnfollowConfirm(state) {
+            state.isModalUnfollowConfirm = !state.isModalUnfollowConfirm;
         },
         Show_isPostMore(state) {
             state.isPostMore = !state.isPostMore;

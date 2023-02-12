@@ -2,61 +2,46 @@ import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { motion } from 'framer-motion';
 import AnimModal from '../../../Animation/AnimModal';
-import { AiOutlineStar } from 'react-icons/ai';
 import { BsX } from 'react-icons/bs';
-import { useUnFollowMutation } from '../../../Redux/APIs/UserApi';
 
-const ModalReports = ({ userInfo }) => {
+const ModalReports = () => {
     const dispatch = useDispatch();
-    const [UnFollow] = useUnFollowMutation();
-    const UnFollowHandle = () => {
-        const id = userInfo?._id
-        UnFollow(id).unwrap()
-            .then(payload => dispatch(FeatureAction.setIsModalFollowerCTRL(false)))
-            .catch(err => console.log(err))
+    const HandleModals = () => {
+        dispatch(FeatureAction.setIsModalThanksReport(true));
+        dispatch(FeatureAction.setIsModalReports(false))
     }
 
     return (
         <>
-            <div onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))} className="fixed inset-0 bg-black/30 z-20"></div>
+            <div onClick={() => dispatch(FeatureAction.setIsModalReports(false))} className="fixed inset-0 bg-black/30 z-20"></div>
             <motion.div
                 variants={AnimModal}
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='fixed inset-x-0 container z-30 top-[20%] bg-white w-full rounded-xl shadow drop-shadow-xl overflow-hidden p-0 max-w-xs sm:max-w-[30rem]  '
+                className='fixed inset-x-0 top-[10%] container px-0 z-40 bg-white w-full rounded-xl shadow drop-shadow-xl max-w-xs sm:max-w-[30rem]  '
             >
-                <button
-                    onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))}
-                    className='absolute right-0 m-2'><BsX size={25} />
-                </button>
-                <div className='w-full flex justify-center py-5'>
-                    <div>
-                        <img className='h-28 max-w-28 rounded-full col-span-2  flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
-                        <p className='text-lg font-semibold flex justify-center'>{userInfo?.username}</p>
-                    </div>
+                <div className='relative py-3'>
+                    <div className='flex justify-center items-center font-semibold text-xl pt-1'>Report</div>
+                    <button
+                        onClick={() => dispatch(FeatureAction.setIsModalReports(false))}
+                        className='absolute right-0 top-0 m-3'><BsX size={25} />
+                    </button>
                 </div><hr />
-                <div className='w-full text-start mx-auto !mt-0'>
-                    <div className='flex justify-between items-center px-5 cursor-pointer focus:bg-gray-500 py-4 hover:bg-gray-100'>
-                        <span >Add to close friends list</span>
-                        <span className='rounded-full border-2 border-black p-1 flex justify-center items-center'>
-                            <AiOutlineStar size={17} />
-                        </span>
-                    </div><hr />
-                    <div className='flex justify-between items-center px-5 cursor-pointer focus:bg-gray-500 py-4 hover:bg-gray-100'>
-                        <span >Add to favorites</span> <AiOutlineStar size={25} />
-                    </div><hr />
-                    <span className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'>Mute</span><hr />
-                    {/* <span className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'>Restrict</span><hr /> */}
-                    <span
-                        onClick={UnFollowHandle}
-                        className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'>Unfollow
-                    </span>
-                    <hr />
-                    <span
-                        className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'
-                        onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))} >Cancel
-                    </span>
+                <p className='text-lg font-medium mx-5 my-3'>why are you reporting this post ?</p><hr />
+                <div className='w-full'>
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>It's spam</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Nudity or sexual activity</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Hate speech or symbols</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Voilance or dangerous orgniation</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Sales of illegal or regulated goods</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Bulling or harmassment</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Intellactual property voilance </span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Suicide or self-injury</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Eating disordrs</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>Scam or fraud</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>False information</span><hr />
+                    <span onClick={HandleModals} className='block px-5 py-4 hover:bg-gray-100 cursor-pointer'>I just don't like it</span><hr />
                 </div>
             </motion.div>
         </>

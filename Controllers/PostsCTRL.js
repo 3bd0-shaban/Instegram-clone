@@ -61,10 +61,11 @@ export const Get_PostDetails = asyncHandler(async (req, res, next) => {
 });
 export const FollowersPosts = asyncHandler(async (req, res, next) => {
     const resultperpage = 10;
-    const features = new Features(Posts.find(), req.query).Pagination(resultperpage)
+    const newarr = [...req.user.followers, req.user.id]
+    const features = new Features(Posts.find({ user: newarr }), req.query).Pagination(resultperpage)
     const userPosts = await features.query
         .populate('user', 'username avatar')
-        // .querysort("-createdAt");
+    // .querysort("-createdAt");
 
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)

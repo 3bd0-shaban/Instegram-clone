@@ -24,6 +24,7 @@ export { default as UsersTagesById } from './Screens/ProfileById/UsersTagesById'
 export { default as ModalConfirm } from './Layouts/Modals/ModalConfirm';
 export { default as ModalPostDetails } from './Layouts/Modals/ModalPostDetails';
 export { default as ModalSettings } from './Layouts/Modals/ModalSettings';
+export { default as ModalReports } from './Layouts/Modals/ModalReports';
 export { default as ModalPreviewImages } from './Layouts/Modals/ModalPreviewImages';
 export { default as ConfirmModal2 } from './Layouts/Modals/ConfirmModal2';
 
@@ -31,6 +32,8 @@ export { default as ModalAddPost } from './Layouts/Modals/ModalAddPost';
 export { default as ModalFollowerCTRL } from './Layouts/Modals/ModalFollowerCTRL';
 export { default as ModalFollowers } from './Layouts/Modals/ModalFollowers';
 export { default as ModalFollowing } from './Layouts/Modals/ModalFollowing';
+export { default as ModalUnFollowConfirm } from './Layouts/Modals/ModalUnFollowConfirm';
+export { default as ModalThanksReport } from './Layouts/Modals/ModalThanksReport';
 export { default as ModalChangeProfile } from './Layouts/Modals/ModalChangeProfile';
 export { default as ModalUserByIdSettings } from './Layouts/Modals/ModalUserByIdSettings';
 export { default as ModalPostMoreLogged } from './Layouts/Modals/ModalPostMoreLogged';

@@ -117,7 +117,7 @@ const SinglePost = ({ post, postID, setPostID }) => {
                     <AnimatePresence>
                         <motion.button
                             variants={AnimScale}
-                            initial='intial'
+                            initial='initial'
                             animate='animate'
                             exit='exit'
                             onClick={() => UnSaveSubmit(post?._id)}
@@ -128,7 +128,7 @@ const SinglePost = ({ post, postID, setPostID }) => {
                     :
                     <motion.button
                         variants={AnimScale}
-                        initial='intial'
+                        initial='initial'
                         animate='animate'
                         exit='exit'
                         onClick={() => SaveSubmit(post?._id)}

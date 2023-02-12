@@ -42,13 +42,13 @@ const InstegramEmail = () => {
       <div className="grid grid-cols-2 justify-center items-center mt-10 text-center">
         <button
           onClick={OpenSecurity}
-          className={security && ' border-b-2 border-black'}
+          className={`${security && ' border-b-2 border-black'}`}
         >
           Security
         </button>
         <button
           onClick={openOther}
-          className={other && ' border-b-2 border-black'}
+          className={`${other && ' border-b-2 border-black'}`}
         >
           Other
         </button>

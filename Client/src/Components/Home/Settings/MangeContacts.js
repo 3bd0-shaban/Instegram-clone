@@ -17,7 +17,7 @@ const MangeContacts = () => {
       </p>
       <div className="flex justify-between py-3">
         <p className="font-meduim text-lg">0 Synced Contacts</p>
-        <button className="text-blue-300" disapbled>
+        <button className="text-blue-300" disabled={true}>
           Delete All
         </button>
       </div>

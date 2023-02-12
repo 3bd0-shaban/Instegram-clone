@@ -5,11 +5,11 @@ import { InstegramFont, DrobDownMore, AddPost } from '../Exports'
 import { RiMessengerLine } from 'react-icons/ri'
 import { BiChevronLeft, BiMessageSquareAdd } from 'react-icons/bi'
 import { IoHeartDislikeCircleOutline } from 'react-icons/io5'
-import { useGetUserQuery } from '../../Redux/APIs/UserApi'
 import { useBreakpoint, Search, Notifications } from '../Exports'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useParams } from 'react-router-dom';
+import { selectCurrentUser } from '../../Redux/Slices/UserSlice'
 
 const SideBar = () => {
     const breakpoint = useBreakpoint();
@@ -20,7 +20,7 @@ const SideBar = () => {
     const [openSerach, setOpenSearch] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
     const { DrobdownMore } = useSelector(state => state.Features);
-    const { data: userInfo } = useGetUserQuery() || {};
+    const userInfo = useSelector(selectCurrentUser)
     const HandleOpenSearch = () => {
         setOpenSearch(true); setOpenNotification(false)
     }
@@ -66,7 +66,7 @@ const SideBar = () => {
                         Linkdirect={`/${userInfo?.username}`}
                         Icon={<img src={userInfo?.avatar?.url}
                             alt={userInfo?.username}
-                            className='rounded-full w-10 h-10' />} Title='Profile'
+                            className='rounded-full w-10 h-10 object-cover' />} Title='Profile'
                     />
                     <Link
                         onClick={() => dispatch(FeatureAction.ShowDrobdownMore(true))}
@@ -125,7 +125,7 @@ const SideBar = () => {
                             Linkdirect={`/${userInfo?.username}`}
                             Icon={<img src={userInfo?.avatar?.url}
                                 alt={userInfo?.username}
-                                className='rounded-full w-8 h-8' />}
+                                className='rounded-full w-8 h-8 object-cover' />}
                             Title='Profile'
                         />
 

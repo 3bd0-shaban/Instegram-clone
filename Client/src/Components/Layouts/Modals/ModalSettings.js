@@ -1,16 +1,26 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { motion } from 'framer-motion';
 import AnimModal from '../../../Animation/AnimModal';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useLogOutMutation } from '../../../Redux/APIs/AuthApi';
 
-const ModalSittings = (props) => {
-    const { isModalSittings } = useSelector(state => state.Features);
+const ModalSettings = (props) => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
+    const [LogOut] = useLogOutMutation();
+    const logouHandler = async () => {
+        await LogOut().unwrap()
+            .then(payload => {
+                navigate('/signin')
+                localStorage.setItem('Persist', false)
+            })
+            .catch(err => {
+                console.log(err?.data?.msg)
+            })
+    }
     return (
-        isModalSittings && <>
-
+        <>
             <div onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} className="fixed inset-0 bg-black/30 z-20"></div>
 
             <motion.div
@@ -22,8 +32,8 @@ const ModalSittings = (props) => {
             >
 
                 <div className='w-full text-center '>
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/edit' className='block hover:bg-gray-100 py-4 cursor-pointer'>Change Password</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/changepassword' className='block hover:bg-gray-100 py-4 cursor-pointer'>QR Code</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/edit' className='block hover:bg-gray-100 py-4 cursor-pointer'>Edit profile</Link><hr />
+                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/changepassword' className='block hover:bg-gray-100 py-4 cursor-pointer'>Change Password</Link><hr />
                     <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/manage_access' className='block hover:bg-gray-100 py-4 cursor-pointer'>Apps and Websites</Link><hr />
                     <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/email_settings' className='block hover:bg-gray-100 py-4 cursor-pointer'>Notifications</Link><hr />
                     <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/privacy_and_security' className='block hover:bg-gray-100 py-4 cursor-pointer'>Privacy and scurity</Link><hr />
@@ -32,7 +42,7 @@ const ModalSittings = (props) => {
                     <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/emails_sent' className='block hover:bg-gray-100 py-4 cursor-pointer'>Emails from Instegram</Link><hr />
                     {/* <Link to='/settings/edit' className='block hover:bg-gray-100 cursor-pointer'>Report a propblem</Link><hr /> */}
                     <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/settings/ads' className='block hover:bg-gray-100 py-4 cursor-pointer'>Ads</Link><hr />
-                    <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} to='/logout' className='block hover:bg-gray-100 py-4 cursor-pointer'>Log Out</Link><hr />
+                    <Link onClick={() => { dispatch(FeatureAction.Show_iSModalSittings(false)); logouHandler() }} className='block hover:bg-gray-100 py-4 cursor-pointer'>Log Out</Link><hr />
                     <Link onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} className='block hover:bg-gray-100 py-4 cursor-pointer focus:bg-gray-200'>Cancel</Link>
                 </div>
             </motion.div>
@@ -40,4 +50,4 @@ const ModalSittings = (props) => {
     )
 }
 
-export default ModalSittings
+export default ModalSettings

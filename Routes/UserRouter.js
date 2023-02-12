@@ -1,7 +1,7 @@
 import express from 'express';
 import {
     Search, UserInfo, AllUsers, Suggestion, Follow_Public_User, UnFollow, FollowingList, FollowersList,
-    Get_UserInfo, Update_UserInfo, Delete_UserInfo, Update_UserRole
+    Get_UserInfo, Update_UserInfo, Delete_UserInfo, Update_UserRole, updateProfilePic
 } from '../Controllers/UserCTRL.js'
 import { auth, authorizeRoles } from '../Middlewares/Auth.js'
 const router = express.Router();
@@ -18,5 +18,6 @@ router.put('/updateuserrole/:id', auth, authorizeRoles("admin"), Update_UserRole
 router.get('/get/:username', auth, Get_UserInfo);
 router.get('/refresh', UserInfo);
 router.put('/updateuser', auth, Update_UserInfo);
+router.put('/updatepic', auth, updateProfilePic);
 router.get('/getall', auth, authorizeRoles("admin"), AllUsers);
 export default router

@@ -25,7 +25,7 @@ const Posts = () => {
       {isPostMore && <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} PostId={postID} />}
       {isFetching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
         followerposts?.map(post => (
-          <div key={post?._id} className='mt-4 container max-w-[22rem] xsm:max-w-[28rem] sm:max-w-xl px-0'>
+          <div key={post?._id} className='mt-4 container max-w-[25rem] xsm:max-w-[28rem] sm:max-w-xl px-0'>
             <SinglePost post={post} postID={postID} setPostID={setPostID} />
           </div>
         ))}

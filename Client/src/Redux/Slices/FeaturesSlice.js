@@ -13,7 +13,7 @@ const FeaturesSlice = createSlice({
         isModalConfirm: false,
         isClipAlert: false,
         isPostMore: false,
-        isModalSittings: false,
+        isModalSettings: false,
         isModalPostDetails: false,
         isModalPostMoreLogged: false
 
@@ -56,7 +56,7 @@ const FeaturesSlice = createSlice({
             state.isPostMore = !state.isPostMore;
         },
         Show_iSModalSittings(state) {
-            state.isModalSittings = !state.isModalSittings;
+            state.isModalSettings = !state.isModalSettings;
         },
         Show_ModalPostDetails(state) {
             state.isModalPostDetails = !state.isModalPostDetails;

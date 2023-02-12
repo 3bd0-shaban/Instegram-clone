@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import { BiChevronLeft } from 'react-icons/bi'
 import { ImSpinner3 } from 'react-icons/im'
 import { IoMdPaperPlane } from 'react-icons/io'
+import { useSelector } from 'react-redux'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useCreateCommentMutation } from '../../../Redux/APIs/CommentsApi'
 import { useGetPostDetailsQuery } from '../../../Redux/APIs/PostsApi'
-import { useGetUserQuery } from '../../../Redux/APIs/UserApi'
+import { selectCurrentUser } from '../../../Redux/Slices/UserSlice'
 import { Comments, SideBar } from '../../Exports'
 
 const PostComments = () => {
-    const { data: userInfo } = useGetUserQuery() || {};
+    const userInfo = useSelector(selectCurrentUser)
     const { id } = useParams();
     const [searchQuery] = useSearchParams();
     const user = searchQuery.get('profile')

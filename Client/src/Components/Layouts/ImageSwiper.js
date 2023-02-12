@@ -9,7 +9,7 @@ const ImageSwiper = ({ post }) => {
         <div className='mt-3 z-0 '>
             <Swiper
                 modules={[Pagination]}
-                spaceBetween={25}
+                spaceBetween={0}
                 slidesPerView={1}
                 pagination={{ clickable: true }}
             // onSlideChange={() => console.log('slide change')}

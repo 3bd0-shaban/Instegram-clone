@@ -23,7 +23,7 @@ export { default as UsersTagesById } from './Screens/ProfileById/UsersTagesById'
 
 export { default as ModalConfirm } from './Layouts/Modals/ModalConfirm';
 export { default as ModalPostDetails } from './Layouts/Modals/ModalPostDetails';
-export { default as ModalSittings } from './Layouts/Modals/ModalSittings';
+export { default as ModalSettings } from './Layouts/Modals/ModalSettings';
 export { default as ModalPreviewImages } from './Layouts/Modals/ModalPreviewImages';
 export { default as ConfirmModal2 } from './Layouts/Modals/ConfirmModal2';
 

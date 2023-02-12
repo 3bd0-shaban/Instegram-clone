@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import { useGetUserQuery, useUpdateUserInfoMutation } from '../../../Redux/APIs/UserApi'
+import { useUpdateUserInfoMutation } from '../../../Redux/APIs/UserApi'
 import { ImSpinner7 } from 'react-icons/im';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalChangeProfile, useTitle } from '../../Exports';
+import { selectCurrentUser } from '../../../Redux/Slices/UserSlice';
+import { LoadingAlerts } from '../../Layouts/Alerts';
 
 const EditProfile = () => {
   useTitle('Change Password')
-  const { data: userInfo } = useGetUserQuery() || {};
+  const userInfo = useSelector(selectCurrentUser)
   const [UpdateUserInfo, { isFetching, isError, error }] = useUpdateUserInfoMutation();
   const { isModalChangeProfile } = useSelector(state => state.Features)
   const dispatch = useDispatch();
@@ -39,12 +41,13 @@ const EditProfile = () => {
       {isModalChangeProfile && (
         <ModalChangeProfile
           onClose={() => dispatch(FeatureAction.setIsModalChangeProfile(false))}
+          loading={<LoadingAlerts />}
         />
       )}
       <div className="container max-w-3xl mb-8 mt-2 lg:mt-2">
         <form className="w-full grid grid-cols-6 items-center justify-start text-start">
           <img
-            className="col-span-2 h-20 w-20 lg:h-28 lg:w-28 rounded-full flex justify-center items-center"
+            className="col-span-2 h-20 w-20 lg:h-28 lg:w-28 rounded-full flex justify-center object-cover items-center"
             src={userInfo?.avatar?.url}
             alt={userInfo?.username}
           />
@@ -187,16 +190,17 @@ const EditProfile = () => {
         </div>
 
         <div className="w-full grid grid-cols-6 justify-start items-center text-start">
-          <label className="col-span-2 font-medium">Male</label>
+          <label className="col-span-2 font-medium">Gender</label>
           <div className="col-span-4 w-full flex gap-x-10 items-center justify-start text-start">
             <div className="w-full">
-              <input
-                defaultValue={userInfo?.gender}
+              <select defaultValue={userInfo?.gender}
                 onChange={(e) => setGender(e.target.value)}
                 name="gender"
                 className="border outline-none py-3 w-full px-3 rounded-md"
-                placeholder="Gender"
-              />
+                placeholder="Gender">
+                <option value='Male'>Male</option>
+                <option value='Female'>Female</option>
+              </select>
             </div>
           </div>
         </div>

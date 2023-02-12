@@ -73,6 +73,15 @@ export const UserApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Auth'],
         }),
+        UpdateProfilePic: builder.mutation({
+            query: (data) => ({
+                url: '/api/user/updatepic',
+                method: 'PUT',
+                credentials: 'include',
+                body: data,
+            }),
+            invalidatesTags: ['Auth'],
+        }),
         updateUserRole: builder.mutation({
             query: (id) => ({
                 url: `/api/user/updateuserrole/${id}`,
@@ -106,6 +115,7 @@ export const {
     useDeleteUserMutation,
     useUpdateUserInfoMutation,
     useUpdateUserRoleMutation,
+    useUpdateProfilePicMutation,
     useFollowersListQuery,
     useFollowingListQuery,
     useFollowMutation,

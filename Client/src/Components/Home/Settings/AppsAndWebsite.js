@@ -81,19 +81,19 @@ const AppsAndWebsite = () => {
       <div className="grid grid-cols-3 justify-center items-center mt-10 text-center">
         <button
           onClick={openActive}
-          className={active && ' border-b-2 border-black'}
+          className={`${active && ' border-b-2 border-black'}`}
         >
           Active
         </button>
         <button
           onClick={OpenExpired}
-          className={expired && ' border-b-2 border-black'}
+          className={`${expired && ' border-b-2 border-black'}`}
         >
           Expired
         </button>
         <button
           onClick={OpenRemoved}
-          className={removed && ' border-b-2 border-black'}
+          className={`${removed && ' border-b-2 border-black'}`}
         >
           Removed
         </button>

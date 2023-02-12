@@ -1,33 +1,44 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import AnimModal from '../../../Animation/AnimModal';
 import { BsX } from 'react-icons/bs';
-import { useUpdateUserInfoMutation } from '../../../Redux/APIs/UserApi';
-import { useState } from 'react';
-const ModalChangeProfile = ({ onClose }) => {
-    const [UpdateUserInfo] = useUpdateUserInfoMutation();
+import { useUpdateProfilePicMutation } from '../../../Redux/APIs/UserApi';
+import { useState, useEffect } from 'react';
+import { selectCurrentToken, setCredentials } from '../../../Redux/Slices/UserSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
+const ModalChangeProfile = ({ onClose, loading }) => {
+    const [UpdateProfilePic, { isLoading }] = useUpdateProfilePicMutation();
+    const accessToken = useSelector(selectCurrentToken)
     const [avatar, setAvatar] = useState();
-    console.log({ avatar });
+    const dispatch = useDispatch()
     const loadFile = (e) => {
         for (const file of e.target.files) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
                 setAvatar(reader.result);
-                UploadPhotoHandler();
             };
         }
     };
-    const UploadPhotoHandler = () => {
+    const UploadPhotoHandler = async () => {
         const data = { avatar };
-        // console.log(data)
-        // console.log(`data is: ${data}`)
-        UpdateUserInfo(data)
-            .unwrap()
-            .then((payload) => onClose())
-            .catch((err) => console.log(err));
+        const { user } = await UpdateProfilePic(data).unwrap();
+        if (user) {
+            dispatch(setCredentials({ accessToken, user }))
+            dispatch(FeatureAction.setIsModalChangeProfile(false))
+        }
     };
+    useEffect(() => {
+        if (avatar) {
+            UploadPhotoHandler()
+        }
+        // eslint-disable-next-line 
+    }, [avatar])
     return (
         <>
+            <AnimatePresence>
+                {isLoading && loading}
+            </AnimatePresence>
             <div onClick={onClose} className="fixed inset-0 bg-black/30 z-20"></div>
             <motion.div
                 variants={AnimModal}
@@ -43,7 +54,7 @@ const ModalChangeProfile = ({ onClose }) => {
                     <p className="text-2xl">Change Profile Photo</p>
                 </div>
                 <hr />
-                <div className="w-full text-center mx-auto !mt-0">
+                <form className="w-full text-center mx-auto !mt-0">
                     <label className="block cursor-pointer px-5 text-blue-500 font-medium focus:bg-gray-500 py-4 hover:bg-gray-100">
                         <p> Upload photo</p>
                         <input
@@ -68,7 +79,7 @@ const ModalChangeProfile = ({ onClose }) => {
                     >
                         Cancel
                     </span>
-                </div>
+                </form>
             </motion.div>
         </>
     );

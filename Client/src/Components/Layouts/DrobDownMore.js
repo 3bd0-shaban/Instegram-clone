@@ -1,14 +1,14 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { BsBookmarkCheck, BsGear, BsJournals, BsMoon, BsPeople, BsQuestionCircle, BsToggleOff } from 'react-icons/bs'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
 import { useLogOutMutation } from '../../Redux/APIs/AuthApi';
-import { useGetUserQuery } from '../../Redux/APIs/UserApi';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimDropdown from '../../Animation/AnimDropdown';
+import { selectCurrentUser } from '../../Redux/Slices/UserSlice';
 
 const DrobDownMore = () => {
-    const { data: userInfo } = useGetUserQuery() || {};
+    const userInfo = useSelector(selectCurrentUser)
     const dispatch = useDispatch();
     const [logOut] = useLogOutMutation();
     const navigate = useNavigate();

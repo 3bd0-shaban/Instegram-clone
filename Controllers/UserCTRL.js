@@ -3,7 +3,7 @@ import { asyncHandler } from "../Middlewares/asyncErrorHandler.js";
 import ErrorHandler from "../Utils/ErrorHandler.js";
 import Users from "../Models/Users.js";
 import Features from "../Utils/Features.js";
-
+import cloudinary from './../Utils/cloudinary.js';
 export const Follow_Public_User = asyncHandler(async (req, res, next) => {
     const isfollowing = await Users.findOne({
         _id: req.params.id,
@@ -73,8 +73,6 @@ export const Get_UserInfo = asyncHandler(async (req, res, next) => {
 
 export const Update_UserInfo = asyncHandler(async (req, res, next) => {
     const { fullname, username, website, bio, email, phoneNumber, gender } = req.body;
-    const file = req.body.avatar;
-    let newAvatar = {};
     if (username == '' || fullname == '' || email == '') {
         return next(new ErrorHandler('Fields can not be empty', 400));
     }
@@ -86,20 +84,25 @@ export const Update_UserInfo = asyncHandler(async (req, res, next) => {
     if (checkemail) {
         return next(new ErrorHandler('username Already exist', 400));
     };
-    if (file) {
-        const result = await cloudinary.uploader.upload(file, {
-            folder: "Instegram/User",
-        });
-        newAvatar = {
-            public_id: result.public_id,
-            url: result.secure_url,
-        };
-    }
     const user = await Users.findByIdAndUpdate({ _id: req.user.id },
-        { fullname, username, website, bio, email, phoneNumber, gender, avatar: newAvatar },
-        { new: true });
+        req.body, { new: true });
     return res.json(user);
 });
+export const updateProfilePic = asyncHandler(async (req, res, next) => {
+    const file = req.body.avatar;
+    const result = await cloudinary.uploader.upload(file, {
+        folder: "Instegram/User",
+    });
+    const user = await Users.findByIdAndUpdate({ _id: req.user.id },
+        {
+            avatar: {
+                public_id: result.public_id,
+                url: result.secure_url,
+            }
+        }, { new: true });
+    return res.json({ user });
+
+})
 
 export const Update_UserRole = asyncHandler(async (req, res, next) => {
     const user = await Users.findById(req.params.id);

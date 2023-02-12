@@ -1,16 +1,17 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useRefreshMutation } from "../Redux/APIs/AuthApi";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "../Redux/Slices/UserSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentToken, setCredentials } from "../Redux/Slices/UserSlice";
 import usePersist from "../Hooks/usePersist";
 import { LoadingScreen } from "./Exports";
 const PersistLogin = () => {
     const [persist] = usePersist();
     const token = useSelector(selectCurrentToken);
+
     const effectRan = useRef(false);
     const [trueSuccess, setTrueSuccess] = useState(false)
-
+    const dispatch = useDispatch();
     const [refresh, { isUninitialized, isLoading, isSuccess, isError }] = useRefreshMutation();
 
     useEffect(() => {
@@ -20,7 +21,8 @@ const PersistLogin = () => {
             const verifyRefreshToken = async () => {
                 console.log('verifying refresh token')
                 try {
-                    await refresh()
+                    const { accessToken, user } = await refresh().unwrap()
+                    dispatch(setCredentials({ accessToken, user }))
                     setTrueSuccess(true)
                 }
                 catch (err) {

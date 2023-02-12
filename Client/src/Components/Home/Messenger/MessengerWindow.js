@@ -1,13 +1,14 @@
 import { SideBar, Chat, SideBarChats, MainNoSelection } from '../../Exports'
-import { useGetUserQuery } from '../../../Redux/APIs/UserApi';
 import { useUserChatsQuery } from '../../../Redux/APIs/ChatApi';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 // import { io } from 'socket.io-client'
 import useBreakpoint from './../../../Hooks/useBreakpoint';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../../Redux/Slices/UserSlice';
 // const url = process.env.REACT_APP_API_KEY;
 const MessengerWindow = () => {
-    const { data: userInfo } = useGetUserQuery() || {};
+    const userInfo = useSelector(selectCurrentUser)
     const { data: Chats } = useUserChatsQuery() || {};
     const [selected, setSelected] = useState(false);
     // const socket = useRef()

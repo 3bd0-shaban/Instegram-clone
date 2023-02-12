@@ -9,22 +9,23 @@ import { BsBookmarks, BsThreeDots, BsGrid, BsPersonLinesFill } from 'react-icons
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { useFollowMutation, useGetUserByIdQuery, useGetUserQuery } from '../Redux/APIs/UserApi';
+import { useFollowMutation, useGetUserByIdQuery, } from '../Redux/APIs/UserApi';
 import { BiChevronDown } from 'react-icons/bi';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import { useNewChatMutation } from '../Redux/APIs/ChatApi';
 import { ImSpinner3 } from 'react-icons/im';
+import { selectCurrentUser } from '../Redux/Slices/UserSlice';
 
 const Profile = () => {
 
     const { username } = useParams();
-    const { data: userInfo, isError, isFetching, error } = useGetUserByIdQuery(username) || {};
+    const { data: userById, isError, isFetching, error } = useGetUserByIdQuery(username) || {};
     // const { data: getfollowerchatID } = useSingleChatQuery(id) || {};
-    const { isModalFollowersList, isModalFollowingList, isModalFollowerCTRL } = useSelector(state => state.Features);
-    useTitle(userInfo?.fullname);
+    const { isModalFollowersList, isModalFollowingList, isModalFollowerCTRL, isModalSettings } = useSelector(state => state.Features);
+    useTitle(userById?.fullname);
     const navigate = useNavigate();
-    const { data: loggeduser } = useGetUserQuery() || {};
+    const userInfo = useSelector(selectCurrentUser)
     const [Follow] = useFollowMutation() || {};
     const [NewChat, { isFetching: Loading }] = useNewChatMutation() || {};
 
@@ -34,21 +35,21 @@ const Profile = () => {
     const [saved, setSaved] = useState(false);
     const [tagged, setTaged] = useState(false);
     const FollowUser = () => {
-        const id = userInfo._id
+        const id = userById._id
         Follow(id).unwrap()
             .catch(err => console.log(err))
     };
     const NewChatifNot = () => {
-        const id = userInfo?._id
+        const id = userById?._id
         NewChat(id).unwrap()
             .then(payload => navigate(`message/${payload}`))
             .catch(err => console.log(err))
     }
 
     useEffect(() => {// eslint-disable-next-line
-        const isInclude = userInfo?.followers?.some(p => p == loggeduser?._id);
+        const isInclude = userById?.followers?.some(p => p == userInfo?._id);
         isInclude ? setIsFollowing(true) : setIsFollowing(false);
-    }, [loggeduser, setIsFollowing, userInfo]);
+    }, [userInfo, setIsFollowing, userById]);
 
     const OpenPosts = () => {
         setPosts(true); setSaved(false); setTaged(false);
@@ -62,10 +63,10 @@ const Profile = () => {
     return (
         <div className='bg-white'>
             <SideBar />
-            {isModalFollowingList && <ModalFollowing id={userInfo?._id} />}
-            {isModalFollowersList && <ModalFollowers id={userInfo?._id} />}
-            {isModalFollowerCTRL && <ModalFollowerCTRL userInfo={userInfo} />}
-            <ModalUserByIdSettings />
+            {isModalFollowingList && <ModalFollowing id={userById?._id} />}
+            {isModalFollowersList && <ModalFollowers id={userById?._id} />}
+            {isModalFollowerCTRL && <ModalFollowerCTRL userInfo={userById} />}
+            {isModalSettings && <ModalUserByIdSettings />}
             {isFetching ?
                 <div>
                     {/* Animation Loading Her  */}
@@ -74,11 +75,11 @@ const Profile = () => {
             <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 mt-5'>
                 <div className='container px-.5 max-w-[70rem] px-0 '>
                     <div className='flex gap-3 sm:gap-24 justify-center items-center mb-8'>
-                        <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
+                        <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userById?.avatar?.url} alt='' />
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                             <div className='space-y-5'>
                                 <div className='flex items-center gap-2'>
-                                    <p className='text-lg font-semibold'>{userInfo?.fullname}</p>
+                                    <p className='text-lg font-semibold'>{userById?.fullname}</p>
                                     <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsThreeDots size={24} /></button>
                                 </div>
                                 <div className='flex gap-3'>
@@ -107,25 +108,25 @@ const Profile = () => {
                                     }
                                 </div>
                                 <div className='hidden lg:flex gap-5 whitespace-nowrap'>
-                                    <span className='text-lg font-mono'>{userInfo?.posts?.length} posts</span>
-                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userInfo?.followers?.length} follower</button>
-                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userInfo?.following?.length} following</button>
+                                    <span className='text-lg font-mono'>{userById?.posts?.length} posts</span>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userById?.followers?.length} follower</button>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userById?.following?.length} following</button>
                                 </div>
-                                <p className='text-lg font-semibold'>{userInfo?.username}</p>
+                                <p className='text-lg font-semibold'>{userById?.username}</p>
                             </div>
                         </div>
                     </div>
                     <div className='grid lg:hidden grid-cols-3 gap-5 text-center whitespace-nowrap border-t py-2'>
                         <span className='text-lg font-mono'>
-                            <p>{userInfo?.posts?.length || 0}</p>
+                            <p>{userById?.posts?.length || 0}</p>
                             <p className='text-gray-500'>posts</p>
                         </span>
                         <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))}>
-                            <p className='text-lg font-mono'>{userInfo?.followers?.length}</p>
+                            <p className='text-lg font-mono'>{userById?.followers?.length}</p>
                             <p className='text-gray-500'>follower</p>
                         </button>
                         <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))}>
-                            <p className='text-lg font-mono'>{userInfo?.following?.length}</p>
+                            <p className='text-lg font-mono'>{userById?.following?.length}</p>
                             <p className='text-gray-500'>following</p>
                         </button>
                     </div>
@@ -146,7 +147,7 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                {(posts && !isFetching) && <UsersPostsById ID={userInfo?._id} userInfo={userInfo} />}
+                {(posts && !isFetching) && <UsersPostsById ID={userById?._id} userById={userById} />}
                 {saved && <UserReelsById />}
                 {tagged && <UsersTagesById />}
             </div>

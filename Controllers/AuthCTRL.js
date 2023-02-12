@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import Jwt from 'jsonwebtoken';
 import otpGenerator from 'otp-generator';
 import send_Email from '../Utils/sendEmail.js'
+import { Auth } from 'googleapis';
 export const SignUp = asyncHandler(async (req, res, next) => {
     const { email, password, confirmpassword, fullname, username } = req.body;
     if (!email || !password || !confirmpassword || !fullname || !username) {
@@ -78,9 +79,8 @@ export const SignIn = asyncHandler(async (req, res, next) => {
 
 
 export const SetBirthday = asyncHandler(async (req, res, next) => {
-    const { email } = req.query;
     const { year, month, day } = req.body;
-    const user = await Users.findOne({ email })
+    const user = await Users.findOne({ email: req.user.email })
     if (user) {
         await Users.updateOne({ email: user.email },
             { birthday: req.body }, { new: true });
@@ -129,13 +129,13 @@ export const RefreshToken = asyncHandler(async (req, res, next) => {
     if (!refreshToken) {
         return next(new ErrorHandler('Sign In First', 400));
     }
-    const user = Jwt.verify(refreshToken, process.env.JWT_REFRESH)
-    if (!user) {
+    const auth = Jwt.verify(refreshToken, process.env.JWT_REFRESH)
+    if (!auth) {
         return next(new ErrorHandler('Authorization Failed, Please Log In Again', 400));
     }
-    const accessToken = createAccessToken({ id: user.id, roles: user.roles });
-    const auth = await Users.findOne({ _id: user.id })
-    return res.json({ accessToken, auth })
+    const accessToken = createAccessToken({ id: auth.id, roles: auth.roles });
+    const user = await Users.findOne({ _id: auth.id })
+    return res.json({ accessToken, user })
 });
 
 export const GenerateOtp = asyncHandler(async (req, res, next) => {
@@ -166,6 +166,31 @@ export const CreateResetSession = asyncHandler(async (req, res, next) => {
         return res.json({ msg: "Access Granted !" })
     }
     return next(new ErrorHandler('OTP Expired !', 400));
+});
+
+export const ChangePassword = asyncHandler(async (req, res, next) => {
+    const { oldpassword, newpassword, confirmpassword } = req.body;
+    const { email } = req.user;
+    if (!newpassword || !confirmpassword || !oldpassword) {
+        return next(new ErrorHandler('Please enter all fields', 400));
+    }
+    const user = await Users.findOne({ email }).select('+password');
+    const isMatch = await bcrypt.compare(oldpassword, user.password);
+    if (!isMatch) {
+        return next(new ErrorHandler('Invalid Email Or Password', 400));
+    }
+    if (newpassword !== confirmpassword) {
+        return next(new ErrorHandler('password did not match', 400));
+    }
+    if (newpassword.length <= 6) {
+        return next(new ErrorHandler('Passowrd must be more than 6 characters', 400));
+    }
+    const slat = await bcrypt.genSalt();
+    const HashedPassword = await bcrypt.hash(newpassword, slat);
+    await Users.findOneAndUpdate({ email: req.user.email }, {
+        password: HashedPassword
+    }, { new: true })
+    return res.json({ msg: 'Password updated' })
 });
 
 export const ResetPassword = asyncHandler(async (req, res, next) => {
@@ -203,10 +228,8 @@ export const ResetPassword = asyncHandler(async (req, res, next) => {
         })
 });
 
-export const LogOut = asyncHandler(async (req, res, next) => {
-    res.clearCookie('token', { path: '/', maxAge: 1 });
-    res.clearCookie('Logged_in', { path: '/', maxAge: 1 });
-    res.clearCookie('Admin', { path: '/' });
+export const LogOut = asyncHandler((req, res, next) => {
+    res.clearCookie('Jwt', { path: '/' });
     return res.json({ msg: 'Loged Out' });
 });
 function validateEmail(email) {

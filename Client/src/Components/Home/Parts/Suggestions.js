@@ -5,7 +5,7 @@ import { useSuggestionQuery } from '../../../Redux/APIs/UserApi'
 const Suggestions = () => {
   const { data } = useSuggestionQuery() || {}
   return (
-    <div className=''>
+    <>
       <div className='flex justify-between p-5'>
         <p className='font-semibold text-gray-600'>Suggestion for yor</p>
         <Link to='/'>See All</Link>
@@ -26,7 +26,7 @@ const Suggestions = () => {
           <button className='font-semibold text-blue-400'>follow</button>
         </div>
       ))}
-    </div>
+    </>
   )
 }
 

@@ -1,16 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { SideBar, useTitle, UserSaves, UsersPosts, UsersTages, Footer, ModalSittings, ModalFollowers, ModalFollowing } from '../Components/Exports'
+import { SideBar, useTitle, UserSaves, UsersPosts, UsersTages, Footer, ModalSettings, ModalFollowers, ModalFollowing, ModalChangeProfile } from '../Components/Exports'
 import { BsBookmarks, BsGear, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { useGetUserQuery } from '../Redux/APIs/UserApi';
 import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../Redux/Slices/UserSlice';
+import { LoadingAlerts } from '../Components/Layouts/Alerts';
+import { FiPlus } from 'react-icons/fi';
 
 const Profile = () => {
-    const { data: userInfo, isError, isFetching, error } = useGetUserQuery() || {};
-    const { isModalFollowersList, isModalFollowingList } = useSelector(state => state.Features);
+    const userInfo = useSelector(selectCurrentUser)
+    const { isModalFollowersList, isModalFollowingList,isModalSettings, isModalChangeProfile } = useSelector(state => state.Features);
     useTitle(userInfo?.fullname);
     const dispatch = useDispatch();
     const [posts, setPosts] = useState(true);
@@ -31,15 +33,26 @@ const Profile = () => {
             <SideBar />
             {isModalFollowingList && <ModalFollowing id={userInfo?._id} />}
             {isModalFollowersList && <ModalFollowers id={userInfo?._id} />}
-            <ModalSittings />
-            {isFetching ? <div>
-                {/* Animation Loading Her  */}
-            </div>
-                : isError && <p>{error?.data?.msg}</p>}
+            {isModalChangeProfile && (
+                <ModalChangeProfile
+                    onClose={() => dispatch(FeatureAction.setIsModalChangeProfile(false))}
+                    loading={<LoadingAlerts />}
+                />
+            )}
+            {isModalSettings && <ModalSettings />}
             <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 mt-5'>
                 <div className='container px-3 max-w-[70rem]'>
                     <div className='flex gap-3 sm:gap-24 justify-center items-center mb-8'>
-                        <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
+                        <button onClick={() =>
+                            dispatch(FeatureAction.setIsModalChangeProfile(true))
+                        }
+                        className='relative group'
+                        >
+                        <div className='hidden rounded-full group-hover:flex text-white items-center justify-center absolute p-2 inset-0 hover:bg-black/20'>
+                            <FiPlus/>
+                        </div>
+                            <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userInfo?.avatar?.url} alt='' />
+                        </button>
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                             <div className='space-y-5'>
                                 <p className='text-lg font-semibold'>{userInfo?.fullname}</p>

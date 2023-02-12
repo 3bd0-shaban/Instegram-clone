@@ -1,14 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { motion } from 'framer-motion';
 import AnimModal from '../../../Animation/AnimModal';
 
 const ModalUserByIdSettings = () => {
-    const { isModalSittings } = useSelector(state => state.Features);
     const dispatch = useDispatch();
 
     return (
-        isModalSittings &&
         <>
             <div onClick={() => dispatch(FeatureAction.Show_iSModalSittings(false))} className="fixed inset-0 bg-black/30 z-20"></div>
             <motion.div

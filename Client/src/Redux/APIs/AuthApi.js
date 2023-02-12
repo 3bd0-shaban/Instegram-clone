@@ -71,6 +71,14 @@ export const AuthApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Auth'],
         }),
+        ChangePassword: builder.mutation({
+            query: (data) => ({
+                url: `/api/auth/changepassword`,
+                method: 'PUT',
+                body:data
+            }),
+            invalidatesTags: ['Auth'],
+        }),
         VerifyEmailtoResest: builder.mutation({
             query: ({ email, code }) => ({
                 url: `/api/auth/verifyOtp?email=${email}&code=${code}`,
@@ -115,4 +123,5 @@ export const {
     useVerifyEmailtoResestMutation,
     useForgetPasswordMutation,
     useResetPasswordMutation,
+    useChangePasswordMutation,
 } = AuthApi;

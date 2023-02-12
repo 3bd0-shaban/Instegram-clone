@@ -6,7 +6,7 @@ import { AiOutlineStar } from 'react-icons/ai';
 import { BsX } from 'react-icons/bs';
 import { useUnFollowMutation } from '../../../Redux/APIs/UserApi';
 
-const ModalFollowerCTRL = ({ userInfo }) => {
+const ModalReports = ({ userInfo }) => {
     const dispatch = useDispatch();
     const [UnFollow] = useUnFollowMutation();
     const UnFollowHandle = () => {
@@ -63,4 +63,4 @@ const ModalFollowerCTRL = ({ userInfo }) => {
     )
 }
 
-export default ModalFollowerCTRL
+export default ModalReports

@@ -22,7 +22,6 @@ export const SocketProvider = ({ children }) => {
         }
         return () => {
             socket.off('connect');
-            console.log('disconnected')
         };
     }, [token, socket]);
 

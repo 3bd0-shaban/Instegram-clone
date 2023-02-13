@@ -25,13 +25,13 @@ const Confirm = () => {
     const SubmitActivateEmail = async (event) => {
         event.preventDefault();
         try {
-            const { accessToken } = await VerifyEmail({ code, email }).unwrap()
-            dispatch(setCredentials({ accessToken }));
+            const { accessToken, user } = await VerifyEmail({ code, email }).unwrap()
+            dispatch(setCredentials({ accessToken, user }));
             localStorage.setItem('persist', true)
             setCode('');
             navigate(`/birthday?email=${email}`)
         } catch (error) {
-            console.log(error)
+            console.log(error?.data?.msg)
         }
     }
     const RequestOTP2Activate = async (event) => {

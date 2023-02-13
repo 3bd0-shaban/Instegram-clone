@@ -16,6 +16,7 @@ const UsersPosts = ({ userInfo }) => {
     const [postID, setPostID] = useState('');
     const breakpoint = useBreakpoint();
     const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
+    const [postDetails, setPostDetails] = useState('');
     const navigate = useNavigate();
     const EmptyPosts = () => {
         return (
@@ -38,7 +39,7 @@ const UsersPosts = ({ userInfo }) => {
     return (
         <>
             <AnimatePresence>
-                {isModalPostDetails && <ModalPostDetails ID={postID} />}
+                {isModalPostDetails && <ModalPostDetails ID={postID} postDetails={postDetails} />}
             </AnimatePresence>
             <div className='container max-w-5xl px-0'>
                 {isError && <p>{error?.data?.msg}</p>}
@@ -51,7 +52,7 @@ const UsersPosts = ({ userInfo }) => {
                                 MobileView ?
                                     navigate(`/p/${post?._id}?profile=${userInfo.username}`)
                                     :
-                                    dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id)
+                                    dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post)
                             }}
                                 key={post?._id}
                                 className='h-80 cursor-pointer hover:brightness-50 duration-200 group relative'

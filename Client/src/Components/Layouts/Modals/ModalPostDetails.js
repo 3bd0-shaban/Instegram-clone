@@ -59,7 +59,11 @@ const ModalPostDetails = ({ ID, postDetails }) => {
         e.preventDefault();
         if (!comment) return;
         await createComment({ data, id }).unwrap()
-            .then((payload) => setComment(''))
+            .then((payload) => {
+                setComment('')
+                handleReplace(payload)
+                setSinglePost(payload)
+            })
             .catch((error) => console.log(error));
     }
     const SaveSubmit = async (id) => {

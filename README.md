@@ -1,70 +1,107 @@
-# Getting Started with Create React App
-Instegram-Clone
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Instegram-Clone ( MERN STACK )
 
-## Available Scripts
+stare the repo if you like it .
 
-In the project directory, you can run:
+This is an Instagram clone web application that is fully responsive built using the MERN (MongoDB, Express, React, Node) stack. It is a fully functional social media platform that mimics the features and functionality of the original Instagram( not yeat includes reels ).
 
-### `npm start`
+**Demo**: https://instegram-clone.onrender.com/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
+-----------
 
-### `npm test`
+* User authentication (sign up, sign in)
+* confirm and reset password by otp email 
+* Create, edit and delete posts
+* Like and comment on posts
+* Follow and unfollow users
+* View a list of followers and following
+* View user profiles
+* Edit profile information (profile picture, bio, etc.)
+* Search by username
+* pagination on each page
+* Suggestion menu
+* Save and Unsave posts
+* notifications page.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Tecnologies used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Nodejs , express
+* MongoDB
+* Socket.io
+* react
+* Tailwind css
+* Redux toolkit , RTK Query
+* Framer Motion
+* Swiper
+ 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
+---------------
+First of all you need to install liberaries used for both backend and frontend
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Once you clone the project in you mathine run command
 
-### `npm run eject`
+```bash
+$ npm i
+```
+2. Navigate to client and install front liberaries
+```bash
+$ cd client
+```
+```bash
+$ npm i
+```
+3. Create a .env file in the root directory and set the following environment variables
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+MONGODB_URI= mongodb://localhost:27017/Instegram2
+Client_URL = http://localhost:3000
+NODE_ENV = production
+deployedWebsite = https://instegram-clone.onrender.com
+JWT_SECRET = ENTERJSONSECERTKEYHERE
+JWT_REFRESH = ENTERJSONREFRESHKEYHERE
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#google mail information by google console
+MAILING_SERVICE_CLIENT_ID = 
+MAILING_SERVICE_CLIENT_SECRET = 
+MAILING_SERVICE_REFRESH_TOKEN = 
+MAILING_SERVICE_ACCESS_TOKEN = 
+SENDER_EMAIL_ADDRESS =
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#Information provided by cloudinary service
+CLOUD_NAME = 
+API_KEY = 
+API_SECRET =
+CLOUDINARY_URL =
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+4. Create a .env file in the root client directory 
 
-## Learn More
+```bash
+REACT_APP_API_KEY = http://localhost:5000
+REACT_APP_Website = http://localhost:5000
+NODE_ENV = production
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+5. Now you are ready to run th project,Run backend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+$ npm run dev
+```
+6. Run frontend
 
-### Code Splitting
+```bash
+$ npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Contact me 
+---------------
+just constct me on one of the following 
 
-### Analyzing the Bundle Size
+## Prerequisites
+- [FaceBook](https://www.facebook.com/AbdElra7man9/)
+- [Linkdin](https://www.linkedin.com/in/abdelra7man9/)
+- [Telegram](https://t.me/abdo9090m)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

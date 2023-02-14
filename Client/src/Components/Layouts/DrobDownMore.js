@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
-import { BsBookmarkCheck, BsGear, BsJournals, BsMoon, BsPeople, BsQuestionCircle, BsToggleOff } from 'react-icons/bs'
+import { BsGear, BsJournals, BsMoon, BsPeople, BsToggleOff } from 'react-icons/bs'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
 import { useLogOutMutation } from '../../Redux/APIs/AuthApi';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,6 +16,7 @@ const DrobDownMore = () => {
         await logOut().unwrap()
             .then((payload) => {
                 dispatch(FeatureAction.ShowDrobdownMore(false));
+                localStorage.removeItem('persist')
                 navigate('/signin')
             })
             .catch((err) => {
@@ -46,12 +47,13 @@ const DrobDownMore = () => {
             >
                 <div className='px-2 py-2'>
                     <DropItem Icon={<BsPeople />} Link={`/${userInfo?.username}`} Title={'Profile'} />
-                    <DropItem Icon={<BsJournals />} Title={'Saved'} />
-                    <DropItem Icon={<BsMoon />} Title={'Switch Apperance'} />
+                    <DropItem Icon={<BsJournals />} Link={`/${userInfo?.username}?saves`} Title={'Saved'} />
+                    <DropItem Icon={<BsMoon />} Link={`/${userInfo?.username}?posts`} Title={'My Posts'} />
+                    {/* <DropItem Icon={<BsMoon />} Title={'Switch Apperance'} /> */}
                     <DropItem Icon={<BsGear />} Title={'Settings'} Link={'/settings/edit'} Toggle={<BsToggleOff />} />
-                    <DropItem Icon={<BsBookmarkCheck />} Title={'Animations'} />
-                    <DropItem Icon={<BsQuestionCircle />} Title={'Report a problem'} />
-                    <DropItem Icon={<BsBookmarkCheck />} Title={'Switch accounts'} />
+                    {/* <DropItem Icon={<BsBookmarkCheck />} Title={'Animations'} /> */}
+                    {/* <DropItem Icon={<BsQuestionCircle />} Title={'Report a problem'} /> */}
+                    {/* <DropItem Icon={<BsBookmarkCheck />} Title={'Switch accounts'} /> */}
                 </div><hr />
                 <Link onClick={HandleLogOut} className='flex gap-3 items-center justify-between px-6 py-3 hover:bg-gray-200'>
                     <span className='whitespace-nowrap font-normal'>Log Out</span>

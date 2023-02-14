@@ -55,7 +55,7 @@ const UsersPosts = ({ userInfo }) => {
                                     dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post)
                             }}
                                 key={post?._id}
-                                className='h-80 cursor-pointer hover:brightness-50 duration-200 group relative'
+                                className='h-40 md:h-80 cursor-pointer hover:brightness-50 duration-200 group relative'
                             >
                                 <img className='object-cover w-full h-full' src={post?.images[0]?.url} alt='' />
                                 <div className='absolute inset-1/2 left-[45%] z-10 gap-3 items-center text-white font-bold hidden group-hover:flex'>

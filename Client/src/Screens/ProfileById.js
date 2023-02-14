@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
     SideBar, useTitle, Footer, UsersTagesById,
     UserReelsById, UsersPostsById, ModalUserByIdSettings,
@@ -31,9 +31,10 @@ const Profile = () => {
 
     const dispatch = useDispatch();
     const [isFollowing, setIsFollowing] = useState(false);
-    const [posts, setPosts] = useState(true);
-    const [saved, setSaved] = useState(false);
-    const [tagged, setTaged] = useState(false);
+    const location = useLocation();
+    const posts = (location.search === `?posts` || location.search === ``)
+    const saved = (location.search === `?saves`)
+    const tagged = (location.search === `?tages`)
     const FollowUser = () => {
         const id = userById._id
         Follow(id).unwrap()
@@ -51,15 +52,6 @@ const Profile = () => {
         isInclude ? setIsFollowing(true) : setIsFollowing(false);
     }, [userInfo, setIsFollowing, userById]);
 
-    const OpenPosts = () => {
-        setPosts(true); setSaved(false); setTaged(false);
-    }
-    const OpenSaved = () => {
-        setPosts(false); setSaved(true); setTaged(false);
-    }
-    const OpenTaged = () => {
-        setPosts(false); setSaved(false); setTaged(true);
-    }
     return (
         <div className='bg-white'>
             <SideBar />
@@ -133,18 +125,18 @@ const Profile = () => {
                 </div><hr className='bg-black/60' />
                 <div className='conatiner max-w-[85rem]'>
                     <div className='flex gap-14 justify-center items-center'>
-                        <div onClick={OpenPosts} className={posts ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                        <Link to='?posts' className={posts ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                             <BsGrid />
                             <p>Posts</p>
-                        </div>
-                        <div onClick={OpenSaved} className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                        </Link>
+                        <Link to='?saves' className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                             <BsBookmarks />
-                            <p>Reels</p>
-                        </div>
-                        <div onClick={OpenTaged} className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                            <p>Saved</p>
+                        </Link>
+                        <Link to='?tages' className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                             <BsPersonLinesFill />
                             <p>Tagged</p>
-                        </div>
+                        </Link>
                     </div>
                 </div>
                 {(posts && !isFetching) && <UsersPostsById ID={userById?._id} userById={userById} />}

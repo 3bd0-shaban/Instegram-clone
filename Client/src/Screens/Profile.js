@@ -1,8 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { SideBar, useTitle, UserSaves, UsersPosts, UsersTages, Footer, ModalSettings, ModalFollowers, ModalFollowing, ModalChangeProfile } from '../Components/Exports'
 import { BsBookmarks, BsGear, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
-import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -12,22 +11,13 @@ import { FiPlus } from 'react-icons/fi';
 
 const Profile = () => {
     const userInfo = useSelector(selectCurrentUser)
-    const { isModalFollowersList, isModalFollowingList,isModalSettings, isModalChangeProfile } = useSelector(state => state.Features);
+    const { isModalFollowersList, isModalFollowingList, isModalSettings, isModalChangeProfile } = useSelector(state => state.Features);
     useTitle(userInfo?.fullname);
     const dispatch = useDispatch();
-    const [posts, setPosts] = useState(true);
-    const [saved, setSaved] = useState(false);
-    const [tagged, setTaged] = useState(false);
-
-    const OpenPosts = () => {
-        setPosts(true); setSaved(false); setTaged(false);
-    }
-    const OpenSaved = () => {
-        setPosts(false); setSaved(true); setTaged(false);
-    }
-    const OpenTaged = () => {
-        setPosts(false); setSaved(false); setTaged(true);
-    }
+    const location = useLocation();
+    const posts = (location.search === `?posts` || location.search === ``)
+    const saved = (location.search === `?saves`)
+    const tagged = (location.search === `?tages`)
     return (
         <div className='bg-white'>
             <SideBar />
@@ -46,11 +36,11 @@ const Profile = () => {
                         <button onClick={() =>
                             dispatch(FeatureAction.setIsModalChangeProfile(true))
                         }
-                        className='relative group'
+                            className='relative group'
                         >
-                        <div className='hidden rounded-full group-hover:flex text-white items-center justify-center absolute p-2 inset-0 hover:bg-black/20'>
-                            <FiPlus/>
-                        </div>
+                            <div className='hidden rounded-full group-hover:flex text-white items-center justify-center absolute p-2 inset-0 hover:bg-black/20'>
+                                <FiPlus />
+                            </div>
                             <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userInfo?.avatar?.url} alt='' />
                         </button>
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
@@ -86,18 +76,18 @@ const Profile = () => {
                 </div><hr className='bg-black/60' />
                 <div className='conatiner max-w-[85rem]'>
                     <div className='flex gap-14 justify-center items-center'>
-                        <div onClick={OpenPosts} className={posts ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                        <Link to='?posts' className={posts ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                             <BsGrid />
                             <p>Posts</p>
-                        </div>
-                        <div onClick={OpenSaved} className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                        </Link>
+                        <Link to='?saves' className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                             <BsBookmarks />
                             <p>Saved</p>
-                        </div>
-                        <div onClick={OpenTaged} className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                        </Link>
+                        <Link to='?tages' className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                             <BsPersonLinesFill />
                             <p>Tagged</p>
-                        </div>
+                        </Link>
                     </div>
                 </div>
                 {posts && <UsersPosts userInfo={userInfo} />}

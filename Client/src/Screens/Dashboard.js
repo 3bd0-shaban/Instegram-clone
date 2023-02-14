@@ -1,10 +1,9 @@
 import React from 'react'
-import { DashboardNavBar,Header } from '../Components/Exports'
+import { DashboardNavBar } from '../Components/Exports'
 
 const Dashboard = () => {
   return (
     <div>
-      <Header/>
       <DashboardNavBar/>
     </div>
   )

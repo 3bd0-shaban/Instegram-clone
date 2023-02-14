@@ -20,6 +20,7 @@ const FeaturesSlice = createSlice({
         isModalPostMoreLogged: false,
         isModalUnfollowConfirm: false,
         isModalBlockConfirm: false,
+        isModalLoadingUpload: false,
 
     },
     reducers: {
@@ -79,6 +80,9 @@ const FeaturesSlice = createSlice({
         },
         Show_ModalPostMoreLogged(state) {
             state.isModalPostMoreLogged = !state.isModalPostMoreLogged;
+        },
+        setIsModalLoadingUpload(state) {
+            state.isModalLoadingUpload = !state.isModalLoadingUpload;
         },
     },
 });

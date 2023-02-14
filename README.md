@@ -100,7 +100,6 @@ $ npm start
 ---------------
 just constct me on one of the following 
 
-## Prerequisites
 - [FaceBook](https://www.facebook.com/AbdElra7man9/)
 - [Linkdin](https://www.linkedin.com/in/abdelra7man9/)
 - [Telegram](https://t.me/abdo9090m)

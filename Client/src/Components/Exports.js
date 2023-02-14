@@ -1,6 +1,6 @@
 export { default as InstegramFont } from './Layouts/InstegramFont';
 export { default as Footer } from './Layouts/Footer';
-export { default as Header } from './Layouts/Header';
+// export { default as Header } from './Layouts/Header';
 export { default as SideBar } from './Layouts/SideBar';
 export { default as ImageSwiper } from './Layouts/ImageSwiper';
 export { default as Stories } from './Home/Stories';
@@ -32,6 +32,7 @@ export { default as ModalAddPost } from './Layouts/Modals/ModalAddPost';
 export { default as ModalFollowerCTRL } from './Layouts/Modals/ModalFollowerCTRL';
 export { default as ModalFollowers } from './Layouts/Modals/ModalFollowers';
 export { default as ModalFollowing } from './Layouts/Modals/ModalFollowing';
+export { default as ModalLoadingUpload } from './Layouts/Modals/ModalLoadingUpload';
 export { default as ModalBlockConfirm } from './Layouts/Modals/ModalBlockConfirm';
 export { default as ModalUnFollowConfirm } from './Layouts/Modals/ModalUnFollowConfirm';
 export { default as ModalThanksReport } from './Layouts/Modals/ModalThanksReport';
@@ -39,7 +40,7 @@ export { default as ModalChangeProfile } from './Layouts/Modals/ModalChangeProfi
 export { default as ModalUserByIdSettings } from './Layouts/Modals/ModalUserByIdSettings';
 export { default as ModalPostMoreLogged } from './Layouts/Modals/ModalPostMoreLogged';
 export { default as PostMore } from './Layouts/Modals/PostMore';
-export { default as AddPost } from './Screens/AddPost';
+// export { default as AddPost } from './Screens/AddPost';
 export { default as Suggestions } from './Home/Parts/Suggestions';
 export { default as SignIn } from '../Screens/SignIn';
 export { default as SignUp } from '../Screens/SignUp';

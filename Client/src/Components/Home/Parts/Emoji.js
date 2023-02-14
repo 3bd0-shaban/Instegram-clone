@@ -3,7 +3,7 @@ import Picker from '@emoji-mart/react'
 
 const Emoji = ({ setComment, comment }) => {
     return (
-        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+        <>
             <Picker
                 data={data}
                 previewPosition='none'
@@ -12,7 +12,7 @@ const Emoji = ({ setComment, comment }) => {
                 showPreview="false"
                 onEmojiSelect={(e) => setComment(comment + e.native)}
             />
-        </div>
+        </>
     );
 };
 

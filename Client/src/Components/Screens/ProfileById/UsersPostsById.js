@@ -43,7 +43,13 @@ const UsersPostsById = ({ ID, userInfo }) => {
             {isFetching ? <p className='flex justify-center h-96 items-center text-5xl text-gray-600 font-medium animate-spin'><ImSpinner3 /></p> :
                 <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
                     {userPostsById && userPostsById?.map((post) => (
-                        <div onClick={() => { MobileView ? navigate(`/p/${post?._id}?profile=${userInfo.username}`) : dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id) }} key={post._id} className='h-80 cursor-pointer hover:brightness-50 duration-200 group relative'>
+                        <div onClick={
+                            () => {
+                                MobileView ? navigate(`/p/${post?._id}?profile=${userInfo.username}`)
+                                    :
+                                    dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id)
+                            }} key={post._id}
+                            className='h-40 md:h-80 cursor-pointer hover:brightness-50 duration-200 group relative'>
                             <img className='object-cover w-full h-full' src={post?.images[0]?.url} alt='' />
                             <div className='absolute inset-1/2 left-[45%] z-10 gap-3 items-center text-white font-bold hidden group-hover:flex'>
                                 <div><BsFillChatFill size={25} /></div>

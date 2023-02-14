@@ -10,8 +10,8 @@ import { useCreatePostMutation } from '../../../Redux/APIs/PostsApi';
 
 const ModalAddPost = () => {
     const { IsModalPreviewImages, isModalConfirm, isModalAddPost, isModalLoadingUpload } = useSelector(state => state.Features);
-    const [createPost, { isLoading, error }] = useCreatePostMutation();
 
+    const [createPost, { isLoading, error }] = useCreatePostMutation();
     const dispatch = useDispatch();
     const [success, setSuccess] = useState(false);
     const [images, setImages] = useState([]);
@@ -44,7 +44,7 @@ const ModalAddPost = () => {
                         initial='initial'
                         animate='animate'
                         exit='exit'
-                        className='fixed inset-x-0 top-[10%] p-4 container max-w-4xl z-30 '
+                        className='fixed inset-x-0 top-[10%] p-4 container max-w-md sm:max-w-4xl z-30 '
                     >
                         <div className="relative bg-white rounded-lg shadow">
                             <div className="flex justify-between items-start p-4 rounded-t border-b">
@@ -59,7 +59,7 @@ const ModalAddPost = () => {
                             </div>
                             <div className="p-6 py-20 sm:py-40 space-y-6 text-center">
                                 <div className="flex justify-center items-center w-full">
-                                    <label className="flex flex-col justify-center items-center h-[30rem] w-full cursor-pointer ">
+                                    <label className="flex flex-col justify-center items-center sm:h-[30rem] w-full cursor-pointer ">
                                         <div className="flex flex-col justify-center items-center pt-5 pb-6 gap-y-5">
                                             <div className='text-gray-500'>
                                                 <BsCloudUpload style={{ 'fontSize': '4rem' }} />

@@ -3,7 +3,7 @@ import { BsHeart, BsHouseDoorFill, BsInstagram, BsList, BsSearch } from 'react-i
 import { Link } from 'react-router-dom'
 import { InstegramFont, DrobDownMore, ModalAddPost } from '../Exports'
 import { RiMessengerLine } from 'react-icons/ri'
-import { BiChevronLeft, BiMessageSquareAdd } from 'react-icons/bi'
+import { BiChevronLeft } from 'react-icons/bi'
 import { IoHeartDislikeCircleOutline } from 'react-icons/io5'
 import { useBreakpoint, Search, Notifications } from '../Exports'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice'
@@ -45,7 +45,7 @@ const SideBar = () => {
     }
     return (
         <>
-            {!MobileView && 
+            {!MobileView &&
                 <div className={`fixed w-[6rem] z-10 xxl:w-[19.5rem] h-screen duration-500 bg-white border-r p-6 xxl:p-8 pt-14 lg:block ${(openSerach || openNotification) && 'xxl:w-[6rem]'}`}>
                     <Link to='/' className={`hidden xxl:block mt-5 ${(openSerach || openNotification) && 'xxl:!hidden'}`}>
                         <InstegramFont />
@@ -100,8 +100,13 @@ const SideBar = () => {
                         <div className='fixed top-0 flex lg:hidden justify-between items-center w-full border-b bg-white px-5 z-10'>
                             <Link to='/'><InstegramFont /></Link>
                             <div className='flex gap-5 items-center'>
-                                <SideLink Icon={<BiMessageSquareAdd size={30} />} Title='Create' />
-                                <SideLink Icon={<BsHeart size={30} />} Title='Notification' />
+                                <SideLink
+                                    Icon={<div className='border-2 border-black rounded-lg'>
+                                        <FiPlus size={22} />
+                                    </div>}
+                                    OnClickEvent={() => dispatch(FeatureAction.ShowModalAddPost(true))}
+                                    Title='Create' />
+                                <SideLink Icon={<BsHeart size={28} />} Title='Notification' />
                             </div>
                         </div>
                         <div className='fixed flex justify-center left-[6rem]'>
@@ -118,6 +123,8 @@ const SideBar = () => {
                                 </>
                             }
                         </div>
+                        <ModalAddPost />
+
                     </>
                 }
 

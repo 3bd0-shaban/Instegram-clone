@@ -18,13 +18,12 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
     const userInfo = useSelector(selectCurrentUser)
     const dispatch = useDispatch();
     const [next, setNext] = useState(false);
-    const [accessbility, setAccessbility] = useState(false);
+    // const [accessbility, setAccessbility] = useState(false);
     const [advanced, setAdvanced] = useState(false);
     const [hiddenlikes, setHideLikes] = useState(false);
     const [turnoffcomments, setTurnOffComments] = useState(false);
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
     const [des, setDes] = useState('');
-    const [imageDes, setImagesdes] = useState(['']);
     const [location, setLocation] = useState('');
 
     const HandleBack = () => {
@@ -41,7 +40,7 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
         if (next) {
             dispatch(FeatureAction.Show_ModalPreviewImages(false));
             dispatch(FeatureAction.setIsModalLoadingUpload(true));
-            const data = { des, location, images, imageDes, hiddenlikes, turnoffcomments };
+            const data = { des, location, images, hiddenlikes, turnoffcomments };
             e.preventDefault();
             await createPost(data).unwrap()
                 .then(payload => {
@@ -53,13 +52,29 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
         }
         setNext(true)
     }
+    // const ImageDesicription = ({ image, index }) => {
+    //     const [imageDes, setImagesdes] = useState('');
+    //     return (
+    //         <div key={index} className='flex gap-3'>
+    //             <img className='h-10 w-10 object-cover'
+    //                 src={image}
+    //                 alt=''
+    //             />
+    //             <input type='text'
+    //                 onChange={(e) => setImagesdes(e.target.value)}
+    //                 value={imageDes}
+    //                 className='outline-none border rounded-lg w-full px-2'
+    //                 placeholder='write alt text ...' />
+    //         </div>
+    //     )
+    // }
 
     return (
         <>
             {IsModalPreviewImages &&
                 <>
                     <div className="fixed inset-0 bg-black/30 z-10" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(true))}></div>
-                    <div className={`fixed inset-x-0 top-[10%] container px-0 max-w-4xl z-20 bg-white duration-500 rounded-lg max-h-[60rem] overflow-hidden shadow ${next && 'max-w-7xl'}`}>
+                    <div className={`fixed inset-x-0 top-[10%] container px-0 duration-500 max-w-[26rem] sm:max-w-[40rem] md:max-w-[50rem] lg:max-w-4xl min-h-[35rem] sm:h-[47.5rem] md:h-[52rem] z-20 bg-white rounded-lg max-h-[60rem] overflow-hidden shadow ${next && 'lg:!max-w-7xl'}`}>
                         <div className=" ">
                             <div className="flex justify-between items-start py-2 rounded-t border-b px-4">
                                 <div
@@ -70,7 +85,7 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
                             <div>
                                 <form onSubmit={handlesubmit}>
                                     <div className='grid grid-cols-8'>
-                                        <div className={`${next ? 'col-span-6' : 'col-span-8'}`}>
+                                        <div className={`${next ? 'hidden md:block col-span-6' : 'col-span-8'}`}>
                                             <Swiper
                                                 modules={[Pagination]}
                                                 spaceBetween={0}
@@ -79,7 +94,7 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
                                             >
                                                 {images?.map((image, index) => (
                                                     <SwiperSlide key={index}>
-                                                        <img className='h-[50rem] min-w-full object-cover'
+                                                        <img className='h-[33rem] sm:h-[45rem] md:h-[50rem] min-w-full object-cover'
                                                             src={image}
                                                             alt=''
                                                         />
@@ -87,7 +102,7 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
                                                 ))}
                                             </Swiper>
                                         </div>
-                                        {next && <div className='border-l col-span-2 h-[50rem] overflow-scroll hideScrollBare'>
+                                        {next && <div className='border-l col-span-8 md:col-span-2'>
                                             <div className='flex px-4 items-center my-3 gap-5'>
                                                 <img src={userInfo?.avatar?.url} className='w-12 h-12 object-cover rounded-full' alt='' />
                                                 <p>{userInfo?.username}</p>
@@ -124,7 +139,7 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
                                             <div className='p-4'>
                                                 <input onChange={(e) => setLocation(e.target.value)} value={location} className='outline-none w-full h-full' placeholder='Add Location' />
                                             </div><hr />
-                                            <div className='p-4'>
+                                            {/* <div className='p-4'>
                                                 <div
                                                     onClick={() => setAccessbility(!accessbility)}
                                                     className='flex justify-between items-center cursor-pointer'>
@@ -137,17 +152,12 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
                                                             Alt text will be automatically created for your photos or you can choose to write your own.</span>
                                                         <div className='space-y-3'>
                                                             {images?.map((image, index) => (
-                                                                <div key={index} className='flex gap-3'>
-                                                                    <img className='h-10 w-10 object-cover'
-                                                                        src={image}
-                                                                        alt=''
-                                                                    />
-                                                                    <input type='text' onChange={(e) => setImagesdes(e.target.value)} value={imageDes} className='outline-none border rounded-lg w-full px-2' placeholder='write alt text ...' />
-                                                                </div>))}
+                                                                <ImageDesicription image={image} index={index} />
+                                                            ))}
                                                         </div>
                                                     </div>
                                                 }
-                                            </div><hr />
+                                            </div><hr /> */}
                                             <div className='p-4'>
                                                 <div
                                                     onClick={() => setAdvanced(!advanced)}

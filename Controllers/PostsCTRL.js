@@ -5,7 +5,7 @@ import cloudinary from "../Utils/cloudinary.js";
 import Features from './../Utils/Features.js';
 
 export const New_Post = asyncHandler(async (req, res, next) => {
-    const { des, location } = req.body
+    const { des, location, turnoffcomments, hiddenlikes, imageDes } = req.body
     let received = [...req.body.images];
     if (typeof req.body.images === "string") {
         received.push(req.body.images);
@@ -23,10 +23,11 @@ export const New_Post = asyncHandler(async (req, res, next) => {
         imagesLink.push({
             public_id: result.public_id,
             url: result.secure_url,
+            imageDes: imageDes
         });
     };
     await new Posts({
-        user: req.user.id, images: imagesLink, location, des
+        user: req.user.id, images: imagesLink, location, des, turnoffcomments, hiddenlikes
     }).save()
         .then(saved => {
             return res.json({

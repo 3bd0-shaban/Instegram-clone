@@ -1,15 +1,41 @@
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { motion } from 'framer-motion';
 import AnimModal from '../../../Animation/AnimModal';
+import { Link } from 'react-router-dom';
+import { useDeletePostsMutation, useHideLikesMutation, useTurnCommentsMutation } from '../../../Redux/APIs/PostsApi';
 
-const ModalPostMoreLogged = () => {
-    const { isModalPostMoreLogged } = useSelector(state => state.Features);
+const ModalPostMoreLogged = ({ PostId, postDetails }) => {
     const dispatch = useDispatch();
-
+    const [DeletePosts] = useDeletePostsMutation();
+    const [HideLikes] = useHideLikesMutation();
+    const [TurnoffComments] = useTurnCommentsMutation();
+    const id = PostId
+    const HandleDeletePost = () => {
+        DeletePosts(id).unwrap()
+            .then(payload => {
+                dispatch(FeatureAction.Show_ModalPostMoreLogged(false));
+            }).catch(err => {
+                console.log(err?.data?.msg)
+            })
+    }
+    const HandleHideLikes = () => {
+        HideLikes(id).unwrap()
+            .then(payload => {
+                dispatch(FeatureAction.Show_ModalPostMoreLogged(false));
+            }).catch(err => {
+                console.log(err?.data?.msg)
+            })
+    }
+    const HandleTurnComments = () => {
+        TurnoffComments(id).unwrap()
+            .then(payload => {
+                dispatch(FeatureAction.Show_ModalPostMoreLogged(false));
+            }).catch(err => {
+                console.log(err?.data?.msg)
+            })
+    }
     return (
-        isModalPostMoreLogged &&
         <>
             <div onClick={() => dispatch(FeatureAction.Show_ModalPostMoreLogged(false))} className="fixed inset-0 bg-black/30 z-20"></div>
 
@@ -18,19 +44,20 @@ const ModalPostMoreLogged = () => {
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='Modal'
+                className='fixed inset-x-0 max-h-[40rem] top-[25%] container px-0 z-40 overflow-hidden bg-white w-full rounded-xl shadow drop-shadow-xl max-w-xs sm:max-w-[30rem]'
             >
 
                 <div className="bg-white w-full rounded-xl shadow drop-shadow-xl flex justify-center items-center">
-                    <div className='space-y-5 w-full text-center mx-auto py-6'>
-                        <span className='block text-red-600 font-medium cursor-pointer'>Report</span><hr />
-                        <span className='block text-red-600 font-medium cursor-pointer'>unfollow</span><hr />
-                        <span className='block cursor-pointer'>Add to favorite</span><hr />
-                        <span className='block cursor-pointer'>Go to post</span><hr />
-                        <span className='block cursor-pointer'>Share to ...</span><hr />
-                        <span className='block cursor-pointer'>Copy link</span><hr />
-                        <span className='block cursor-pointer'>Embed</span><hr />
-                        <span className='block cursor-pointer' onClick={() => dispatch(FeatureAction.Show_ModalPostMoreLogged(false))} >Cancel</span>
+                    <div className='w-full text-center mx-auto'>
+                        <span onClick={HandleDeletePost} className='block text-red-600 py-4 hover:bg-gray-100 font-medium cursor-pointer'>Delete</span><hr />
+                        <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Edit</span><hr />
+                        <span onClick={HandleHideLikes} className='block py-4 hover:bg-gray-100 cursor-pointer'>{postDetails?.hiddenlikes ? 'Show like count' : 'Hide like count'}</span><hr />
+                        <span onClick={HandleTurnComments} className='block py-4 hover:bg-gray-100 cursor-pointer'>{postDetails?.turnoffcomments ? 'Turn on commeting' : 'Turn off commenting'}</span><hr />
+                        <Link to={`/p/${PostId}`}
+                            onClick={() => dispatch(FeatureAction.Show_isPostMore(false))}
+                            className='block py-4 hover:bg-gray-100 cursor-pointer'>Go to post
+                        </Link><hr />
+                        <span className='block py-4 hover:bg-gray-100 cursor-pointer' onClick={() => dispatch(FeatureAction.Show_ModalPostMoreLogged(false))} >Cancel</span>
                     </div>
                 </div>
             </motion.div>

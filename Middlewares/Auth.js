@@ -27,6 +27,21 @@ export const authorizeRoles = (...roles) => {
         next();
     };
 };
+
+export const checkBlock = asyncHandler(async (req, res, next) => {
+
+    const userById = await Users.findOne({ username: req.params.username }).populate('blocklist')
+    const LoggedAccount = await Users.findOne({ username: req.user.username }).populate('blocklist')
+    const user = (LoggedAccount.blocklist.some(blockuser => blockuser.username === req.params.username)) ||
+        (userById.blocklist.some(blockuser => blockuser.username === req.params.username));
+
+    if (user) {
+        return next(new ErrorHandler('You have no access to this account ', 404));
+    }
+
+    next();
+});
+
 // export const ChechPrivacy = asyncHandler(async (req, res, next) => {
 //     const user = await Users.findOne({ username: req.params.username });
 //     console.log(user)

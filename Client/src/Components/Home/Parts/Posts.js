@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetFollowersPostsQuery } from '../../../Redux/APIs/PostsApi';
-import { PostMore, ModalPostDetails, SinglePost, ModalReports, ModalThanksReport, ModalUnFollowConfirm, ModalBlockConfirm } from '../../Exports';
+import { PostMore, ModalPostDetails, SinglePost, ModalReports, ModalThanksReport, ModalUnFollowConfirm, ModalBlockConfirm, ModalPostMoreLogged } from '../../Exports';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
@@ -10,18 +10,37 @@ const Posts = () => {
   const dispatch = useDispatch();
   const {
     isModalPostDetails, isPostMore, isClipAlert, isModalReports,
-    isModalThanksReport, isModalUnfollowConfirm, isModalBlockConfirm
+    isModalThanksReport, isModalUnfollowConfirm, isModalBlockConfirm, isModalPostMoreLogged
   } = useSelector(state => state.Features);
 
-  const { data: followerposts, isFetching, error, isError } = useGetFollowersPostsQuery() || {};
+  const [page, setPage] = useState(1);
   const [postID, setPostID] = useState('');
   const [postDetails, setPostDetails] = useState('');
+  const { posts } = useSelector(state => state.Posts)
 
+  const { data: followerposts, isFetching, error, isError } = useGetFollowersPostsQuery(page) || {};
   useEffect(() => {
     dispatch(setTotalPosts(followerposts))
   }, [followerposts, dispatch]);
 
-  const { posts } = useSelector(state => state.Posts)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight;
+      if (scrolledToBottom && !isFetching) {
+        console.log("Fetching more data...");
+        setPage(page + 1);
+      }
+    };
+
+    document.addEventListener("scroll", onScroll);
+
+    return function () {
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, [page, isFetching]);
+
 
   return (
     <>
@@ -36,7 +55,7 @@ const Posts = () => {
       {isModalUnfollowConfirm && <ModalUnFollowConfirm postDetails={postDetails} />}
       {isModalBlockConfirm && <ModalBlockConfirm postDetails={postDetails} />}
       {isPostMore && <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} PostId={postID} postDetails={postDetails} />}
-
+      {isModalPostMoreLogged && <ModalPostMoreLogged PostId={postID} postDetails={postDetails} />}
       {isFetching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
         posts?.map(post => (
           <div key={post?._id} className='mt-4 container max-w-[25rem] xsm:max-w-[28rem] sm:max-w-xl px-0'>

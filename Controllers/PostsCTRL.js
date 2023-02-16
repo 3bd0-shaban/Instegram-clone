@@ -18,7 +18,7 @@ export const New_Post = asyncHandler(async (req, res, next) => {
     }
     for (let i = 0; i < received.length; i++) {
         const result = await cloudinary.uploader.upload(received[i], {
-            folder: "Instegram_Clone/posts",
+            folder: "Instegram/posts",
         });
         imagesLink.push({
             public_id: result.public_id,
@@ -37,22 +37,36 @@ export const New_Post = asyncHandler(async (req, res, next) => {
             return next(new ErrorHandler(error.message, 500));
         })
 });
+export const DeletePost = asyncHandler(async (req, res, next) => {
+    const isDeleted = await Posts.deleteOne({ _id: req.params.id })
+    for (let i = 0; i < isDeleted.images; i++) {
+        const j = await cloudinary.uploader.destroy(images[i].public_id);
+    }
+    if (isDeleted) {
+        return res.json({ msg: 'Deleted !' });
+    }
+    return next(new ErrorHandler('An Error accoured'), 400)
+
+});
 export const User_Posts = asyncHandler(async (req, res, next) => {
     const resultperpage = 10;
     const features = new Features(Posts.find({ user: req.user.id }), req.query).Pagination(resultperpage)
     const userPosts = await features.query
         .populate('user', 'username avatar')
+        .populate('comments.user', 'username avatar')
         .sort("-createdAt");
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)
     }
     return res.json(userPosts);
 });
+
 export const User_Posts_ById = asyncHandler(async (req, res, next) => {
     const resultperpage = 10;
     const features = new Features(Posts.find({ user: req.params.id }), req.query).Pagination(resultperpage)
     const userPosts = await features.query
         .populate('user', 'username avatar')
+        .populate('comments.user', 'username avatar')
         .sort("-createdAt");
     if (!userPosts) {
         return next(new ErrorHandler('No Posts For that user'), 400)
@@ -68,6 +82,23 @@ export const Get_PostDetails = asyncHandler(async (req, res, next) => {
     }
     return res.json(userPosts);
 });
+
+export const Hide_Likes = asyncHandler(async (req, res, next) => {
+    const post = await Posts.findByIdAndUpdate({ _id: req.params.id }, [{ $set: { hiddenlikes: { $eq: [false, '$hiddenlikes'] } } }], { new: true });
+    if (post) {
+        return res.json(post);
+    }
+    return next(new ErrorHandler('An Error accoured'), 400)
+});
+
+export const TurnoffComments = asyncHandler(async (req, res, next) => {
+    const post = await Posts.findByIdAndUpdate({ _id: req.params.id }, [{ $set: { turnoffcomments: { $eq: [false, '$turnoffcomments'] } } }], { new: true });
+    if (post) {
+        return res.json({ msg: 'updated !' });
+    }
+    return next(new ErrorHandler('An Error accoured'), 400)
+});
+
 export const FollowersPosts = asyncHandler(async (req, res, next) => {
     const resultperpage = 10;
     const newarr = [...req.user.following, req.user.id]

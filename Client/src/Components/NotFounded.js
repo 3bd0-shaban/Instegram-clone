@@ -1,20 +1,16 @@
 import React from 'react'
-import { Footer, Header,useTitle } from './Exports'
+import { SideBar, useTitle } from './Exports'
 
 const NotFounded = () => {
-    useTitle('Not Founded !')
+    useTitle('Page Not Founded !')
     return (
-        <>
-            <div>
-                <Header />
-                <div className='container max-w-[142rem] gap-3'>
-                    <div className='flex justify-center my-24'>
-                        <p className='text-7xl underline font-semibold'>Page not Founded Or it may Changed to anthor URL</p>
-                    </div>
-                </div>
-                <Footer />
+        <div>
+            <SideBar />
+            <div className='container px-0 max-w-5xl md:max-w-3xl xl:max-w-4xl xxl:max-w-5xl mt-16 lg:mt-0 xl:mr-60 xxxl:mr-[26rem] space-y-10 text-center py-7'>
+                <p className='font-semibold text-xl'>Sorry, this page isn't available.</p>
+                <p>The link you followed may be broken, or the page may have been removed. Go back to Instagram.</p>
             </div>
-        </>
+        </div>
     )
 }
 

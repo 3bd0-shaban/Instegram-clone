@@ -3,19 +3,21 @@ import { BsCamera, BsFillChatFill } from 'react-icons/bs'
 import { useGetUserPostsByIdQuery } from '../../../Redux/APIs/PostsApi';
 import { ImSpinner3 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalPostDetails, useBreakpoint } from '../../Exports';
+import { ModalPostDetails, useBreakpoint, PostMore } from '../../Exports';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
 const UsersPostsById = ({ ID, userInfo }) => {
     const { data: userPostsById, isFetching, error, isError } = useGetUserPostsByIdQuery(ID) || {};
-    const { isModalPostDetails } = useSelector(state => state.Features);
+    const { isModalPostDetails, isPostMore } = useSelector(state => state.Features);
     const [postID, setPostID] = useState('');
     const dispatch = useDispatch();
     const breakpoint = useBreakpoint();
     const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
     const navigate = useNavigate();
+    const [postDetails, setPostDetails] = useState('');
+
     const EmptyPosts = () => {
         return (
             <>
@@ -36,9 +38,10 @@ const UsersPostsById = ({ ID, userInfo }) => {
     }
     return (
         <div className='container max-w-5xl px-0'>
-            <AnimatePresence>
-                {isModalPostDetails && <ModalPostDetails ID={postID} />}
+              <AnimatePresence>
+                {isModalPostDetails && <ModalPostDetails ID={postID} postDetails={postDetails} />}
             </AnimatePresence>
+            {isPostMore && <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} PostId={postID} postDetails={postDetails} />}
             {isError && <p>{error?.data?.msg}</p>}
             {isFetching ? <p className='flex justify-center h-96 items-center text-5xl text-gray-600 font-medium animate-spin'><ImSpinner3 /></p> :
                 <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
@@ -47,7 +50,7 @@ const UsersPostsById = ({ ID, userInfo }) => {
                             () => {
                                 MobileView ? navigate(`/p/${post?._id}?profile=${userInfo.username}`)
                                     :
-                                    dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id)
+                                    dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post)
                             }} key={post._id}
                             className='h-40 md:h-80 cursor-pointer hover:brightness-50 duration-200 group relative'>
                             <img className='object-cover w-full h-full' src={post?.images[0]?.url} alt='' />

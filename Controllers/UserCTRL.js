@@ -20,7 +20,7 @@ export const Follow_Public_User = asyncHandler(async (req, res, next) => {
     await Users.findByIdAndUpdate({ _id: req.user.id }, {
         $push: { following: req.params.id }
     }, { new: true });
-    return res.json(isfollowing)
+    return res.json({ msg: 'Followed !' })
 });
 
 export const UnFollow = asyncHandler(async (req, res, next) => {
@@ -39,7 +39,7 @@ export const UnFollow = asyncHandler(async (req, res, next) => {
     await Users.findByIdAndUpdate({ _id: req.user.id }, {
         $pull: { following: req.params.id }
     }, { new: true });
-    return res.json(isfollowing)
+    return res.json({ msg: 'UnFollowed !' })
 });
 
 export const Block = asyncHandler(async (req, res, next) => {
@@ -55,7 +55,7 @@ export const Block = asyncHandler(async (req, res, next) => {
     await Users.findByIdAndUpdate({ _id: req.user.id }, {
         $push: { blocklist: req.params.id }
     }, { new: true });
-    return res.json(isBlocked)
+    next();
 });
 
 export const UnBlock = asyncHandler(async (req, res, next) => {
@@ -79,7 +79,7 @@ export const FollowingList = asyncHandler(async (req, res, next) => {
     const features = new Features(Users.findOne({ _id: req.params.id }), req.query).Pagination(resultperpage)
     const followingUsers = await features.query
         .select('following')
-        .populate('following', 'username avatar')
+        .populate('following', 'username fullname avatar')
         .sort("-createdAt");
     return res.json(followingUsers);
 });
@@ -89,7 +89,7 @@ export const FollowersList = asyncHandler(async (req, res, next) => {
     const features = new Features(Users.findOne({ _id: req.params.id }), req.query).Pagination(resultperpage)
     const followersUsers = await features.query
         .select('followers')
-        .populate('followers', 'username avatar')
+        .populate('followers', 'username fullname avatar')
         .sort("-createdAt");
     return res.json(followersUsers);
 });

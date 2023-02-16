@@ -36,20 +36,21 @@ const PostComments = () => {
                         <p className='m-2 font-medium text-3xl'>Comments</p>
                         <button className='hover:text-gray-500 cursor-pointer'><IoMdPaperPlane size={30} /></button>
                     </div>
-                    <div className='flex gap-5 items-center my-5'>
-                        <img className="p-1 w-14 h-14 rounded-full focus:ring-2 focus:ring-gray-300" src={userInfo?.avatar?.url} alt="" />
-                        <form onSubmit={CommentHandle} className='relative w-full'>
-                            <input type="text"
-                                onChange={(e) => setComment(e.target.value)}
-                                value={comment}
-                                autoComplete='off'
-                                name='keyword'
-                                className="block py-3 w-full pl-3 outline-none text-sm text-gray-900 bg-gray-100  rounded-xl placeholder:font-extralight placeholder:text-base"
-                                placeholder="Add a comment ..." required=""
-                            />
-                            {comment && <button className='absolute inset-y-0 -top-1 right-3 text-blue-500 font-semibold'>Post</button>}
-                        </form>
-                    </div>
+                    {(!postDetails?.turnoffcomments) &&
+                        <div className='flex gap-5 items-center my-5'>
+                            <img className="p-1 w-14 h-14 rounded-full focus:ring-2 focus:ring-gray-300" src={userInfo?.avatar?.url} alt="" />
+                            <form onSubmit={CommentHandle} className='relative w-full'>
+                                <input type="text"
+                                    onChange={(e) => setComment(e.target.value)}
+                                    value={comment}
+                                    autoComplete='off'
+                                    name='keyword'
+                                    className="block py-3 w-full pl-3 outline-none text-sm text-gray-900 bg-gray-100  rounded-xl placeholder:font-extralight placeholder:text-base"
+                                    placeholder="Add a comment ..." required=""
+                                />
+                                {comment && <button className='absolute inset-y-0 -top-1 right-3 text-blue-500 font-semibold'>Post</button>}
+                            </form>
+                        </div>}
                     <hr />
                     {isFetching ? <p className='flex justify-center items-center text-4xl font-medium h-[80vh] animate-spin'><ImSpinner3 /></p> :
                         <div className='min-h-[90vh]'>

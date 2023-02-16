@@ -72,6 +72,15 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
             dispatch(setCredentials({ accessToken, user }))
         }
     }
+    const checkModal = () => {
+        const user = postDetail.user._id === userInfo?._id
+        if (user) {
+            dispatch(FeatureAction.Show_ModalPostMoreLogged(false))
+            return
+        }
+        dispatch(FeatureAction.Show_isPostMore(true))
+    }
+
     return (
         <div className='w-full h-auto pb-5 bg-white border-b'>
             <div className='flex justify-between mt-3 px-3'>
@@ -90,7 +99,7 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
                     </div>
                 </Link>
                 <button
-                    onClick={() => { dispatch(FeatureAction.Show_isPostMore(true)); setPostID(post?._id); setPostDetails(post) }}
+                    onClick={() => { checkModal(); setPostID(post?._id); setPostDetails(post) }}
                     className='hover:text-gray-500'>
                     <BsThreeDots size={22} />
                 </button>
@@ -98,7 +107,7 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
             <ImageSwiper post={post} />
             <div className='flex justify-between mt-4 px-4 text-2xl'>
                 <div className='flex gap-4 items-center'>
-                    {isLiked ?
+                    {(isLiked && !post?.hiddenlikes) ?
                         <AnimatePresence>
                             <motion.button
                                 variants={AnimScale}
@@ -111,7 +120,7 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
                                 <FaHeart size={28} style={{ color: 'red' }} />
                             </motion.button>
                         </AnimatePresence>
-                        :
+                        : (!post?.hiddenlikes) &&
                         <motion.button
                             variants={AnimScale}
                             initial='initial'
@@ -123,13 +132,13 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
                         </motion.button>
                     }
 
-                    {MobileView ?
+                    {(MobileView && !post?.turnoffcomments) ?
                         <Link
                             to={`/p/${post?._id}`}
                             className='cursor-pointer hover:text-gray-500'>
                             <FaRegComment size={25} />
                         </Link>
-                        :
+                        : (!post?.turnoffcomments) &&
                         <div
                             onClick={() => {
                                 dispatch(FeatureAction.Show_ModalPostDetails(true));
@@ -169,56 +178,59 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
 
             </div>
             <div className='ml-4 mt-4'>
-                <p className='text-md font-semibold'>{post?.numLikes} Likes</p>
+                {!post?.hiddenlikes && <p className='text-md font-semibold'>{post?.numLikes} Likes</p>}
                 <Link className='font-bold mr-2'>{post?.user?.username}</Link>
                 <p className=' inline font-semilight'>{post?.des}</p>
-                {MobileView ?
-                    <Link
-                        to={`/p/${post?._id}`}
-                        className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
-                    </Link> :
-                    <Link
-                        onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post) }}
-                        className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
-                    </Link>
+                {
+                    (MobileView && !post?.turnoffcomments) ?
+                        <Link
+                            to={`/p/${post?._id}`}
+                            className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
+                        </Link> : (!post?.turnoffcomments) &&
+                        <Link
+                            onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post) }}
+                            className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
+                        </Link>
                 }
             </div>
-            <form onSubmit={(e) => CommentHandle(post?._id, e.preventDefault())} className='flex relative px-3 mt-2'>
-                <input
-                    onChange={(e) => setComment(e.target.value)}
-                    onFocus={() => setIsPikerVisable(false)}
-                    value={comment}
-                    name='comment'
-                    autoComplete='off'
-                    className='outline-none w-full pr-3'
-                    placeholder='Add Comment ...'
-                />
-                <div className='flex gap-2'>
-                    {comment &&
-                        <button type='submit'
-                            className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
-                    }
-                    <div
-                        onClick={() => setIsPikerVisable(!isPikerVisiable)}
-                        className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
-                        <FaRegSmile />
-                    </div>
-                    <AnimatePresence>
-                        {isPikerVisiable &&
-                            <motion.div
-                                variants={AnimDropdown}
-                                initial='initial'
-                                animate='animated'
-                                exit='exit'
-                                className='absolute z-10 bottom-8 right-0'>
-                                <Emoji
-                                    setComment={setComment}
-                                    comment={comment} />
-                            </motion.div>
+            {!post?.turnoffcomments &&
+                <form onSubmit={(e) => CommentHandle(post?._id, e.preventDefault())} className='flex relative px-3 mt-2'>
+                    <input
+                        onChange={(e) => setComment(e.target.value)}
+                        onFocus={() => setIsPikerVisable(false)}
+                        value={comment}
+                        name='comment'
+                        autoComplete='off'
+                        className='outline-none w-full pr-3'
+                        placeholder='Add Comment ...'
+                    />
+                    <div className='flex gap-2'>
+                        {comment &&
+                            <button type='submit'
+                                className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
                         }
-                    </AnimatePresence>
-                </div>
-            </form>
+                        <div
+                            onClick={() => setIsPikerVisable(!isPikerVisiable)}
+                            className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
+                            <FaRegSmile />
+                        </div>
+                        <AnimatePresence>
+                            {isPikerVisiable &&
+                                <motion.div
+                                    variants={AnimDropdown}
+                                    initial='initial'
+                                    animate='animated'
+                                    exit='exit'
+                                    className='absolute z-10 bottom-8 right-0'>
+                                    <Emoji
+                                        setComment={setComment}
+                                        comment={comment} />
+                                </motion.div>
+                            }
+                        </AnimatePresence>
+                    </div>
+                </form>
+            }
         </div>
     )
 }

@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { useNewChatMutation } from '../Redux/APIs/ChatApi';
 import { ImSpinner3 } from 'react-icons/im';
 import { selectCurrentUser } from '../Redux/Slices/UserSlice';
+import NotFounded from '../Components/NotFounded';
 
 const Profile = () => {
 
@@ -23,7 +24,7 @@ const Profile = () => {
     const { data: userById, isError, isFetching, error } = useGetUserByIdQuery(username) || {};
     // const { data: getfollowerchatID } = useSingleChatQuery(id) || {};
     const { isModalFollowersList, isModalFollowingList, isModalFollowerCTRL, isModalSettings } = useSelector(state => state.Features);
-    useTitle(userById?.fullname);
+    useTitle(userById?.username ? userById?.fullname : 'Page Not Founded !');
     const navigate = useNavigate();
     const userInfo = useSelector(selectCurrentUser)
     const [Follow] = useFollowMutation() || {};
@@ -53,100 +54,101 @@ const Profile = () => {
     }, [userInfo, setIsFollowing, userById]);
 
     return (
-        <div className='bg-white'>
-            <SideBar />
-            {isModalFollowingList && <ModalFollowing id={userById?._id} />}
-            {isModalFollowersList && <ModalFollowers id={userById?._id} />}
-            {isModalFollowerCTRL && <ModalFollowerCTRL userInfo={userById} />}
-            {isModalSettings && <ModalUserByIdSettings />}
-            {isFetching ?
-                <div>
-                    {/* Animation Loading Her  */}
-                </div>
-                : isError && <p>{error?.data?.msg}</p>}
-            <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 mt-5'>
-                <div className='container px-.5 max-w-[70rem] px-0 '>
-                    <div className='flex gap-3 sm:gap-24 justify-center items-center mb-8'>
-                        <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userById?.avatar?.url} alt='' />
-                        <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
-                            <div className='space-y-5'>
-                                <div className='flex items-center gap-2'>
-                                    <p className='text-lg font-semibold'>{userById?.fullname}</p>
-                                    <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsThreeDots size={24} /></button>
+        (!userById?.username || error?.status === 404) ? <NotFounded /> :
+            <div className='bg-white'>
+                <SideBar />
+                {isModalFollowingList && <ModalFollowing id={userById?._id} />}
+                {isModalFollowersList && <ModalFollowers id={userById?._id} />}
+                {isModalFollowerCTRL && <ModalFollowerCTRL userInfo={userById} />}
+                {isModalSettings && <ModalUserByIdSettings id={userById?._id} />}
+                {isFetching ?
+                    <div>
+                        {/* Animation Loading Her  */}
+                    </div>
+                    : isError ? <p>{error?.data?.msg}</p> :
+                        <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 mt-5'>
+                            <div className='container px-.5 max-w-[70rem] px-0 '>
+                                <div className='flex gap-3 sm:gap-24 justify-center items-center mb-8'>
+                                    <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userById?.avatar?.url} alt='' />
+                                    <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
+                                        <div className='space-y-5'>
+                                            <div className='flex items-center gap-2'>
+                                                <p className='text-lg font-semibold'>{userById?.fullname}</p>
+                                                <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsThreeDots size={24} /></button>
+                                            </div>
+                                            <div className='flex gap-3'>
+                                                {isFollowing ?
+                                                    <>
+                                                        <button
+                                                            onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))}
+                                                            className='bg-gray-100 font-medium rounded-md flex items-center px-2 py-2 gap-2 hover:bg-gray-200'>Following <BiChevronDown size={22} />
+                                                        </button>
+                                                        <Link
+                                                            onClick={NewChatifNot}
+                                                            // to={`message/${getfollowerchatID?._id}`}
+                                                            className='bg-gray-100 font-medium rounded-md flex items-center px-3 py-2 gap-2 hover:bg-gray-200'>
+                                                            {Loading ?
+                                                                <div>
+                                                                    <ImSpinner3 />
+                                                                </div> :
+                                                                'Message'
+                                                            }</Link>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <button onClick={FollowUser} className='bg-blue-500 text-white font-medium rounded-md flex items-center px-6 py-2 gap-2'>Follow</button>
+                                                        <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'><IoPersonAddOutline size={22} /></button>
+                                                    </>
+                                                }
+                                            </div>
+                                            <div className='hidden lg:flex gap-5 whitespace-nowrap'>
+                                                <span className='text-lg font-mono'>{userById?.posts?.length} posts</span>
+                                                <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userById?.followers?.length} follower</button>
+                                                <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userById?.following?.length} following</button>
+                                            </div>
+                                            <p className='text-lg font-semibold'>{userById?.username}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='flex gap-3'>
-                                    {isFollowing ?
-                                        <>
-                                            <button
-                                                onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))}
-                                                className='bg-gray-100 font-medium rounded-md flex items-center px-2 py-2 gap-2 hover:bg-gray-200'>Following <BiChevronDown size={22} />
-                                            </button>
-                                            <Link
-                                                onClick={NewChatifNot}
-                                                // to={`message/${getfollowerchatID?._id}`}
-                                                className='bg-gray-100 font-medium rounded-md flex items-center px-3 py-2 gap-2 hover:bg-gray-200'>
-                                                {Loading ?
-                                                    <div>
-                                                        <ImSpinner3 />
-                                                    </div> :
-                                                    'Message'
-                                                }</Link>
-                                        </>
-                                        :
-                                        <>
-                                            <button onClick={FollowUser} className='bg-blue-500 text-white font-medium rounded-md flex items-center px-6 py-2 gap-2'>Follow</button>
-                                            <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'><IoPersonAddOutline size={22} /></button>
-                                        </>
-                                    }
+                                <div className='grid lg:hidden grid-cols-3 gap-5 text-center whitespace-nowrap border-t py-2'>
+                                    <span className='text-lg font-mono'>
+                                        <p>{userById?.posts?.length || 0}</p>
+                                        <p className='text-gray-500'>posts</p>
+                                    </span>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))}>
+                                        <p className='text-lg font-mono'>{userById?.followers?.length}</p>
+                                        <p className='text-gray-500'>follower</p>
+                                    </button>
+                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))}>
+                                        <p className='text-lg font-mono'>{userById?.following?.length}</p>
+                                        <p className='text-gray-500'>following</p>
+                                    </button>
                                 </div>
-                                <div className='hidden lg:flex gap-5 whitespace-nowrap'>
-                                    <span className='text-lg font-mono'>{userById?.posts?.length} posts</span>
-                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userById?.followers?.length} follower</button>
-                                    <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userById?.following?.length} following</button>
+                            </div><hr className='bg-black/60' />
+                            <div className='conatiner max-w-[85rem]'>
+                                <div className='flex gap-14 justify-center items-center'>
+                                    <Link to='?posts' className={posts ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                                        <BsGrid />
+                                        <p>Posts</p>
+                                    </Link>
+                                    <Link to='?saves' className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                                        <BsBookmarks />
+                                        <p>Saved</p>
+                                    </Link>
+                                    <Link to='?tages' className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                                        <BsPersonLinesFill />
+                                        <p>Tagged</p>
+                                    </Link>
                                 </div>
-                                <p className='text-lg font-semibold'>{userById?.username}</p>
                             </div>
-                        </div>
-                    </div>
-                    <div className='grid lg:hidden grid-cols-3 gap-5 text-center whitespace-nowrap border-t py-2'>
-                        <span className='text-lg font-mono'>
-                            <p>{userById?.posts?.length || 0}</p>
-                            <p className='text-gray-500'>posts</p>
-                        </span>
-                        <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))}>
-                            <p className='text-lg font-mono'>{userById?.followers?.length}</p>
-                            <p className='text-gray-500'>follower</p>
-                        </button>
-                        <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))}>
-                            <p className='text-lg font-mono'>{userById?.following?.length}</p>
-                            <p className='text-gray-500'>following</p>
-                        </button>
-                    </div>
-                </div><hr className='bg-black/60' />
-                <div className='conatiner max-w-[85rem]'>
-                    <div className='flex gap-14 justify-center items-center'>
-                        <Link to='?posts' className={posts ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
-                            <BsGrid />
-                            <p>Posts</p>
-                        </Link>
-                        <Link to='?saves' className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
-                            <BsBookmarks />
-                            <p>Saved</p>
-                        </Link>
-                        <Link to='?tages' className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
-                            <BsPersonLinesFill />
-                            <p>Tagged</p>
-                        </Link>
-                    </div>
+                            {(posts && !isFetching) && <UsersPostsById ID={userById?._id} userById={userById} />}
+                            {saved && <UserReelsById />}
+                            {tagged && <UsersTagesById />}
+                        </div>}
+                <div className='mt-40'>
+                    <Footer />
                 </div>
-                {(posts && !isFetching) && <UsersPostsById ID={userById?._id} userById={userById} />}
-                {saved && <UserReelsById />}
-                {tagged && <UsersTagesById />}
             </div>
-            <div className='mt-40'>
-                <Footer />
-            </div>
-        </div>
     )
 }
 

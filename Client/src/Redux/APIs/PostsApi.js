@@ -10,18 +10,29 @@ export const PostsApi = apiSlice.injectEndpoints({
             // providesTags: ['Posts', 'Saves', 'Auth'],
         }),
         getUserPosts: builder.query({
-            query: () => ({
-                url: '/api/post/getuser',
+            query: (page) => ({
+                url: `/api/post/getuser?page=${page}`,
                 method: 'GET',
                 credentials: 'include',
             }),
             providesTags: ['Posts', 'Saves', 'Auth'],
         }),
         getFollowersPosts: builder.query({
-            query: () => ({
-                url: '/api/post/get/followers/posts',
+            query: (page) => ({
+                url: `/api/post/get/followers/posts?page=${page}`,
                 method: 'GET',
                 credentials: 'include',
+                serializeQueryArgs: ({ endpointName }) => {
+                    return endpointName
+                },
+                // Always merge incoming data to the cache entry
+                merge: (currentCache, newItems) => {
+                    currentCache.push(...newItems)
+                },
+                // Refetch when the page arg changes
+                forceRefetch({ currentArg, previousArg }) {
+                    return currentArg !== previousArg
+                },
             }),
             providesTags: ['Comments', 'Posts'],
         }),
@@ -59,6 +70,22 @@ export const PostsApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Posts'],
         }),
+        HideLikes: builder.mutation({
+            query: (id) => ({
+                url: `/api/post/hidelikes/${id}`,
+                method: 'PUT',
+                credentials: 'include',
+            }),
+            invalidatesTags: (result, error, arg) => [{ type: 'Posts', id: arg.id }],
+        }),
+        TurnComments: builder.mutation({
+            query: (id) => ({
+                url: `/api/post/turncomments/${id}`,
+                method: 'PUT',
+                credentials: 'include',
+            }),
+            invalidatesTags: (result, error, arg) => [{ type: 'Posts', id: arg.id }],
+        }),
         deletePosts: builder.mutation({
             query: (id) => ({
                 url: `/api/post/delete/${id}`,
@@ -79,4 +106,6 @@ export const {
     useGetPostDetailsQuery,
     useUpdatePostsMutation,
     useDeletePostsMutation,
+    useHideLikesMutation,
+    useTurnCommentsMutation,
 } = PostsApi;

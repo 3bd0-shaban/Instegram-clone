@@ -92,14 +92,23 @@ const ModalPostDetails = ({ ID, postDetails }) => {
             setSinglePost(like)
         }
     }
+    const checkModal = () => {
+        const user = postDetails?.user?._id === userInfo?._id
+        if (user) {
+            dispatch(FeatureAction.Show_ModalPostMoreLogged(false))
+            return
+        }
+        dispatch(FeatureAction.Show_isPostMore(true))
+    }
+
     const ShowUpperPart = () => {
         return (
             <div className='flex justify-between items-center py-2 px-3'>
                 <div className='flex items-center'>
-                    <img className="p-1 w-14 h-14 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={userInfo?.avatar?.url} alt="" />
+                    <img className="p-1 w-14 h-14 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={singlepost.user?.avatar?.url} alt="" />
                     <p className='text-md font-poppins font-medium'>{singlepost?.user?.username}</p>
                 </div>
-                <button onClick={() => dispatch(FeatureAction.Show_isPostMore(true))} className='mr-2 py-0 h-1 mt-2'>
+                <button onClick={checkModal} className='mr-2 py-0 h-1 mt-2'>
                     <BsThreeDots />
                 </button>
             </div>
@@ -111,7 +120,7 @@ const ModalPostDetails = ({ ID, postDetails }) => {
                 <div className='flex justify-between mt-4 px-4 text-2xl py-3'>
                     <div className='flex gap-6'>
 
-                        {isLiked ?
+                        {(isLiked || !singlepost?.hiddenlikes) ?
                             <AnimatePresence>
                                 <motion.button
                                     variants={AnimScale}
@@ -124,7 +133,7 @@ const ModalPostDetails = ({ ID, postDetails }) => {
                                     <FaHeart size={28} style={{ color: 'red' }} />
                                 </motion.button>
                             </AnimatePresence>
-                            :
+                            : (!singlepost?.hiddenlikes) &&
                             <motion.button
                                 variants={AnimScale}
                                 initial='initial'
@@ -139,9 +148,10 @@ const ModalPostDetails = ({ ID, postDetails }) => {
 
                         {/* {isLiked ? <button onClick={() => UnLikeSubmit(singlepost?._id)} className='hover:text-gray-500 text-red-500'><FaHeart size={28} style={{ color: 'red' }} /></button> :
                             <button onClick={() => LikeSubmit(singlepost?._id)} className='hover:text-gray-500'><FaRegHeart size={28} /></button>} */}
-                        <div className='cursor-pointer focus:animate-bounce hover:text-gray-500'>
-                            <FaRegComment size={28} />
-                        </div>
+                        {!singlepost?.turnoffcomments &&
+                            <div className='cursor-pointer focus:animate-bounce hover:text-gray-500'>
+                                <FaRegComment size={28} />
+                            </div>}
                         <button className='hover:text-gray-500 cursor-pointer'><IoMdPaperPlane size={28} /></button>
                     </div>
 
@@ -171,47 +181,48 @@ const ModalPostDetails = ({ ID, postDetails }) => {
                     }
 
                 </div>
-                <div className='ml-4 my-3 mb-5 space-y-2'>
+                {(!singlepost?.hiddenlikes) && <div className='ml-4 my-3 mb-5 space-y-2'>
                     {singlepost?.numLikes === 0 ? <p className='text-[1.1rem] font-semibold'>Be the first to like this</p> :
                         <p className='text-[1.2rem] font-semibold'>{singlepost?.numLikes} Likes</p>
                     }
                     <p className='font-normal text-sm text-gray-800 uppercase'>{moment(singlepost?.createdAt).from()}</p>
-                </div>
-                <form onSubmit={CommentHandle} className='flex px-3 border-t pt-3 mt-2'>
-                    <div
-                        onClick={() => setIsPikerVisable(!isPikerVisiable)}
-                        className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
-                        <FaRegSmile />
-                    </div>
-                    <AnimatePresence>
-                        {isPikerVisiable &&
-                            <motion.div
-                                variants={AnimDropdown}
-                                initial='initial'
-                                animate='animated'
-                                exit='exit'
-                                className='absolute z-50 bottom-8 left-0'
-                            >
-                                <Emoji
-                                    setComment={setComment}
-                                    comment={comment} />
-                            </motion.div>
+                </div>}
+                {(!singlepost?.turnoffcomments) &&
+                    <form onSubmit={CommentHandle} className='flex px-3 border-t pt-3 mt-2'>
+                        <div
+                            onClick={() => setIsPikerVisable(!isPikerVisiable)}
+                            className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
+                            <FaRegSmile />
+                        </div>
+                        <AnimatePresence>
+                            {isPikerVisiable &&
+                                <motion.div
+                                    variants={AnimDropdown}
+                                    initial='initial'
+                                    animate='animated'
+                                    exit='exit'
+                                    className='absolute z-50 bottom-8 left-0'
+                                >
+                                    <Emoji
+                                        setComment={setComment}
+                                        comment={comment} />
+                                </motion.div>
+                            }
+                        </AnimatePresence>
+                        <input
+                            onChange={(e) => setComment(e.target.value)}
+                            onFocus={() => setIsPikerVisable(false)}
+                            value={comment}
+                            name='comment'
+                            autoComplete='off'
+                            className='outline-none w-full pr-3'
+                            placeholder='Add Comment ...'
+                        />
+                        {comment &&
+                            <button type='submit'
+                                className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
                         }
-                    </AnimatePresence>
-                    <input
-                        onChange={(e) => setComment(e.target.value)}
-                        onFocus={() => setIsPikerVisable(false)}
-                        value={comment}
-                        name='comment'
-                        autoComplete='off'
-                        className='outline-none w-full pr-3'
-                        placeholder='Add Comment ...'
-                    />
-                    {comment &&
-                        <button type='submit'
-                            className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
-                    }
-                </form>
+                    </form>}
             </div>
         )
     }

@@ -3,7 +3,7 @@ import { BsCamera, BsFillChatFill } from 'react-icons/bs'
 import { useGetUserPostsQuery } from '../../Redux/APIs/PostsApi';
 import { FeatureAction } from './../../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { ModalPostDetails } from '../../Components/Exports'
+import { ModalPostDetails, ModalPostMoreLogged } from '../../Components/Exports'
 import { ImSpinner3 } from 'react-icons/im';
 import { useSelector } from 'react-redux';
 import useBreakpoint from './../../Hooks/useBreakpoint';
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 const UsersPosts = ({ userInfo }) => {
     const { data: userPosts, isFetching, error, isError } = useGetUserPostsQuery() || {};
-    const { isModalPostDetails } = useSelector(state => state.Features);
+    const { isModalPostDetails, isModalPostMoreLogged } = useSelector(state => state.Features);
     const dispatch = useDispatch();
     const [postID, setPostID] = useState('');
     const breakpoint = useBreakpoint();
@@ -41,9 +41,9 @@ const UsersPosts = ({ userInfo }) => {
             <AnimatePresence>
                 {isModalPostDetails && <ModalPostDetails ID={postID} postDetails={postDetails} />}
             </AnimatePresence>
+            {isModalPostMoreLogged && <ModalPostMoreLogged PostId={postID} postDetails={postDetails} />}
             <div className='container max-w-5xl px-0'>
                 {isError && <p>{error?.data?.msg}</p>}
-                {isFetching && <p className='flex justify-center h-[20vh] items-center text-3xl font-medium animate-spin'><ImSpinner3 size={30} /></p>}
                 {(userPosts === [] || userPosts?.length === 0) ? <EmptyPosts />
                     :
                     <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
@@ -66,6 +66,7 @@ const UsersPosts = ({ userInfo }) => {
                         ))}
                     </div>
                 }
+                {isFetching && <p className='flex justify-center h-[20vh] items-center text-3xl font-medium animate-spin'><ImSpinner3 size={30} /></p>}
             </div>
         </>
     )

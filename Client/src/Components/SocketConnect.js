@@ -23,8 +23,6 @@ const SocketConnect = () => {
     }
     return
   }, [userId, socket]);
-
-
   return (
     <Outlet />
   )

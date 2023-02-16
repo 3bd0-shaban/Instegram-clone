@@ -25,8 +25,21 @@ export const GetSaves = asyncHandler(async (req, res, next) => {
         req.query).Pagination(resultperpage)
 
     const saves = await features.query
-        .select('saves').populate('saves', 'images')
+        .select('saves')
+        .populate({
+            path: 'saves',
+            populate: {
+                path: 'comments.user',
+                select: 'username avatar'
+            },
+        })
+        .populate({
+            path: 'saves',
+            populate: {
+                path: 'user',
+                select: 'username avatar'
+            },
+        })
         .sort("-createdAt");
-
     return res.json(saves)
 });

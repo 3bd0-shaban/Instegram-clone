@@ -53,7 +53,7 @@ const Posts = () => {
       {isModalReports && <ModalReports />}
       {isModalThanksReport && <ModalThanksReport postDetails={postDetails} />}
       {isModalUnfollowConfirm && <ModalUnFollowConfirm postDetails={postDetails} />}
-      {isModalBlockConfirm && <ModalBlockConfirm postDetails={postDetails} />}
+      {isModalBlockConfirm && <ModalBlockConfirm UserByIdDetails={postDetails?.user} />}
       {isPostMore && <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} PostId={postID} postDetails={postDetails} />}
       {isModalPostMoreLogged && <ModalPostMoreLogged PostId={postID} postDetails={postDetails} />}
       {isFetching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :

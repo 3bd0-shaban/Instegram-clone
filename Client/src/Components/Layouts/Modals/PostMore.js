@@ -35,7 +35,7 @@ const PostMore = ({ PostId, postDetails }) => {
                         className='block py-4 hover:bg-gray-100 text-red-600 font-medium cursor-pointer'>unfollow
                     </div><hr />
 
-                    <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Add to favorite</span><hr />
+                    {/* <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Add to favorite</span><hr /> */}
 
                     <Link to={`/p/${PostId}`}
                         onClick={() => dispatch(FeatureAction.Show_isPostMore(false))}
@@ -54,7 +54,7 @@ const PostMore = ({ PostId, postDetails }) => {
                         }} className='block py-4 hover:bg-gray-100 cursor-pointer'>Copy link
                     </span><hr />
 
-                    <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Embed</span><hr />
+                    {/* <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Embed</span><hr /> */}
 
                     <span
                         className='block py-5 hover:bg-gray-100 hover:rounded-b-xl cursor-pointer'

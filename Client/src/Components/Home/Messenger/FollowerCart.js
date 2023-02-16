@@ -9,7 +9,7 @@ const FollowerCart = ({ chat, userInfo }) => {
     }, [chat, userInfo]);
     return (
         <Link to={`/${followerchat?.username}/message/${chat?._id}`} className='pt-3 p-3 flex hover:bg-gray-100'>
-            <img className="p-1 w-20 h-20 rounded-full focus:ring-2 focus:ring-gray-300"
+            <img className="p-1 w-20 h-20 rounded-full focus:ring-2 object-cover focus:ring-gray-300"
                 src={followerchat?.avatar?.url} alt=""
             />
             <div className='ml-3 my-auto'>

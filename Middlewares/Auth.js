@@ -36,17 +36,17 @@ export const checkBlock = asyncHandler(async (req, res, next) => {
         (userById.blocklist.some(blockuser => blockuser.username === req.params.username));
 
     if (user) {
-        return next(new ErrorHandler('You have no access to this account ', 404));
+        return next(new ErrorHandler('You have no access to this account ', 400));
     }
 
     next();
 });
 
-// export const ChechPrivacy = asyncHandler(async (req, res, next) => {
-//     const user = await Users.findOne({ username: req.params.username });
-//     console.log(user)
-//     if (user.isprivat) {
-//         new ErrorHandler('This account is privat you can not see posts unless you follow it', 403);
-//     }
-//     next();
-// })
+export const ChechPrivacy = asyncHandler(async (req, res, next) => {
+    const user = await Users.findOne({ username: req.params.username }).populate('followers');
+    const isFollower = user.followers.some(follower => follower.username === req.user.username)
+    if (user.isprivat && !isFollower) {
+        new ErrorHandler('This account is privat you can not see posts unless you follow it', 403);
+    }
+    next();
+});

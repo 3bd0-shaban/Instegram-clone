@@ -54,6 +54,7 @@ export { default as Dashboard } from '../Screens/Dashboard';
 
 
 export { default as Chat } from './Home/Messenger/ChatBox';
+export { default as CoversationCTRL } from './Home/Messenger/CoversationCTRL';
 export { default as MainNoSelection } from './Home/Messenger/MainNoSelection';
 export { default as SideBarChats } from './Home/Messenger/SideBarChats';
 export { default as FollowerCart } from './Home/Messenger/FollowerCart';

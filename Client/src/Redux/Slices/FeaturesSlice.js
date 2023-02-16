@@ -49,10 +49,10 @@ const FeaturesSlice = createSlice({
             state.isModalConfirm = !state.isModalConfirm;
         },
         setIsClipAlert: (state) => {
-            state.isClipAlert = true;
-            setTimeout(() => {
-                state.isClipAlert = !state.isClipAlert;
-            }, 1000);
+            state.isClipAlert = !state.isClipAlert;
+            // setTimeout(() => {
+            //     state.isClipAlert = !state.isClipAlert;
+            // }, 1000);
         },
         Show_ModalPreviewImages(state) {
             state.IsModalPreviewImages = !state.IsModalPreviewImages;

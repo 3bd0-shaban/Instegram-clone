@@ -24,17 +24,7 @@ const MessengerWindow = () => {
             setSelected(true)
         }
     }, [id, username]);
-    // useEffect(() => {
-    //     socket.current = io(url);
-    //     // socket.current.on("getMessage", (data) => {
-    //     // });
-    // }, []);
-    // useEffect(() => {
-    //     socket.current.emit("joinUser", userInfo?._id)
-    //     socket.current.on("getUsers", users => {
-    //         console.log(users)
-    //     })
-    // }, [userInfo]);
+
     return (
         <div className='h-screen flex lg:items-center bg-white overflow-hidden'>
             <SideBar />

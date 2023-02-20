@@ -45,10 +45,8 @@ const usesrSchema = new mongoose.Schema(
     avatar: {
       public_id: {
         type: String,
-        default: ""
       }, url: {
         type: String,
-        default: "https://res.cloudinary.com/abdo9/image/upload/v1676052171/profile_bikmhe.jpg",
       }
     },
     otp: Number,

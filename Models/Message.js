@@ -10,8 +10,15 @@ const messageSchema = new mongoose.Schema(
             ref: 'Users'
         },
         msg: {
-            type:String
+            type: String
         },
+        image: {
+            public_id: {
+                type: String,
+            }, url: {
+                type: String,
+            }
+        }
     },
     { timestamps: true, minimize: false }
 );

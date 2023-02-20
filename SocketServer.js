@@ -38,11 +38,11 @@ const SocketServer = (socket) => {
 
     //#region //!Messages
 
-    socket.on("Message", ({ sender, receiver, createdAt, msg }) => {
+    socket.on("Message", ({ sender, receiver, createdAt, image, msg }) => {
         const user = getUser(receiver);
         if (user) {
             socket.to(user.socketId)
-                .emit("getMessage", { sender, receiver, createdAt, msg });
+                .emit("getMessage", { sender, receiver, createdAt, image, msg });
         }
     });
 

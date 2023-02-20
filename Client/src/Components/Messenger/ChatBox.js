@@ -10,16 +10,18 @@ import { useGetMessagesQuery, useNewMessageMutation } from './../../Redux/APIs/M
 import { BiChevronLeft } from 'react-icons/bi'
 import { motion } from 'framer-motion';
 import AnimDropdown from './../../Animation/AnimDropdown'
+import { ImSpinner3 } from 'react-icons/im';
 const ChatBox = ({ setSelected }) => {
     const { username, id } = useParams();
     const { data: userById } = useGetUserByIdQuery(username) || {};
     const { data: FollowerMessages } = useGetMessagesQuery(id, {
-        // refetchOnMountOrArgChange: true,
+        refetchOnMountOrArgChange: true,
     }) || {};
     const [recievedmsg, setRecieved] = useState({});
     const [allMSGs, setAllMSGs] = useState([]);
-    const [MewMessage] = useNewMessageMutation() || {};
+    const [MewMessage, { isLoading }] = useNewMessageMutation() || {};
     const [msg, setMSG] = useState('');
+    const [image, setImage] = useState();
     const [details, setDetails] = useState();
     const ScrollRef = useRef();
     const { socket } = useSocket();
@@ -32,40 +34,61 @@ const ChatBox = ({ setSelected }) => {
 
     useEffect(() => {
         setAllMSGs(FollowerMessages);
-    }, [FollowerMessages, setAllMSGs, username]);
+    }, [FollowerMessages, setAllMSGs, id]);
 
     useEffect(() => {
-        socket?.on('getMessage', ({ sender, receiver, createdAt, msg }) => {
+        socket?.on('getMessage', ({ image, sender, receiver, createdAt, msg }) => {
             setRecieved({
-                sender, receiver, createdAt, msg
+                image, sender, receiver, createdAt, msg
             });
         })
         // eslint-disable-next-line 
     }, []);
 
     useEffect(() => {
-        recievedmsg &&
-            setAllMSGs([...allMSGs, recievedmsg]);
+        if (recievedmsg) {
+            if (allMSGs.length !== 0) {
+                setAllMSGs(prev => [...prev, recievedmsg]);
+            }
+        }
         // eslint-disable-next-line 
-    }, [recievedmsg, setAllMSGs]);
-
+    }, [recievedmsg]);
+    const loadFile = (e) => {
+        for (const file of e.target.files) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                setImage(reader.result);
+            };
+        }
+    };
     const NewMSG = (e) => {
-        e.preventDefault();
-        if (!msg) return;
-        const data = { msg }
+        if (!image) {
+            e.preventDefault();
+        }
+        // if (!msg || !image) return;
+        const data = { msg, image }
         MewMessage({ data, id }).unwrap()
             .then(payload => {
                 setMSG('')
+                setImage('')
                 setAllMSGs([...allMSGs, payload]);
                 socket.emit("Message", {
                     sender: payload.sender,
                     msg: payload.msg,
                     createdAt: payload.createdAt,
+                    image: payload.image,
                     receiver: userById?._id
                 });
             })
             .catch(err => console.log(err))
     }
+    useEffect(() => {
+        if (image) {
+            NewMSG()
+        }
+        // eslint-disable-next-line 
+    }, [image])
     return (
         details ? <CoversationCTRL userById={userById} setDetails={setDetails} details={details} /> :
             <div className='h-full'>
@@ -73,7 +96,7 @@ const ChatBox = ({ setSelected }) => {
                     <div className='flex'>
                         <Link to='/messages' className='block lg:hidden'><BiChevronLeft size={30} /></Link>
                         <Link to={userById?.username ? `/${userById?.username}` : ''} className='flex gap-2 lg:items-center'>
-                            <img className="p-1 w-10 h-10 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={userById?.avatar?.url ? userById?.avatar?.url: process.env.REACT_APP_DefaultIcon} alt="" />
+                            <img className="p-1 w-10 h-10 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={userById?.avatar?.url ? userById?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
                             <p className='my-auto'>{userById?.username || 'Instegram user'}</p>
                         </Link>
                     </div>
@@ -90,6 +113,16 @@ const ChatBox = ({ setSelected }) => {
                                 <Message message={message} FollowerChating={message?.sender === userById?._id} />
                             </div>
                         ))}
+                        {image &&
+                            <div className='flex justify-end'>
+                                <div className='max-w-[20rem] relative'>
+                                    <img src={image} alt='' className='rounded-xl w-full flex justify-end' />
+                                    {isLoading && <div className='absolute inset-0 bg-white/50 flex justify-center items-center text-gray-500'>
+                                        <span className=' animate-spin'> <ImSpinner3 size={30} /></span>
+                                    </div>}
+                                </div>
+                            </div>}
+
                         <form onSubmit={NewMSG} className='border rounded-full w-[97%] mb-10 lg:mb-5 py-3 lg:by-5 px-6 flex items-center mt-auto absolute bottom-0'>
                             {!userById?.username ? <p className='w-full text-center'>Not accessed</p> :
                                 <>
@@ -121,7 +154,10 @@ const ChatBox = ({ setSelected }) => {
                                         <button type='submit' className='text-blue-500 font-semibold'>Send</button>
                                         :
                                         <div className='ml-auto flex text-2xl gap-4'>
-                                            <IoImageOutline />
+                                            <label onChange={loadFile} className='cursor-pointer'>
+                                                <input type='file' className='hidden' />
+                                                <IoImageOutline />
+                                            </label>
                                             <HiOutlineHeart />
                                         </div>
                                     }

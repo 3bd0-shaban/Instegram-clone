@@ -16,7 +16,8 @@ const DrobDownMore = () => {
         await logOut().unwrap()
             .then((payload) => {
                 dispatch(FeatureAction.ShowDrobdownMore(false));
-                localStorage.removeItem('persist')
+                localStorage.removeItem('persist');
+                localStorage.removeItem('id')
                 navigate('/signin')
             })
             .catch((err) => {

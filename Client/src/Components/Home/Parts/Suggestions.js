@@ -16,7 +16,7 @@ const Suggestions = () => {
         })
         .catch(err => console.log(err))
       };
-      console.log(`follow ${isFollowing}`)
+      // console.log(`follow ${isFollowing}`)
     return (
       <>
         <Link

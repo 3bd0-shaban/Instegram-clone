@@ -38,7 +38,7 @@ const MessengerWindow = () => {
     return (
         <div className='h-screen flex lg:items-center bg-white overflow-hidden'>
             <SideBar />
-            <div className='container px-0 max-w-[70rem] border rounded-md bg-white xl:mr-48 xxxl:mr-[26rem]'>
+            <div className='container px-0 max-w-full lg:max-w-[60rem] xxxl:max-w-[70rem] border rounded-md bg-white'>
                 <div className='grid grid-cols-3 h-[95vh]'>
                     {lapview &&
                         <div className='col-span-3 lg:col-span-1 border-r mt-5 overflow-y-scroll hideScrollBare'>

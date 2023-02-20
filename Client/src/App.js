@@ -8,7 +8,7 @@ import { ROLES } from './Config/Roles';
 import { AnimatePresence } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from './Redux/Slices/UserSlice';
-import SocketConnect from './Components/SocketConnect';
+// import SocketConnect from './Components/SocketConnect';
 
 function App() {
   const userInfo = useSelector(selectCurrentUser)
@@ -20,7 +20,7 @@ function App() {
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
           <Route element={<PersistLogin />}>
-            <Route element={<SocketConnect />}>
+            {/* <Route element={<SocketConnect />}> */}
               <Route path="birthday" element={<SetBirthday />} />
               <Route path="confirm" element={<Confirm />} />
               <Route path="forgetpassword" element={<ForgetPassword />} />
@@ -41,7 +41,7 @@ function App() {
               </Route>
             </Route>
           </Route>
-        </Route>
+        {/* </Route> */}
       </Routes>
     </AnimatePresence>
   );

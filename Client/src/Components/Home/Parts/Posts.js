@@ -23,25 +23,6 @@ const Posts = () => {
     dispatch(setTotalPosts(followerposts))
   }, [followerposts, dispatch]);
 
-
-  useEffect(() => {
-    const onScroll = () => {
-      const scrolledToBottom =
-        window.innerHeight + window.scrollY >= document.body.offsetHeight;
-      if (scrolledToBottom && !isFetching) {
-        console.log("Fetching more data...");
-        setPage(page + 1);
-      }
-    };
-
-    document.addEventListener("scroll", onScroll);
-
-    return function () {
-      document.removeEventListener("scroll", onScroll);
-    };
-  }, [page, isFetching]);
-
-
   return (
     <>
       <AnimatePresence>
@@ -58,7 +39,7 @@ const Posts = () => {
       {isModalPostMoreLogged && <ModalPostMoreLogged PostId={postID} postDetails={postDetails} />}
       {isFetching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
         posts?.map(post => (
-          <div key={post?._id} className='mt-4 container max-w-[25rem] xsm:max-w-[28rem] sm:max-w-xl px-0'>
+          <div key={post?._id} className='mt-4 container max-w-[22.5rem] xsm:max-w-[25.5rem] sm:max-w-xl px-0'>
             <SinglePost postDetail={post} setTotalPosts={setTotalPosts} postID={postID} setPostID={setPostID} setPostDetails={setPostDetails} />
           </div>
         ))}

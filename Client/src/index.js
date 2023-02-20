@@ -10,13 +10,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={Store}>
-      <BrowserRouter>
-        <SocketProvider>
+      <SocketProvider>
+        <BrowserRouter>
           <Routes>
             <Route path="/*" element={<App />} />
           </Routes>
-        </SocketProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </SocketProvider>
     </Provider>
   </React.StrictMode>
 );

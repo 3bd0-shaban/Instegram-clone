@@ -1,4 +1,5 @@
 import React from 'react'
+import { BiChevronLeft } from 'react-icons/bi'
 import { MdOutlineInfo } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -12,7 +13,10 @@ const CoversationCTRL = ({ setDetails, details, userById }) => {
         <>
             {isModalBlockConfirm && <ModalBlockConfirm UserByIdDetails={userById} />}
             <div className='px-5 py-3 flex justify-between items-center'>
-                <p className='text-xl font-medium'>Details</p>
+                <div className='flex gap-2 items-center'>
+                    <button onClick={() => setDetails(!details)}><BiChevronLeft size={30} /></button>
+                    <p className='text-xl font-medium'>Details</p>
+                </div>
                 <button onClick={() => setDetails(!details)}><MdOutlineInfo size={25} /></button>
             </div><hr />
             <div className='p-5'>

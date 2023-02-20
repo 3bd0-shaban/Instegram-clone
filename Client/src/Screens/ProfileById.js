@@ -24,7 +24,7 @@ const Profile = () => {
     const { data: userById, isError, isFetching, error } = useGetUserByIdQuery(username) || {};
     // const { data: getfollowerchatID } = useSingleChatQuery(id) || {};
     const { isModalFollowersList, isModalFollowingList, isModalFollowerCTRL, isModalSettings } = useSelector(state => state.Features);
-    useTitle(userById?.username ? userById?.fullname : 'Page Not Founded !');
+    useTitle(userById?.username);
     const navigate = useNavigate();
     const userInfo = useSelector(selectCurrentUser)
     const [Follow] = useFollowMutation() || {};

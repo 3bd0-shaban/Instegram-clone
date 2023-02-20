@@ -30,6 +30,7 @@ const SignIn = () => {
       dispatch(setCredentials({ accessToken, user }));
       setInputs({ email: '', password: '' });
       localStorage.setItem('persist', true)
+      localStorage.setItem('id', user._id)
       navigate('/')
     } catch (error) {
       console.log(error?.data?.msg)

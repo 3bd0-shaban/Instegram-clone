@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 import React, { useState } from 'react'
 import { ModalConfirm, ModalPreviewImages, ModalLoadingUpload } from '../../Exports';
 import { useCreatePostMutation } from '../../../Redux/APIs/PostsApi';
-
+import { preventScroll } from '../../../Helpers/PreventScroll';
 const ModalAddPost = () => {
     const { IsModalPreviewImages, isModalConfirm, isModalAddPost, isModalLoadingUpload } = useSelector(state => state.Features);
 
@@ -15,6 +15,7 @@ const ModalAddPost = () => {
     const dispatch = useDispatch();
     const [success, setSuccess] = useState(false);
     const [images, setImages] = useState([]);
+    preventScroll(isModalAddPost)
     const loadFile = (e) => {
         for (const file of e.target.files) {
             const reader = new FileReader();

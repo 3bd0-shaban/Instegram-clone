@@ -28,6 +28,7 @@ const Confirm = () => {
             const { accessToken, user } = await VerifyEmail({ code, email }).unwrap()
             dispatch(setCredentials({ accessToken, user }));
             localStorage.setItem('persist', true)
+            localStorage.setItem('id', user._id)
             setCode('');
             navigate(`/birthday?email=${email}`)
         } catch (error) {

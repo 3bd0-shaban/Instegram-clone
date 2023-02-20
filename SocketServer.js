@@ -1,30 +1,25 @@
 let onlineUsers = []
 const addUser = (userId, socketId) => {
-    // if (onlineUsers.length === 0) {
-    //     onlineUsers.push({ userId, socketId });
-    // }
-    // if (onlineUsers.length > 0) {
-    //     onlineUsers = onlineUsers.filter((user) => user.userId !== userId);
-
-    //     onlineUsers.push({ userId, socketId });
-    // }
-    
     !onlineUsers.some(user => user.userId === userId) && onlineUsers.push({ userId, socketId });
 }
 
 const removeUser = socketId => {
     onlineUsers = onlineUsers.filter(user => user.socketId !== socketId);
 };
+const getUser = (userId) => {
+    return onlineUsers.find((user) => user.userId === userId);
+};
+
 const findConnectedUser = userId =>
-onlineUsers.find(user => user.userId === userId);
+    onlineUsers.find(user => user.userId === userId);
 
 const SocketServer = (socket) => {
     socket.on('join', (userId) => {
         addUser(userId, socket.id);
         socket.emit("getusers", onlineUsers);
-        
+
     });
-    
+
     console.log(onlineUsers)
 
     const handler = (sender, receiver, { type, reactionType, post }) => {
@@ -44,11 +39,11 @@ const SocketServer = (socket) => {
     //#region //!Messages
 
     socket.on("Message", ({ sender, receiver, createdAt, msg }) => {
-        const user = onlineUsers.find((user) => user.userId === receiver);
-        user &&
+        const user = getUser(receiver);
+        if (user) {
             socket.to(user.socketId)
-                .emit("MessagetoClient", { sender, receiver, createdAt, msg });
-        // handler(sender, receiver);
+                .emit("getMessage", { sender, receiver, createdAt, msg });
+        }
     });
 
 
@@ -63,7 +58,6 @@ const SocketServer = (socket) => {
 
     socket.on('disconnect', () => {
         removeUser(socket.id);
-        console.log('disconnected')
     });
 }
 

@@ -38,7 +38,7 @@ const PostComments = () => {
                     </div>
                     {(!postDetails?.turnoffcomments) &&
                         <div className='flex gap-5 items-center my-5'>
-                            <img className="p-1 w-14 h-14 rounded-full focus:ring-2 focus:ring-gray-300" src={userInfo?.avatar?.url} alt="" />
+                            <img className="p-1 w-14 h-14 rounded-full focus:ring-2 focus:ring-gray-300" src={userInfo?.avatar?.url ? userInfo?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
                             <form onSubmit={CommentHandle} className='relative w-full'>
                                 <input type="text"
                                     onChange={(e) => setComment(e.target.value)}

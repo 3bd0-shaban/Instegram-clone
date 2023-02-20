@@ -30,7 +30,7 @@ const ModalUnFollowConfirm = ({ postDetails }) => {
                 </button>
                 <div>
                     <div className='w-full flex justify-center py-5'>
-                        <img className='h-28 w-28 rounded-full col-span-2 object-cover flex justify-center items-center my-1' src={postDetails?.user?.avatar?.url} alt='' />
+                        <img className='h-28 w-28 rounded-full col-span-2 object-cover flex justify-center items-center my-1' src={postDetails?.user?.avatar?.url ? postDetails?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt='' />
 
                     </div>
                     <p className='text-lg flex justify-center mt-2'>UnFollow {postDetails?.user?.username} ?</p>

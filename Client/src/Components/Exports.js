@@ -20,24 +20,24 @@ export { default as UsersPostsById } from './Screens/ProfileById/UsersPostsById'
 export { default as UsersTagesById } from './Screens/ProfileById/UsersTagesById';
 
 //////////////////////Modals////////////////////////////////
-export { default as ModalConfirm } from './Layouts/Modals/ModalConfirm';
-export { default as ModalPostDetails } from './Layouts/Modals/ModalPostDetails';
-export { default as ModalSettings } from './Layouts/Modals/ModalSettings';
-export { default as ModalReports } from './Layouts/Modals/ModalReports';
-export { default as ModalPreviewImages } from './Layouts/Modals/ModalPreviewImages';
-export { default as ConfirmModal2 } from './Layouts/Modals/ConfirmModal2';
-export { default as ModalAddPost } from './Layouts/Modals/ModalAddPost';
-export { default as ModalFollowerCTRL } from './Layouts/Modals/ModalFollowerCTRL';
-export { default as ModalFollowers } from './Layouts/Modals/ModalFollowers';
-export { default as ModalFollowing } from './Layouts/Modals/ModalFollowing';
-export { default as ModalLoadingUpload } from './Layouts/Modals/ModalLoadingUpload';
-export { default as ModalBlockConfirm } from './Layouts/Modals/ModalBlockConfirm';
-export { default as ModalUnFollowConfirm } from './Layouts/Modals/ModalUnFollowConfirm';
-export { default as ModalThanksReport } from './Layouts/Modals/ModalThanksReport';
-export { default as ModalChangeProfile } from './Layouts/Modals/ModalChangeProfile';
-export { default as ModalUserByIdSettings } from './Layouts/Modals/ModalUserByIdSettings';
-export { default as ModalPostMoreLogged } from './Layouts/Modals/ModalPostMoreLogged';
-export { default as PostMore } from './Layouts/Modals/PostMore';
+export { default as ModalConfirm } from './Home/Modals/ModalConfirm';
+export { default as ModalPostDetails } from './Home/Modals/ModalPostDetails';
+export { default as ModalSettings } from './Home/Modals/ModalSettings';
+export { default as ModalReports } from './Home/Modals/ModalReports';
+export { default as ModalPreviewImages } from './Home/Modals/ModalPreviewImages';
+export { default as ConfirmModal2 } from './Home/Modals/ConfirmModal2';
+export { default as ModalAddPost } from './Home/Modals/ModalAddPost';
+export { default as ModalFollowerCTRL } from './Home/Modals/ModalFollowerCTRL';
+export { default as ModalFollowers } from './Home/Modals/ModalFollowers';
+export { default as ModalFollowing } from './Home/Modals/ModalFollowing';
+export { default as ModalLoadingUpload } from './Home/Modals/ModalLoadingUpload';
+export { default as ModalBlockConfirm } from './Home/Modals/ModalBlockConfirm';
+export { default as ModalUnFollowConfirm } from './Home/Modals/ModalUnFollowConfirm';
+export { default as ModalThanksReport } from './Home/Modals/ModalThanksReport';
+export { default as ModalChangeProfile } from './Home/Modals/ModalChangeProfile';
+export { default as ModalUserByIdSettings } from './Home/Modals/ModalUserByIdSettings';
+export { default as ModalPostMoreLogged } from './Home/Modals/ModalPostMoreLogged';
+export { default as PostMore } from './Home/Modals/PostMore';
 
 export { default as Suggestions } from './Home/Parts/Suggestions';
 /////////////////////////Routes//////////////////////////

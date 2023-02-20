@@ -22,7 +22,7 @@ const CoversationCTRL = ({ setDetails, details, userById }) => {
             <div className='p-5'>
                 <p>Members</p>
                 <Link to={userById?.username ? `/${userById?.username}` : ''} className='flex gap-2 py-3 lg:items-center'>
-                    <img className="p-1 w-24 h-24 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={userById?.avatar?.url || 'https://res.cloudinary.com/abdo9/image/upload/v1676052171/profile_bikmhe.jpg'} alt="" />
+                    <img className="p-1 w-24 h-24 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={userById?.avatar?.url ? userById?.avatar?.url: process.env.REACT_APP_DefaultIcon} alt="" />
                     <div>
                         <p className='my-auto font-medium text-lg'>{userById?.username || 'Instegram user'}</p>
                         <p className='my-auto'>{userById?.fullname || 'Instegram user'}</p>

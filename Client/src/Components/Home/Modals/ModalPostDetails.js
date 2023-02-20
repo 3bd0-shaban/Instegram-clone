@@ -105,7 +105,7 @@ const ModalPostDetails = ({ ID, postDetails }) => {
         return (
             <div className='flex justify-between items-center py-2 px-3'>
                 <div className='flex items-center'>
-                    <img className="p-1 w-14 h-14 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={singlepost.user?.avatar?.url} alt="" />
+                    <img className="p-1 w-14 h-14 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={singlepost.user?.avatar?.url ?singlepost.user?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
                     <p className='text-md font-poppins font-medium'>{singlepost?.user?.username}</p>
                 </div>
                 <button onClick={checkModal} className='mr-2 py-0 h-1 mt-2'>

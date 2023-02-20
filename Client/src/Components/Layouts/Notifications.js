@@ -20,7 +20,7 @@ const Notifications = () => {
                     className='flex items-center'
                 // onMouseEnter={() => setOpenSearch(true)}
                 >
-                    <img className="p-1 w-20 h-20 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url} alt="" />
+                    <img className="p-1 w-20 h-20 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url: process.env.REACT_APP_DefaultIcon} alt="" />
                     <div className='ml-2'>
                         <p className='text-md font-poppins font-medium'>{res?.username}</p>
                         <p className='text-sm font-poppins text-gray-500'>{res?.fullname}</p>

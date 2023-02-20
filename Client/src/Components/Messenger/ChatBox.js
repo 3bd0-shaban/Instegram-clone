@@ -73,7 +73,7 @@ const ChatBox = ({ setSelected }) => {
                     <div className='flex'>
                         <Link to='/messages' className='block lg:hidden'><BiChevronLeft size={30} /></Link>
                         <Link to={userById?.username ? `/${userById?.username}` : ''} className='flex gap-2 lg:items-center'>
-                            <img className="p-1 w-10 h-10 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={userById?.avatar?.url || 'https://res.cloudinary.com/abdo9/image/upload/v1676052171/profile_bikmhe.jpg'} alt="" />
+                            <img className="p-1 w-10 h-10 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={userById?.avatar?.url ? userById?.avatar?.url: process.env.REACT_APP_DefaultIcon} alt="" />
                             <p className='my-auto'>{userById?.username || 'Instegram user'}</p>
                         </Link>
                     </div>

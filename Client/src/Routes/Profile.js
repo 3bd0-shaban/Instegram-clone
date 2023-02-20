@@ -41,7 +41,7 @@ const Profile = () => {
                             <div className='hidden rounded-full group-hover:flex text-white items-center justify-center absolute p-2 inset-0 hover:bg-black/20'>
                                 <FiPlus />
                             </div>
-                            <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userInfo?.avatar?.url} alt='' />
+                            <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userInfo?.avatar?.url ? userInfo?.avatar?.url: process.env.REACT_APP_DefaultIcon} alt='' />
                         </button>
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                             <div className='space-y-5'>

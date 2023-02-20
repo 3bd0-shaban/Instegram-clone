@@ -15,7 +15,7 @@ const Comments = ({ postDetails, id }) => {
                 {postDetails?.comments?.map((comment) => (
                     <div key={comment?._id} className={`py-3 ${!id && 'px-3'}`}>
                         <div className='grid grid-cols-12 gap-3'>
-                            <img className="col-span-2 flex justify-center mx-auto p-1 w-14 h-14 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={comment?.user?.avatar?.url} alt="" />
+                            <img className="col-span-2 flex justify-center mx-auto p-1 w-14 h-14 rounded-full object-cover focus:ring-2 focus:ring-gray-300" src={comment?.user?.avatar?.url ?  comment?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
                             <div className='col-span-10 mt-2'>
                                 <div className='flex gap-3'>
                                     <Link to={`/${postDetails?.user?.username}`} className='text-[1.1rem] font-poppins font-medium inline'>{comment?.user?.username}

@@ -86,7 +86,7 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
             <div className='flex justify-between mt-3 px-3'>
                 <Link to={`/${post?.user?.username}`} className='flex'>
                     <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
-                        src={post?.user?.avatar?.url}
+                        src={post?.user?.avatar?.url ? post?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}
                         alt=""
                     />
                     <div className='ml-2 mt-2'>

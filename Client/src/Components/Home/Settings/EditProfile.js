@@ -48,7 +48,7 @@ const EditProfile = () => {
         <form className="w-full grid grid-cols-6 items-center justify-start text-start">
           <img
             className="col-span-2 h-20 w-20 lg:h-28 lg:w-28 rounded-full flex justify-center object-cover items-center"
-            src={userInfo?.avatar?.url}
+            src={userInfo?.avatar?.url ? userInfo?.avatar?.url: process.env.REACT_APP_DefaultIcon}
             alt={userInfo?.username}
           />
           <div className="col-span-4">

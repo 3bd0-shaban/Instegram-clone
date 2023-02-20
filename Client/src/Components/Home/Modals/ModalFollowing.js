@@ -30,7 +30,7 @@ const ModalFollowing = ({ id }) => {
                                 className='flex'
                                 onClick={() => dispatch(FeatureAction.setIsModalFollowingList(false))}
                             >
-                                <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url} alt="" />
+                                <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url :process.env.REACT_APP_DefaultIcon} alt="" />
                                 <div className='ml-2 mt-1'>
                                     <p className='text-md font-poppins font-medium'>{res?.username}</p>
                                     <p className='text-sm text-gray-500'>{res?.fullname}</p>

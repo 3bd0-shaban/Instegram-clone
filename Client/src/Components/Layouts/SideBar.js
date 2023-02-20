@@ -70,7 +70,7 @@ const SideBar = () => {
                         />
                         <SideLink
                             Linkdirect={`/${userInfo?.username}`}
-                            Icon={<img src={userInfo?.avatar?.url}
+                            Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url: process.env.REACT_APP_DefaultIcon}
                                 alt={userInfo?.username}
                                 className='rounded-full w-10 h-10 object-cover' />} Title='Profile'
                         />
@@ -137,7 +137,7 @@ const SideBar = () => {
                         <SideLink Linkdirect='/messages' Icon={<RiMessengerLine size={30} />} Title='Messages' />
                         <SideLink
                             Linkdirect={`/${userInfo?.username}`}
-                            Icon={<img src={userInfo?.avatar?.url}
+                            Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url: process.env.REACT_APP_DefaultIcon}
                                 alt={userInfo?.username}
                                 className='rounded-full w-8 h-8 object-cover' />}
                             Title='Profile'

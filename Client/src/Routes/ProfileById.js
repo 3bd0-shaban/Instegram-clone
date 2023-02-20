@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { useNewChatMutation } from '../Redux/APIs/ChatApi';
 import { ImSpinner3 } from 'react-icons/im';
 import { selectCurrentUser } from '../Redux/Slices/UserSlice';
-import NotFounded from '../Components/NotFounded';
+import NotFounded from '../Utils/NotFounded';
 
 const Profile = () => {
 

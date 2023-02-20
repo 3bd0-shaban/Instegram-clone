@@ -12,7 +12,7 @@ const Posts = () => {
     isModalPostDetails, isPostMore, isClipAlert, isModalReports,
     isModalThanksReport, isModalUnfollowConfirm, isModalBlockConfirm, isModalPostMoreLogged
   } = useSelector(state => state.Features);
-
+// eslint-disable-next-line 
   const [page, setPage] = useState(1);
   const [postID, setPostID] = useState('');
   const [postDetails, setPostDetails] = useState('');

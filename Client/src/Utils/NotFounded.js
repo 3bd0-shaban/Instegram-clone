@@ -1,5 +1,5 @@
 import React from 'react'
-import { SideBar, useTitle } from './Exports'
+import { SideBar, useTitle } from '../Components/Exports'
 
 const NotFounded = () => {
     useTitle('Page Not Founded !')

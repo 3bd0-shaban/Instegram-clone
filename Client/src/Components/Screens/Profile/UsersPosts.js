@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { BsCamera, BsFillChatFill } from 'react-icons/bs'
-import { useGetUserPostsQuery } from '../../Redux/APIs/PostsApi';
-import { FeatureAction } from './../../Redux/Slices/FeaturesSlice';
+import { useGetUserPostsQuery } from '../../../Redux/APIs/PostsApi';
+import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { ModalPostDetails, ModalPostMoreLogged } from '../../Components/Exports'
+import { ModalPostDetails, ModalPostMoreLogged } from '../../../Components/Exports'
 import { ImSpinner3 } from 'react-icons/im';
 import { useSelector } from 'react-redux';
-import useBreakpoint from './../../Hooks/useBreakpoint';
+import useBreakpoint from '../../../Hooks/useBreakpoint';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 const UsersPosts = ({ userInfo }) => {

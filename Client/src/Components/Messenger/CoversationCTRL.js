@@ -3,8 +3,8 @@ import { BiChevronLeft } from 'react-icons/bi'
 import { MdOutlineInfo } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice'
-import { ModalBlockConfirm } from '../../Exports'
+import { FeatureAction } from './../../Redux/Slices/FeaturesSlice'
+import { ModalBlockConfirm } from './../Exports'
 
 const CoversationCTRL = ({ setDetails, details, userById }) => {
     const dispatch = useDispatch();

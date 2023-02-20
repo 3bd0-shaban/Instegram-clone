@@ -172,7 +172,7 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
                                                                 <span className='font-medium'>Hide like and view counts on this post</span>
 
                                                                 <label className="relative inline-flex items-center cursor-pointer">
-                                                                    <input onChange={() => setHideLikes(!hiddenlikes)} type="checkbox" value="" class="sr-only peer" />
+                                                                    <input onChange={() => setHideLikes(!hiddenlikes)} type="checkbox" value="" className="sr-only peer" />
                                                                     <div className={`rounded-full w-10 h-5 relative ${hiddenlikes ? 'bg-blue-500' : 'bg-gray-200'}`}>
                                                                         <span className={`absolute w-5 h-5 bg-white rounded-full border ${hiddenlikes ? 'right-0' : 'left-0'}`} />                                                            </div>
                                                                 </label>
@@ -185,7 +185,7 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
                                                             <div className='flex justify-between'>
                                                                 <span className='font-medium'>Turn off commenting</span>
                                                                 <label className="relative inline-flex items-center cursor-pointer">
-                                                                    <input onChange={() => setTurnOffComments(!turnoffcomments)} type="checkbox" value="" class="sr-only peer" />
+                                                                    <input onChange={() => setTurnOffComments(!turnoffcomments)} type="checkbox" value="" className="sr-only peer" />
                                                                     <div className={`rounded-full w-10 h-5 relative ${turnoffcomments ? 'bg-blue-500' : 'bg-gray-200'}`}>
                                                                         <span className={`absolute w-5 h-5 bg-white rounded-full border ${turnoffcomments ? 'right-0' : 'left-0'}`} />                                                            </div>
                                                                 </label>

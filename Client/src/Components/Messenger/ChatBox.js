@@ -4,13 +4,12 @@ import { FaRegSmile } from 'react-icons/fa'
 import { IoImageOutline } from 'react-icons/io5'
 import { MdOutlineInfo } from 'react-icons/md'
 import { HiOutlineHeart } from 'react-icons/hi'
-import { useGetUserByIdQuery } from '../../../Redux/APIs/UserApi'
-import { Message, CoversationCTRL } from '../../Exports'
-import { useGetMessagesQuery, useNewMessageMutation } from '../../../Redux/APIs/MessageApi'
+import { useGetUserByIdQuery } from './../../Redux/APIs/UserApi'
+import { Message, CoversationCTRL, useSocket, Emoji } from './../Exports'
+import { useGetMessagesQuery, useNewMessageMutation } from './../../Redux/APIs/MessageApi'
 import { BiChevronLeft } from 'react-icons/bi'
-import { useSocket, Emoji } from '../../Exports'
 import { motion } from 'framer-motion';
-import AnimDropdown from '../../../Animation/AnimDropdown'
+import AnimDropdown from './../../Animation/AnimDropdown'
 const ChatBox = ({ setSelected }) => {
     const { username, id } = useParams();
     const { data: userById } = useGetUserByIdQuery(username) || {};
@@ -37,11 +36,11 @@ const ChatBox = ({ setSelected }) => {
 
     useEffect(() => {
         socket?.on('getMessage', ({ sender, receiver, createdAt, msg }) => {
-            console.log({ sender, receiver, createdAt, msg });
             setRecieved({
                 sender, receiver, createdAt, msg
             });
         })
+        // eslint-disable-next-line 
     }, []);
 
     useEffect(() => {

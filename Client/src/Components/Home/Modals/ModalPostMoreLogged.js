@@ -50,11 +50,11 @@ const ModalPostMoreLogged = ({ PostId, postDetails }) => {
                 <div className="bg-white w-full rounded-xl shadow drop-shadow-xl flex justify-center items-center">
                     <div className='w-full text-center mx-auto'>
                         <span onClick={HandleDeletePost} className='block text-red-600 py-4 hover:bg-gray-100 font-medium cursor-pointer'>Delete</span><hr />
-                        <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Edit</span><hr />
+                        {/* <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Edit</span><hr /> */}
                         <span onClick={HandleHideLikes} className='block py-4 hover:bg-gray-100 cursor-pointer'>{postDetails?.hiddenlikes ? 'Show like count' : 'Hide like count'}</span><hr />
                         <span onClick={HandleTurnComments} className='block py-4 hover:bg-gray-100 cursor-pointer'>{postDetails?.turnoffcomments ? 'Turn on commeting' : 'Turn off commenting'}</span><hr />
                         <Link to={`/p/${PostId}`}
-                            onClick={() => dispatch(FeatureAction.Show_isPostMore(false))}
+                            onClick={() => dispatch(FeatureAction.Show_ModalPostMoreLogged(false))}
                             className='block py-4 hover:bg-gray-100 cursor-pointer'>Go to post
                         </Link><hr />
                         <span className='block py-4 hover:bg-gray-100 cursor-pointer' onClick={() => dispatch(FeatureAction.Show_ModalPostMoreLogged(false))} >Cancel</span>

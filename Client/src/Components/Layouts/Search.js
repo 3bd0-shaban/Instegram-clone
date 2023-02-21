@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import { useSearchQuery } from '../../Redux/APIs/UserApi'
 import { motion } from 'framer-motion';
 import AnimSlide from './../../Animation/AnimSlode';
+import { Scrollup } from '../../Helpers/Scroll';
 
 const Search = () => {
   const [keyword, setKeyword] = useState('');
   // eslint-disable-next-line
   const [pagnum, setPagenum] = useState(1);
   const { data: result } = useSearchQuery({ keyword, pagnum }) || {};
-
+  Scrollup()
   return (
     <motion.div
       variants={AnimSlide}
@@ -42,7 +43,7 @@ const Search = () => {
           className='flex items-center py-3'
         // onMouseEnter={() => setOpenSearch(true)}
         >
-          <img className="p-1 w-16 h-16 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url: process.env.REACT_APP_DefaultIcon} alt="" />
+          <img className="p-1 w-16 h-16 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
           <div className='ml-2'>
             <p className='text-md font-poppins font-medium'>{res?.username}</p>
             <p className='text-sm font-poppins text-gray-500'>{res?.fullname}</p>

@@ -17,6 +17,14 @@ export const ChatApi = apiSlice.injectEndpoints({
             }),
             providesTags: ['Chat', 'User'],
         }),
+        SingleChat: builder.query({
+            query: (id) => ({
+                url: `/api/chat/${id}`,
+                method: 'GET',
+                credentials: 'include',
+            }),
+            providesTags: ['Chat', 'User'],
+        }),
         ChatMessages: builder.query({
             query: () => ({
                 url: '/api/chat/get/messeages',
@@ -32,4 +40,5 @@ export const {
     useNewChatMutation,
     useUserChatsQuery,
     useChatMessagesQuery,
+    useSingleChatQuery,
 } = ChatApi;

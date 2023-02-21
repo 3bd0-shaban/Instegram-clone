@@ -52,7 +52,7 @@ export { default as ProfileById } from '../Routes/ProfileById';
 export { default as Dashboard } from '../Routes/Dashboard';
 
 //////////////////////Messenger///////////////////////////
-export { default as Chat } from './Messenger/ChatBox';
+export { default as ChatBox } from './Messenger/ChatBox';
 export { default as CoversationCTRL } from './Messenger/CoversationCTRL';
 export { default as MainNoSelection } from './Messenger/MainNoSelection';
 export { default as SideBarChats } from './Messenger/SideBarChats';

@@ -20,7 +20,6 @@ const SocketServer = (socket) => {
 
     });
 
-    console.log(onlineUsers)
 
     const handler = (sender, receiver, { type, reactionType, post }) => {
         const receiverSocket = findConnectedUser(receiver.username);
@@ -42,11 +41,17 @@ const SocketServer = (socket) => {
         const user = getUser(receiver);
         if (user) {
             socket.to(user.socketId)
-                .emit("getMessage", { sender, receiver, createdAt, image, msg });
+                .emit("MessagetoClient", { sender, receiver, createdAt, image, msg });
         }
     });
 
-
+    socket.on('typing', ({ sender, receiver, status }) => {
+        const user = getUser(receiver);
+        if (user) {
+            socket.to(user.socketId)
+                .emit("TypingtoClient", { sender, receiver, status });
+        }
+    });
 
     socket.on('like', ({ sender, receiver, reactionType, post }) => {
         handler(sender, receiver, { type: 'react', reactionType, post });
@@ -60,5 +65,6 @@ const SocketServer = (socket) => {
         removeUser(socket.id);
     });
 }
+console.log(onlineUsers)
 
 export default SocketServer

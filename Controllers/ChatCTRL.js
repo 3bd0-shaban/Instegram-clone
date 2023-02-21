@@ -23,10 +23,10 @@ export const New_Chat = asyncHandler(async (req, res, next) => {
             return next(new ErrorHandler(err.message, 404));
         })
 });
-export const Get_User_Chats = asyncHandler(async (req, res, next) => {
+export const Get_ALL = asyncHandler(async (req, res, next) => {
     const Chats = await Chat.find({
         members: { $in: [req.user.id] },
-        lastMSG: { $ne: null}
+        lastMSG: { $ne: null }
     })
         .populate('members', 'username avatar fullname')
         .sort('-createdAt')
@@ -34,7 +34,7 @@ export const Get_User_Chats = asyncHandler(async (req, res, next) => {
     return res.json(Chats)
 });
 
-export const Get_Chat_Messages = asyncHandler(async (req, res, next) => {
-    const Chats = await Chat.findOne({ members: { $all: [req.user.id, req.params.id] } });
-    res.json(Chats)
+export const Get_Single_Chat = asyncHandler(async (req, res, next) => {
+    const SingleChat = await Chat.findById(req.params.id)
+    return res.json(SingleChat)
 });

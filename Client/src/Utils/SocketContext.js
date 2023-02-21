@@ -1,17 +1,17 @@
-import { createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
+import { createContext, useContext, useEffect, useRef } from 'react';
 const url = process.env.REACT_APP_API_KEY;
 const SocketContext = createContext({});
 
 export const SocketProvider = ({ children }) => {
 
-    const [socket, setSocket] = useState(io(url));
+    const socket = useRef(io(url));
 
     const userId = localStorage.getItem('id')
     useEffect(() => {
         if (userId) {
-            socket.on("connect", () => {
-                socket.emit("join", userId);
+            socket.current.on("connect", () => {
+                socket.current.emit("join", userId);
             });
             // socket.on("getusers", (data) => {
             //     // console.log(data)
@@ -19,7 +19,7 @@ export const SocketProvider = ({ children }) => {
         }
     }, [userId, socket]);
 
-    return <SocketContext.Provider value={{ socket, setSocket }}>{children}</SocketContext.Provider>;
+    return <SocketContext.Provider value={{ socket: socket.current }}>{children}</SocketContext.Provider>;
 };
 
 export const useSocket = () => {

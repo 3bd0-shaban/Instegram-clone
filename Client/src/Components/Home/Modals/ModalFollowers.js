@@ -20,7 +20,7 @@ const ModalFollowers = ({ id }) => {
         initial='initial'
         animate='animate'
         exit='exit'
-        className='fixed inset-x-0 h-[40rem] space-y-5 overflow-y-scroll top-[20%] p-4 container max-w-xs sm:max-w-[30rem]  z-30 hideScrollBare bg-white w-full rounded-xl shadow drop-shadow-xl '
+        className='fixed inset-x-0 h-[30rem] lg:h-[40rem] space-y-5 overflow-y-scroll top-[13%] p-4 container max-w-xs sm:max-w-[30rem]  z-30 hideScrollBare bg-white w-full rounded-xl shadow drop-shadow-xl '
       >
         <div className='flex justify-center items-center font-semibold text-xl pt-1'>Followers</div><hr />
         {isFetching ? <div className='py-32 flex justify-center'><ImSpinner3 size={30} /></div> :

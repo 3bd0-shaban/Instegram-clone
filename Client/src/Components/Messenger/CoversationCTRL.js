@@ -12,7 +12,7 @@ const CoversationCTRL = ({ setDetails, details, userById }) => {
     return (
         <>
             {isModalBlockConfirm && <ModalBlockConfirm UserByIdDetails={userById} />}
-            <div className='px-5 py-3 flex justify-between items-center'>
+            <div className='px-5 py-1 flex justify-between items-center'>
                 <div className='flex gap-2 items-center'>
                     <button onClick={() => setDetails(!details)}><BiChevronLeft size={30} /></button>
                     <p className='text-xl font-medium'>Details</p>

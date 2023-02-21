@@ -32,7 +32,7 @@ const Profile = () => {
             {isModalSettings && <ModalSettings />}
             <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 mt-5'>
                 <div className='container px-3 max-w-[70rem]'>
-                    <div className='flex gap-3 sm:gap-24 justify-center items-center mb-8'>
+                    <div className='flex gap-3 sm:gap-24 lg:justify-center items-center mb-8'>
                         <button onClick={() =>
                             dispatch(FeatureAction.setIsModalChangeProfile(true))
                         }

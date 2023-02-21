@@ -32,7 +32,7 @@ const SideBar = () => {
     const SideLink = ({ Icon, Title, Linkdirect, OnClickEvent }) => {
         return (
             <div onClick={OnClickEvent} className='w-full'>
-                <Link to={Linkdirect} className={`flex gap-5 items-center py-3 lg:py-5 w-full xl:w-auto justify-center lg:justify-start`}>
+                <Link to={Linkdirect} className={`flex gap-5 items-center py-2 lg:py-5 w-full xl:w-auto justify-center lg:justify-start`}>
                     {/* <div className={`${openSerach && 'rounded-full border p-2 flex items-center justify-center'}`}> */}
                     {Icon}
                     {/* </div> */}
@@ -46,7 +46,7 @@ const SideBar = () => {
     return (
         <>
             {!MobileView &&
-                <div className={`fixed w-[6rem] z-10 xxl:w-[19.5rem] h-screen duration-500 bg-white border-r p-6 xxl:p-8 pt-14 lg:block ${(openSerach || openNotification) && 'xxl:w-[6rem]'}`}>
+                <div className={`fixed w-[6rem] z-10 xxl:w-[19.5rem] hidden h-screen duration-500 bg-white border-r p-6 xxl:p-8 pt-14 lg:block ${(openSerach || openNotification) && 'xxl:w-[6rem]'}`}>
                     <Link to='/' className={`hidden xxl:block mt-5 ${(openSerach || openNotification) && 'xxl:!hidden'}`}>
                         <InstegramFont />
                     </Link>
@@ -70,7 +70,7 @@ const SideBar = () => {
                         />
                         <SideLink
                             Linkdirect={`/${userInfo?.username}`}
-                            Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url: process.env.REACT_APP_DefaultIcon}
+                            Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url : process.env.REACT_APP_DefaultIcon}
                                 alt={userInfo?.username}
                                 className='rounded-full w-10 h-10 object-cover' />} Title='Profile'
                         />
@@ -95,18 +95,18 @@ const SideBar = () => {
                         <span className='mx-auto'>{settingHeadline}</span>
                     </div>
                     :
-                    (!id && !location.pathname.includes('messages')) &&
+                    (!id && !location.pathname.includes('messages') && !location.pathname.includes('search')) &&
                     <>
-                        <div className='fixed top-0 flex lg:hidden justify-between items-center w-full border-b bg-white px-5 z-10'>
+                        <div className='fixed top-0 inset-x-0 flex lg:hidden justify-between items-center w-full border-b bg-white px-5 z-10'>
                             <Link to='/'><InstegramFont /></Link>
                             <div className='flex gap-5 items-center'>
                                 <SideLink
                                     Icon={<div className='border-2 border-black rounded-lg'>
-                                        <FiPlus size={22} />
+                                        <FiPlus size={18} />
                                     </div>}
                                     OnClickEvent={() => dispatch(FeatureAction.ShowModalAddPost(true))}
                                     Title='Create' />
-                                <SideLink Icon={<BsHeart size={28} />} Title='Notification' />
+                                <SideLink Icon={<BsHeart size={25} />} Title='Notification' />
                             </div>
                         </div>
                         <div className='fixed flex justify-center left-[6rem]'>
@@ -128,23 +128,23 @@ const SideBar = () => {
                     </>
                 }
 
+                {!id &&
+                    <div className='fixed w-full bottom-0 bg-white border-t lg:hidden block z-10'>
+                        <div className='flex gap-5 py-2 w-full'>
+                            <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={25} />} Title='Home' />
+                            <SideLink Linkdirect='/search' Icon={<BsSearch size={25} />} Title='Search' />
+                            <SideLink Icon={<BsInstagram size={23} />} Title='Reels' />
+                            <SideLink Linkdirect='/messages' Icon={<RiMessengerLine size={25} />} Title='Messages' />
+                            <SideLink
+                                Linkdirect={`/${userInfo?.username}`}
+                                Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url : process.env.REACT_APP_DefaultIcon}
+                                    alt={userInfo?.username}
+                                    className='rounded-full w-7 h-7 object-cover' />}
+                                Title='Profile'
+                            />
 
-                <div className='fixed w-full bottom-0 bg-white border-t lg:hidden block z-10'>
-                    <div className='flex gap-5 w-full'>
-                        <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={30} />} Title='Home' />
-                        <SideLink Linkdirect='/search' Icon={<BsSearch size={28} />} Title='Search' />
-                        <SideLink Icon={<BsInstagram size={28} />} Title='Reels' />
-                        <SideLink Linkdirect='/messages' Icon={<RiMessengerLine size={30} />} Title='Messages' />
-                        <SideLink
-                            Linkdirect={`/${userInfo?.username}`}
-                            Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url: process.env.REACT_APP_DefaultIcon}
-                                alt={userInfo?.username}
-                                className='rounded-full w-8 h-8 object-cover' />}
-                            Title='Profile'
-                        />
-
-                    </div>
-                </div>
+                        </div>
+                    </div>}
             </>
 
 

@@ -5,8 +5,13 @@ import { useSearchQuery } from '../../../Redux/APIs/UserApi'
 import { motion } from 'framer-motion';
 import AnimSlide from '../../../Animation/AnimSlode';
 import SideBar from '../../Layouts/SideBar';
+import { useBreakpoint } from '../../Exports';
+import { Scrollup } from './../../../Helpers/Scroll';
 
 const SearchMobileView = () => {
+    Scrollup()
+    const breakpoint = useBreakpoint();
+    const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
     const [keyword, setKeyword] = useState('');
     // eslint-disable-next-line
     const [pagnum, setPagenum] = useState(1);
@@ -16,12 +21,12 @@ const SearchMobileView = () => {
         <>
             <SideBar />
             <motion.div
-                variants={AnimSlide}
+                variants={!MobileView && AnimSlide}
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                className='bg-white container max-w-3xl h-screen p-5 w-full shadow-sm hidden lg:block rounded-tr-2xl rounded-br-2xl hideScrollBare overflow-y-scroll rounded-md border'>
-                <p className='m-2 mb-5 font-medium text-3xl'>Search</p>
+                className='bg-white container max-w-3xl h-screen p-4 w-full shadow-sm hidden lg:block rounded-tr-2xl rounded-br-2xl hideScrollBare overflow-y-scroll rounded-md border'>
+                <p className='mx-2 mb-5 font-medium text-3xl'>Search</p>
                 <div className='ml-auto '>
                     <div className="relative">
                         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none font-extralight text-2xl text-gray-400">
@@ -45,7 +50,7 @@ const SearchMobileView = () => {
                         className='flex items-center py-3'
                     // onMouseEnter={() => setOpenSearch(true)}
                     >
-                        <img className="p-1 w-16 h-16 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url :process.env.REACT_APP_DefaultIcon} alt="" />
+                        <img className="p-1 w-16 h-16 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
                         <div className='ml-2'>
                             <p className='text-md font-poppins font-medium'>{res?.username}</p>
                             <p className='text-sm font-poppins text-gray-500'>{res?.fullname}</p>

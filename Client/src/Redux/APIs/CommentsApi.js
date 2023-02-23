@@ -1,3 +1,4 @@
+import { current } from '@reduxjs/toolkit';
 import { apiSlice } from '../ApiSlice';
 export const CommentsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -5,32 +6,97 @@ export const CommentsApi = apiSlice.injectEndpoints({
             query: ({ data, id }) => ({
                 url: `/api/comment/new/${id}`,
                 method: 'Post',
-                credentials: 'include',
                 body: data,
             }),
-            invalidatesTags: ['Comments'],
+            async onQueryStarted({ id }, { queryFulfilled, dispatch }) {
+                try {
+
+                    const { data: updatedPost } = await queryFulfilled;
+                    // const lastcomment = data.slice(-1)[0]
+                    console.log('updates', updatedPost)
+                    dispatch(
+                        apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
+                            const post = draft?.followersposts?.find((item) => item?._id === id);
+                            post.comments = updatedPost?.comments
+                            post.numComments = updatedPost?.numComments
+
+                        })
+                    )
+                    dispatch(
+                        apiSlice.util.updateQueryData("getPostDetails", id, (draft) => {
+                            console.log(current(draft))
+                            draft.comments = updatedPost?.comments
+                            draft.numComments = updatedPost?.numComments
+
+                        })
+                    )
+                } catch (err) {
+                    console.log(err)
+                }
+            },
         }),
         Like: builder.mutation({
             query: (id) => ({
                 url: `/api/comment/like/${id}`,
                 method: 'PUT',
-                credentials: 'include',
             }),
-            // invalidatesTags: ['Comments'],
+            async onQueryStarted(id, { queryFulfilled, dispatch, getState }) {
+                try {
+                    // const userInfo = getState().auth.user
+                    const { data: updatedPost } = await queryFulfilled;
+                    // replace the likes array inside followers posts array with the new array of likes 
+                    dispatch(
+                        apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
+                            const post = draft?.followersposts?.find((item) => item?._id === id);
+                            // post?.likes?.push(userInfo._id)
+                            post.likes = updatedPost.likes
+                            post.numLikes = updatedPost.numLikes
+                        })
+                    )
+                    dispatch(
+                        apiSlice.util.updateQueryData("getPostDetails", id, (draft) => {
+                            draft.likes = updatedPost.likes
+                            draft.numLikes = updatedPost.numLikes
+                        })
+                    )
+                } catch (err) {
+                    console.log(err)
+                }
+            },
         }),
         UnLike: builder.mutation({
             query: (id) => ({
                 url: `/api/comment/unlike/${id}`,
                 method: 'PUT',
-                credentials: 'include',
             }),
-            // invalidatesTags: ['Comments'],
+            async onQueryStarted(id, { queryFulfilled, dispatch, getState }) {
+                try {
+                    // const userInfo = getState().auth.user
+                    const { data: updatedPost } = await queryFulfilled;
+                    // replace the likes array inside followers posts array with the new array of likes 
+                    dispatch(
+                        apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
+                            const post = draft?.followersposts?.find((item) => item?._id === id);
+                            // post?.likes?.push(userInfo._id)
+                            post.likes = updatedPost.likes
+                            post.numLikes = updatedPost.numLikes
+                        })
+                    )
+                    dispatch(
+                        apiSlice.util.updateQueryData("getPostDetails", id, (draft) => {
+                            draft.likes = updatedPost.likes
+                            draft.numLikes = updatedPost.numLikes
+                        })
+                    )
+                } catch (err) {
+                    console.log(err)
+                }
+            },
         }),
         getCounter: builder.query({
             query: (id) => ({
                 url: `/api/comment/length/${id}`,
                 method: 'Post',
-                credentials: 'include',
             }),
             providesTags: ['Comments'],
         }),
@@ -38,7 +104,6 @@ export const CommentsApi = apiSlice.injectEndpoints({
             query: ({ data, id }) => ({
                 url: `/api/comment/update/${id}`,
                 method: 'PUT',
-                credentials: 'include',
                 body: data,
             }),
             invalidatesTags: ['Comments'],
@@ -47,7 +112,6 @@ export const CommentsApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/comment/delete/${id}`,
                 method: 'DELETE',
-                credentials: 'include',
             }),
             invalidatesTags: (result, error, arg) => [{ type: 'Comments', id: arg.id }],
         }),

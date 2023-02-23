@@ -2,10 +2,9 @@ import { apiSlice } from '../ApiSlice';
 export const SavesApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getSave: builder.query({
-            query: (id) => ({
+            query: () => ({
                 url: '/api/auth/saves',
                 method: 'GET',
-                credentials: 'include',
             }),
             providesTags: ['Saves', 'Auth'],
         }),
@@ -13,7 +12,6 @@ export const SavesApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/auth/save/${id}`,
                 method: 'PUT',
-                credentials: 'include',
             }),
             invalidatesTags: ['Saves'],
         }),
@@ -21,7 +19,6 @@ export const SavesApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/auth/unsave/${id}`,
                 method: 'PUT',
-                credentials: 'include',
             }),
             invalidatesTags: ['Saves'],
         }),

@@ -8,7 +8,7 @@ export const Follow_Public_User = asyncHandler(async (req, res, next) => {
     const isfollowing = await Users.findOne({
         _id: req.params.id,
         $and: [
-            { following: { $elemMatch: { $eq: req.user.id } } },
+            { followers: { $elemMatch: { $eq: req.user.id } } },
         ],
     });
     if (isfollowing) {

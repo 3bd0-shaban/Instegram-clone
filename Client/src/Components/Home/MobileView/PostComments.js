@@ -17,7 +17,7 @@ const PostComments = () => {
     const [searchQuery] = useSearchParams();
     const user = searchQuery.get('profile')
     const { data: postDetails, isFetching } = useGetPostDetailsQuery(id) || {};
-    const [createComment] = useCreateCommentMutation();
+    const [createComment, { isLoading }] = useCreateCommentMutation();
     const [comment, setComment] = useState('');
     const data = { comment }
     const CommentHandle = async (e) => {
@@ -50,12 +50,12 @@ const PostComments = () => {
                                     className="block py-3 w-full pl-3 outline-none text-sm text-gray-900 bg-gray-100  rounded-xl placeholder:font-extralight placeholder:text-base"
                                     placeholder="Add a comment ..." required=""
                                 />
-                                {comment && <button className='absolute inset-y-0 -top-1 right-3 text-blue-500 font-semibold'>Post</button>}
+                                {comment && <button className='absolute inset-y-0 -top-1 right-3 text-blue-500 font-semibold' disabled={isLoading}>{isLoading ? 'sending' : 'Post'}</button>}
                             </form>
                         </div>}
                     <hr />
                     {isFetching ? <p className='flex justify-center items-center text-4xl font-medium h-[80vh] animate-spin'><ImSpinner3 /></p> :
-                        <div className='min-h-[90vh]'>
+                        <div className='min-h-[90vh] overflow-hidden'>
                             <Comments postDetails={postDetails} id={id} />
                         </div>
                     }

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FaRegSmile } from 'react-icons/fa'
 import { IoImageOutline } from 'react-icons/io5'
 import { MdOutlineInfo } from 'react-icons/md'
 import { useGetUserByIdQuery } from './../../Redux/APIs/UserApi'
-import { Message, CoversationCTRL, useSocket, Emoji } from './../Exports'
+import { CoversationCTRL, useSocket, Emoji, InfinteScrollableChat } from './../Exports'
 import { useGetMessagesQuery, useNewMessageMutation } from './../../Redux/APIs/MessageApi'
 import { BiChevronLeft } from 'react-icons/bi'
 import { motion } from 'framer-motion';
@@ -18,9 +18,10 @@ const ChatBox = ({ currentChat }) => {
     Scrolldown();
     const { username, id } = useParams();
     const { data: userById } = useGetUserByIdQuery(username) || {};
-    const { data: FollowerMessages } = useGetMessagesQuery(id, {
+    const { data, isLoading: loadingMSGs, isError, error } = useGetMessagesQuery({ id }, {
         refetchOnMountOrArgChange: true,
-    }) || {};
+    });
+    const { MSGs, totalCount } = data || {}
     const { data: SingleChat } = useSingleChatQuery(id) || {}
     const [recievedmsg, setRecieved] = useState({});
     const [allMSGs, setAllMSGs] = useState([]);
@@ -31,7 +32,6 @@ const ChatBox = ({ currentChat }) => {
     const [isOnline, setIsOnline] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
     // const [isHeart, setIsHeart] = useState(false);
-    const ScrollRef = useRef();
     const { socket } = useSocket();
     const userInfo = useSelector(selectCurrentUser);
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
@@ -44,13 +44,8 @@ const ChatBox = ({ currentChat }) => {
     }, [socket, allMSGs, userById, id])
 
     useEffect(() => {
-        ScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-        ScrollRef.current?.focus();
-    }, [allMSGs]);
-
-    useEffect(() => {
-        setAllMSGs(FollowerMessages);
-    }, [FollowerMessages, setAllMSGs, id]);
+        setAllMSGs(MSGs);
+    }, [MSGs, setAllMSGs, id]);
 
     useEffect(() => {
         socket?.on('MessagetoClient', ({ image, sender, receiver, createdAt, msg }) => {
@@ -98,7 +93,7 @@ const ChatBox = ({ currentChat }) => {
                 setMSG('')
                 setImage('')
                 setIsPikerVisable(false)
-                setAllMSGs([...allMSGs, payload]);
+                // setAllMSGs([...allMSGs, payload]);
                 socket.emit("typing", false);
                 socket.emit("Message", {
                     sender: payload.sender,
@@ -116,13 +111,7 @@ const ChatBox = ({ currentChat }) => {
         }
         // eslint-disable-next-line 
     }, [image]);
-    // useEffect(() => {
-    //     if (isHeart) {
-    //         setMSG('❤️')
-    //         NewMSG()
-    //     }
-    //     // eslint-disable-next-line 
-    // }, [isHeart]);
+
     return (
         details ? <CoversationCTRL userById={userById} setDetails={setDetails} details={details} /> :
             <div className='h-full'>
@@ -148,11 +137,8 @@ const ChatBox = ({ currentChat }) => {
                 </div>
                 <div className='pt-3 p-3 overflow-y-scroll hideScrollBare h-[70vh] xsm:h-[82vh] md:h-[83vh] lg:h-[82vh]'>
                     <div>
-                        {allMSGs?.map((message, index) => (
-                            <div ref={ScrollRef} key={index}>
-                                <Message message={message} FollowerChating={message?.sender === userById?._id} />
-                            </div>
-                        ))}
+                        <InfinteScrollableChat userById={userById} allMSGs={allMSGs} totalCount={totalCount} id={id} isLoading={loadingMSGs} isError={isError} error={error} />
+
                         {isTyping && <p className='mx-3'>typing ....</p>}
                         {image &&
                             <div className='flex justify-end'>

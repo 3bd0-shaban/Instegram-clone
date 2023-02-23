@@ -69,12 +69,16 @@ const postsSchema = new mongoose.Schema(
                 }
             }
         ],
-        reports: [
-            {
-                type: mongoose.Types.ObjectId,
-                ref: "user",
-            },
-        ],
+        reports: {
+            select: false,
+            type: [
+                {
+                    type: mongoose.Types.ObjectId,
+                    ref: "user",
+                },
+
+            ],
+        }
     },
     { timestamps: true }
 );

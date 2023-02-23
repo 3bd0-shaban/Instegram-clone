@@ -5,7 +5,7 @@ import AnimModal from '../../../Animation/AnimModal';
 import { Link } from 'react-router-dom';
 import { useDeletePostsMutation, useHideLikesMutation, useTurnCommentsMutation } from '../../../Redux/APIs/PostsApi';
 
-const ModalPostMoreLogged = ({ PostId, postDetails }) => {
+const ModalPostMoreLogged = ({ PostId, postDetails, onDeleteSuccess }) => {
     const dispatch = useDispatch();
     const [DeletePosts] = useDeletePostsMutation();
     const [HideLikes] = useHideLikesMutation();
@@ -14,7 +14,8 @@ const ModalPostMoreLogged = ({ PostId, postDetails }) => {
     const HandleDeletePost = () => {
         DeletePosts(id).unwrap()
             .then(payload => {
-                dispatch(FeatureAction.Show_ModalPostMoreLogged(false));
+                dispatch(FeatureAction.Show_ModalPostMoreLogged(false))
+                onDeleteSuccess();
             }).catch(err => {
                 console.log(err?.data?.msg)
             })

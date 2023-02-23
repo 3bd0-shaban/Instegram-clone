@@ -2,12 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { InstegramFont, Footer } from '../Components/Exports';
 import { AiFillFacebook } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
 import { useSigninMutation } from '../Redux/APIs/AuthApi';
-import { setCredentials } from '../Redux/Slices/UserSlice';
 import { ImSpinner7 } from 'react-icons/im';
 const SignIn = () => {
-  const dispatch = useDispatch();
   const userRef = useRef();
   const [inputs, setInputs] = useState({
     email: '',
@@ -25,16 +22,13 @@ const SignIn = () => {
     event.preventDefault();
     const { email, password } = inputs;
     const data = { email, password }
-    try {
-      const { accessToken, user } = await signin(data).unwrap()
-      dispatch(setCredentials({ accessToken, user }));
-      setInputs({ email: '', password: '' });
-      localStorage.setItem('persist', true)
-      localStorage.setItem('id', user._id)
-      navigate('/')
-    } catch (error) {
-      console.log(error?.data?.msg)
-    }
+    await signin(data).unwrap()
+      .then(payload => {
+        navigate('/')
+        setInputs({ email: '', password: '' });
+      }).catch(err => {
+        console.log(err)
+      })
   }
 
   return (

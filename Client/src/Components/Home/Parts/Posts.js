@@ -6,22 +6,38 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ClipAlerts } from '../../Layouts/Alerts';
 import { setTotalPosts } from '../../../Redux/Slices/PostsSlice';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { PostsApi } from './../../../Redux/APIs/PostsApi';
+import { ImSpinner3 } from 'react-icons/im';
 const Posts = () => {
   const dispatch = useDispatch();
   const {
     isModalPostDetails, isPostMore, isClipAlert, isModalReports,
     isModalThanksReport, isModalUnfollowConfirm, isModalBlockConfirm, isModalPostMoreLogged
   } = useSelector(state => state.Features);
-// eslint-disable-next-line 
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [postID, setPostID] = useState('');
   const [postDetails, setPostDetails] = useState('');
-  const { posts } = useSelector(state => state.Posts)
 
-  const { data: followerposts, isFetching, error, isError } = useGetFollowersPostsQuery(page) || {};
+  const { data, isFetching, error, isError } = useGetFollowersPostsQuery(1) || {};
+  const { followersposts, totalCount } = data || {};
+  const fetchMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
   useEffect(() => {
-    dispatch(setTotalPosts(followerposts))
-  }, [followerposts, dispatch]);
+    if (page > 1) {
+      dispatch(
+        PostsApi.endpoints.getMoreFollowersPosts.initiate(page)
+      );
+    }
+  }, [page, dispatch]);
+
+  useEffect(() => {
+    if (totalCount === 0) {
+      setHasMore(false);
+    }
+  }, [totalCount, page]);
 
   return (
     <>
@@ -29,20 +45,37 @@ const Posts = () => {
         {isClipAlert && <ClipAlerts />}
       </AnimatePresence>
       <AnimatePresence>
-        {isModalPostDetails && <ModalPostDetails ID={postID} postDetails={postDetails} />}
+        {isModalPostDetails && <ModalPostDetails id={postID} postDetails={postDetails} />}
       </AnimatePresence>
       {isModalReports && <ModalReports />}
       {isModalThanksReport && <ModalThanksReport postDetails={postDetails} />}
       {isModalUnfollowConfirm && <ModalUnFollowConfirm postDetails={postDetails} />}
       {isModalBlockConfirm && <ModalBlockConfirm UserByIdDetails={postDetails?.user} />}
       {isPostMore && <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} PostId={postID} postDetails={postDetails} />}
-      {isModalPostMoreLogged && <ModalPostMoreLogged PostId={postID} postDetails={postDetails} />}
+      {isModalPostMoreLogged && <ModalPostMoreLogged PostId={postID} postDetails={postDetails} onDeleteSuccess={() => { isModalPostDetails && dispatch(FeatureAction.Show_ModalPostDetails(false)) }} />}
       {isFetching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
-        posts?.map(post => (
-          <div key={post?._id} className='mt-4 container max-w-[22.5rem] xsm:max-w-[25.5rem] sm:max-w-xl px-0'>
-            <SinglePost postDetail={post} setTotalPosts={setTotalPosts} postID={postID} setPostID={setPostID} setPostDetails={setPostDetails} />
-          </div>
-        ))}
+        <InfiniteScroll
+          dataLength={followersposts.length} //This is important field to render the next data
+          next={fetchMore}
+          hasMore={hasMore}
+          loader={
+            <div className='flex justify-center items-center my-5 animate-spin'>
+              <ImSpinner3 size={25} />
+            </div>
+          }
+          endMessage={
+            <div className='flex justify-center my-5 text-lg font-semibold'>
+              <p>You see it all</p>
+            </div>}
+          style={{ marginBottom: '3rem', overflow: 'hidden' }}
+        >
+          {followersposts?.map(post => (
+            <div key={post?._id} className='mt-4 container max-w-[22.5rem] xsm:max-w-[25.5rem] sm:max-w-xl px-0 '>
+              <SinglePost postDetail={post} setTotalPosts={setTotalPosts} postID={postID} setPostID={setPostID} setPostDetails={setPostDetails} />
+            </div>
+          ))}
+        </InfiniteScroll>
+      }
     </>
   )
 }

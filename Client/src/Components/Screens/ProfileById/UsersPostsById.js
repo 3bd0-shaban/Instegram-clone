@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsCamera, BsFillChatFill } from 'react-icons/bs'
-import { useGetUserPostsByIdQuery } from '../../../Redux/APIs/PostsApi';
+import { PostsApi, useGetUserPostsByIdQuery } from '../../../Redux/APIs/PostsApi';
 import { ImSpinner3 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalPostDetails, useBreakpoint, PostMore } from '../../Exports';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-const UsersPostsById = ({ ID, userInfo }) => {
-    const { data: userPostsById, isFetching, error, isError } = useGetUserPostsByIdQuery(ID) || {};
+const UsersPostsById = ({ id, userInfo }) => {
+    const { data, isFetching, error, isError } = useGetUserPostsByIdQuery(id);
+    const { userPostsById, totalCount } = data || {};
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
     const { isModalPostDetails, isPostMore } = useSelector(state => state.Features);
     const [postID, setPostID] = useState('');
     const dispatch = useDispatch();
@@ -18,6 +22,24 @@ const UsersPostsById = ({ ID, userInfo }) => {
     const navigate = useNavigate();
     const [postDetails, setPostDetails] = useState('');
 
+    useEffect(() => {
+        if (page > 1) {
+            dispatch(
+                PostsApi.endpoints.getMoreUserPostsById.initiate({
+                    page, id
+                })
+            );
+        }
+    }, [page, dispatch, id]);
+
+    const fetchMore = () => {
+        setPage((prevPage) => prevPage + 1);
+    };
+    useEffect(() => {
+        if (totalCount === 0) {
+            setHasMore(false);
+        }
+    }, [totalCount, page]);
     const EmptyPosts = () => {
         return (
             <>
@@ -38,30 +60,45 @@ const UsersPostsById = ({ ID, userInfo }) => {
     }
     return (
         <div className='container max-w-5xl px-0'>
-              <AnimatePresence>
-                {isModalPostDetails && <ModalPostDetails ID={postID} postDetails={postDetails} />}
+            <AnimatePresence>
+                {isModalPostDetails && <ModalPostDetails id={postID} postDetails={postDetails} />}
             </AnimatePresence>
             {isPostMore && <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} PostId={postID} postDetails={postDetails} />}
-            {isError && <p>{error?.data?.msg}</p>}
-            {isFetching ? <p className='flex justify-center h-96 items-center text-5xl text-gray-600 font-medium animate-spin'><ImSpinner3 /></p> :
-                <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
-                    {userPostsById && userPostsById?.map((post) => (
-                        <div onClick={
-                            () => {
-                                MobileView ? navigate(`/p/${post?._id}?profile=${userInfo.username}`)
-                                    :
-                                    dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post)
-                            }} key={post._id}
-                            className='h-40 md:h-80 cursor-pointer hover:brightness-50 duration-200 group relative'>
-                            <img className='object-cover w-full h-full' src={post?.images[0]?.url} alt='' />
-                            <div className='absolute inset-1/2 left-[45%] z-10 gap-3 items-center text-white font-bold hidden group-hover:flex'>
-                                <div><BsFillChatFill size={25} /></div>
-                                <p className='inline-block'>0</p>
+            {isFetching ? <p className='flex justify-center h-96 items-center text-5xl text-gray-600 font-medium animate-spin'><ImSpinner3 /></p>
+                :
+                isError ? <p>{error?.data?.msg}</p>
+                    :
+                    <InfiniteScroll
+                        dataLength={userPostsById.length}
+                        next={fetchMore}
+                        hasMore={hasMore}
+                        loader={
+                            <div className='flex justify-center items-center my-5 animate-spin'>
+                                <ImSpinner3 size={25} />
                             </div>
+                        }
+                        style={{ marginBottom: '3rem', overflow: 'hidden' }}
+                    >
+                        <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>
+                            {userPostsById && userPostsById?.map((post) => (
+                                <div onClick={
+                                    () => {
+                                        MobileView ? navigate(`/p/${post?._id}?profile=${userInfo.username}`)
+                                            :
+                                            dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post)
+                                    }} key={post._id}
+                                    className='h-40 md:h-80 cursor-pointer hover:brightness-50 duration-200 group relative'>
+                                    <img className='object-cover w-full h-full' src={post?.images[0]?.url} alt='' />
+                                    <div className='absolute inset-1/2 left-[45%] z-10 gap-3 items-center text-white font-bold hidden group-hover:flex'>
+                                        <div><BsFillChatFill size={25} /></div>
+                                        <p className='inline-block'>0</p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>}
-            {(userPostsById === [] || !userPostsById || userPostsById?.length === 0) && <EmptyPosts />}
+                    </InfiniteScroll>
+            }
+            {(userPostsById?.length === 0) && <EmptyPosts />}
         </div>
     )
 }

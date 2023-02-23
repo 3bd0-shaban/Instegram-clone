@@ -13,8 +13,6 @@ const ModalSettings = (props) => {
         await LogOut().unwrap()
             .then(payload => {
                 navigate('/signin')
-                localStorage.removeItem('persist')
-                localStorage.removeItem('id')
             })
             .catch(err => {
                 console.log(err?.data?.msg)

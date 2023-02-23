@@ -16,11 +16,8 @@ import AnimDropdown from '../../../Animation/AnimDropdown';
 import { selectCurrentToken, selectCurrentUser, setCredentials } from '../../../Redux/Slices/UserSlice';
 
 const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetails }) => {
-    const [post, setPost] = useState({});
-    useEffect(() => {
-        setPost(postDetail)
-    }, [postDetail])
-    const [createComment] = useCreateCommentMutation();
+
+    const [createComment, { isLoading }] = useCreateCommentMutation();
     const breakpoint = useBreakpoint();
     const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
     const dispatch = useDispatch();
@@ -33,32 +30,31 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
     const userInfo = useSelector(selectCurrentUser)
-    const accessToken = useSelector(selectCurrentToken)
+    const accessToken = useSelector(selectCurrentToken);
+
     useEffect(() => {// eslint-disable-next-line
-        const isInclude = post?.likes?.some(p => p == userInfo?._id);
+        const isInclude = postDetail?.likes?.some(p => p == userInfo?._id);
         // eslint-disable-next-line
-        const Save = userInfo?.saves?.some(p => p == post?._id);
+        const Save = userInfo?.saves?.some(p => p == postDetail?._id);
         isInclude ? setIsLiked(true) : setIsLiked(false);
         Save ? setIsSaved(true) : setIsSaved(false);
-    }, [post, userInfo]);
-    const data = { comment };
+    }, [postDetail, userInfo]);
+
     const CommentHandle = async (id) => {
+        const data = { comment };
         if (!comment) return;
         await createComment({ data, id }).unwrap()
-            .then((payload) => setComment(''))
+            .then((payload) => {
+                setComment('')
+                setIsPikerVisable(false)
+            })
             .catch((error) => console.log(error));
     }
     const LikeSubmit = async (id) => {
-        const post = await Like(id).unwrap()
-        if (post) {
-            setPost(post)
-        }
+        await Like(id).unwrap()
     }
     const UnLikeSubmit = async (id) => {
-        const post = await UnLike(id).unwrap()
-        if (post) {
-            setPost(post)
-        }
+        await UnLike(id).unwrap()
     }
     const SaveSubmit = async (id) => {
         const user = await Save(id).unwrap()
@@ -84,66 +80,66 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
     return (
         <div className='w-full h-auto pb-5 bg-white border-b'>
             <div className='flex justify-between mt-3 px-3'>
-                <Link to={`/${post?.user?.username}`} className='flex'>
+                <Link to={`/${postDetail?.user?.username}`} className='flex'>
                     <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
-                        src={post?.user?.avatar?.url ? post?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}
+                        src={postDetail?.user?.avatar?.url ? postDetail?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}
                         alt=""
                     />
                     <div className='ml-2 mt-2'>
-                        <span className='text-md font-poppins font-medium'>{post?.user?.username}
+                        <span className='text-md font-poppins font-medium'>{postDetail?.user?.username}
                             <p className='font-light text-xs my-3 inline mx-2 text-gray-500'>
-                                . {moment(post?.createdAt).from()}
+                                . {moment(postDetail?.createdAt).from()}
                             </p>
                         </span>
-                        <p className='font-then text-sm'>{post?.location}</p>
+                        <p className='font-then text-sm'>{postDetail?.location}</p>
                     </div>
                 </Link>
                 <button
-                    onClick={() => { checkModal(); setPostID(post?._id); setPostDetails(post) }}
+                    onClick={() => { checkModal(); setPostID(postDetail?._id); setPostDetails(postDetail) }}
                     className='hover:text-gray-500'>
                     <BsThreeDots size={22} />
                 </button>
             </div>
-            <ImageSwiper post={post} />
+            <ImageSwiper post={postDetail} />
             <div className='flex justify-between mt-4 px-4 text-2xl'>
                 <div className='flex gap-4 items-center'>
-                    {(isLiked && !post?.hiddenlikes) ?
+                    {(isLiked && !postDetail?.hiddenlikes) ?
                         <AnimatePresence>
                             <motion.button
                                 variants={AnimScale}
                                 initial='initial'
                                 animate='animate'
                                 exit='exit'
-                                onClick={() => UnLikeSubmit(post?._id)}
+                                onClick={() => UnLikeSubmit(postDetail?._id)}
 
                                 className='hover:text-gray-500 cursor-pointer'>
                                 <FaHeart size={28} style={{ color: 'red' }} />
                             </motion.button>
                         </AnimatePresence>
-                        : (!post?.hiddenlikes) &&
+                        : (!postDetail?.hiddenlikes) &&
                         <motion.button
                             variants={AnimScale}
                             initial='initial'
                             animate='animate'
                             exit='exit'
-                            onClick={() => LikeSubmit(post?._id)}
+                            onClick={() => LikeSubmit(postDetail?._id)}
                             className='hover:text-gray-500 cursor-pointer'>
                             <FaRegHeart size={25} />
                         </motion.button>
                     }
 
-                    {(MobileView && !post?.turnoffcomments) ?
+                    {(MobileView && !postDetail?.turnoffcomments) ?
                         <Link
-                            to={`/p/${post?._id}`}
+                            to={`/p/${postDetail?._id}`}
                             className='cursor-pointer hover:text-gray-500'>
                             <FaRegComment size={25} />
                         </Link>
-                        : (!post?.turnoffcomments) &&
+                        : (!postDetail?.turnoffcomments) &&
                         <div
                             onClick={() => {
                                 dispatch(FeatureAction.Show_ModalPostDetails(true));
-                                setPostID(post?._id);
-                                setPostDetails(post)
+                                setPostID(postDetail?._id);
+                                setPostDetails(postDetail)
                             }}
                             className='cursor-pointer hover:text-gray-500'>
                             <FaRegComment size={25} />
@@ -159,7 +155,7 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
                             initial='initial'
                             animate='animate'
                             exit='exit'
-                            onClick={() => UnSaveSubmit(post?._id)}
+                            onClick={() => UnSaveSubmit(postDetail?._id)}
                             className='hover:text-gray-500 cursor-pointer'>
                             <BsBookmarkFill size={28} />
                         </motion.button>
@@ -170,7 +166,7 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
                         initial='initial'
                         animate='animate'
                         exit='exit'
-                        onClick={() => SaveSubmit(post?._id)}
+                        onClick={() => SaveSubmit(postDetail?._id)}
                         className='hover:text-gray-500 cursor-pointer'>
                         <BsBookmark size={28} />
                     </motion.button>
@@ -178,23 +174,23 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
 
             </div>
             <div className='ml-4 mt-4'>
-                {!post?.hiddenlikes && <p className='text-md font-semibold'>{post?.numLikes} Likes</p>}
-                <Link className='font-bold mr-2'>{post?.user?.username}</Link>
-                <p className=' inline font-semilight'>{post?.des}</p>
+                {!postDetail?.hiddenlikes && <p className='text-md font-semibold'>{postDetail?.numLikes} Likes</p>}
+                <Link className='font-bold mr-2'>{postDetail?.user?.username}</Link>
+                <p className=' inline font-semilight'>{postDetail?.des}</p>
                 {
-                    (MobileView && !post?.turnoffcomments) ?
+                    (MobileView && !postDetail?.turnoffcomments) ?
                         <Link
-                            to={`/p/${post?._id}`}
-                            className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
-                        </Link> : (!post?.turnoffcomments) &&
+                            to={`/p/${postDetail?._id}`}
+                            className='block text-gray-500 font-lg font-extralight'>View all {postDetail?.numComments} comments
+                        </Link> : (!postDetail?.turnoffcomments) &&
                         <Link
-                            onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post) }}
-                            className='block text-gray-500 font-lg font-extralight'>View all {post?.numComments} comments
+                            onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(postDetail?._id); setPostDetails(postDetail) }}
+                            className='block text-gray-500 font-lg font-extralight'>View all {postDetail?.numComments} comments
                         </Link>
                 }
             </div>
-            {!post?.turnoffcomments &&
-                <form onSubmit={(e) => CommentHandle(post?._id, e.preventDefault())} className='flex relative px-3 mt-2'>
+            {!postDetail?.turnoffcomments &&
+                <form onSubmit={(e) => CommentHandle(postDetail?._id, e.preventDefault())} className='flex relative px-3 mt-2'>
                     <input
                         onChange={(e) => setComment(e.target.value)}
                         onFocus={() => setIsPikerVisable(false)}
@@ -207,27 +203,25 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
                     <div className='flex gap-2'>
                         {comment &&
                             <button type='submit'
-                                className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>Post</button>
+                                className='text-blue-500 focus:text-blue-400 font-semibold ml-auto'>{isLoading ? 'sending' : 'Post'}</button>
                         }
                         <div
                             onClick={() => setIsPikerVisable(!isPikerVisiable)}
                             className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
                             <FaRegSmile />
                         </div>
-                        <AnimatePresence>
-                            {isPikerVisiable &&
-                                <motion.div
-                                    variants={AnimDropdown}
-                                    initial='initial'
-                                    animate='animated'
-                                    exit='exit'
-                                    className='absolute z-10 bottom-8 right-0'>
-                                    <Emoji
-                                        setComment={setComment}
-                                        comment={comment} />
-                                </motion.div>
-                            }
-                        </AnimatePresence>
+                        {isPikerVisiable &&
+                            <motion.div
+                                variants={AnimDropdown}
+                                initial='initial'
+                                animate='animated'
+                                exit='exit'
+                                className='absolute z-10 bottom-8 right-0'>
+                                <Emoji
+                                    setComment={setComment}
+                                    comment={comment} />
+                            </motion.div>
+                        }
                     </div>
                 </form>
             }

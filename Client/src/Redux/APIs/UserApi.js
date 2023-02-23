@@ -5,14 +5,12 @@ export const UserApi = apiSlice.injectEndpoints({
             query: ({ keyword, pagnum }) => ({
                 url: `/api/user/search?keyword=${keyword}&page=${pagnum}`,
                 method: 'GET',
-                credentials: 'include',
             }),
             providesTags: ['Auth'],
         }),
         getUserById: builder.query({
             query: (username) => ({
                 url: `/api/user/get/${username}`,
-                credentials: 'include',
             }),
             providesTags: ['Auth'],
         }),
@@ -20,7 +18,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: () => ({
                 url: '/api/user/info',
                 method: 'GET',
-                credentials: 'include',
             }),
             providesTags: ['Auth', 'Saves'],
         }),
@@ -28,7 +25,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: () => ({
                 url: '/api/user/suggestion',
                 method: 'GET',
-                credentials: 'include',
             }),
             // providesTags: ['Auth'],
         }),
@@ -36,7 +32,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: () => ({
                 url: '/api/user/getall',
                 method: 'GET',
-                credentials: 'include',
             }),
             providesTags: ['Auth'],
         }),
@@ -44,7 +39,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/user/fowllowerslist/${id}`,
                 method: 'GET',
-                credentials: 'include',
             }),
             providesTags: ['Auth'],
         }),
@@ -52,7 +46,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/user/followinglist/${id}`,
                 method: 'GET',
-                credentials: 'include',
             }),
             providesTags: ['Auth'],
         }),
@@ -60,7 +53,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/user/get/deleteuser/${id}`,
                 method: 'POST',
-                credentials: 'include',
             }),
             invalidatesTags: ['Auth'],
         }),
@@ -68,7 +60,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (data) => ({
                 url: '/api/user/updateuser',
                 method: 'PUT',
-                credentials: 'include',
                 body: data,
             }),
             invalidatesTags: ['Auth'],
@@ -77,7 +68,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (data) => ({
                 url: '/api/user/updatepic',
                 method: 'PUT',
-                credentials: 'include',
                 body: data,
             }),
             invalidatesTags: ['Auth'],
@@ -86,7 +76,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/user/updateuserrole/${id}`,
                 method: 'POST',
-                credentials: 'include',
             }),
             invalidatesTags: ['Auth'],
         }),
@@ -94,7 +83,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/user/block/${id}`,
                 method: 'PUT',
-                credentials: 'include',
             }),
             invalidatesTags: ['Auth'],
         }),
@@ -102,7 +90,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/user/block/${id}`,
                 method: 'PUT',
-                credentials: 'include',
             }),
             invalidatesTags: ['Auth'],
         }),
@@ -110,7 +97,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/user/follow/${id}`,
                 method: 'PUT',
-                credentials: 'include',
             }),
             invalidatesTags: ['Auth'],
         }),
@@ -118,7 +104,6 @@ export const UserApi = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/api/user/unfollow/${id}`,
                 method: 'PUT',
-                credentials: 'include',
             }),
             invalidatesTags: ['Auth'],
         }),

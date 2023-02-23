@@ -53,6 +53,7 @@ export { default as Dashboard } from '../Routes/Dashboard';
 
 //////////////////////Messenger///////////////////////////
 export { default as ChatBox } from './Messenger/ChatBox';
+export { default as InfinteScrollableChat } from './Messenger/InfinteScrollableChat';
 export { default as CoversationCTRL } from './Messenger/CoversationCTRL';
 export { default as MainNoSelection } from './Messenger/MainNoSelection';
 export { default as SideBarChats } from './Messenger/SideBarChats';

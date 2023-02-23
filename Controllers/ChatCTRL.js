@@ -2,6 +2,8 @@ import { asyncHandler } from '../Middlewares/asyncErrorHandler.js';
 import Chat from '../Models/Chat.js';
 import ErrorHandler from '../Utils/ErrorHandler.js';
 import Message from './../Models/Message.js';
+import Features from './../Utils/Features.js';
+
 export const New_Chat = asyncHandler(async (req, res, next) => {
     const isAlreadyinChat = await Chat.findOne({
         $and: [
@@ -24,13 +26,17 @@ export const New_Chat = asyncHandler(async (req, res, next) => {
         })
 });
 export const Get_ALL = asyncHandler(async (req, res, next) => {
-    const Chats = await Chat.find({
-        members: { $in: [req.user.id] },
-        lastMSG: { $ne: null }
-    })
+    const resultperpage = 10;
+    const features = new Features(Chat.find(
+        {
+            members: { $in: [req.user.id] },
+            lastMSG: { $ne: null }
+        }), req.query)
+        .Pagination(resultperpage)
+
+    const Chats = await features.query
         .populate('members', 'username avatar fullname')
         .sort('-createdAt')
-        .limit(10)
     return res.json(Chats)
 });
 

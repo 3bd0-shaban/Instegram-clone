@@ -2,6 +2,7 @@ import { asyncHandler } from '../Middlewares/asyncErrorHandler.js';
 import Chat from '../Models/Chat.js';
 import Message from '../Models/Message.js';
 import ErrorHandler from '../Utils/ErrorHandler.js';
+import Features from '../Utils/Features.js';
 import cloudinary from './../Utils/cloudinary.js';
 
 export const new_MSG = asyncHandler(async (req, res, next) => {
@@ -31,6 +32,11 @@ export const new_MSG = asyncHandler(async (req, res, next) => {
 });
 
 export const get_MSGs = asyncHandler(async (req, res, next) => {
-    const MSGs = await Message.find({ chatId: req.params.id });
-    return res.json(MSGs)
+    const resultperpage = 20;
+    const features = new Features(Message.find({ chatId: req.params.id }), req.query)
+        .Pagination(resultperpage)
+    const totalCount = await Message.countDocuments({ chatId: req.params.id })
+    const MSGs = await features.query.sort('-createdAt')
+    // const MSGs = arr.reverse();
+    return res.json({ totalCount, MSGs })
 });

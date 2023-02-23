@@ -156,7 +156,13 @@ export const PostsApi = apiSlice.injectEndpoints({
                     const { data } = await queryFulfilled;
                     dispatch(
                         apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
-                            draft?.unshift(data.post)
+                            return {
+                                followersposts: [
+                                    data.post,
+                                    ...draft.followersposts,
+                                ],
+                                totalCount: Number(4),
+                            };
                         })
                     )
                 } catch (err) {

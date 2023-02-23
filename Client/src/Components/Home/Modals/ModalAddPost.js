@@ -45,9 +45,9 @@ const ModalAddPost = () => {
                         initial='initial'
                         animate='animate'
                         exit='exit'
-                        className='fixed inset-x-0 top-[10%] p-4 container max-w-md sm:max-w-4xl z-30 '
+                        className='fixed inset-x-0 top-[10%] p-4 container max-w-md sm:max-w-xl h-[35rem] sm:h-[47.5rem] md:h-[52rem] lg:max-w-4xl z-30 '
                     >
-                        <div className="relative bg-white rounded-lg shadow">
+                        <div className="relative bg-white rounded-lg h-full shadow">
                             <div className="flex justify-between items-start p-4 rounded-t border-b">
                                 <h3 className="text-xl font-semibold text-gray-900 mt-auto">Create New Post</h3>
                                 <button
@@ -58,9 +58,9 @@ const ModalAddPost = () => {
                                     <span className="sr-only">Close modal</span>
                                 </button>
                             </div>
-                            <div className="p-6 py-20 sm:py-40 space-y-6 text-center">
+                            <div className="p-6 py-20 sm:py-40 h-full space-y-6 text-center">
                                 <div className="flex justify-center items-center w-full">
-                                    <label className="flex flex-col justify-center items-center sm:h-[30rem] w-full cursor-pointer ">
+                                    <label className="flex flex-col justify-center items-center w-full cursor-pointer ">
                                         <div className="flex flex-col justify-center items-center pt-5 pb-6 gap-y-5">
                                             <div className='text-gray-500'>
                                                 <BsCloudUpload style={{ 'fontSize': '4rem' }} />

@@ -170,7 +170,7 @@ const Profile = () => {
             <div className='mt-40'>
                 <Footer />
             </div>
-        </div >
+        </div>
     )
 }
 

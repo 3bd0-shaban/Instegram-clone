@@ -13,8 +13,8 @@ export const SocketProvider = ({ children }) => {
             socket.current.on("connect", () => {
                 socket.current.emit("join", userId);
             });
-            // socket.on("getusers", (data) => {
-            //     // console.log(data)
+            // socket.current.on("getusers", (data) => {
+            //     console.log(data)
             // });
         }
     }, [userId, socket]);

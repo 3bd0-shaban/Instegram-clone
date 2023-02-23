@@ -30,7 +30,7 @@ export const New_Post = asyncHandler(async (req, res, next) => {
         user: req.user.id, images: imagesLink, location, des, turnoffcomments, hiddenlikes
     })
     newPost.populate('user', 'username avatar')
-        .populate('comments.user', 'username avatar');
+    newPost.populate('comments.user', 'username avatar');
     newPost.save()
         .then(post => {
             return res.json({

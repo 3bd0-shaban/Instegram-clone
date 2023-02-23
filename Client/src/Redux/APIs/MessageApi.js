@@ -1,4 +1,3 @@
-import { current } from '@reduxjs/toolkit';
 import { apiSlice } from '../ApiSlice';
 export const MessageApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -12,10 +11,16 @@ export const MessageApi = apiSlice.injectEndpoints({
                 try {
 
                     const { data } = await queryFulfilled;
-
                     dispatch(
                         apiSlice.util.updateQueryData("GetMessages", { id }, (draft) => {
-                            current(draft.MSGs).push(data)
+                            return {
+                                MSGs: [
+                                    data,
+                                    ...draft.MSGs,
+                                ],
+                                totalCount: Number(draft.totalCount),
+                            };
+
                             // Object.assign(draft.MSGs, data)
                         })
                     );
@@ -31,6 +36,14 @@ export const MessageApi = apiSlice.injectEndpoints({
                 url: `/api/message/${id}?page=${1}`,
                 method: 'Get',
             }),
+            transformResponse(apiResponse, meta) {
+                // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
+
+                return {
+                    MSGs: apiResponse,
+                    totalCount: Number(apiResponse.length)
+                };
+            },
             // async onCacheEntryAdded(
             //     arg,
             //     { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }
@@ -72,31 +85,22 @@ export const MessageApi = apiSlice.injectEndpoints({
         GetMoreMessages: builder.query({
             query: ({ id, page }) =>
                 `/api/message/${id}?page=${page}`,
-            async onQueryStarted({ id, page }, { queryFulfilled, dispatch }) {
+            async onQueryStarted({ id }, { queryFulfilled, dispatch }) {
                 try {
 
-                    const messages = await queryFulfilled;
-                    if (messages?.data?.MSGs?.length > 0) {
-                        // console.log(messages)
-                        // debugger
-                        // update conversation cache pessimistically start
-                        const result = dispatch(
-                            apiSlice.util.updateQueryData("GetMessages", { id }, (draft) => {
-                                // console.log(current(draft))
-                                // current(draft)?.push(messages)
-                                // console.log(messages)
-                                return {
-                                    MSGs: [
-                                        ...draft.data.MSGs,
-                                        ...messages.data.MSGs,
-                                    ],
-                                    totalCount: Number(draft.totalCount),
-                                };
-                            })
-                        );
-                        console.log(result)
-                        // update messages cache pessimistically end
-                    }
+                    const { data } = await queryFulfilled;
+
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetMessages", { id }, (draft) => {
+                            return {
+                                MSGs: [
+                                    ...draft.MSGs,
+                                    ...data,
+                                ],
+                                totalCount: Number(draft.totalCount),
+                            };
+                        })
+                    );
                 } catch (err) {
                     console.log(err)
                 }

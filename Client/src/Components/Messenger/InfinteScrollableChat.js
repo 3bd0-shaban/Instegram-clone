@@ -3,6 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Message from './Message';
 import { MessageApi } from './../../Redux/APIs/MessageApi';
 import { useDispatch } from 'react-redux';
+import { ImSpinner3 } from 'react-icons/im';
 
 const InfinteScrollableChat = ({ userById, allMSGs, totalCount, id, isLoading, isError, error }) => {
     const ScrollRef = useRef();
@@ -11,34 +12,35 @@ const InfinteScrollableChat = ({ userById, allMSGs, totalCount, id, isLoading, i
     const dispatch = useDispatch();
 
     useEffect(() => {
-        ScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+        // ScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
         ScrollRef.current?.focus();
     }, [allMSGs]);
     const fetchMore = () => {
         console.log('it is working')
         setPage((prevPage) => prevPage + 1);
     };
-
+    useEffect(() => {
+        window.scrollTo({
+            bottom: 0,
+            left: 0,
+            behavior: "smooth"
+          })
+      }, [allMSGs])
     useEffect(() => {
         if (page > 1) {
-            dispatch(
+            const t = dispatch(
                 MessageApi.endpoints.GetMoreMessages.initiate({
                     id,
                     page,
                 })
             );
+            console.log(t)
         }
     }, [page, dispatch, id]);
 
     useEffect(() => {
-
-        if (totalCount > 0) {
-
-            const more =
-                Math.ceil(
-                    totalCount / 10
-                ) > page;
-            setHasMore(more);
+        if (totalCount === 0) {
+            setHasMore(false);
         }
     }, [totalCount, page]);
 
@@ -59,22 +61,29 @@ const InfinteScrollableChat = ({ userById, allMSGs, totalCount, id, isLoading, i
     } else if (!isLoading && !isError && allMSGs?.length > 0) {
         content = (
             <div id="scrollableDiv" tyle={{
-                height: 300,
+                // height: 300,
                 overflow: 'auto',
                 display: 'flex',
-                flexDirection: 'column-reverse',
-            }} className="relative w-full h-[calc(100vh_-_197px)] flex flex-col-reverse">
+                // flexDirection: 'column-reverse',
+            }} className="hideScrollBare">
                 <InfiniteScroll
                     dataLength={allMSGs.length}
-
                     next={fetchMore}
                     hasMore={hasMore}
-                    loader={<div>loading ........</div>}
                     inverse={true}
-                    hasChildren={true}
-
-                    height={window.innerHeight - 197}
-                    style={{ display: 'flex', flexDirection: 'column-reverse' }} //To put endMessage and loader to the top.
+                    // hasChildren={true}
+                    loader={
+                        <div className='flex justify-center items-center my-5 animate-spin'>
+                            <ImSpinner3 size={25} />
+                        </div>
+                    }
+                    endMessage={
+                        <div className='flex justify-center my-5 text-lg font-semibold'>
+                            <p>You see it all</p>
+                        </div>}
+                    height={window.innerHeight - 50}
+                    style={{ display: 'flex', flexDirection: 'column-reverse', 'transitionDuration': '300ms' }} //To put endMessage and loader to the top.
+                    className='hideScrollBare'
                     scrollableTarget="scrollableDiv"
                 >
                     {allMSGs?.map((message, index) => (
@@ -82,7 +91,6 @@ const InfinteScrollableChat = ({ userById, allMSGs, totalCount, id, isLoading, i
                             <Message message={message} FollowerChating={message?.sender === userById?._id} />
                         </div>
                     ))}
-                    <button onClick={() => setPage(prev => prev + 1)}>click</button>
                 </InfiniteScroll>
             </div>
         )

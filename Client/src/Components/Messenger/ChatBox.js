@@ -52,6 +52,7 @@ const ChatBox = ({ currentChat }) => {
             setRecieved({
                 image, sender, receiver, createdAt, msg
             });
+            console.log(msg)
         })
         // eslint-disable-next-line 
     }, []);
@@ -135,7 +136,7 @@ const ChatBox = ({ currentChat }) => {
                         <button onClick={() => setDetails(!details)}><MdOutlineInfo /></button>
                     </div>
                 </div>
-                <div className='pt-3 p-3 overflow-y-scroll hideScrollBare h-[70vh] xsm:h-[82vh] md:h-[83vh] lg:h-[82vh]'>
+                <div className='pt-3 px-3 overflow-y-scroll hideScrollBare h-[70vh] xsm:h-[82vh] md:h-[88vh] lg:h-[79vh]'>
                     <div>
                         <InfinteScrollableChat userById={userById} allMSGs={allMSGs} totalCount={totalCount} id={id} isLoading={loadingMSGs} isError={isError} error={error} />
 

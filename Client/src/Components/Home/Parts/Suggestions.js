@@ -7,16 +7,17 @@ const Suggestions = () => {
   const [Follow] = useFollowMutation() || {};
 
 
-  const FollowCart = ({res}) => {
+  const FollowCart = ({ res }) => {
     const [isFollowing, setIsFollowing] = useState(false);
     const FollowUser = (id) => {
       Follow(id).unwrap()
         .then(payload => {
           setIsFollowing(true)
+          console.log('ddddddddddddddd')
         })
         .catch(err => console.log(err))
-      };
-      // console.log(`follow ${isFollowing}`)
+    };
+
     return (
       <>
         <Link
@@ -24,13 +25,16 @@ const Suggestions = () => {
           key={res._id}
           className='flex px-5'
         >
-          <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url: process.env.REACT_APP_DefaultIcon} alt="" />
+          <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
+            src={res?.avatar?.url ? res?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
           <div className='ml-2 mt-1'>
             <p className='text-md font-poppins font-medium'>{res?.username}</p>
             <p className='text-sm text-gray-500'>{res?.fullname}</p>
           </div>
         </Link>
-        <button onClick={() => FollowUser(res._id)} disabled={isFollowing} className='font-semibold text-blue-400'>{isFollowing ? 'Following' : 'Follow'}</button>
+        <button onClick={() => FollowUser(res._id)}
+          disabled={isFollowing}
+          className='font-semibold text-blue-400'>{isFollowing ? 'Following' : 'Follow'}</button>
       </>
     )
   }

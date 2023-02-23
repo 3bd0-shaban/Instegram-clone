@@ -35,8 +35,7 @@ export const get_MSGs = asyncHandler(async (req, res, next) => {
     const resultperpage = 20;
     const features = new Features(Message.find({ chatId: req.params.id }), req.query)
         .Pagination(resultperpage)
-    const totalCount = await Message.countDocuments({ chatId: req.params.id })
     const MSGs = await features.query.sort('-createdAt')
     // const MSGs = arr.reverse();
-    return res.json({ totalCount, MSGs })
+    return res.json(MSGs)
 });

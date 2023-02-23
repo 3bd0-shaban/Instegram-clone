@@ -74,11 +74,6 @@ const UsersPosts = ({ userInfo }) => {
                             dataLength={userPosts.length}
                             next={fetchMore}
                             hasMore={hasMore}
-                            loader={
-                                <div className='flex justify-center items-center my-5 animate-spin'>
-                                    <ImSpinner3 size={25} />
-                                </div>
-                            }
                             style={{ marginBottom: '3rem', overflow: 'hidden' }}
                         >
                             <div className='grid grid-cols-3 gap-2 lg:gap-8 mt-7'>

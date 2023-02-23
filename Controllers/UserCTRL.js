@@ -177,7 +177,6 @@ export const Suggestion = asyncHandler(async (req, res, next) => {
     const newarr = [...req.user.following, req.user.id]
     const num = req.query.num || 10;
     const users = await Users.aggregate([
-
         { $match: { _id: { $nin: newarr } } },
         { $sample: { size: Number(num) } },
         {

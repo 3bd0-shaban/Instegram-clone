@@ -31,6 +31,11 @@ const ReelsSchema = new mongoose.Schema(
             type: Number,
             default: 0
         },
+        expireAt: {
+            type: Date,
+            default: Date.now(),
+            expires: 60
+        },
         likes: [
             {
                 type: mongoose.Schema.ObjectId,
@@ -69,14 +74,19 @@ const ReelsSchema = new mongoose.Schema(
                 }
             }
         ],
-        reports: [
-            {
-                type: mongoose.Types.ObjectId,
-                ref: "user",
-            },
-        ],
+        reports: {
+            select: false,
+            type: [
+                {
+                    type: mongoose.Types.ObjectId,
+                    ref: "user",
+                },
+
+            ],
+        }
     },
     { timestamps: true }
 );
+ReelsSchema.index({ 'expireAt': 1, expireAfterSecond: 5 })
 const Posts = mongoose.model('Posts', ReelsSchema);
 export default Posts;

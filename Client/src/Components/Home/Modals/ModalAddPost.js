@@ -11,32 +11,46 @@ import { preventScroll } from '../../../Helpers/PreventScroll';
 const ModalAddPost = () => {
     const { IsModalPreviewImages, isModalConfirm, isModalAddPost, isModalLoadingUpload } = useSelector(state => state.Features);
 
+    preventScroll(isModalAddPost)
     const [createPost, { isLoading, error }] = useCreatePostMutation();
     const dispatch = useDispatch();
     const [success, setSuccess] = useState(false);
     const [images, setImages] = useState([]);
-    preventScroll(isModalAddPost)
+    const [video, setVideo] = useState([]);
     const loadFile = (e) => {
-        for (const file of e.target.files) {
+        const files = e.target.files;
+        const urls = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const singlefile = files[i];
+
             const reader = new FileReader();
-            reader.readAsDataURL(file);
+            // urls.push(URL.createObjectURL(singlefile));
+            if (singlefile.type.startsWith('video/')) {
+                reader.onload = () => {
+                    setVideo((imgs) => [...imgs, reader.result]);
+                }
+            }
+            reader.readAsDataURL(singlefile);
             reader.onload = () => {
                 setImages((imgs) => [...imgs, reader.result]);
             }
             reader.onerror = () => {
                 console.log(reader.error);
             };
+
         }
         dispatch(FeatureAction.ShowModalAddPost(false))
         dispatch(FeatureAction.Show_ModalPreviewImages(true))
     }
-
+    console.log(images)
+    console.log(video)
     return (
         <>
             {isModalLoadingUpload && <ModalLoadingUpload isLoading={isLoading} success={success} error={error} />}
 
             {isModalConfirm && <ModalConfirm />}
-            {IsModalPreviewImages && <ModalPreviewImages images={images} setImages={setImages} setSuccess={setSuccess} createPost={createPost} />}
+            {IsModalPreviewImages && <ModalPreviewImages images={images} setImages={setImages} video={video} setVideo={setVideo} setSuccess={setSuccess} createPost={createPost} />}
             {isModalAddPost &&
                 <>
                     <div onClick={() => dispatch(FeatureAction.ShowModalAddPost(false))} className="fixed inset-0 bg-black/30 z-10"></div>

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetFollowersPostsQuery } from '../../../Redux/APIs/PostsApi';
+import { useGetFollowersPostsQuery ,PostsApi} from '../../../Redux/APIs/PostsApi';
 import { PostMore, ModalPostDetails, SinglePost, ModalReports, ModalThanksReport, ModalUnFollowConfirm, ModalBlockConfirm, ModalPostMoreLogged } from '../../Exports';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useEffect, useState } from 'react';
@@ -7,7 +7,6 @@ import { AnimatePresence } from 'framer-motion';
 import { ClipAlerts } from '../../Layouts/Alerts';
 import { setTotalPosts } from '../../../Redux/Slices/PostsSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { PostsApi } from './../../../Redux/APIs/PostsApi';
 import { ImSpinner3 } from 'react-icons/im';
 const Posts = () => {
   const dispatch = useDispatch();
@@ -22,9 +21,7 @@ const Posts = () => {
 
   const { data, isFetching, error, isError } = useGetFollowersPostsQuery(1) || {};
   const { followersposts, totalCount } = data || {};
-  const fetchMore = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+
   useEffect(() => {
     if (page > 1) {
       dispatch(
@@ -56,7 +53,7 @@ const Posts = () => {
       {isFetching ? <div></div> : isError ? <p>{error?.data?.msg}</p> :
         <InfiniteScroll
           dataLength={followersposts.length} //This is important field to render the next data
-          next={fetchMore}
+          next={() => setPage((prevPage) => prevPage + 1)}
           hasMore={hasMore}
           loader={
             <div className='flex justify-center items-center my-5 animate-spin'>

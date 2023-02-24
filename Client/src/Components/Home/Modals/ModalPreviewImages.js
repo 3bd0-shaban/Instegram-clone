@@ -13,7 +13,7 @@ import { Emoji } from '../../Exports';
 import { FaRegSmile } from 'react-icons/fa';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 
-const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
+const ModalPreviewImages = ({ images, setImages, setVideo, video, setSuccess, createPost }) => {
     const { IsModalPreviewImages } = useSelector(state => state.Features);
     const userInfo = useSelector(selectCurrentUser)
     const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
     // const [accessbility, setAccessbility] = useState(false);
     const [advanced, setAdvanced] = useState(false);
     const [hiddenlikes, setHideLikes] = useState(false);
+    const [isReel, setIsReel] = useState(false);
     const [turnoffcomments, setTurnOffComments] = useState(false);
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
     const [des, setDes] = useState('');
@@ -34,18 +35,23 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
         dispatch(FeatureAction.Show_ModalPreviewImages(false));
         dispatch(FeatureAction.ShowModalAddPost(true));
         setImages([])
+        setVideo()
     }
 
     const handlesubmit = async (e) => {
         if (next) {
             dispatch(FeatureAction.Show_ModalPreviewImages(false));
             dispatch(FeatureAction.setIsModalLoadingUpload(true));
-            const data = { des, location, images, hiddenlikes, turnoffcomments };
+            if (video) {
+                setIsReel(true)
+            }
+            const data = { des, location, images, hiddenlikes, turnoffcomments, video, isReel };
             e.preventDefault();
             await createPost(data).unwrap()
                 .then(payload => {
                     setSuccess(true)
                     setImages([])
+                    setVideo()
                 }).catch(err => {
                     console.log(err?.data?.msg)
                 })
@@ -75,23 +81,32 @@ const ModalPreviewImages = ({ images, setImages, setSuccess, createPost }) => {
                 <>
                     <div className="fixed inset-0 bg-black/30 z-10" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(true))}></div>
                     <div className={`fixed inset-x-0 top-[10%] container px-0 duration-500 max-w-[26rem] sm:max-w-[40rem] md:max-w-[50rem] lg:max-w-4xl min-h-[35rem] sm:h-[47.5rem] md:h-[52rem] z-20 bg-white rounded-lg max-h-[60rem] overflow-hidden shadow ${next && 'lg:!max-w-7xl'}`}>
-                        <div className=" ">
+                        <div className="h-full">
                             <div className="flex justify-between items-start py-2 rounded-t border-b px-4">
                                 <div
                                     onClick={HandleBack}
                                     className="text-xl cursor-pointer font-semibold text-gray-900 mt-auto"><BsArrowLeft size={25} /></div>
                                 <div onClick={handlesubmit} className="text-blue-500 font-semibold text-lg cursor-pointer">{next ? 'Share' : 'Next'}</div>
                             </div>
-                            <div>
-                                <form onSubmit={handlesubmit}>
-                                    <div className='grid grid-cols-8'>
-                                        <div className={`${next ? 'hidden md:block col-span-6' : 'col-span-8'}`}>
+                            <div className='h-full'>
+                                <form onSubmit={handlesubmit} className='h-full'>
+                                    <div className='grid grid-cols-8 h-full'>
+                                        <div className={`${next ? 'hidden h-full md:block col-span-6' : 'col-span-8'}`}>
+
                                             <Swiper
                                                 modules={[Pagination]}
                                                 spaceBetween={0}
                                                 slidesPerView={1}
                                                 pagination={{ clickable: true }}
+                                                className={video && 'h-full'}
                                             >
+                                                {video &&
+                                                    <SwiperSlide>
+                                                        <video className='h-full object-cover relative' autoPlay loop playsInline>
+                                                            <source src={video} />
+                                                        </video>
+                                                    </SwiperSlide>
+                                                }
                                                 {images?.map((image, index) => (
                                                     <SwiperSlide key={index}>
                                                         <img className='h-[33rem] sm:h-[45rem] md:h-[50rem] min-w-full object-cover'

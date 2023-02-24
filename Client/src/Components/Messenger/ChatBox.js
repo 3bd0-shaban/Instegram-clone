@@ -85,7 +85,7 @@ const ChatBox = () => {
     return (
         details ? <CoversationCTRL userById={userById} setDetails={setDetails} details={details} /> :
             <div className='h-full'>
-                <div className='flex border-b p-2 lg:px-6 justify-between h-12'>
+                <div className='fixed lg:static top-0 insetx-0 bg-white w-full flex border-b p-2 lg:px-6 justify-between h-12'>
                     <div className='flex'>
                         <Link to='/messages' className='block lg:hidden'><BiChevronLeft size={30} /></Link>
                         <Link to={userById?.username ? `/${userById?.username}` : ''} className='flex gap-2 items-center'>
@@ -122,7 +122,7 @@ const ChatBox = () => {
 
                         <form
                             onSubmit={NewMSG}
-                            className='border rounded-full w-[97%] mb-2 lg:mb-10 lg:mb-5 py-3 lg:by-5 px-6 flex items-center mt-auto absolute bottom-0'
+                            className='fixed lg:absolute inset-x-0 bottom-4 mx-2 border rounded-full w-[97%] mb-2 py-3 lg:by-5 px-6 flex items-center mt-auto '
                         >
 
                             <>

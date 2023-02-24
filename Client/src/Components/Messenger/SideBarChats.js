@@ -9,6 +9,7 @@ import { useUserChatsQuery } from './../../Redux/APIs/ChatApi';
 
 const SideBarChats = ({ userInfo }) => {
     const [page, setPage] = useState(1);
+    // eslint-disable-next-line 
     const [hasMore, setHasMore] = useState(true);
     const dispatch = useDispatch();
     const { data: Chats, isError, isLoading, error } = useUserChatsQuery() || {};
@@ -41,8 +42,8 @@ const SideBarChats = ({ userInfo }) => {
     } else if (!isLoading && !isError && Chats?.length > 0) {
         content = (
             <>
-                <div className='flex border-b py-2'>
-                    <div className='flex mx-auto text-lg font-semibold'>
+                <div className='fixed lg:static top-0 inset-x-0 bg-white flex border-b py-2'>
+                    <div className='flex mx-auto text-lg font-semibold '>
                         <Link to={`/${userInfo?.username}`}>
                             <p>{userInfo?.username}</p>
                         </Link>
@@ -63,7 +64,7 @@ const SideBarChats = ({ userInfo }) => {
                 >
                     {Chats?.slice()
                         .sort((a, b) => b.timestamp - a.timestamp).map(chat => (
-                            <div key={chat?._id}>
+                            <div key={chat?._id} className='mt-10'>
                                 <FollowerCart chat={chat} userInfo={userInfo} />
                             </div>
                         ))}

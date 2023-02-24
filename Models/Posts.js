@@ -31,6 +31,10 @@ const postsSchema = new mongoose.Schema(
             type: Number,
             default: 0
         },
+        isReel: {
+            type: Boolean,
+            default: false
+        },
         likes: [
             {
                 type: mongoose.Schema.ObjectId,
@@ -67,6 +71,18 @@ const postsSchema = new mongoose.Schema(
                     type: String,
                     required: [true, 'The Product image is Required'],
                 }
+            }
+        ],
+        videos: [
+            {
+                public_id: {
+                    type: String,
+                    required: [true, 'The Product image is Required'],
+                },
+                url: {
+                    type: String,
+                    required: [true, 'The Product image is Required'],
+                }, default: []
             }
         ],
         reports: {

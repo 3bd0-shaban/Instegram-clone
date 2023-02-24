@@ -13,7 +13,6 @@ const Suggestions = () => {
       Follow(id).unwrap()
         .then(payload => {
           setIsFollowing(true)
-          console.log('ddddddddddddddd')
         })
         .catch(err => console.log(err))
     };

@@ -1,5 +1,5 @@
 import express from 'express';
-import { New_Post, User_Posts, FollowersPosts, User_Posts_ById, Get_PostDetails, DeletePost, Hide_Likes, TurnoffComments } from '../Controllers/PostsCTRL.js';
+import { New_Post, User_Posts, FollowersPosts, User_Posts_ById, Get_PostDetails, DeletePost, Hide_Likes, TurnoffComments, FollowersReel } from '../Controllers/PostsCTRL.js';
 import { auth, authorizeRoles } from '../Middlewares/Auth.js'
 const router = express.Router();
 
@@ -11,4 +11,5 @@ router.delete('/delete/:id', auth, DeletePost);
 router.put('/hidelikes/:id', auth, Hide_Likes);
 router.put('/turncomments/:id', auth, TurnoffComments);
 router.get('/get/followers/posts', auth, FollowersPosts);
+router.get('/get/followers/reels', auth, FollowersReel);
 export default router

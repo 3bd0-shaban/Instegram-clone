@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BsCamera, BsChat, BsHeart, BsThreeDotsVertical } from 'react-icons/bs'
 import { IoMdPaperPlane } from 'react-icons/io';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,17 @@ const Video = ({ Reel }) => {
     // useEffect(() => {
     //     videoRef.current.play();
     // }, [])
+    useEffect(() => {
+        if (inViewport) {
+          videoRef.current.play();
+          console.log('In View')
+        } else {
+          if (videoRef.current.play) {
+            videoRef.current.pause();
+            console.log('Not in')
+          }
+        }
+      }, [inViewport]);
     const handleVideo = () => {
         setPlay(!play);
         if (play === true) {
@@ -26,7 +37,7 @@ const Video = ({ Reel }) => {
         }
     };
     return (
-        <div onClick={handleVideo} ref={ref} className='h-full'>
+        <div  ref={ref} className='h-full'>
             <video ref={videoRef} className='h-full object-cover relative' autoPlay loop playsInline>
                 <source src={Reel?.videos[0]?.url} />
             </video>

@@ -5,66 +5,63 @@ import cloudinary from "../Utils/cloudinary.js";
 import Features from './../Utils/Features.js';
 
 export const New_Post = asyncHandler(async (req, res, next) => {
-    try {
-        const { des, location, turnoffcomments, hiddenlikes, imageDes } = req.body
-        let received = [...req.body.images];
-        let videos = [...req.body.video]
-        if (typeof req.body.images === "string") {
-            received.push(req.body.images);
-        } else {
-            received = req.body.images;
-        }
-        let imagesLink = []
-        let VideosLink = []
-        let isReel = false
-        if (videos.length > 0) {
-            isReel = true
-        }
-        for (let i = 0; i < videos.length; i++) {
-            const result = await cloudinary.uploader.upload(videos[i], {
-                folder: "Instegram/posts",
-                transformation: [
-                    { width: 2000, quality: 'auto' }
-                ],
-                resource_type: 'auto'
-            });
-            VideosLink.push({
-                public_id: result.public_id,
-                url: result.secure_url,
-                imageDes: imageDes
-            });
-        };
-        for (let i = 0; i < received.length; i++) {
-            const result = await cloudinary.uploader.upload(received[i], {
-                folder: "Instegram/posts",
-                transformation: [
-                    { width: 2000, quality: 'auto' }
-                ],
-                resource_type: 'auto'
-            });
-            imagesLink.push({
-                public_id: result.public_id,
-                url: result.secure_url,
-                imageDes: imageDes
-            });
-        };
-        const newPost = await new Posts({
-            user: req.user.id, images: imagesLink, location, des, turnoffcomments, hiddenlikes, isReel,
-            videos: VideosLink
-        })
-        newPost.populate('user', 'username avatar')
-        // newPost.populate('comments.user', 'username avatar');
-        newPost.save()
-            .then(post => {
-                return res.json({
-                    msg: 'post added successfully', post
-                });
-            }).catch(error => {
-                return next(new ErrorHandler(error.message, 500));
-            })
-    } catch (error) {
-        console.log(error)
+    const { des, location, turnoffcomments, hiddenlikes, imageDes } = req.body
+    let received = [...req.body.images];
+    let videos = [...req.body.videos]
+    if (typeof req.body.images === "string") {
+        received.push(req.body.images);
+    } else {
+        received = req.body.images;
     }
+    let imagesLink = []
+    let VideosLink = []
+    let isReel = false
+    if (videos.length > 0) {
+        isReel = true
+    }
+    for (let i = 0; i < videos.length; i++) {
+        const result = await cloudinary.uploader.upload(videos[i], {
+            folder: "Instegram/posts",
+            transformation: [
+                { width: 2000, quality: 'auto' }
+            ],
+            resource_type: 'auto'
+        });
+        VideosLink.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+            imageDes: imageDes
+        });
+    };
+    for (let i = 0; i < received.length; i++) {
+        const result = await cloudinary.uploader.upload(received[i], {
+            folder: "Instegram/posts",
+            transformation: [
+                { width: 2000, quality: 'auto' }
+            ],
+            resource_type: 'auto'
+        });
+        imagesLink.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+            imageDes: imageDes
+        });
+    };
+    const newPost = await new Posts({
+        user: req.user.id, images: imagesLink, location, des, turnoffcomments, hiddenlikes, isReel,
+        videos: VideosLink
+    })
+    newPost.populate('user', 'username avatar')
+    // newPost.populate('comments.user', 'username avatar');
+    newPost.save()
+        .then(post => {
+            return res.json({
+                msg: 'post added successfully', post
+            });
+        }).catch(error => {
+            return next(new ErrorHandler(error.message, 500));
+        })
+
 });
 
 export const DeletePost = asyncHandler(async (req, res, next) => {

@@ -16,41 +16,48 @@ const ModalAddPost = () => {
     const dispatch = useDispatch();
     const [success, setSuccess] = useState(false);
     const [images, setImages] = useState([]);
-    const [video, setVideo] = useState([]);
+    const [videos, setVideos] = useState([]);
     const loadFile = (e) => {
         const files = e.target.files;
-        const urls = [];
 
         for (let i = 0; i < files.length; i++) {
             const singlefile = files[i];
-
             const reader = new FileReader();
-            // urls.push(URL.createObjectURL(singlefile));
             if (singlefile.type.startsWith('video/')) {
+                reader.readAsDataURL(singlefile);
                 reader.onload = () => {
-                    setVideo((imgs) => [...imgs, reader.result]);
+                    setVideos((imgs) => [...imgs, reader.result]);
                 }
+                // urls.push(URL.createObjectURL(singlefile));
+                // setVideos(urls)
             }
-            reader.readAsDataURL(singlefile);
-            reader.onload = () => {
-                setImages((imgs) => [...imgs, reader.result]);
+            if (singlefile.type.startsWith('image/')) {
+                reader.readAsDataURL(singlefile);
+                reader.onload = () => {
+                    setImages((imgs) => [...imgs, reader.result]);
+                }
+                reader.onerror = () => {
+                    console.log(reader.error);
+                };
             }
-            reader.onerror = () => {
-                console.log(reader.error);
-            };
-
         }
         dispatch(FeatureAction.ShowModalAddPost(false))
         dispatch(FeatureAction.Show_ModalPreviewImages(true))
     }
     console.log(images)
-    console.log(video)
+    console.log(videos)
+    const discartall = () => {
+        dispatch(FeatureAction.Show_ModalConfirm(false));
+        dispatch(FeatureAction.Show_ModalPreviewImages(false));
+        setImages([])
+        setVideos([])
+    }
     return (
         <>
             {isModalLoadingUpload && <ModalLoadingUpload isLoading={isLoading} success={success} error={error} />}
 
-            {isModalConfirm && <ModalConfirm />}
-            {IsModalPreviewImages && <ModalPreviewImages images={images} setImages={setImages} video={video} setVideo={setVideo} setSuccess={setSuccess} createPost={createPost} />}
+            {isModalConfirm && <ModalConfirm OnCloseEvent={discartall} />}
+            {IsModalPreviewImages && <ModalPreviewImages images={images} setImages={setImages} videos={videos} setVideos={setVideos} setSuccess={setSuccess} createPost={createPost} />}
             {isModalAddPost &&
                 <>
                     <div onClick={() => dispatch(FeatureAction.ShowModalAddPost(false))} className="fixed inset-0 bg-black/30 z-10"></div>

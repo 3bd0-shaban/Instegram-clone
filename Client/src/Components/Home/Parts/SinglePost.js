@@ -8,7 +8,7 @@ import { IoMdPaperPlane } from 'react-icons/io';
 import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useBreakpoint, Emoji, ImageSwiper, useIntersection } from '../../Exports';
+import { useBreakpoint, Emoji, ImageSwiper } from '../../Exports';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimScale from './../../../Animation/AnimScale';
 
@@ -34,7 +34,7 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
 
     const ref = useRef();
     // const inViewport = useIntersection(ref, '0px'); // Trigger as soon as the element becomes visible
-    const inViewport = useIntersection(ref, '-300px'); // Trigger if 200px is visible from the element
+    // const inViewport = useIntersection(ref, '-300px'); // Trigger if 200px is visible from the element
 
     // if (inViewport) {
     //     console.log('in viewport:', ref.current);
@@ -191,7 +191,11 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
                             className='block text-gray-500 font-lg font-extralight'>View all {postDetail?.numComments} comments
                         </Link> : (!postDetail?.turnoffcomments) &&
                         <Link
-                            onClick={() => { dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(postDetail?._id); setPostDetails(postDetail) }}
+                            onClick={
+                                () => {
+                                    dispatch(FeatureAction.Show_ModalPostDetails(true));
+                                    setPostID(postDetail?._id); setPostDetails(postDetail)
+                                }}
                             className='block text-gray-500 font-lg font-extralight'>View all {postDetail?.numComments} comments
                         </Link>
                 }

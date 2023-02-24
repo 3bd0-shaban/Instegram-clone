@@ -21,7 +21,7 @@ export const ReelsApi = apiSlice.injectEndpoints({
                 method: 'GET',
             }),
             async onQueryStarted(args, { queryFulfilled, dispatch }) {
-
+console.log('ddddddddddddddddddddd')
                 try {
 
                     const { data } = await queryFulfilled;

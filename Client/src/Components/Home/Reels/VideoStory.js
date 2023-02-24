@@ -17,8 +17,9 @@ const VideoStory = () => {
 
     useEffect(() => {
         if (page > 1) {
+            console.log('dddddd')
             dispatch(
-                ReelsApi.endpoints.getMoreFollowersPosts.initiate(page)
+                ReelsApi.endpoints.GetMoreFollowersReels.initiate(page)
             );
         }
     }, [page, dispatch]);
@@ -42,39 +43,33 @@ const VideoStory = () => {
                     spaceBetween={0}
                     mousewheel={true}
                     modules={[Mousewheel, Pagination]}
-                    className="flex justify-center items-center max-w-3xl h-[100vh] container  px-0 cursor-pointer text-white"
+                    className="flex justify-center items-center max-w-3xl h-screen container  px-0 cursor-pointer text-white"
                 >
-                    <SwiperSlide className='h-full'>
-                        {isFetching ? <p></p> : isError ? <p>{error?.data?.msg}</p> :
-                            <InfiniteScroll
-                                dataLength={FollowersReel.length} //This is important field to render the next data
-                                next={() => setPage((prevPage) => prevPage + 1)}
-                                className='h-full'
-                                hasMore={hasMore}
-                                loader={
-                                    <div className='flex justify-center items-center my-5 animate-spin'>
-                                        <ImSpinner3 size={25} />
-                                    </div>
-                                }
-                                endMessage={
-                                    <div className='flex justify-center my-5 text-lg font-semibold'>
-                                        <p>You see it all</p>
-                                    </div>}
-                                style={{ marginBottom: '3rem', overflow: 'hidden', height: '100%' }}
-                            >
-                                {FollowersReel?.map(Reel => (
+                    {isFetching ? <p></p> : isError ? <p>{error?.data?.msg}</p> :
+                        <InfiniteScroll
+                            dataLength={FollowersReel.length}
+                            next={() => setPage((prevPage) => prevPage + 1)}
+                            className='h-full'
+                            hasMore={true}
+                            loader={
+                                <div className='flex justify-center items-center my-5 animate-spin'>
+                                    <ImSpinner3 size={25} />
+                                </div>
+                            }
+                            endMessage={
+                                <div className='flex justify-center my-5 text-lg font-semibold'>
+                                    <p>You see it all</p>
+                                </div>}
+                            style={{ marginBottom: '3rem', overflow: 'hidden', height: '100%' }}
+                        >
+                            {FollowersReel?.map(Reel => (
+                                <SwiperSlide className='h-full' key={Reel._id}>
                                     <Video Reel={Reel} />
-                                ))}
-                            </InfiniteScroll>}
-                    </SwiperSlide>
-                    <SwiperSlide>Slide 2</SwiperSlide>
-                    <SwiperSlide>Slide 3</SwiperSlide>
-                    <SwiperSlide>Slide 4</SwiperSlide>
-                    <SwiperSlide>Slide 5</SwiperSlide>
-                    <SwiperSlide>Slide 6</SwiperSlide>
-                    <SwiperSlide>Slide 7</SwiperSlide>
-                    <SwiperSlide>Slide 8</SwiperSlide>
-                    <SwiperSlide>Slide 9</SwiperSlide>
+                                </SwiperSlide>
+                            ))}
+                        </InfiniteScroll>
+                    }
+
                 </Swiper>
             </div>
         </>

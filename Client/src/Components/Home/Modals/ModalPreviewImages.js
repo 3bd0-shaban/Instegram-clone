@@ -13,7 +13,7 @@ import { Emoji } from '../../Exports';
 import { FaRegSmile } from 'react-icons/fa';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 
-const ModalPreviewImages = ({ images, setImages, setVideo, video, setSuccess, createPost }) => {
+const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, createPost }) => {
     const { IsModalPreviewImages } = useSelector(state => state.Features);
     const userInfo = useSelector(selectCurrentUser)
     const dispatch = useDispatch();
@@ -35,23 +35,23 @@ const ModalPreviewImages = ({ images, setImages, setVideo, video, setSuccess, cr
         dispatch(FeatureAction.Show_ModalPreviewImages(false));
         dispatch(FeatureAction.ShowModalAddPost(true));
         setImages([])
-        setVideo()
+        setVideos()
     }
 
     const handlesubmit = async (e) => {
         if (next) {
             dispatch(FeatureAction.Show_ModalPreviewImages(false));
             dispatch(FeatureAction.setIsModalLoadingUpload(true));
-            if (video) {
+            if (videos) {
                 setIsReel(true)
             }
-            const data = { des, location, images, hiddenlikes, turnoffcomments, video, isReel };
+            const data = { des, location, images, hiddenlikes, turnoffcomments, videos, isReel };
             e.preventDefault();
             await createPost(data).unwrap()
                 .then(payload => {
                     setSuccess(true)
                     setImages([])
-                    setVideo()
+                    setVideos([])
                 }).catch(err => {
                     console.log(err?.data?.msg)
                 })
@@ -98,14 +98,16 @@ const ModalPreviewImages = ({ images, setImages, setVideo, video, setSuccess, cr
                                                 spaceBetween={0}
                                                 slidesPerView={1}
                                                 pagination={{ clickable: true }}
-                                                className={video && 'h-full'}
+                                                className={videos && 'h-fdull'}
                                             >
-                                                {video &&
-                                                    <SwiperSlide>
-                                                        <video className='h-full object-cover relative' autoPlay loop playsInline>
-                                                            <source src={video} />
-                                                        </video>
-                                                    </SwiperSlide>
+                                                {videos &&
+                                                    videos?.map((vid, index) => (
+                                                        <SwiperSlide key={index}>
+                                                            <video className='h-full object-cover relative' autoPlay loop playsInline>
+                                                                <source src={vid} />
+                                                            </video>
+                                                        </SwiperSlide>
+                                                    ))
                                                 }
                                                 {images?.map((image, index) => (
                                                     <SwiperSlide key={index}>

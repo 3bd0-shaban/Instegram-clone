@@ -21,7 +21,7 @@ const ModalFollowing = ({ id }) => {
                 className='fixed inset-x-0 h-[30rem] lg:h-[40rem] space-y-5 overflow-y-scroll top-[13%] p-4 container hideScrollBare z-30 bg-white w-full rounded-xl shadow drop-shadow-xl max-w-xs sm:max-w-[30rem]  '
             >
                 <div className='flex justify-center items-center font-semibold text-xl pt-1'>Following</div><hr />
-                {isFetching ? <div className='py-32 flex justify-center'><ImSpinner3 size={30} /></div> :
+                {isFetching ? <div className='py-32 flex justify-center animate-spin'><ImSpinner3 size={30} /></div> :
                     FollowingList?.following?.map((res, index) => (
                         <div key={index} className='flex justify-between items-center'>
                             <Link

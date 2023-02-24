@@ -5,7 +5,7 @@ import { IoImageOutline } from 'react-icons/io5'
 import { MdOutlineInfo } from 'react-icons/md'
 import { useGetUserByIdQuery } from './../../Redux/APIs/UserApi'
 import { CoversationCTRL, useSocket, Emoji, InfinteScrollableChat } from './../Exports'
-import { useGetMessagesQuery, useNewMessageMutation } from './../../Redux/APIs/MessageApi'
+import { useNewMessageMutation } from './../../Redux/APIs/MessageApi'
 import { BiChevronLeft } from 'react-icons/bi'
 import { motion } from 'framer-motion';
 import AnimDropdown from './../../Animation/AnimDropdown'
@@ -14,48 +14,26 @@ import { useSingleChatQuery } from '../../Redux/APIs/ChatApi'
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../Redux/Slices/UserSlice'
 import { Scrolldown } from '../../Helpers/Scroll'
-const ChatBox = ({ currentChat }) => {
+const ChatBox = () => {
     Scrolldown();
     const { username, id } = useParams();
     const { data: userById } = useGetUserByIdQuery(username) || {};
-    const { data, isLoading: loadingMSGs, isError, error } = useGetMessagesQuery({ id }, {
-        refetchOnMountOrArgChange: true,
-    });
-    const { MSGs, totalCount } = data || {}
     const { data: SingleChat } = useSingleChatQuery(id) || {}
-    const [recievedmsg, setRecieved] = useState({});
-    const [allMSGs, setAllMSGs] = useState([]);
     const [MewMessage, { isLoading }] = useNewMessageMutation() || {};
     const [msg, setMSG] = useState('');
     const [image, setImage] = useState();
     const [details, setDetails] = useState(false);
     const [isOnline, setIsOnline] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
-    // const [isHeart, setIsHeart] = useState(false);
     const { socket } = useSocket();
     const userInfo = useSelector(selectCurrentUser);
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
-    // console.log(FollowerMessages)
     useEffect(() => {
         socket.on("getusers", (data) => {
             const online = data?.some(user => user.userId === userById?._id)
             online && setIsOnline(true)
         });
-    }, [socket, allMSGs, userById, id])
-
-    useEffect(() => {
-        setAllMSGs(MSGs);
-    }, [MSGs, setAllMSGs, id]);
-
-    useEffect(() => {
-        socket?.on('MessagetoClient', ({ image, sender, receiver, createdAt, msg }) => {
-            setRecieved({
-                image, sender, receiver, createdAt, msg
-            });
-            console.log(msg)
-        })
-        // eslint-disable-next-line 
-    }, []);
+    }, [socket, userById, id])
 
     useEffect(() => {
         socket?.on('TypingtoClient', ({ receiver, status }) => {
@@ -65,15 +43,7 @@ const ChatBox = ({ currentChat }) => {
         })
         // eslint-disable-next-line 
     }, []);
-    // console.log(isTyping)
-    useEffect(() => {
-        if (recievedmsg) {
-            if (SingleChat?.members.includes(recievedmsg.sender)) {
-                setAllMSGs(prev => [...prev, recievedmsg]);
-            }
-        }
-        // eslint-disable-next-line 
-    }, [recievedmsg]);
+
     const loadFile = (e) => {
         for (const file of e.target.files) {
             const reader = new FileReader();
@@ -87,14 +57,13 @@ const ChatBox = ({ currentChat }) => {
         if (!image) {
             e.preventDefault();
         }
-        // if (!msg || !image) return;
+        if (!msg && !image) return;
         const data = { msg, image }
         MewMessage({ data, id }).unwrap()
             .then(payload => {
                 setMSG('')
                 setImage('')
                 setIsPikerVisable(false)
-                // setAllMSGs([...allMSGs, payload]);
                 socket.emit("typing", false);
                 socket.emit("Message", {
                     sender: payload.sender,
@@ -138,7 +107,7 @@ const ChatBox = ({ currentChat }) => {
                 </div>
                 <div className='pt-3 px-3 overflow-y-scroll hideScrollBare h-[70vh] xsm:h-[82vh] md:h-[88vh] lg:h-[79vh]'>
                     <div>
-                        <InfinteScrollableChat userById={userById} allMSGs={allMSGs} totalCount={totalCount} id={id} isLoading={loadingMSGs} isError={isError} error={error} />
+                        <InfinteScrollableChat userById={userById} id={id} />
 
                         {isTyping && <p className='mx-3'>typing ....</p>}
                         {image &&
@@ -176,7 +145,12 @@ const ChatBox = ({ currentChat }) => {
                                 </div>
                                 <input
                                     className='outline-none bg-transparent w-full mx-4'
-                                    onChange={(e) => { setMSG(e.target.value); socket.emit("typing", { receiver: userById._id, sender: userInfo._id, status: true }) }}
+                                    onChange={(e) => {
+                                        setMSG(e.target.value); socket.emit("typing",
+                                            {
+                                                receiver: userById._id, sender: userInfo._id, status: true
+                                            })
+                                    }}
                                     onFocus={() => setIsPikerVisable(false)}
                                     onBlur={() => socket.emit("typing", { receiver: userById._id, sender: userInfo._id, status: false })}
                                     value={msg}

@@ -11,7 +11,6 @@ import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
 import { useFollowMutation, useGetUserByIdQuery, } from '../Redux/APIs/UserApi';
 import { BiChevronDown } from 'react-icons/bi';
-import { IoPersonAddOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import { useNewChatMutation } from '../Redux/APIs/ChatApi';
 import { ImSpinner3 } from 'react-icons/im';
@@ -108,7 +107,7 @@ const Profile = () => {
                                                         // to={`message/${getfollowerchatID?._id}`}
                                                         className='bg-gray-100 font-medium rounded-md flex items-center px-3 py-2 gap-2 hover:bg-gray-200'>
                                                         {loadChat ?
-                                                            <div className='flex justify-center items-center px-3'>
+                                                            <div className='flex justify-center items-center px-3 animate-spin'>
                                                                 <ImSpinner3 />
                                                             </div> :
                                                             'Message'
@@ -116,8 +115,8 @@ const Profile = () => {
                                                 </>
                                                 :
                                                 <>
-                                                    <button onClick={FollowUser} className='bg-blue-500 text-white font-medium rounded-md flex items-center px-6 py-2 gap-2'>{isLoading ? <span className='flex justify-center items-center px-8'><ImSpinner3 size={25} /></span> : 'Follow'}</button>
-                                                    <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'><IoPersonAddOutline size={22} /></button>
+                                                    <button onClick={FollowUser} className='bg-blue-500 text-white font-medium rounded-md flex items-center px-6 py-2 gap-2'>{isLoading ? <span className='flex justify-center items-center px-6 animate-spin'><ImSpinner3 size={25} /></span> : 'Follow'}</button>
+                                                    {/* <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'><IoPersonAddOutline size={22} /></button> */}
                                                 </>
                                             }
                                         </div>

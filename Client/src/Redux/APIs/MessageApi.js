@@ -1,4 +1,6 @@
+import { io } from 'socket.io-client';
 import { apiSlice } from '../ApiSlice';
+
 export const MessageApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         NewMessage: builder.mutation({
@@ -27,6 +29,7 @@ export const MessageApi = apiSlice.injectEndpoints({
 
                 } catch (err) {
                     console.log(err)
+
                 }
             },
 
@@ -44,43 +47,47 @@ export const MessageApi = apiSlice.injectEndpoints({
                     totalCount: Number(apiResponse.length)
                 };
             },
-            // async onCacheEntryAdded(
-            //     arg,
-            //     { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }
-            // ) {
-            //     // create socket
-            //     let getRecievedUserEmail = getState().auth?.user?.email;
+            async onCacheEntryAdded(
+                arg,
+                { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }
+            ) {
+                // create socket
+                // let getRecievedUserEmail = getState().auth?.user?.email;
+                // let userId = getState().auth?.user?._id;
+                const userId = localStorage.getItem('id')
 
-            //     const socket = io(process.env.REACT_APP_API_URL, {
-            //         reconnectionDelay: 1000,
-            //         reconnection: true,
-            //         reconnectionAttemps: 10,
-            //         transports: ["websocket"],
-            //         agent: false,
-            //         upgrade: false,
-            //         rejectUnauthorized: false,
-            //     });
+                const socket = io(process.env.REACT_APP_API_KEY, {
+                    agent: false,
+                    reconnectionDelay: 10000,
+                    reconnectionAttempts: 10,
+                    transports: ["websocket"],
+                    reconnection: true,
+                });
+                socket.on("connect", () => {
+                    socket.emit("join", userId);
+                    socket.on("getusers", (data) => {
+                        console.log(data)
+                    });
+                });
+                try {
+                    await cacheDataLoaded;
+                    socket.on("MessagetoClient", ({ image, sender, receiver, createdAt, msg }) => {
+                        console.log('working..............')
+                        updateCachedData((draft) => {
+                            return {
+                                MSGs: [
+                                    { image, sender, receiver, createdAt, msg },
+                                    ...draft.MSGs,
+                                ],
+                                totalCount: Number(draft.totalCount),
+                            };
+                        });
+                    });
+                } catch (err) { }
 
-            //     try {
-            //         await cacheDataLoaded;
-
-            //         socket.on("message", (data) => {
-            //             updateCachedData((draft) => {
-            //                 debugger
-            //                 console.log(JSON.stringify(draft))
-            //                 if (data?.data?.receiver?.email === getRecievedUserEmail) {
-            //                     if (draft.data.length > 0 && draft.data[0].conversationId === data?.data?.conversationId) {
-            //                         draft.data.unshift(data?.data);
-            //                         draft.totalCount = Number(draft.totalCount)
-            //                     }
-            //                 }
-            //             });
-            //         });
-            //     } catch (err) { }
-
-            //     await cacheEntryRemoved;
-            //     socket.close();
-            // },
+                await cacheEntryRemoved;
+                socket.close();
+            },
         }),
         GetMoreMessages: builder.query({
             query: ({ id, page }) =>

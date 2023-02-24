@@ -1,4 +1,3 @@
-import { current } from '@reduxjs/toolkit';
 import { apiSlice } from '../ApiSlice';
 export const CommentsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -13,7 +12,6 @@ export const CommentsApi = apiSlice.injectEndpoints({
 
                     const { data: updatedPost } = await queryFulfilled;
                     // const lastcomment = data.slice(-1)[0]
-                    console.log('updates', updatedPost)
                     dispatch(
                         apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
                             const post = draft?.followersposts?.find((item) => item?._id === id);
@@ -24,10 +22,8 @@ export const CommentsApi = apiSlice.injectEndpoints({
                     )
                     dispatch(
                         apiSlice.util.updateQueryData("getPostDetails", id, (draft) => {
-                            console.log(current(draft))
                             draft.comments = updatedPost?.comments
                             draft.numComments = updatedPost?.numComments
-
                         })
                     )
                 } catch (err) {

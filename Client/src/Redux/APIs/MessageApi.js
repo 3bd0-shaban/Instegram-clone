@@ -3,8 +3,15 @@ import { io } from 'socket.io-client';
 
 const url = process.env.REACT_APP_API_KEY
 const userId = localStorage.getItem('id')
-const socket = io(url);
-
+let socket;
+function getSocket() {
+    if (!socket) {
+        socket = io(url, {
+            withCredentials: true
+        });
+    }
+    return socket
+}
 export const MessageApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         NewMessage: builder.mutation({
@@ -64,18 +71,19 @@ export const MessageApi = apiSlice.injectEndpoints({
                 // create socket
                 // let getRecievedUserEmail = getState().auth?.user?.email;
                 // let userId = getState().auth?.user?._id;
-
+                await cacheDataLoaded;
+                const socket = getSocket()
                 socket.on("connect", () => {
                     console.log('connected !')
                     socket.emit("join", userId);
 
                 });
+                socket.on("getusers", (data) => {
+                    console.log(`goined ${data.length}`)
+                });
                 try {
-                    console.log('ddd')
-                    const t = await cacheDataLoaded;
-                    console.log(t)
                     socket.on("MessagetoClient", ({ image, sender, receiver, createdAt, msg }) => {
-                        console.log('working..............')
+                        console.log(msg)
                         updateCachedData((draft) => {
                             return {
                                 MSGs: [
@@ -107,7 +115,7 @@ export const MessageApi = apiSlice.injectEndpoints({
                                     ...draft.MSGs,
                                     ...data,
                                 ],
-                                totalCount: Number(draft.totalCount),
+                                totalCount: Number(data.length),
                             };
                         })
                     );

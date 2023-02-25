@@ -37,7 +37,7 @@ export const ChatApi = apiSlice.injectEndpoints({
                                     ...draft.Chats,
                                     ...data,
                                 ],
-                                totalCount: Number(draft.totalCount),
+                                totalCount: Number(data.totalCount),
                             };
                         })
                     );

@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         if (userId) {
             socket.current.on("connect", () => {
-                socket.current.emit("join", userId);
+                // socket.current.emit("join", userId);
             });
             // socket.current.on("getusers", (data) => {
             //     console.log(data)

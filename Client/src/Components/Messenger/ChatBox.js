@@ -49,7 +49,7 @@ const ChatBox = () => {
     useEffect(() => {
         socket?.on('MessagetoClient', ({ image, sender, receiver, createdAt, msg }) => {
             dispatch(setSingleMSG({ image, sender, receiver, createdAt, msg }))
-            console.log(msg)
+            // console.log(msg)
         })
         // eslint-disable-next-line 
     }, []);

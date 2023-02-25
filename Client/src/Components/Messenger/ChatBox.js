@@ -122,7 +122,7 @@ const ChatBox = () => {
 
                         <form
                             onSubmit={NewMSG}
-                            className='fixed lg:absolute inset-x-0 bottom-4 mx-2 border rounded-full w-[97%] mb-2 py-3 lg:by-5 px-6 flex items-center mt-auto '
+                            className='fixed lg:absolute inset-x-0 bottom-4 mx-2 border bg-white rounded-full w-[97%] mb-2 py-3 lg:by-5 px-6 flex items-center mt-auto '
                         >
 
                             <>

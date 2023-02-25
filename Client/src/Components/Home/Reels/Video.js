@@ -6,28 +6,23 @@ import { useIntersection } from '../../Exports';
 
 const Video = ({ Reel }) => {
 
-    const ref = useRef();
-    // const inViewport = useIntersection(ref, '0px'); // Trigger as soon as the element becomes visible
-    const inViewport = useIntersection(ref, '-300px'); // Trigger if 200px is visible from the element
-    if (inViewport) {
-        console.log('in viewport:', ref.current);
-    }
+    const { elementRef, isInViewPort } = useIntersection();
+
     const videoRef = useRef();
     const [play, setPlay] = useState(false);
-    // useEffect(() => {
-    //     videoRef.current.play();
-    // }, [])
+
     useEffect(() => {
-        if (inViewport) {
-          videoRef.current.play();
-          console.log('In View')
+        if (isInViewPort) {
+            videoRef.current.play();
+            console.log(`${Reel?._id} In View`)
         } else {
-          if (videoRef.current.play) {
-            videoRef.current.pause();
-            console.log('Not in')
-          }
+            console.log(`${Reel?._id} not in`)
+            if (videoRef.current.play) {
+                videoRef.current.pause();
+            }
         }
-      }, [inViewport]);
+    }, [isInViewPort, Reel]);
+
     const handleVideo = () => {
         setPlay(!play);
         if (play === true) {
@@ -37,7 +32,7 @@ const Video = ({ Reel }) => {
         }
     };
     return (
-        <div  ref={ref} className='h-full'>
+        <div className='h-full' onClick={handleVideo}>
             <video ref={videoRef} className='h-full object-cover relative' autoPlay loop playsInline>
                 <source src={Reel?.videos[0]?.url} />
             </video>
@@ -45,7 +40,7 @@ const Video = ({ Reel }) => {
                 <p>Reels</p>
                 <p><BsCamera size={25} /></p>
             </span>
-            <div className='w-full px-5 absolute bottom-5'>
+            <div  ref={elementRef}  className='w-full px-5 absolute bottom-5'>
                 <div className='flex justify-between items-end'>
                     <div className='space-y-2'>
                         <Link to={`/${Reel?.user?.username}`} className='flex items-center'>

@@ -5,7 +5,7 @@ export { default as ImageSwiper } from './Layouts/ImageSwiper';
 export { default as Stories } from './Home/Stories';
 export { default as Posts } from './Home/Parts/Posts';
 export { default as Emoji } from './Home/Parts/Emoji';
-export { default as VideoStory } from './Home/Reels/VideoStory';
+export { default as ReelsSecion } from './Home/Reels/ReelsSecion';
 export { default as Video } from './Home/Reels/Video';
 export { default as SinglePost } from './Home/Parts/SinglePost';
 export { default as DashboardNavBar } from './Dashboard/DashboardNavBar';

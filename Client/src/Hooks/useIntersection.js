@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function useIntersection(ref) {
-    const [isIntersecting, setIntersecting] = useState(false);
-  
-    useEffect(() => {
-      const observer = new IntersectionObserver(([entry]) =>
-        setIntersecting(entry.isIntersecting)
-      );
-  
-      observer.observe(ref.current);
-      return () => {
-        observer.disconnect();
-      };
-    }, [ref]);
-  
-    return isIntersecting;
-  }
-  export default useIntersection
+  const elementRef = useRef()
+  const [isInViewPort, setIsInViewPort] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const isInViewPort = !!entries[0]?.isIntersecting
+
+      setIsInViewPort(isInViewPort)
+    })
+
+    observer.observe(elementRef?.current)
+
+    return () => observer.disconnect()
+  }, [])
+
+  return { elementRef, isInViewPort }
+}
+export default useIntersection

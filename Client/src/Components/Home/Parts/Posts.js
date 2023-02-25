@@ -67,7 +67,7 @@ const Posts = () => {
           style={{ marginBottom: '3rem', overflow: 'hidden' }}
         >
           {followersposts?.map(post => (
-            <div key={post?._id} className='mt-4 container max-w-[22.5rem] xsm:max-w-[25.5rem] sm:max-w-xl px-0 '>
+            <div key={post?._id} className='mt-4 container max-w-[22.5rem] xsm:max-w-[24rem] sm:max-w-xl px-0 '>
               <SinglePost postDetail={post} setTotalPosts={setTotalPosts} postID={postID} setPostID={setPostID} setPostDetails={setPostDetails} />
             </div>
           ))}

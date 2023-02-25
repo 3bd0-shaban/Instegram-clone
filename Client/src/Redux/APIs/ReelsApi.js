@@ -21,7 +21,7 @@ export const ReelsApi = apiSlice.injectEndpoints({
                 method: 'GET',
             }),
             async onQueryStarted(args, { queryFulfilled, dispatch }) {
-console.log('ddddddddddddddddddddd')
+                console.log('ddddddddddddddddddddd')
                 try {
 
                     const { data } = await queryFulfilled;
@@ -30,6 +30,46 @@ console.log('ddddddddddddddddddddd')
                             return {
                                 FollowersReel: [
                                     ...draft.FollowersReel,
+                                    ...data,
+                                ],
+                                totalCount: Number(data.length),
+                            };
+                        })
+                    )
+                } catch (err) {
+                    console.log(err)
+                }
+            },
+        }),
+        GetUserReels: builder.query({
+            query: (page) => ({
+                url: `/api/post/get/userreels?page=${page}`,
+                method: 'GET',
+            }),
+            transformResponse(apiResponse, meta) {
+                // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
+
+                return {
+                    userReels: apiResponse,
+                    totalCount: Number(apiResponse.length)
+                };
+            },
+        }),
+        GetMoreUserReels: builder.query({
+            query: (page) => ({
+                url: `/api/post/get/userreels?page=${page}`,
+                method: 'GET',
+            }),
+            async onQueryStarted(args, { queryFulfilled, dispatch }) {
+
+                try {
+
+                    const { data } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetUserReels", 1, (draft) => {
+                            return {
+                                userReels: [
+                                    ...draft.userReels,
                                     ...data,
                                 ],
                                 totalCount: Number(data.length),

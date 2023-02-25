@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { BsHeart, BsHouseDoorFill, BsInstagram, BsList, BsSearch } from 'react-icons/bs'
+import { BsHeart, BsHouseDoorFill, BsImages, BsInstagram, BsList, BsSearch } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { InstegramFont, DrobDownMore, ModalAddPost } from '../Exports'
 import { RiMessengerLine } from 'react-icons/ri'
 import { BiChevronLeft } from 'react-icons/bi'
-import { IoHeartDislikeCircleOutline } from 'react-icons/io5'
 import { useBreakpoint, Search, Notifications } from '../Exports'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -56,8 +55,8 @@ const SideBar = () => {
                     <div className='mt-16'>
                         <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={30} />} Title='Home' />
                         <SideLink Icon={<BsSearch size={30} />} Title='Search' OnClickEvent={HandleOpenSearch} />
-                        <SideLink Icon={<IoHeartDislikeCircleOutline size={30} />} Title='Explore' />
-                        <SideLink Icon={<BsInstagram size={28} />} Title='Reels' />
+                        {/* <SideLink Icon={<IoHeartDislikeCircleOutline size={30} />} Title='Explore' /> */}
+                        <SideLink Linkdirect='/reels' Icon={<BsImages size={25} />} Title='Reels' />
                         <SideLink Icon={<RiMessengerLine size={30} />} Title='Messages' Linkdirect='/messages' />
                         <SideLink Icon={<BsHeart size={30} />} Title='Notification' OnClickEvent={HandleOpenNotification} />
                         <SideLink
@@ -130,16 +129,16 @@ const SideBar = () => {
 
                 {!id &&
                     <div className='fixed w-full bottom-0 bg-white border-t lg:hidden block z-10'>
-                        <div className='flex gap-5 py-2 w-full'>
-                            <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={25} />} Title='Home' />
-                            <SideLink Linkdirect='/search' Icon={<BsSearch size={25} />} Title='Search' />
-                            <SideLink Icon={<BsInstagram size={23} />} Title='Reels' />
-                            <SideLink Linkdirect='/messages' Icon={<RiMessengerLine size={25} />} Title='Messages' />
+                        <div className='flex gap-5 py-1 w-full'>
+                            <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={23} />} Title='Home' />
+                            <SideLink Linkdirect='/search' Icon={<BsSearch size={23} />} Title='Search' />
+                            <SideLink Linkdirect='/reels' Icon={<BsImages size={21} />} Title='Reels' />
+                            <SideLink Linkdirect='/messages' Icon={<RiMessengerLine size={23} />} Title='Messages' />
                             <SideLink
                                 Linkdirect={`/${userInfo?.username}`}
                                 Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url : process.env.REACT_APP_DefaultIcon}
                                     alt={userInfo?.username}
-                                    className='rounded-full w-7 h-7 object-cover' />}
+                                    className='rounded-full w-6 h-6 object-cover' />}
                                 Title='Profile'
                             />
 

@@ -86,7 +86,7 @@ const Profile = () => {
                         </Link>
                         <Link to='?tages' className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                             <BsPersonLinesFill />
-                            <p>Tagged</p>
+                            <p>Reels</p>
                         </Link>
                     </div>
                 </div>

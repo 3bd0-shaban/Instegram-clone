@@ -67,7 +67,7 @@ export const New_Post = asyncHandler(async (req, res, next) => {
 export const DeletePost = asyncHandler(async (req, res, next) => {
     const isDeleted = await Posts.deleteOne({ _id: req.params.id })
     for (let i = 0; i < isDeleted.images; i++) {
-        const j = await cloudinary.uploader.destroy(images[i].public_id);
+        await cloudinary.uploader.destroy(images[i].public_id);
     }
     if (isDeleted) {
         return res.json({ msg: 'Deleted !' });
@@ -77,7 +77,7 @@ export const DeletePost = asyncHandler(async (req, res, next) => {
 });
 export const User_Posts = asyncHandler(async (req, res, next) => {
     const resultperpage = 4;
-    const features = new Features(Posts.find({ user: req.user.id }), req.query).Pagination(resultperpage)
+    const features = new Features(Posts.find({ user: req.user.id, isReel: false }), req.query).Pagination(resultperpage)
     const userPosts = await features.query
         .populate('user', 'username avatar')
         .populate('comments.user', 'username avatar')
@@ -90,7 +90,7 @@ export const User_Posts = asyncHandler(async (req, res, next) => {
 
 export const User_Posts_ById = asyncHandler(async (req, res, next) => {
     const resultperpage = 4;
-    const features = new Features(Posts.find({ user: req.params.id }), req.query).Pagination(resultperpage)
+    const features = new Features(Posts.find({ user: req.params.id, isReel: false }), req.query).Pagination(resultperpage)
     const userPosts = await features.query
         .populate('user', 'username avatar')
         .populate('comments.user', 'username avatar')
@@ -100,7 +100,31 @@ export const User_Posts_ById = asyncHandler(async (req, res, next) => {
     }
     return res.json(userPosts);
 });
+export const User_Reels = asyncHandler(async (req, res, next) => {
+    const resultperpage = 4;
+    const features = new Features(Posts.find({ user: req.user.id, isReel: true }), req.query).Pagination(resultperpage)
+    const userReels = await features.query
+        .populate('user', 'username avatar')
+        .populate('comments.user', 'username avatar')
+        .sort("-createdAt");
+    if (!userReels) {
+        return next(new ErrorHandler('No Posts For that user'), 400)
+    }
+    return res.json(userReels);
+});
 
+export const User_Reels_ById = asyncHandler(async (req, res, next) => {
+    const resultperpage = 4;
+    const features = new Features(Posts.find({ user: req.params.id, isReel: true }), req.query).Pagination(resultperpage)
+    const userReels = await features.query
+        .populate('user', 'username avatar')
+        .populate('comments.user', 'username avatar')
+        .sort("-createdAt");
+    if (!userReels) {
+        return next(new ErrorHandler('No Posts For that user'), 400)
+    }
+    return res.json(userReels);
+});
 export const Hide_Likes = asyncHandler(async (req, res, next) => {
     const post = await Posts.findByIdAndUpdate({ _id: req.params.id },
         [

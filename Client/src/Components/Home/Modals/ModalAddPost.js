@@ -44,8 +44,6 @@ const ModalAddPost = () => {
         dispatch(FeatureAction.ShowModalAddPost(false))
         dispatch(FeatureAction.Show_ModalPreviewImages(true))
     }
-    console.log(images)
-    console.log(videos)
     const discartall = () => {
         dispatch(FeatureAction.Show_ModalConfirm(false));
         dispatch(FeatureAction.Show_ModalPreviewImages(false));

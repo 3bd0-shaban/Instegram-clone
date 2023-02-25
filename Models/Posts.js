@@ -54,7 +54,7 @@ const postsSchema = new mongoose.Schema(
                 }, time: {
                     type: Date,
                     default: Date.now()
-                }, default: []
+                },
             },
         ],
         images: [
@@ -82,7 +82,7 @@ const postsSchema = new mongoose.Schema(
                 url: {
                     type: String,
                     required: [true, 'The Product image is Required'],
-                }, default: []
+                },
             }
         ],
         reports: {

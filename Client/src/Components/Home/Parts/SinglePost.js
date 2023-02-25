@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsBookmark, BsBookmarkFill, BsThreeDots } from 'react-icons/bs'
 import { FaRegHeart, FaRegComment, FaRegSmile, FaHeart } from 'react-icons/fa'
 import moment from 'moment';
@@ -32,13 +32,6 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
     const userInfo = useSelector(selectCurrentUser)
     const accessToken = useSelector(selectCurrentToken);
 
-    const ref = useRef();
-    // const inViewport = useIntersection(ref, '0px'); // Trigger as soon as the element becomes visible
-    // const inViewport = useIntersection(ref, '-300px'); // Trigger if 200px is visible from the element
-
-    // if (inViewport) {
-    //     console.log('in viewport:', ref.current);
-    // }
     useEffect(() => {// eslint-disable-next-line
         const isInclude = postDetail?.likes?.some(p => p == userInfo?._id);
         // eslint-disable-next-line
@@ -85,7 +78,7 @@ const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetai
     }
 
     return (
-        <div ref={ref} className='w-full h-full pb-5 bg-white border-b overflow-hidden'>
+        <div className='w-full h-full pb-5 bg-white border-b overflow-hidden'>
             <div className='flex justify-between mt-3 px-3'>
                 <Link to={`/${postDetail?.user?.username}`} className='flex'>
                     <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"

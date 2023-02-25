@@ -8,7 +8,7 @@ import Video from './Video';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ImSpinner3 } from 'react-icons/im';
-const VideoStory = () => {
+const ReelsSecion = () => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const dispatch = useDispatch();
@@ -23,6 +23,10 @@ const VideoStory = () => {
             );
         }
     }, [page, dispatch]);
+    const fetchMore = () => {
+        console.log('ddddddddddddd')
+        setPage((prevPage) => prevPage + 1)
+    }
 
     useEffect(() => {
         if (totalCount === 0) {
@@ -48,9 +52,10 @@ const VideoStory = () => {
                     {isFetching ? <p></p> : isError ? <p>{error?.data?.msg}</p> :
                         <InfiniteScroll
                             dataLength={FollowersReel.length}
-                            next={() => setPage((prevPage) => prevPage + 1)}
+                            next={fetchMore}
                             className='h-full'
-                            hasMore={true}
+                            hasMore={hasMore}
+                            height={window.innerHeight - 50}
                             loader={
                                 <div className='flex justify-center items-center my-5 animate-spin'>
                                     <ImSpinner3 size={25} />
@@ -76,4 +81,4 @@ const VideoStory = () => {
     )
 }
 
-export default VideoStory
+export default ReelsSecion

@@ -2,12 +2,12 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 import { configureStore } from '@reduxjs/toolkit'
 import UserSlice from "./Slices/UserSlice";
 import FeaturesSlice from './Slices/FeaturesSlice';
-import PostsSlice from "./Slices/PostsSlice";
+import MessageSlice from "./Slices/MessageSlice";
 import { apiSlice } from './ApiSlice';
 export const Store = configureStore({
     reducer: {
         auth: UserSlice,
-        Posts: PostsSlice,
+        MSGs: MessageSlice,
         Features: FeaturesSlice,
         [apiSlice.reducerPath]: apiSlice.reducer,
 

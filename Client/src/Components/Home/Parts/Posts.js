@@ -5,7 +5,6 @@ import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ClipAlerts } from '../../Layouts/Alerts';
-import { setTotalPosts } from '../../../Redux/Slices/PostsSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ImSpinner3 } from 'react-icons/im';
 const Posts = () => {
@@ -68,7 +67,7 @@ const Posts = () => {
         >
           {followersposts?.map(post => (
             <div key={post?._id} className='mt-4 container max-w-[22.5rem] xsm:max-w-[24rem] sm:max-w-xl px-0 '>
-              <SinglePost postDetail={post} setTotalPosts={setTotalPosts} postID={postID} setPostID={setPostID} setPostDetails={setPostDetails} />
+              <SinglePost postDetail={post} postID={postID} setPostID={setPostID} setPostDetails={setPostDetails} />
             </div>
           ))}
         </InfiniteScroll>

@@ -1,4 +1,9 @@
 import { apiSlice } from '../ApiSlice';
+import { io } from 'socket.io-client';
+
+const url = process.env.REACT_APP_API_KEY
+const userId = localStorage.getItem('id')
+const socket = io(url);
 
 export const MessageApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -50,47 +55,42 @@ export const MessageApi = apiSlice.injectEndpoints({
                     totalCount: Number(apiResponse.length)
                 };
             },
-            // async onCacheEntryAdded(
-            //     arg,
-            //     { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }
-            // ) {
-            //     // create socket
-            //     // let getRecievedUserEmail = getState().auth?.user?.email;
-            //     // let userId = getState().auth?.user?._id;
-            //     const userId = localStorage.getItem('id')
+            async onCacheEntryAdded(
+                arg,
+                { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }
+            ) {
+                const msg = getState().MSGs.singleMSG
+                console.log(msg)
+                // create socket
+                // let getRecievedUserEmail = getState().auth?.user?.email;
+                // let userId = getState().auth?.user?._id;
 
-            //     const socket = io(process.env.REACT_APP_API_KEY, {
-            //         agent: false,
-            //         reconnectionDelay: 10000,
-            //         reconnectionAttempts: 10,
-            //         transports: ["websocket"],
-            //         reconnection: true,
-            //     });
-            //     socket.on("connect", () => {
-            //         socket.emit("join", userId);
-            //         socket.on("getusers", (data) => {
-            //             console.log(data)
-            //         });
-            //     });
-            //     try {
-            //         await cacheDataLoaded;
-            //         socket.on("MessagetoClient", ({ image, sender, receiver, createdAt, msg }) => {
-            //             console.log('working..............')
-            //             updateCachedData((draft) => {
-            //                 return {
-            //                     MSGs: [
-            //                         { image, sender, receiver, createdAt, msg },
-            //                         ...draft.MSGs,
-            //                     ],
-            //                     totalCount: Number(draft.totalCount),
-            //                 };
-            //             });
-            //         });
-            //     } catch (err) { }
+                socket.on("connect", () => {
+                    console.log('connected !')
+                    socket.emit("join", userId);
 
-            //     await cacheEntryRemoved;
-            //     socket.close();
-            // },
+                });
+                try {
+                    console.log('ddd')
+                    const t = await cacheDataLoaded;
+                    console.log(t)
+                    socket.on("MessagetoClient", ({ image, sender, receiver, createdAt, msg }) => {
+                        console.log('working..............')
+                        updateCachedData((draft) => {
+                            return {
+                                MSGs: [
+                                    { image, sender, receiver, createdAt, msg },
+                                    ...draft.MSGs,
+                                ],
+                                totalCount: Number(draft.totalCount),
+                            };
+                        });
+                    });
+                } catch (err) { }
+
+                await cacheEntryRemoved;
+                socket.close();
+            },
         }),
         GetMoreMessages: builder.query({
             query: ({ id, page }) =>

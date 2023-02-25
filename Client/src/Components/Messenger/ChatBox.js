@@ -11,13 +11,14 @@ import { motion } from 'framer-motion';
 import AnimDropdown from './../../Animation/AnimDropdown'
 import { ImSpinner3 } from 'react-icons/im';
 import { useSingleChatQuery } from '../../Redux/APIs/ChatApi'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentUser } from '../../Redux/Slices/UserSlice'
 import { Scrolldown } from '../../Helpers/Scroll'
+import { setSingleMSG } from '../../Redux/Slices/MessageSlice'
 const ChatBox = () => {
     Scrolldown();
     const { username, id } = useParams();
-    const { data: userById,error } = useGetUserByIdQuery(username) || {};
+    const { data: userById, error } = useGetUserByIdQuery(username) || {};
     const { data: SingleChat } = useSingleChatQuery(id) || {}
     const [MewMessage, { isLoading }] = useNewMessageMutation() || {};
     const [msg, setMSG] = useState('');
@@ -28,7 +29,7 @@ const ChatBox = () => {
     const { socket } = useSocket();
     const userInfo = useSelector(selectCurrentUser);
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
-
+    const dispatch = useDispatch();
     useEffect(() => {
         socket.on("getusers", (data) => {
             const online = data?.some(user => user.userId === userById?._id)
@@ -41,6 +42,14 @@ const ChatBox = () => {
             if (SingleChat?.members.includes(receiver)) {
                 setIsTyping(status)
             }
+        })
+        // eslint-disable-next-line 
+    }, []);
+
+    useEffect(() => {
+        socket?.on('MessagetoClient', ({ image, sender, receiver, createdAt, msg }) => {
+            dispatch(setSingleMSG({ image, sender, receiver, createdAt, msg }))
+            console.log(msg)
         })
         // eslint-disable-next-line 
     }, []);

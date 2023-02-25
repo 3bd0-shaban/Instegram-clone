@@ -15,7 +15,7 @@ import AnimScale from './../../../Animation/AnimScale';
 import AnimDropdown from '../../../Animation/AnimDropdown';
 import { selectCurrentToken, selectCurrentUser, setCredentials } from '../../../Redux/Slices/UserSlice';
 
-const SinglePost = ({ postDetail, setTotalPosts, postID, setPostID, setPostDetails }) => {
+const SinglePost = ({ postDetail, setPostID, setPostDetails }) => {
 
     const [createComment, { isLoading }] = useCreateCommentMutation();
     const breakpoint = useBreakpoint();

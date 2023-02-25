@@ -26,7 +26,7 @@ const InfinteScrollableChat = ({ userById, id, }) => {
             top: 100,
             left: 100,
             behavior: 'smooth'
-          });
+        });
     }, [MSGs]);
 
     useEffect(() => {

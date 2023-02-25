@@ -12,11 +12,21 @@ const SideBarChats = ({ userInfo }) => {
     // eslint-disable-next-line 
     const [hasMore, setHasMore] = useState(true);
     const dispatch = useDispatch();
-    const { data: Chats, isError, isLoading, error } = useUserChatsQuery() || {};
+    const { data, isError, isFetching, error } = useUserChatsQuery(1, {
+        // refetchOnMountOrArgChange: true
+    });
+    const { Chats, totalCount } = data || {};
 
     const fetchMore = () => {
         setPage((prevPage) => prevPage + 1);
     };
+
+    useEffect(() => {
+        if (totalCount === 0) {
+            setHasMore(false);
+        }
+    }, [totalCount, page]);
+
     useEffect(() => {
         if (page > 1) {
             dispatch(
@@ -27,22 +37,10 @@ const SideBarChats = ({ userInfo }) => {
         }
     }, [page, dispatch]);
 
-    let content = null;
-
-    if (isLoading) {
-        content = <li className="m-2 text-center">Loading...</li>;
-    } else if (!isLoading && isError) {
-        content = (
-            <li className="m-2 text-center">
-                <p message={error?.data} />
-            </li>
-        );
-    } else if (!isLoading && !isError && Chats?.length === 0) {
-        content = <li className="m-2 text-center">No conversations found!</li>;
-    } else if (!isLoading && !isError && Chats?.length > 0) {
-        content = (
+    return (
+        isFetching ? <p></p> : isError ? <p>{error?.data?.msg}</p> :
             <>
-                <div className='fixed lg:static top-0 inset-x-0 bg-white flex border-b py-2'>
+                <div className='fixed lg:static top-0 inset-x-0 bg-white flex border-b py-2 '>
                     <div className='flex mx-auto text-lg font-semibold '>
                         <Link to={`/${userInfo?.username}`}>
                             <p>{userInfo?.username}</p>
@@ -60,20 +58,17 @@ const SideBarChats = ({ userInfo }) => {
                     next={fetchMore}
                     hasMore={hasMore}
                     loader={<h4>Loading...</h4>}
-                    height={window.innerHeight - 129}
+                    className='overflow-y-scroll !h-full hideScrollBare mt-10 lg:mt-0'
                 >
-                    {Chats?.slice()
-                        .sort((a, b) => b.timestamp - a.timestamp).map(chat => (
-                            <div key={chat?._id} className='mt-10'>
-                                <FollowerCart chat={chat} userInfo={userInfo} />
-                            </div>
-                        ))}
+                    {Chats?.map(chat => (
+                        <div key={chat?._id}>
+                            <FollowerCart chat={chat} userInfo={userInfo} />
+                        </div>
+                    ))}
                 </InfiniteScroll>
 
             </>
-        );
-        return content;
-    }
+    )
 }
 
 export default SideBarChats

@@ -39,3 +39,11 @@ export const get_MSGs = asyncHandler(async (req, res, next) => {
     // const MSGs = arr.reverse();
     return res.json(MSGs)
 });
+
+export const DeleteAllMSGs = asyncHandler(async (req, res, next) => {
+    await Message.deleteMany({ chatId: req.params.id })
+    await Chat.findByIdAndUpdate({ _id: req.params.id },
+        { $unset: { lastMSG :''} },
+        { new: true })
+    return res.json({ msg: 'Deleted !' })
+});

@@ -36,7 +36,7 @@ export const Get_ALL = asyncHandler(async (req, res, next) => {
 
     const Chats = await features.query
         .populate('members', 'username avatar fullname')
-        .sort('-createdAt')
+        .sort('-updatedAt')
     return res.json(Chats)
 });
 

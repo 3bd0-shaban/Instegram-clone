@@ -152,7 +152,7 @@ export const TurnoffComments = asyncHandler(async (req, res, next) => {
         .populate('comments.user', 'username avatar');
 
     if (post) {
-        return res.json({ msg: 'updated !' });
+        return res.json(post);
     }
     return next(new ErrorHandler('An Error accoured'), 400)
 });

@@ -17,7 +17,7 @@ import { Scrolldown } from '../../Helpers/Scroll'
 const ChatBox = () => {
     Scrolldown();
     const { username, id } = useParams();
-    const { data: userById } = useGetUserByIdQuery(username) || {};
+    const { data: userById,error } = useGetUserByIdQuery(username) || {};
     const { data: SingleChat } = useSingleChatQuery(id) || {}
     const [MewMessage, { isLoading }] = useNewMessageMutation() || {};
     const [msg, setMSG] = useState('');
@@ -28,6 +28,7 @@ const ChatBox = () => {
     const { socket } = useSocket();
     const userInfo = useSelector(selectCurrentUser);
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
+
     useEffect(() => {
         socket.on("getusers", (data) => {
             const online = data?.some(user => user.userId === userById?._id)
@@ -83,7 +84,7 @@ const ChatBox = () => {
     }, [image]);
 
     return (
-        details ? <CoversationCTRL userById={userById} setDetails={setDetails} details={details} /> :
+        details ? <CoversationCTRL userById={userById} setDetails={setDetails} details={details} id={id} /> :
             <div className='h-full'>
                 <div className='fixed lg:static top-0 insetx-0 bg-white w-full flex border-b p-2 lg:px-6 justify-between h-12'>
                     <div className='flex'>
@@ -105,8 +106,8 @@ const ChatBox = () => {
                         <button onClick={() => setDetails(!details)}><MdOutlineInfo /></button>
                     </div>
                 </div>
-                <div className='pt-3 px-3 overflow-y-scroll hideScrollBare h-[70vh] xsm:h-[82vh] md:h-[88vh] lg:h-[79vh]'>
-                    <div>
+                <div className='h-full'>
+                    <>
                         <InfinteScrollableChat userById={userById} id={id} />
 
                         {isTyping && <p className='mx-3'>typing ....</p>}
@@ -168,9 +169,9 @@ const ChatBox = () => {
                                     </div>
                                 }
                             </>
-                            {!userById?.username && <p className='w-full text-center'>Not accessed</p>}
+                            {(error?.status === 500) && <p className='w-full text-center'>Not accessed</p>}
                         </form>
-                    </div>
+                    </>
                 </div>
             </div>
     )

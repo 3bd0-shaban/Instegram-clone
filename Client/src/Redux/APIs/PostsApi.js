@@ -183,14 +183,20 @@ export const PostsApi = apiSlice.injectEndpoints({
                 url: `/api/post/hidelikes/${id}`,
                 method: 'PUT',
             }),
-            async onQueryStarted(args, { queryFulfilled, dispatch }) {
+            async onQueryStarted(id, { queryFulfilled, dispatch }) {
 
                 try {
 
                     const { data } = await queryFulfilled;
                     dispatch(
                         apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
-                            draft?.unshift(data.post)
+                            const post = draft?.followersposts?.find((item) => item?._id === data?._id)
+                            post.hiddenlikes = data?.hiddenlikes
+                        })
+                    )
+                    dispatch(
+                        apiSlice.util.updateQueryData("getPostDetails", id, (draft) => {
+                            draft.hiddenlikes = data?.hiddenlikes
                         })
                     )
                 } catch (err) {
@@ -203,7 +209,26 @@ export const PostsApi = apiSlice.injectEndpoints({
                 url: `/api/post/turncomments/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: (result, error, arg) => [{ type: 'Posts', id: arg.id }],
+            async onQueryStarted(id, { queryFulfilled, dispatch }) {
+
+                try {
+
+                    const { data } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
+                            const post = draft?.followersposts?.find((item) => item?._id === data?._id)
+                            post.turnoffcomments = data?.turnoffcomments
+                        })
+                    )
+                    dispatch(
+                        apiSlice.util.updateQueryData("getPostDetails", id, (draft) => {
+                            draft.turnoffcomments = data?.turnoffcomments
+                        })
+                    )
+                } catch (err) {
+                    console.log(err)
+                }
+            },
         }),
         deletePosts: builder.mutation({
             query: (id) => ({

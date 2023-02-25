@@ -76,6 +76,11 @@ export { default as SettingsSide } from './Home/Settings/SettingsSide';
 export { default as Settings } from './Home/Settings/Settings';
 
 
+///////////////////////////MobileView /////////////////////////
+export { default as SkilProfileById } from '../Skilitons/SkilProfileById'
+export { default as SkilMSGs } from '../Skilitons/SkilMSGs'
+
+
 export { default as DrobDownMore } from '../Components/Layouts/DrobDownMore'
 export { default as LoadingScreen } from '../Components/Layouts/LoadingScreen'
 export { default as ImagesSlider } from '../Components/Layouts/ImagesSlider'

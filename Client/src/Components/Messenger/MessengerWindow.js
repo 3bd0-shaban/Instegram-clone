@@ -23,13 +23,13 @@ const MessengerWindow = () => {
         <div className='h-screen flex lg:items-center bg-white overflow-hidden'>
             <SideBar />
             <div className='container px-0 max-w-full lg:max-w-[60rem] xxxl:max-w-[70rem] border rounded-md bg-white'>
-                <div className='grid grid-cols-3 h-screen lg:h-[95vh]'>
+                <div className='grid grid-cols-3 h-screen'>
                     {(lapview || (!username && !id && MobileView)) &&
-                        <div className='col-span-3 lg:col-span-1 border-r lg:mt-2 overflow-y-scroll hideScrollBare'>
+                        <div className='col-span-3 lg:col-span-1 border-r h-full'>
                             <SideBarChats userInfo={userInfo} />
                         </div>
                     }
-                    <div className={`col-span-2 lg:mt-2 relative ${MobileView && '!col-span-3'}`}>
+                    <div className={`col-span-2 relative ${MobileView && '!col-span-3'}`}>
                         {selected ?
                             <ChatBox />
                             :

@@ -4,8 +4,12 @@ import Message from './Message';
 import { MessageApi, useGetMessagesQuery } from './../../Redux/APIs/MessageApi';
 import { useDispatch } from 'react-redux';
 import { ImSpinner3 } from 'react-icons/im';
+import { useBreakpoint, SkilMSGs } from '../Exports';
 
 const InfinteScrollableChat = ({ userById, id, }) => {
+    const breakpoint = useBreakpoint();
+    const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
+
     const ScrollRef = useRef();
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
@@ -17,7 +21,12 @@ const InfinteScrollableChat = ({ userById, id, }) => {
 
     useEffect(() => {
         ScrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-        ScrollRef.current?.focus();
+        // ScrollRef.current?.focus();
+        window.scrollTo({
+            top: 100,
+            left: 100,
+            behavior: 'smooth'
+          });
     }, [MSGs]);
 
     useEffect(() => {
@@ -45,8 +54,8 @@ const InfinteScrollableChat = ({ userById, id, }) => {
     }, [totalCount, page]);
 
     return (
-        loadingMSGs ? <p>Loading</p> : isError ? <p>{error?.data?.msg}</p> :
-            <div ref={ScrollRef} id="scrollableDiv">
+        loadingMSGs ? <SkilMSGs /> : isError ? <p>{error?.data?.msg}</p> :
+            <div id="scrollableDiv">
                 <InfiniteScroll
                     dataLength={MSGs.length}
                     next={() => setPage((prevPage) => prevPage + 1)}
@@ -62,7 +71,7 @@ const InfinteScrollableChat = ({ userById, id, }) => {
                         <div className='flex justify-center my-5 text-lg font-semibold'>
                             <p>You see it all</p>
                         </div>}
-                    height={window.innerHeight - 50}
+                    height={MobileView ? (window.innerHeight - 80) : (window.innerHeight - 110)}
                     className='hideScrollBare flex flex-col-reverse'
                     scrollableTarget="scrollableDiv"
                 >

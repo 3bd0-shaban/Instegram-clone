@@ -13,34 +13,37 @@ export const ChatApi = apiSlice.injectEndpoints({
                 url: `/api/chat/all?page=${page}`,
                 method: 'GET',
             }),
-            providesTags: ['Chat', 'User'],
+            transformResponse(apiResponse, meta) {
+                // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
+
+                return {
+                    Chats: apiResponse,
+                    totalCount: Number(apiResponse.length)
+                };
+            },
         }),
         getMoreChats: builder.query({
             query: ({ page }) =>
                 `/api/chat/all?page=${page}`,
-            async onQueryStarted({ email }, { queryFulfilled, dispatch }) {
+            async onQueryStarted({ id }, { queryFulfilled, dispatch }) {
                 try {
-                    const conversations = await queryFulfilled;
-                    if (conversations?.data?.length > 0) {
-                        // update conversation cache pessimistically start
-                        dispatch(
-                            apiSlice.util.updateQueryData(
-                                "UserChats",
-                                email,
-                                (draft) => {
-                                    return {
-                                        data: [
-                                            ...draft.data,
-                                            ...conversations.data,
-                                        ],
-                                        totalCount: Number(draft.totalCount),
-                                    };
-                                }
-                            )
-                        );
-                        // update messages cache pessimistically end
-                    }
-                } catch (err) { }
+
+                    const { data } = await queryFulfilled;
+
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetMessages", { id }, (draft) => {
+                            return {
+                                Chats: [
+                                    ...draft.Chats,
+                                    ...data,
+                                ],
+                                totalCount: Number(draft.totalCount),
+                            };
+                        })
+                    );
+                } catch (err) {
+                    console.log(err)
+                }
             },
         }),
         SingleChat: builder.query({

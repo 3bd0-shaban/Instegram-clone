@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useParams } from 'react-router-dom';
 import { selectCurrentUser } from '../../Redux/Slices/UserSlice'
 import { FiPlus } from 'react-icons/fi';
+import { AnimatePresence } from 'framer-motion'
 
 const SideBar = () => {
     const breakpoint = useBreakpoint();
@@ -25,9 +26,10 @@ const SideBar = () => {
         setOpenSearch(!openSerach); setOpenNotification(false)
     }
     const HandleOpenNotification = () => {
-        setOpenSearch(false); setOpenNotification(false)
+        setOpenSearch(false); setOpenNotification(!openNotification)
     }
     const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
+
     const SideLink = ({ Icon, Title, Linkdirect, OnClickEvent }) => {
         return (
             <div onClick={OnClickEvent} className='w-full'>
@@ -45,7 +47,7 @@ const SideBar = () => {
     return (
         <>
             {!MobileView &&
-                <div className={`fixed w-[6rem] z-10 xxl:w-[19.5rem] hidden h-screen duration-500 bg-white border-r p-6 xxl:p-8 pt-14 lg:block ${(openSerach || openNotification) && 'xxl:w-[6rem]'}`}>
+                <div className={`fixed w-[6rem] z-20 xxl:w-[19.5rem] hidden h-screen duration-500 bg-white border-r p-6 xxl:p-8 pt-14 lg:block ${(openSerach || openNotification) && 'xxl:w-[6rem]'}`}>
                     <Link to='/' className={`hidden xxl:block mt-5 ${(openSerach || openNotification) && 'xxl:!hidden'}`}>
                         <InstegramFont />
                     </Link>
@@ -85,67 +87,76 @@ const SideBar = () => {
                     {DrobdownMore && <DrobDownMore />}
                 </div>}
 
+
+            <div className='fixed flex justify-center left-[6rem] z-10'>
+                <AnimatePresence>
+                    {openSerach &&
+                        <>
+                            <div onClick={() => setOpenSearch(false)} className='z-10 inset-0 fixed'></div>
+                            <Search />
+                        </>
+                    }
+                </AnimatePresence>
+                <AnimatePresence>
+                    {openNotification &&
+                        <>
+                            <div onClick={() => setOpenNotification(false)} className='z-10 inset-0 fixed'></div>
+                            <Notifications />
+                        </>
+                    }
+                </AnimatePresence>
+            </div>
+
+
+
             {/* Mobile View  */}
-
-            <>
-                {location.pathname.includes('settings') ?
-                    <div className='flex lg:hidden gap-3 items-center py-2'>
-                        <Link to={`/${userInfo?.username}`}><BiChevronLeft size={30} /></Link>
-                        <span className='mx-auto'>{settingHeadline}</span>
-                    </div>
-                    :
-                    (!id && !location.pathname.includes('messages') && !location.pathname.includes('search')) &&
-                    <>
-                        <div className='fixed top-0 inset-x-0 flex lg:hidden justify-between items-center w-full border-b bg-white px-5 z-10'>
-                            <Link to='/'><InstegramFont /></Link>
-                            <div className='flex gap-5 items-center'>
-                                <SideLink
-                                    Icon={<div className='border-2 border-black rounded-lg'>
-                                        <FiPlus size={18} />
-                                    </div>}
-                                    OnClickEvent={() => dispatch(FeatureAction.ShowModalAddPost(true))}
-                                    Title='Create' />
-                                <SideLink Icon={<BsHeart size={25} />} Title='Notification' />
+            {MobileView &&
+                <>
+                    {location.pathname.includes('settings') ?
+                        <div className='flex lg:hidden gap-3 items-center py-2'>
+                            <Link to={`/${userInfo?.username}`}><BiChevronLeft size={30} /></Link>
+                            <span className='mx-auto'>{settingHeadline}</span>
+                        </div>
+                        :
+                        (!id && !location.pathname.includes('messages') && !location.pathname.includes('search')) &&
+                        <>
+                            <div className='fixed top-0 inset-x-0 flex lg:hidden justify-between items-center w-full border-b bg-white px-5 z-10'>
+                                <Link to='/'><InstegramFont /></Link>
+                                <div className='flex gap-5 items-center'>
+                                    <SideLink
+                                        Icon={<div className='border-2 border-black rounded-lg'>
+                                            <FiPlus size={18} />
+                                        </div>}
+                                        OnClickEvent={() => dispatch(FeatureAction.ShowModalAddPost(true))}
+                                        Title='Create' />
+                                    <SideLink Icon={<BsHeart size={25} />} Title='Notification' />
+                                </div>
                             </div>
-                        </div>
-                        <div className='fixed flex justify-center left-[6rem]'>
-                            {openSerach &&
-                                <>
-                                    <div onClick={() => setOpenSearch(false)} className='z-10 inset-0 fixed'></div>
-                                    <Search />
-                                </>
-                            }
-                            {openNotification &&
-                                <>
-                                    <div onClick={() => setOpenSearch(false)} className='z-10 inset-0 fixed'></div>
-                                    <Notifications />
-                                </>
-                            }
-                        </div>
-                        <ModalAddPost />
+                            <ModalAddPost />
 
-                    </>
-                }
+                        </>
+                    }
 
-                {!id &&
-                    <div className='fixed w-full bottom-0 bg-white border-t lg:hidden block z-10'>
-                        <div className='flex gap-5 py-1 w-full'>
-                            <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={23} />} Title='Home' />
-                            <SideLink Linkdirect='/search' Icon={<BsSearch size={23} />} Title='Search' />
-                            <SideLink Linkdirect='/reels' Icon={<BsImages size={21} />} Title='Reels' />
-                            <SideLink Linkdirect='/messages' Icon={<RiMessengerLine size={23} />} Title='Messages' />
-                            <SideLink
-                                Linkdirect={`/${userInfo?.username}`}
-                                Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url : process.env.REACT_APP_DefaultIcon}
-                                    alt={userInfo?.username}
-                                    className='rounded-full w-6 h-6 object-cover' />}
-                                Title='Profile'
-                            />
+                    {!id &&
+                        <div className='fixed w-full bottom-0 bg-white border-t lg:hidden block z-10'>
+                            <div className='flex gap-5 py-1 w-full'>
+                                <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={23} />} Title='Home' />
+                                <SideLink Linkdirect='/search' Icon={<BsSearch size={23} />} Title='Search' />
+                                <SideLink Linkdirect='/reels' Icon={<BsImages size={21} />} Title='Reels' />
+                                <SideLink Linkdirect='/messages' Icon={<RiMessengerLine size={23} />} Title='Messages' />
+                                <SideLink
+                                    Linkdirect={`/${userInfo?.username}`}
+                                    Icon={<img src={userInfo?.avatar?.url ? userInfo?.avatar?.url : process.env.REACT_APP_DefaultIcon}
+                                        alt={userInfo?.username}
+                                        className='rounded-full w-6 h-6 object-cover' />}
+                                    Title='Profile'
+                                />
 
-                        </div>
-                    </div>}
-            </>
+                            </div>
+                        </div>}
+                </>
 
+            }
 
         </>
     )

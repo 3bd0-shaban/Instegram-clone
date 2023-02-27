@@ -67,7 +67,7 @@ const Profile = () => {
     }, [userInfo, setIsFollowing, userById]);
 
     useEffect(() => {// eslint-disable-next-line
-        const isInclude = userById?.pendingRequests?.some(p => p == userInfo?._id);
+        const isInclude = userById?.bendingRequests?.some(p => p == userInfo?._id);
         isInclude ? setIsBending(true) : setIsBending(false);
     }, [userInfo, setIsBending, userById]);
     return (

@@ -4,6 +4,7 @@ import ErrorHandler from "../Utils/ErrorHandler.js";
 import Users from "../Models/Users.js";
 import Features from "../Utils/Features.js";
 import cloudinary from './../Utils/cloudinary.js';
+import Notifies from './../Models/Notifies.js';
 export const Follow_Public_User = asyncHandler(async (req, res, next) => {
     const isfollowing = await Users.findOne({
         _id: req.params.id,
@@ -34,16 +35,38 @@ export const Follow_Private_User = asyncHandler(async (req, res, next) => {
         return next(new ErrorHandler('Already following this user', 400));
     }
     await Users.findByIdAndUpdate(req.params.id, {
-        $push: { pendingRequests: req.user.id }
+        $push: { bendingRequests: req.user.id }
     }, { new: true });
-    return res.json({ msg: 'Requested Follow !' })
+    next();
+});
+
+export const ConfirmFollow = asyncHandler(async (req, res, next) => {
+
+    await Users.findByIdAndUpdate(req.params.id, {
+        $push: { following: req.user.id }
+    }, { new: true });
+    await Users.findByIdAndUpdate({ _id: req.user.id }, {
+        $push: { followers: req.params.id },
+        $pull: { bendingRequests: req.params.id }
+    }, { new: true });
+    await Notifies.deleteOne({ type: 'follow', sender: req.params.id })
+    return res.json({ msg: 'Confirmed !' })
+
 });
 
 export const Cancel_Follow_Request = asyncHandler(async (req, res, next) => {
     await Users.findByIdAndUpdate(req.params.id, {
-        $pull: { pendingRequests: req.user.id }
+        $pull: { bendingRequests: req.user.id }
     }, { new: true });
-    return res.json({ msg: 'Requested Follow !' })
+    return res.json({ msg: 'Canceled Follow Request !' })
+});
+
+export const RefuseFollow = asyncHandler(async (req, res, next) => {
+    await Users.findByIdAndUpdate(req.user.id, {
+        $pull: { bendingRequests: req.params.id },
+    }, { new: true });
+    await Notifies.deleteOne({ type: 'follow', sender: req.params.id })
+    return res.json({ msg: 'Canceled Follow Request !' })
 });
 
 export const UnFollow = asyncHandler(async (req, res, next) => {
@@ -66,7 +89,7 @@ export const UnFollow = asyncHandler(async (req, res, next) => {
 });
 
 export const ChangePrivacy = asyncHandler(async (req, res, next) => {
-    const user =await Users.findByIdAndUpdate({ _id: req.user.id },
+    const user = await Users.findByIdAndUpdate({ _id: req.user.id },
         [
             {
                 $set: { isprivat: { $eq: [false, '$isprivat'] } }

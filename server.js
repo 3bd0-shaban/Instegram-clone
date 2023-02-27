@@ -13,6 +13,7 @@ import SavesRouter from './Routes/SavesRouter.js';
 import PostsRouter from './Routes/PostsRouter.js';
 import MessageRouter from './Routes/MessageRouter.js';
 import ChatRouter from './Routes/ChatRouter.js';
+import NotifiesRouter from './Routes/NotifiesRouter.js'
 import AllowedOrigins from "./Origins.js";
 import SocketServer from "./SocketServer.js";
 import { createServer } from 'http';
@@ -64,4 +65,5 @@ app.use('/api/auth', SavesRouter);
 app.use('/api/message', MessageRouter);
 app.use('/api/chat', ChatRouter);
 app.use('/api/comment', CommetsRouter);
+app.use('/api/notify', NotifiesRouter);
 app.use(errorMiddleware);

@@ -114,9 +114,23 @@ export const UserApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Auth'],
         }),
+        ConfirmFollowing: builder.mutation({
+            query: (id) => ({
+                url: `/api/user/confirm/${id}`,
+                method: 'PUT',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
         CancelFollowRequest: builder.mutation({
             query: (id) => ({
                 url: `/api/user/cancelrequest/${id}`,
+                method: 'PUT',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        RefuseFollowRequest: builder.mutation({
+            query: (id) => ({
+                url: `/api/user/refuse/${id}`,
                 method: 'PUT',
             }),
             invalidatesTags: ['Auth'],
@@ -151,4 +165,6 @@ export const {
     useFollowPrivateMutation,
     useChangePrivacyMutation,
     useCancelFollowRequestMutation,
+    useConfirmFollowingMutation,
+    useRefuseFollowRequestMutation,
 } = UserApi;

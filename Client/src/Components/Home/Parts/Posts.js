@@ -55,7 +55,7 @@ const Posts = () => {
           next={() => setPage((prevPage) => prevPage + 1)}
           hasMore={hasMore}
           loader={
-            <div className='flex justify-center items-center my-5 animate-spin'>
+            <div className='flex justify-centerx items-center my-5 animate-spin'>
               <ImSpinner3 size={25} />
             </div>
           }

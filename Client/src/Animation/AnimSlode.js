@@ -9,7 +9,7 @@ const AnimSlide = {
         transition: { duration: 0.4 }
     },
     exit: {
-        x: 250,
+        x: -250,
         opacity: 0,
         transition: { ease: 'easeInOut' }
     }

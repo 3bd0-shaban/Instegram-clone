@@ -75,7 +75,7 @@ const usesrSchema = new mongoose.Schema(
         default: []
       }
     ],
-    pendingRequests: [
+    bendingRequests: [
       {
         type: mongoose.Types.ObjectId,
         ref: 'Users',

@@ -5,7 +5,7 @@ const NotifySchema = new mongoose.Schema(
             type: String,
             enum: ['like', 'comment', 'follow', 'post'],
         },
-        read: {
+        isRead: {
             type: Boolean,
             default: false,
         },
@@ -28,5 +28,5 @@ const NotifySchema = new mongoose.Schema(
     },
     { timestamps: true, minimize: false }
 );
-const Notifies = mongoose.model('Notification', NotifySchema);
+const Notifies = mongoose.model('Notifies', NotifySchema);
 export default Notifies;

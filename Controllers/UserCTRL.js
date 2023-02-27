@@ -39,6 +39,13 @@ export const Follow_Private_User = asyncHandler(async (req, res, next) => {
     return res.json({ msg: 'Requested Follow !' })
 });
 
+export const Cancel_Follow_Request = asyncHandler(async (req, res, next) => {
+    await Users.findByIdAndUpdate(req.params.id, {
+        $pull: { pendingRequests: req.user.id }
+    }, { new: true });
+    return res.json({ msg: 'Requested Follow !' })
+});
+
 export const UnFollow = asyncHandler(async (req, res, next) => {
     const isfollowing = await Users.findOne({
         _id: req.params.id,

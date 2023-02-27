@@ -114,6 +114,13 @@ export const UserApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Auth'],
         }),
+        CancelFollowRequest: builder.mutation({
+            query: (id) => ({
+                url: `/api/user/cancelrequest/${id}`,
+                method: 'PUT',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
         ChangePrivacy: builder.mutation({
             query: () => ({
                 url: '/api/user/privacy',
@@ -143,4 +150,5 @@ export const {
     useUnBlockMutation,
     useFollowPrivateMutation,
     useChangePrivacyMutation,
+    useCancelFollowRequestMutation,
 } = UserApi;

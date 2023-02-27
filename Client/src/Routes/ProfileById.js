@@ -9,7 +9,10 @@ import { BsBookmarks, BsThreeDots, BsGrid, BsPersonLinesFill } from 'react-icons
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { useFollowMutation, useGetUserByIdQuery, } from '../Redux/APIs/UserApi';
+import {
+    useCancelFollowRequestMutation, useFollowMutation,
+    useFollowPrivateMutation, useGetUserByIdQuery,
+} from '../Redux/APIs/UserApi';
 import { BiChevronDown } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { useNewChatMutation } from '../Redux/APIs/ChatApi';
@@ -27,17 +30,28 @@ const Profile = () => {
     const navigate = useNavigate();
     const userInfo = useSelector(selectCurrentUser)
     const [Follow, { isLoading }] = useFollowMutation() || {};
+    const [FollowPrivate, { isLoading: loadingprivate }] = useFollowPrivateMutation() || {};
+    const [CancelFollowRequest, { isLoading: loadingcancel }] = useCancelFollowRequestMutation() || {};
     const [NewChat, { isLoading: loadChat }] = useNewChatMutation() || {};
 
     const dispatch = useDispatch();
+    const [bending, setIsBending] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
     const location = useLocation();
     const posts = (location.search === `?posts` || location.search === ``)
     const saved = (location.search === `?saves`)
     const tagged = (location.search === `?tages`)
+    const id = userById?._id
     const FollowUser = () => {
-        const id = userById._id
         Follow(id).unwrap()
+            .catch(err => console.log(err))
+    };
+    const FollowPrivateHandler = () => {
+        FollowPrivate(id).unwrap()
+            .catch(err => console.log(err))
+    };
+    const CancelFollowRequestHandelr = () => {
+        CancelFollowRequest(id).unwrap()
             .catch(err => console.log(err))
     };
     const NewChatifNot = () => {
@@ -52,6 +66,10 @@ const Profile = () => {
         isInclude ? setIsFollowing(true) : setIsFollowing(false);
     }, [userInfo, setIsFollowing, userById]);
 
+    useEffect(() => {// eslint-disable-next-line
+        const isInclude = userById?.pendingRequests?.some(p => p == userInfo?._id);
+        isInclude ? setIsBending(true) : setIsBending(false);
+    }, [userInfo, setIsBending, userById]);
     return (
         <div className='bg-white'>
             <SideBar />
@@ -65,7 +83,8 @@ const Profile = () => {
                     <div className='container px-0 max-w-[85rem] pt-14 lg:mt-0 mt-5'>
                         <div className='container px-.5 max-w-[70rem] px-0 '>
                             <div className='flex px-2 gap-3 sm:gap-24 lg:justify-center items-center mb-8'>
-                                <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userById?.avatar?.url ? userById?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt='' />
+                                <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover'
+                                    src={userById?.avatar?.url ? userById?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt='' />
                                 <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                                     <div className='space-y-5'>
                                         <div className='flex items-center gap-2'>
@@ -90,11 +109,28 @@ const Profile = () => {
                                                             'Message'
                                                         }</Link>
                                                 </>
-                                                :
-                                                <>
-                                                    <button onClick={FollowUser} className='bg-blue-500 text-white font-medium rounded-md flex items-center px-6 py-2 gap-2'>{isLoading ? <span className='flex justify-center items-center px-6 animate-spin'><ImSpinner3 size={25} /></span> : 'Follow'}</button>
-                                                    {/* <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'><IoPersonAddOutline size={22} /></button> */}
-                                                </>
+                                                : bending ?
+                                                    <>
+                                                        <button onClick={CancelFollowRequestHandelr}
+                                                            disabled={loadingcancel} className='bg-gray-100 text-black font-medium rounded-md flex items-center px-6 py-2 gap-2'>
+                                                            {loadingcancel
+                                                                ?
+                                                                <span className='flex justify-center items-center px-6 animate-spin'>
+                                                                    <ImSpinner3 size={25} /></span> : 'Cancel Request'}
+                                                        </button>
+                                                        {/* <button className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 gap-2'><IoPersonAddOutline size={22} /></button> */}
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <button onClick={userById?.isprivat ? FollowPrivateHandler : FollowUser}
+                                                            disabled={isLoading || loadingprivate}
+                                                            className='bg-blue-500 text-white font-medium rounded-md flex items-center px-6 py-2 gap-2'>
+                                                            {(isLoading || loadingprivate) ?
+                                                                <span className='flex justify-center items-center px-6 animate-spin'>
+                                                                    <ImSpinner3 size={25} /></span>
+                                                                : 'Follow'}
+                                                        </button>
+                                                    </>
                                             }
                                         </div>
                                         <div className='hidden lg:flex gap-5 whitespace-nowrap'>
@@ -106,6 +142,7 @@ const Profile = () => {
                                     </div>
                                 </div>
                             </div>
+
                             <div className='grid lg:hidden grid-cols-3 gap-5 text-center whitespace-nowrap border-t py-2'>
                                 <span className='text-lg font-mono'>
                                     <p>{userById?.posts?.length || 0}</p>
@@ -129,7 +166,7 @@ const Profile = () => {
                                 </Link>
                                 <Link to='?saves' className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                                     <BsBookmarks />
-                                    <p>Saved</p>
+                                    <p>Reels</p>
                                 </Link>
                                 <Link to='?tages' className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                                     <BsPersonLinesFill />
@@ -138,11 +175,11 @@ const Profile = () => {
                             </div>
                         </div>
                         {(posts && !isFetching) && <UsersPostsById id={userById?._id} userById={userById} />}
-                        {saved && <UserReelsById />}
+                        {saved && <UserReelsById id={userById?._id} userById={userById} />}
                         {tagged && <UsersTagesById />}
-                    </div>}
+                    </div>
+            }
             {(error?.status === 404 || error?.status === 500) && <NotFounded />}
-
             <div className='mt-40'>
                 <Footer />
             </div>

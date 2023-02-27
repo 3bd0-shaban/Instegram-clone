@@ -81,10 +81,52 @@ export const ReelsApi = apiSlice.injectEndpoints({
                 }
             },
         }),
+        GetUserByIdReels: builder.query({
+            query: ({ id, page }) => ({
+                url: `/api/post/get/userbyidreels/${id}?page=${page}`,
+                method: 'GET',
+            }),
+            transformResponse(apiResponse, meta) {
+                // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
+
+                return {
+                    userReels: apiResponse,
+                    totalCount: Number(apiResponse.length)
+                };
+            },
+        }),
+
+        GetMoreUserByIdReels: builder.query({
+            query: ({ id, page }) => ({
+                url: `/api/post/get/userbyidreels${id}?page=${page}`,
+                method: 'GET',
+            }),
+            async onQueryStarted(args, { queryFulfilled, dispatch }) {
+
+                try {
+
+                    const { data } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetUserByIdReels", 1, (draft) => {
+                            return {
+                                userReels: [
+                                    ...draft.userReels,
+                                    ...data,
+                                ],
+                                totalCount: Number(data.length),
+                            };
+                        })
+                    )
+                } catch (err) {
+                    console.log(err)
+                }
+            },
+        }),
     }),
 });
 
 export const {
     useGetFollowersReelsQuery,
     useGetMoreFollowersReelsQuery,
+    useGetUserByIdReelsQuery,
 } = ReelsApi;

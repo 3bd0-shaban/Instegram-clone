@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const UsersPostsById = ({ id, userInfo }) => {
+const UsersPostsById = ({ id, userById }) => {
     const { data, isFetching, error, isError } = useGetUserPostsByIdQuery(id);
     const { userPostsById, totalCount } = data || {};
     const [page, setPage] = useState(1);
@@ -66,7 +66,7 @@ const UsersPostsById = ({ id, userInfo }) => {
             {isPostMore && <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} PostId={postID} postDetails={postDetails} />}
             {isFetching ? <p className='flex justify-center h-96 items-center text-5xl text-gray-600 font-medium animate-spin'><ImSpinner3 /></p>
                 :
-                isError ? <p>{error?.data?.msg}</p>
+                isError ? <p className='w-full text-center py-16 font-medium lg:text-lg'>{error?.data?.msg}</p>
                     :
                     <InfiniteScroll
                         dataLength={userPostsById.length}
@@ -78,7 +78,7 @@ const UsersPostsById = ({ id, userInfo }) => {
                             {userPostsById && userPostsById?.map((post) => (
                                 <div onClick={
                                     () => {
-                                        MobileView ? navigate(`/p/${post?._id}?profile=${userInfo.username}`)
+                                        MobileView ? navigate(`/p/${post?._id}?profile=${userById.username}`)
                                             :
                                             dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post)
                                     }} key={post._id}

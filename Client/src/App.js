@@ -15,7 +15,7 @@ function App() {
   const location = useLocation();
   return (
     <AnimatePresence>
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location} key={!location.pathname.includes('message') && location.pathname}>
         <Route path='/' element={<Layout />}>
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />

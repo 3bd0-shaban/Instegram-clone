@@ -17,6 +17,7 @@ import { useGetPostDetailsQuery } from '../../../Redux/APIs/PostsApi';
 import { ImSpinner3 } from 'react-icons/im';
 
 const ModalPostDetails = ({ id }) => {
+    const dispatch = useDispatch();
     const { data: postDetails, isFetching, isError, error } = useGetPostDetailsQuery(id) || {};
     const [createComment, { isLoading }] = useCreateCommentMutation();
     const [Save] = useSaveMutation();
@@ -26,7 +27,6 @@ const ModalPostDetails = ({ id }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
-    const dispatch = useDispatch();
     const [comment, setComment] = useState('');
     const userInfo = useSelector(selectCurrentUser)
     const accessToken = useSelector(selectCurrentToken)
@@ -106,8 +106,8 @@ const ModalPostDetails = ({ id }) => {
                 <div className='flex justify-between mt-4 px-4 text-2xl py-3'>
                     <div className='flex gap-6'>
 
-                        {(isLiked && !postDetails?.hiddenlikes) ?
-                            <AnimatePresence>
+                        <AnimatePresence>
+                            {(isLiked && !postDetails?.hiddenlikes) ?
                                 <motion.button
                                     variants={AnimScale}
                                     initial='initial'
@@ -118,18 +118,18 @@ const ModalPostDetails = ({ id }) => {
                                     className='hover:text-gray-500 cursor-pointer'>
                                     <FaHeart size={28} style={{ color: 'red' }} />
                                 </motion.button>
-                            </AnimatePresence>
-                            : (!postDetails?.hiddenlikes) &&
-                            <motion.button
-                                variants={AnimScale}
-                                initial='initial'
-                                animate='animate'
-                                exit='exit'
-                                onClick={() => LikeSubmit(postDetails?._id)}
-                                className='hover:text-gray-500 cursor-pointer'>
-                                <FaRegHeart size={25} />
-                            </motion.button>
-                        }
+                                : (!postDetails?.hiddenlikes) &&
+                                <motion.button
+                                    variants={AnimScale}
+                                    initial='initial'
+                                    animate='animate'
+                                    exit='exit'
+                                    onClick={() => LikeSubmit(postDetails?._id)}
+                                    className='hover:text-gray-500 cursor-pointer'>
+                                    <FaRegHeart size={25} />
+                                </motion.button>
+                            }
+                        </AnimatePresence>
 
 
                         {/* {isLiked ? <button onClick={() => UnLikeSubmit(postDetails?._id)} className='hover:text-gray-500 text-red-500'><FaHeart size={28} style={{ color: 'red' }} /></button> :
@@ -142,8 +142,8 @@ const ModalPostDetails = ({ id }) => {
                     </div>
 
 
-                    {isSaved ?
-                        <AnimatePresence>
+                    <AnimatePresence>
+                        {isSaved ?
                             <motion.button
                                 variants={AnimScale}
                                 initial='initial'
@@ -153,18 +153,18 @@ const ModalPostDetails = ({ id }) => {
                                 className='hover:text-gray-500 cursor-pointer'>
                                 <BsBookmarkFill size={28} />
                             </motion.button>
-                        </AnimatePresence>
-                        :
-                        <motion.button
-                            variants={AnimScale}
-                            initial='initial'
-                            animate='animate'
-                            exit='exit'
-                            onClick={() => SaveSubmit(postDetails?._id)}
-                            className='hover:text-gray-500 cursor-pointer'>
-                            <BsBookmark size={28} />
-                        </motion.button>
-                    }
+                            :
+                            <motion.button
+                                variants={AnimScale}
+                                initial='initial'
+                                animate='animate'
+                                exit='exit'
+                                onClick={() => SaveSubmit(postDetails?._id)}
+                                className='hover:text-gray-500 cursor-pointer'>
+                                <BsBookmark size={28} />
+                            </motion.button>
+                        }
+                    </AnimatePresence>
 
                 </div>
                 {(!postDetails?.hiddenlikes) && <div className='ml-4 my-3 mb-5 space-y-2'>

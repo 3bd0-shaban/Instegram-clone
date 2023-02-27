@@ -100,9 +100,23 @@ export const UserApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Auth'],
         }),
+        FollowPrivate: builder.mutation({
+            query: (id) => ({
+                url: `/api/user/followprivate/${id}`,
+                method: 'PUT',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
         UnFollow: builder.mutation({
             query: (id) => ({
                 url: `/api/user/unfollow/${id}`,
+                method: 'PUT',
+            }),
+            invalidatesTags: ['Auth'],
+        }),
+        ChangePrivacy: builder.mutation({
+            query: () => ({
+                url: '/api/user/privacy',
                 method: 'PUT',
             }),
             invalidatesTags: ['Auth'],
@@ -127,4 +141,6 @@ export const {
     useGetUserQuery,
     useBlockMutation,
     useUnBlockMutation,
+    useFollowPrivateMutation,
+    useChangePrivacyMutation,
 } = UserApi;

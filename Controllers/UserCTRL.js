@@ -23,6 +23,22 @@ export const Follow_Public_User = asyncHandler(async (req, res, next) => {
     return res.json({ msg: 'Followed !' })
 });
 
+export const Follow_Private_User = asyncHandler(async (req, res, next) => {
+    const isfollowing = await Users.findOne({
+        _id: req.params.id,
+        $and: [
+            { followers: { $elemMatch: { $eq: req.user.id } } },
+        ],
+    });
+    if (isfollowing) {
+        return next(new ErrorHandler('Already following this user', 400));
+    }
+    await Users.findByIdAndUpdate(req.params.id, {
+        $push: { pendingRequests: req.user.id }
+    }, { new: true });
+    return res.json({ msg: 'Requested Follow !' })
+});
+
 export const UnFollow = asyncHandler(async (req, res, next) => {
     const isfollowing = await Users.findOne({
         _id: req.params.id,
@@ -40,6 +56,18 @@ export const UnFollow = asyncHandler(async (req, res, next) => {
         $pull: { following: req.params.id }
     }, { new: true });
     return res.json({ msg: 'UnFollowed !' })
+});
+
+export const ChangePrivacy = asyncHandler(async (req, res, next) => {
+    const user =await Users.findByIdAndUpdate({ _id: req.user.id },
+        [
+            {
+                $set: { isprivat: { $eq: [false, '$isprivat'] } }
+            }
+        ], { new: true })
+
+    return res.json(user);
+
 });
 
 export const Block = asyncHandler(async (req, res, next) => {

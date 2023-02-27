@@ -10,7 +10,6 @@ import { BiChevronLeft } from 'react-icons/bi'
 import { motion } from 'framer-motion';
 import AnimDropdown from './../../Animation/AnimDropdown'
 import { ImSpinner3 } from 'react-icons/im';
-import { useSingleChatQuery } from '../../Redux/APIs/ChatApi'
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentUser } from '../../Redux/Slices/UserSlice'
 import { Scrolldown } from '../../Helpers/Scroll'
@@ -19,13 +18,11 @@ const ChatBox = () => {
     Scrolldown();
     const { username, id } = useParams();
     const { data: userById, error } = useGetUserByIdQuery(username) || {};
-    const { data: SingleChat } = useSingleChatQuery(id) || {}
     const [MewMessage, { isLoading }] = useNewMessageMutation() || {};
     const [msg, setMSG] = useState('');
     const [image, setImage] = useState();
     const [details, setDetails] = useState(false);
     const [isOnline, setIsOnline] = useState(false);
-    const [isTyping, setIsTyping] = useState(false);
     const { socket } = useSocket();
     const userInfo = useSelector(selectCurrentUser);
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
@@ -36,16 +33,6 @@ const ChatBox = () => {
             online && setIsOnline(true)
         });
     }, [socket, userById, id])
-
-    useEffect(() => {
-        socket?.on('TypingtoClient', ({ receiver, status }) => {
-            console.log({ receiver, status })
-            if (SingleChat?.members.includes(receiver)) {
-                setIsTyping(status)
-            }
-        })
-        // eslint-disable-next-line 
-    }, []);
 
     useEffect(() => {
         socket?.on('MessagetoClient', ({ image, sender, receiver, createdAt, msg }) => {
@@ -121,7 +108,7 @@ const ChatBox = () => {
                     <>
                         <InfinteScrollableChat userById={userById} id={id} />
 
-                        {isTyping && <p className='mx-3'>typing ....</p>}
+                        {/* {isTyping && <p className='mx-3'>typing ....</p>} */}
                         {image &&
                             <div className='flex justify-end'>
                                 <div className='max-w-[10rem] md:max-w-[15rem] relative'>

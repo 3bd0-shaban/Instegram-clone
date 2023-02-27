@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { BsGear, BsJournals, BsMoon, BsPeople, BsToggleOff } from 'react-icons/bs'
 import { FeatureAction } from '../../Redux/Slices/FeaturesSlice';
 import { useLogOutMutation } from '../../Redux/APIs/AuthApi';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimDropdown from '../../Animation/AnimDropdown';
 import { selectCurrentUser } from '../../Redux/Slices/UserSlice';
 
@@ -36,7 +36,7 @@ const DrobDownMore = () => {
         )
     }
     return (
-        <AnimatePresence>
+        <>
             <div onClick={() => dispatch(FeatureAction.ShowDrobdownMore(false))} className="fixed inset-0 z-20"></div>
             <motion.div
                 variants={AnimDropdown}
@@ -60,7 +60,7 @@ const DrobDownMore = () => {
                     <span className='whitespace-nowrap font-normal'>Log Out</span>
                 </Link>
             </motion.div>
-        </AnimatePresence>
+        </>
     )
 }
 

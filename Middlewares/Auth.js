@@ -43,10 +43,17 @@ export const checkBlock = asyncHandler(async (req, res, next) => {
 });
 
 export const ChechPrivacy = asyncHandler(async (req, res, next) => {
-    const user = await Users.findOne({ username: req.params.username }).populate('followers');
-    const isFollower = user.followers.some(follower => follower.username === req.user.username)
-    if (user.isprivat && !isFollower) {
-        new ErrorHandler('This account is privat you can not see posts unless you follow it', 403);
+    const user = await Users.findOne({ _id: req.params.id });
+    if (user.isprivat) {
+        const user = await Users.findOne({
+            _id: req.params.id, $and: [
+                { followers: { $elemMatch: { $eq: req.user.id } } },
+            ],
+        });
+        if (!user) {
+            return next(new ErrorHandler('This account is privat you can not see posts unless you follow it', 400));
+        }
+        return next()
     }
-    next();
+    next()
 });

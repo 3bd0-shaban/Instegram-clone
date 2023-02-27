@@ -75,6 +75,13 @@ const usesrSchema = new mongoose.Schema(
         default: []
       }
     ],
+    pendingRequests: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Users',
+        default: []
+      }
+    ],
     saves: [{
       type: mongoose.Types.ObjectId,
       ref: 'Posts',

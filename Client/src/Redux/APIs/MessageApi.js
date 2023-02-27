@@ -39,10 +39,14 @@ export const MessageApi = apiSlice.injectEndpoints({
                     );
                     dispatch(
                         apiSlice.util.updateQueryData("UserChats", 1, (draft) => {
+                            // UPDATE LAST MASSAGE IN CHATS WNEN NEW MESSAGE SEND OR RECIEVED 
                             const userChat = draft?.Chats?.find((item) => item?._id === data?.chatId)
+                            if (!userChat) {
+                                // invalidatesTags:['chat']
+                            }
                             userChat.lastMSG = data?.msg
 
-                            //REARANGE CHATS BASED ON TIME WHEN NEW MESSAGE SEND
+                            //REARANGE CHATS By MOVING FOLLOWER CHAT CART AT TOP WHEN NEW MWSSGAE SEND
                             let index = draft?.Chats?.indexOf(userChat); // find the index of the object in the array
                             if (index > -1) { // if the object is in the array
                                 draft?.Chats.splice(index, 1); // remove it from the current position
@@ -56,6 +60,7 @@ export const MessageApi = apiSlice.injectEndpoints({
 
                 }
             },
+
 
         }),
         GetMessages: builder.query({
@@ -103,10 +108,11 @@ export const MessageApi = apiSlice.injectEndpoints({
                         );
                         dispatch(
                             apiSlice.util.updateQueryData("UserChats", 1, (draft) => {
+                                // UPDATE LAST MASSAGE IN CHATS WNEN NEW MESSAGE SEND OR RECIEVED 
                                 const userChat = draft?.Chats?.find((item) => item?._id === chatId)
                                 userChat.lastMSG = msg
 
-                                //REARANGE CHATS BASED ON TIME WHEN NEW MESSAGE SEND
+                                //REARANGE CHATS By MOVING FOLLOWER CHAT CART AT TOP WHEN NEW MWSSGAE RECIEBED
                                 let index = draft?.Chats?.indexOf(userChat); // find the index of the object in the array
                                 if (index > -1) { // if the object is in the array
                                     draft?.Chats.splice(index, 1); // remove it from the current position

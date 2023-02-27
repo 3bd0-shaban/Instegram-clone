@@ -35,11 +35,9 @@ export const ChatApi = apiSlice.injectEndpoints({
                 const socket = getSocket()
                 socket.on("connect", () => {
                     socket.emit("join", userId);
-                    console.log('connected Q!')
                 });
                 try {
                     socket.on("getusers", (data) => {
-                        console.log(`goined ${data.length}`)
                         for (let i = 0; i < chats.length; i++) {
                             const ckeckIsOnline = data?.some(user => user.userId === chats[i]?._id)
                             updateCachedData((draft) => {
@@ -55,6 +53,7 @@ export const ChatApi = apiSlice.injectEndpoints({
                 socket.close();
             },
         }),
+
         getMoreChats: builder.query({
             query: ({ page }) =>
                 `/api/chat/all?page=${page}`,
@@ -79,26 +78,20 @@ export const ChatApi = apiSlice.injectEndpoints({
                 }
             },
         }),
-        SingleChat: builder.query({
-            query: (id) => ({
-                url: `/api/chat/${id}`,
-                method: 'GET',
-            }),
-            providesTags: ['Chat', 'User'],
-        }),
-        ChatMessages: builder.query({
-            query: () => ({
-                url: '/api/chat/get/messeages',
-                method: 'Post',
-            }),
-            providesTags: ['Chat', 'User'],
-        }),
+
+        // SingleChat: builder.query({
+        //     query: (id) => ({
+        //         url: `/api/chat/${id}`,
+        //         method: 'GET',
+        //     }),
+        //     providesTags: ['Chat', 'User'],
+        // }),
+
     }),
 });
 
 export const {
     useNewChatMutation,
     useUserChatsQuery,
-    useChatMessagesQuery,
-    useSingleChatQuery,
+    // useSingleChatQuery,
 } = ChatApi;

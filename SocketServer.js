@@ -38,19 +38,19 @@ const SocketServer = (socket) => {
 
     //#region //!Messages
 
-    socket.on("Message", ({ sender, receiver, createdAt, image, msg }) => {
+    socket.on("Message", ({ sender, receiver, createdAt, image, chatId, msg }) => {
         const user = getUser(receiver);
         if (user) {
             socket.to(user.socketId)
-                .emit("MessagetoClient", { sender, receiver, createdAt, image, msg });
+                .emit("MessagetoClient", { sender, receiver, createdAt, chatId, image, msg });
         }
     });
 
-    socket.on('typing', ({ sender, receiver, status }) => {
+    socket.on('typing', ({ sender, receiver, chatId, status }) => {
         const user = getUser(receiver);
         if (user) {
             socket.to(user.socketId)
-                .emit("TypingtoClient", { sender, receiver, status });
+                .emit("TypingtoClient", { sender, receiver, chatId, status });
         }
     });
 

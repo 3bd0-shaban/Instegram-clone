@@ -1,5 +1,6 @@
 import { LogOut, setCredentials } from '../Slices/UserSlice';
 import { apiSlice } from '../ApiSlice';
+import getSocket from '../SocketRTK';
 export const AuthApi = apiSlice.injectEndpoints({
     endpoints: builder => ({
 
@@ -17,58 +18,25 @@ export const AuthApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+            async onQueryStarted(arg, { queryFulfilled, dispatch, getState }) {
                 try {
                     const result = await queryFulfilled;
                     localStorage.setItem('persist', true)
-                    localStorage.setItem('id', result.data.user._id)
+                    localStorage.setItem('id', result?.data?.user?._id)
                     dispatch(
                         setCredentials({
                             accessToken: result.data.accessToken,
                             user: result.data.user,
                         })
                     );
+                    let userId = getState().auth?.user?._id;
+                    const socket = getSocket()
+                    socket.on("connect", () => {
+                        socket.emit("join", userId);
+                    });
                 } catch (err) {
                     // do nothing
                 }
-            },
-            async onCacheEntryAdded(
-                arg,
-                { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
-            ) {
-                console.log(cacheDataLoaded)
-                console.log(cacheEntryRemoved)
-                // create socket
-                // const socket = io(process.env.REACT_APP_API_URL, {
-                //     reconnectionDelay: 1000,
-                //     reconnection: true,
-                //     reconnectionAttemps: 10,
-                //     transports: ["websocket"],
-                //     agent: false,
-                //     upgrade: false,
-                //     rejectUnauthorized: false,
-                // });
-
-                try {
-                    await cacheDataLoaded;
-                    // socket.on("conversation", (data) => {
-                    //     updateCachedData((draft) => {
-                    //         const conversation = draft.data.find(
-                    //             (c) => parseInt(c.id) === data?.data?.id
-                    //         );
-                    //         if (conversation?.id) {
-                    //             conversation.message = data?.data?.message;
-                    //             conversation.timestamp = data?.data?.timestamp;
-                    //         } else if(data?.data?.participants.includes(arg)) {
-                    //             // do nothing
-                    //             draft.data.unshift(data?.data);
-                    //         }
-                    //     });
-                    // });
-                } catch (err) { }
-
-                await cacheEntryRemoved;
-                // socket.close();
             },
         }),
         signup: builder.mutation({

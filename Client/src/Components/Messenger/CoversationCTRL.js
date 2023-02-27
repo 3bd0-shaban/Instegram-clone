@@ -1,18 +1,19 @@
-import React from 'react'
 import { BiChevronLeft } from 'react-icons/bi'
 import { MdOutlineInfo } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDeleteAllMSGsMutation } from '../../Redux/APIs/MessageApi'
 import { FeatureAction } from './../../Redux/Slices/FeaturesSlice'
 import { ModalBlockConfirm } from './../Exports'
 
 const CoversationCTRL = ({ setDetails, details, id, userById }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const { isModalBlockConfirm } = useSelector(state => state.Features);
     const [DeleteAllMSGs, { isLoading, isError, error }] = useDeleteAllMSGsMutation();
     const DeleteAll = async () => {
         await DeleteAllMSGs(id).unwrap()
+            .then(() => navigate('/messages'))
     }
 
     return (
@@ -40,7 +41,9 @@ const CoversationCTRL = ({ setDetails, details, id, userById }) => {
                 <button onClick={DeleteAll} className='text-red-500 font-normal block' disabled={isLoading}>{isLoading ? 'Deleting ...' : 'Delete Chat'}</button>
                 <button onClick={() => dispatch(FeatureAction.setIsModalBlockConfirm(true))}
                     className='text-red-500 font-normal block'>Block</button>
-                {isError && <p className='text-red-500 font-semibold '>{error?.data?.msg}</p>}
+                <div className='py-5 w-full text-center'>
+                    {isError && <p className='text-red-500 font-semibold '>{error?.data?.msg}</p>}
+                </div>
             </div>
         </>
     )

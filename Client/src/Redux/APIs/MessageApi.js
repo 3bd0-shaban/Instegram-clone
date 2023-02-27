@@ -1,17 +1,7 @@
 import { apiSlice } from '../ApiSlice';
-import { io } from 'socket.io-client';
+import getSocket from '../SocketRTK';
+// const userId = localStorage.getItem('id')
 
-const url = process.env.REACT_APP_API_KEY
-const userId = localStorage.getItem('id')
-let socket;
-function getSocket() {
-    if (!socket) {
-        socket = io(url, {
-            withCredentials: true
-        });
-    }
-    return socket
-}
 export const MessageApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         NewMessage: builder.mutation({
@@ -20,10 +10,21 @@ export const MessageApi = apiSlice.injectEndpoints({
                 method: 'Post',
                 body: data,
             }),
+            // queryFn(args) {
+
+            //     console.log(args)
+            // },
             async onQueryStarted({ id, data }, { queryFulfilled, dispatch }) {
                 try {
-
                     const { data } = await queryFulfilled;
+                    const socket = getSocket()
+                    socket.emit("Message", {
+                        sender: data.sender,
+                        msg: data.msg,
+                        createdAt: data.createdAt,
+                        image: data.image,
+                        // receiver: userById?._id
+                    });
                     dispatch(
                         apiSlice.util.updateQueryData("GetMessages", { id }, (draft) => {
                             return {
@@ -32,6 +33,7 @@ export const MessageApi = apiSlice.injectEndpoints({
                                     ...draft.MSGs,
                                 ],
                                 totalCount: Number(draft.totalCount),
+                                typing: false,
                             };
                         })
                     );
@@ -39,6 +41,13 @@ export const MessageApi = apiSlice.injectEndpoints({
                         apiSlice.util.updateQueryData("UserChats", 1, (draft) => {
                             const userChat = draft?.Chats?.find((item) => item?._id === data?.chatId)
                             userChat.lastMSG = data?.msg
+
+                            //REARANGE CHATS BASED ON TIME WHEN NEW MESSAGE SEND
+                            let index = draft?.Chats?.indexOf(userChat); // find the index of the object in the array
+                            if (index > -1) { // if the object is in the array
+                                draft?.Chats.splice(index, 1); // remove it from the current position
+                                draft?.Chats.unshift(userChat); // add it to the beginning of the array
+                            }
                         })
                     );
 
@@ -55,45 +64,83 @@ export const MessageApi = apiSlice.injectEndpoints({
                 method: 'Get',
             }),
             transformResponse(apiResponse, meta) {
-                // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
-
                 return {
                     MSGs: apiResponse,
-                    totalCount: Number(apiResponse.length)
+                    totalCount: Number(apiResponse.length),
+                    typing: false
                 };
             },
+            providesTags: ['Message'],
             async onCacheEntryAdded(
-                arg,
-                { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }
+                args,
+                { updateCachedData, cacheDataLoaded, updateQueryData, cacheEntryRemoved, dispatch, getState }
             ) {
-                const msg = getState().MSGs.singleMSG
-                console.log(msg)
-                // create socket
-                // let getRecievedUserEmail = getState().auth?.user?.email;
-                // let userId = getState().auth?.user?._id;
-                await cacheDataLoaded;
+
+                let userId = getState().auth?.user?._id;
+                // await cacheDataLoaded;
                 const socket = getSocket()
                 socket.on("connect", () => {
-                    console.log('connected !')
                     socket.emit("join", userId);
 
                 });
-                socket.on("getusers", (data) => {
-                    console.log(`goined ${data.length}`)
-                });
+                // socket.on("getusers", (data) => {
+                //     console.log(`goined ${data.length}`)
+                // });
                 try {
-                    socket.on("MessagetoClient", ({ image, sender, receiver, createdAt, msg }) => {
-                        console.log(msg)
-                        updateCachedData((draft) => {
-                            return {
-                                MSGs: [
-                                    { image, sender, receiver, createdAt, msg },
-                                    ...draft.MSGs,
-                                ],
-                                totalCount: Number(draft.totalCount),
-                            };
-                        });
+                    socket.on("MessagetoClient", ({ image, sender, receiver, createdAt, chatId, msg }) => {
+                        const id = chatId
+                        dispatch(
+                            apiSlice.util.updateQueryData("GetMessages", { id }, (draft) => {
+                                return {
+                                    MSGs: [
+                                        { image, sender, receiver, chatId, createdAt, msg },
+                                        ...draft.MSGs,
+                                    ],
+                                    totalCount: Number(draft.totalCount),
+                                    typing: false,
+                                };
+                            })
+                        );
+                        dispatch(
+                            apiSlice.util.updateQueryData("UserChats", 1, (draft) => {
+                                const userChat = draft?.Chats?.find((item) => item?._id === chatId)
+                                userChat.lastMSG = msg
+
+                                //REARANGE CHATS BASED ON TIME WHEN NEW MESSAGE SEND
+                                let index = draft?.Chats?.indexOf(userChat); // find the index of the object in the array
+                                if (index > -1) { // if the object is in the array
+                                    draft?.Chats.splice(index, 1); // remove it from the current position
+                                    draft?.Chats.unshift(userChat); // add it to the beginning of the array
+                                }
+                            })
+                        );
+                        // updateCachedData((draft) => {
+                        //     return {
+                        //         MSGs: [
+                        //             { image, sender, receiver, createdAt, msg },
+                        //             ...draft.MSGs,
+                        //         ],
+                        //         totalCount: Number(draft.totalCount),
+                        // typing: false,
+                        //     };
+                        // });
+
                     });
+                    socket.on("TypingtoClient", ({ receiver, chatId, status }) => {
+                        const id = chatId
+                        dispatch(
+                            apiSlice.util.updateQueryData("GetMessages", { id }, (draft) => {
+                                return {
+                                    MSGs: [
+                                        ...draft.MSGs,
+                                    ],
+                                    totalCount: Number(draft.totalCount),
+                                    typing: status,
+                                };
+                            })
+                        );
+                    })
+
                 } catch (err) { }
 
                 await cacheEntryRemoved;
@@ -116,6 +163,7 @@ export const MessageApi = apiSlice.injectEndpoints({
                                     ...data,
                                 ],
                                 totalCount: Number(data.length),
+                                typing: false,
                             };
                         })
                     );
@@ -129,6 +177,7 @@ export const MessageApi = apiSlice.injectEndpoints({
                 url: `/api/message/deleteall/${id}`,
                 method: 'Delete',
             }),
+            invalidatesTags: ['Message']
         })
     }),
 });

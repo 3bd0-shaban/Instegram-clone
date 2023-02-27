@@ -39,6 +39,7 @@ const ChatBox = () => {
 
     useEffect(() => {
         socket?.on('TypingtoClient', ({ receiver, status }) => {
+            console.log({ receiver, status })
             if (SingleChat?.members.includes(receiver)) {
                 setIsTyping(status)
             }
@@ -74,12 +75,13 @@ const ChatBox = () => {
                 setMSG('')
                 setImage('')
                 setIsPikerVisable(false)
-                socket.emit("typing", false);
+                socket.emit("typing", { receiver: userById._id, sender: userInfo._id, status: false, chatId: id });
                 socket.emit("Message", {
                     sender: payload.sender,
                     msg: payload.msg,
                     createdAt: payload.createdAt,
                     image: payload.image,
+                    chatId: payload.chatId,
                     receiver: userById?._id
                 });
             })
@@ -158,11 +160,11 @@ const ChatBox = () => {
                                     onChange={(e) => {
                                         setMSG(e.target.value); socket.emit("typing",
                                             {
-                                                receiver: userById._id, sender: userInfo._id, status: true
+                                                receiver: userById._id, sender: userInfo._id, status: true, chatId: id
                                             })
                                     }}
                                     onFocus={() => setIsPikerVisable(false)}
-                                    onBlur={() => socket.emit("typing", { receiver: userById._id, sender: userInfo._id, status: false })}
+                                    onBlur={() => socket.emit("typing", { receiver: userById._id, sender: userInfo._id, status: false, chatId: id })}
                                     value={msg}
                                     autoComplete='off'
                                     placeholder='Message ...' />

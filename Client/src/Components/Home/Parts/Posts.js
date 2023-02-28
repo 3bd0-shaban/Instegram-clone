@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetFollowersPostsQuery ,PostsApi} from '../../../Redux/APIs/PostsApi';
-import { PostMore, ModalPostDetails, SinglePost, ModalReports, ModalThanksReport, ModalUnFollowConfirm, ModalBlockConfirm, ModalPostMoreLogged } from '../../Exports';
+import { useGetFollowersPostsQuery, PostsApi } from '../../../Redux/APIs/PostsApi';
+import { PostMore, ModalPostDetails, SinglePost, ModalReports, ModalThanksReport, ModalUnFollowConfirm, ModalBlockConfirm, ModalPostMoreLogged, ModalSendPost } from '../../Exports';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
@@ -10,7 +10,7 @@ import { ImSpinner3 } from 'react-icons/im';
 const Posts = () => {
   const dispatch = useDispatch();
   const {
-    isModalPostDetails, isPostMore, isClipAlert, isModalReports,
+    isModalPostDetails, isPostMore, isClipAlert, isModalReports, isShare,
     isModalThanksReport, isModalUnfollowConfirm, isModalBlockConfirm, isModalPostMoreLogged
   } = useSelector(state => state.Features);
   const [page, setPage] = useState(1);
@@ -44,6 +44,7 @@ const Posts = () => {
         {isModalPostDetails && <ModalPostDetails id={postID} postDetails={postDetails} />}
       </AnimatePresence>
       {isModalReports && <ModalReports />}
+      {isShare && <ModalSendPost PostId={postID} />}
       {isModalThanksReport && <ModalThanksReport postDetails={postDetails} />}
       {isModalUnfollowConfirm && <ModalUnFollowConfirm postDetails={postDetails} />}
       {isModalBlockConfirm && <ModalBlockConfirm UserByIdDetails={postDetails?.user} />}

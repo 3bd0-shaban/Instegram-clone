@@ -15,9 +15,11 @@ const MessengerWindow = () => {
 
     useEffect(() => {
         if (id && username) {
-            setSelected(true)
+            return setSelected(true)
         }
+        setSelected(false)
     }, [id, username]);
+
 
     return (
         <div className='h-screen flex lg:items-center bg-white overflow-hidden'>

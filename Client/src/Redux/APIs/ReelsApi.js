@@ -43,7 +43,7 @@ export const ReelsApi = apiSlice.injectEndpoints({
         }),
         GetUserReels: builder.query({
             query: (page) => ({
-                url: `/api/post/get/userreels?page=${page}`,
+                url: `/api/post/userreels?page=${page}`,
                 method: 'GET',
             }),
             transformResponse(apiResponse, meta) {
@@ -57,7 +57,7 @@ export const ReelsApi = apiSlice.injectEndpoints({
         }),
         GetMoreUserReels: builder.query({
             query: (page) => ({
-                url: `/api/post/get/userreels?page=${page}`,
+                url: `/api/post/userreels?page=${page}`,
                 method: 'GET',
             }),
             async onQueryStarted(args, { queryFulfilled, dispatch }) {
@@ -82,8 +82,8 @@ export const ReelsApi = apiSlice.injectEndpoints({
             },
         }),
         GetUserByIdReels: builder.query({
-            query: ({ id, page }) => ({
-                url: `/api/post/get/userbyidreels/${id}?page=${page}`,
+            query: (id) => ({
+                url: `/api/post/get/userbyidreels/${id}?page=${1}`,
                 method: 'GET',
             }),
             transformResponse(apiResponse, meta) {
@@ -128,5 +128,8 @@ export const ReelsApi = apiSlice.injectEndpoints({
 export const {
     useGetFollowersReelsQuery,
     useGetMoreFollowersReelsQuery,
+    useGetUserReelsQuery,
+    useGetMoreUserReelsQuery,
     useGetUserByIdReelsQuery,
+    useGetMoreUserByIdReelsQuery
 } = ReelsApi;

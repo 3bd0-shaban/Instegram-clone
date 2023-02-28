@@ -39,7 +39,7 @@ const Profile = () => {
     const [isFollowing, setIsFollowing] = useState(false);
     const location = useLocation();
     const posts = (location.search === `?posts` || location.search === ``)
-    const saved = (location.search === `?saves`)
+    const Reels = (location.search === `?reels`)
     const tagged = (location.search === `?tages`)
     const id = userById?._id
     const FollowUser = () => {
@@ -96,7 +96,8 @@ const Profile = () => {
                                                 <>
                                                     <button
                                                         onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))}
-                                                        className='bg-gray-100 font-medium rounded-md flex items-center px-2 py-2 gap-2 hover:bg-gray-200'>Following <BiChevronDown size={22} />
+                                                        className='bg-gray-100 font-medium rounded-md flex items-center px-2 py-2 gap-2 hover:bg-gray-200'>Following
+                                                        <BiChevronDown size={22} />
                                                     </button>
                                                     <Link
                                                         onClick={NewChatifNot}
@@ -135,8 +136,12 @@ const Profile = () => {
                                         </div>
                                         <div className='hidden lg:flex gap-5 whitespace-nowrap'>
                                             <span className='text-lg font-mono'>{userById?.posts?.length} posts</span>
-                                            <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>{userById?.followers?.length} follower</button>
-                                            <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>{userById?.following?.length} following</button>
+                                            <button onClick={() => dispatch(FeatureAction.setIsModalFollowersList(true))} className='text-lg font-mono'>
+                                                {userById?.followers?.length} follower
+                                            </button>
+                                            <button onClick={() => dispatch(FeatureAction.setIsModalFollowingList(true))} className='text-lg font-mono'>
+                                                {userById?.following?.length} following
+                                            </button>
                                         </div>
                                         <p className='text-lg font-semibold'>{userById?.username}</p>
                                     </div>
@@ -164,7 +169,7 @@ const Profile = () => {
                                     <BsGrid />
                                     <p>Posts</p>
                                 </Link>
-                                <Link to='?saves' className={saved ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                                <Link to='?reels' className={Reels ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                                     <BsBookmarks />
                                     <p>Reels</p>
                                 </Link>
@@ -175,7 +180,7 @@ const Profile = () => {
                             </div>
                         </div>
                         {(posts && !isFetching) && <UsersPostsById id={userById?._id} userById={userById} />}
-                        {saved && <UserReelsById id={userById?._id} userById={userById} />}
+                        {Reels && <UserReelsById id={userById?._id} userById={userById} />}
                         {tagged && <UsersTagesById />}
                     </div>
             }

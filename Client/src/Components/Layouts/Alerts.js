@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 export const ClipAlerts = () => {
     const dispatch = useDispatch();
-
+    const { isShare } = useSelector(state => state.Features);
     return (
         <motion.div
             variants={AnimSlideUp}
@@ -15,7 +15,7 @@ export const ClipAlerts = () => {
             exit='exit'
             onClick={() => dispatch(FeatureAction.setIsClipAlert(false))}
             className="fixed bottom-6 inset-x-0 z-40 container max-w-xs text-center cursor-pointer bg-black/70 text-white rounded-lg py-4 font-lg font-medium">
-            <p>Post link copied to clipboard</p>
+            <p>{isShare ? 'Shared ' : 'Post link copied to clipboard'}</p>
         </motion.div>
     )
 }

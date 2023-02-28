@@ -1,57 +1,82 @@
-import React, { useEffect, useState } from 'react'
-import { BiChevronRight } from 'react-icons/bi';
-import { motion } from 'framer-motion';
-import AnimSlide from './../../Animation/AnimSlode';
+import React, { useEffect, useRef, useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper'
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { useLocation } from 'react-router-dom';
+import { BsPlayFill } from 'react-icons/bs';
 
-const ImagesSlider = (props) => {
-    const [curIndex, setCurIndex] = useState(0);
-    const [images, setImages] = useState([]);
+const ImagesSlider = ({ Details }) => {
+    const location = useLocation();
+
+    const Reels = (location.search === `?reels`)
+    const [ispaused, setIsPaused] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const videoRefs = useRef([]);
 
     useEffect(() => {
-        const details = props.Details
-        setImages(details?.images)
-    }, [props.Details]);
-    const prevSlide = () => {
-        const isFirstSlide = curIndex === 0;
-        const newIndex = isFirstSlide ? images.length - 1 : curIndex - 1;
-        setCurIndex(newIndex);
+        const firstVideoRef = videoRefs.current[0];
+        firstVideoRef.play();
+        setIsPlaying(true);
+
+    }, []);
+
+    const handleVideoClick = (index) => {
+        const currentVideoRef = videoRefs.current[index];
+
+        if (currentVideoRef.paused) {
+            currentVideoRef.play();
+            setIsPlaying(true);
+        } else {
+            currentVideoRef.pause();
+            setIsPlaying(false);
+        }
     };
-    const nextSlide = () => {
-        const isLastSlide = curIndex === images.length - 1;
-        const newIndex = isLastSlide ? 0 : curIndex + 1;
-        setCurIndex(newIndex);
-    };
-    const goToSlide = (slideIndex) => {
-        setCurIndex(slideIndex);
-    };
+
+    useEffect(() => {
+        if (isPlaying === false) {
+            return setIsPaused(true);
+        }
+        setIsPaused(false);
+    }, [isPlaying]);
+
+
     return (
         <>
-            <motion.img
-                variants={AnimSlide}
-                initial='initial'
-                animate='animate'
-                exit='exit'
-                src={images && images[curIndex]?.url}
-                className='h-full w-full object-cover rounded-l-lg rounded-t-lg md:rounded-tr-none'
-                alt='' />
-            <div className='absolute inset-y-1/2 flex justify-between w-full px-4'>
-                <button onClick={prevSlide} className='bg-white/30 text-black h-8 w-8 rounded-full flex justify-center items-center'>
-                    <BiChevronRight size={25} />
-                </button>
-                <button onClick={nextSlide} className='bg-white/30 text-black h-8 w-8 rounded-full flex justify-center items-center'>
-                    <BiChevronRight size={25} />
-                </button>
-            </div>
-            <div className='flex gap-2 justify-center text-7xl inset-x-1/2 bottom-0 absolute py-2'>
-                {images?.map((slide, slideIndex) => (
-                    <div key={slideIndex} onClick={() => goToSlide(slideIndex)} className={slideIndex === curIndex ?
-                        ' cursor-pointer text-white'
-                        :
-                        'text-gray-500 cursor-pointer'}>
-                        <span className='h-5 w-5'>.</span>
-                    </div>
-                ))}
-            </div>
+            <Swiper
+                modules={[Pagination]}
+                spaceBetween={0}
+                slidesPerView={1}
+                pagination={{ clickable: true }}
+                className='!h-full overflow-hidden'
+            >
+                {Details?.videos?.length > 0 &&
+                    Details?.videos?.map((vid, index) => (
+                        <SwiperSlide key={vid?._id} className='!h-full w-full relative overflow-hidden'>
+                            <video
+                                onClick={() => handleVideoClick(index)}
+                                ref={(el) => (videoRefs.current[index] = el)}
+                                className='h-full relative object-cover w-full cursor-pointer overflow-hidden' loop playsInline>
+                                <source src={vid?.url} />
+                            </video>
+                            {ispaused &&
+                                <div className='absolute bottom-0 top-[40%] left-[40%] cursor-pointer pointer-events-none text-white/50 text-3xl rounded-full h-28 w-28 flex justify-center items-center border-white/50 border-2'>
+                                    <BsPlayFill size={100} />
+                                </div>
+                            }
+                        </SwiperSlide>
+                    ))
+                }
+                {!Reels &&
+                    Details?.images?.map(image => (
+                        <SwiperSlide key={image?.url}>
+                            <img className='rounded-md h-full min-w-full object-cover'
+                                src={image?.url}
+                                alt={Details?.user?.username}
+                            />
+                        </SwiperSlide>
+                    ))}
+            </Swiper>
         </>
     )
 }

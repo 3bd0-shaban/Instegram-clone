@@ -22,6 +22,7 @@ const FeaturesSlice = createSlice({
         isModalBlockConfirm: false,
         isModalLoadingUpload: false,
         isNewMSG: false,
+        isShare: false,
 
     },
     reducers: {
@@ -87,6 +88,9 @@ const FeaturesSlice = createSlice({
         },
         setMessageAlert(state) {
             state.isNewMSG = !state.isNewMSG;
+        },
+        setIsShare(state) {
+            state.isShare = !state.isShare;
         },
     },
 });

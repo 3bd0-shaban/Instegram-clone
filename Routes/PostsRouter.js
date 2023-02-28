@@ -25,6 +25,6 @@ router.delete('/delete/:id', auth, DeletePost);
 
 
 router.get('/get/followers/reels', auth, FollowersReel);
-router.get('/get/userreels', auth, User_Reels);
+router.get('/userreels', auth, User_Reels);
 router.get('/get/userbyidreels/:id', auth, ChechPrivacy, User_Reels_ById);
 export default router

@@ -40,7 +40,7 @@ const UserSaves = ({ userInfo }) => {
     return (
         <>
             <AnimatePresence>
-                {isModalPostDetails && <ModalPostDetails ID={postID} postDetails={postDetails} />}
+                {isModalPostDetails && <ModalPostDetails id={postID} postDetails={postDetails} />}
             </AnimatePresence>
             {isModalReports && <ModalReports />}
             {isModalThanksReport && <ModalThanksReport postDetails={postDetails} />}

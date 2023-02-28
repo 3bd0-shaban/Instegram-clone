@@ -143,10 +143,11 @@ const SinglePost = ({ postDetail, setPostID, setPostDetails }) => {
                             }}
                             className='cursor-pointer hover:text-gray-500'>
                             <FaRegComment size={25} />
-                        </div>}
-                    <button className='hover:text-gray-500 cursor-pointer'>
+                        </div>
+                    }
+                    {/* <button onClick={() => dispatch(FeatureAction.setIsShare(true))} className='hover:text-gray-500 cursor-pointer'>
                         <IoMdPaperPlane size={25} />
-                    </button>
+                    </button> */}
                 </div>
                 {isSaved ?
                     <AnimatePresence>

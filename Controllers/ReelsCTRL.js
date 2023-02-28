@@ -27,13 +27,14 @@ export const User_Reels_ById = asyncHandler(async (req, res, next) => {
         .populate('comments.user', 'username avatar')
         .sort("-createdAt");
     if (!userReels) {
-        return next(new ErrorHandler('No Posts For that user'), 400)
+        return next(new ErrorHandler('No Reels For that user'), 400)
     }
     return res.json(userReels);
 });
 
 
 export const User_Reels = asyncHandler(async (req, res, next) => {
+    console.log('dddddddddddd')
     const resultperpage = 4;
     const features = new Features(Posts.find({ user: req.user.id, isReel: true }), req.query).Pagination(resultperpage)
     const userReels = await features.query
@@ -41,7 +42,7 @@ export const User_Reels = asyncHandler(async (req, res, next) => {
         .populate('comments.user', 'username avatar')
         .sort("-createdAt");
     if (!userReels) {
-        return next(new ErrorHandler('No Posts For that user'), 400)
+        return next(new ErrorHandler('No Reels For that user'), 400)
     }
     return res.json(userReels);
 });

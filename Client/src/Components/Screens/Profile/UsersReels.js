@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { BsFillChatFill, BsImages } from 'react-icons/bs'
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
-import { ModalPostDetails, ModalPostMoreLogged } from '../../Exports'
+import { ModalPostDetails, ModalPostMoreLogged } from '../../../Components/Exports'
 import { ImSpinner3 } from 'react-icons/im';
 import { useSelector } from 'react-redux';
 import useBreakpoint from '../../../Hooks/useBreakpoint';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useGetUserByIdReelsQuery, ReelsApi } from '../../../Redux/APIs/ReelsApi';
+import { useGetUserReelsQuery, ReelsApi } from '../../../Redux/APIs/ReelsApi';
 
-const UserReelsById = ({ id, userById }) => {
-    const { data, isFetching, error, isError } = useGetUserByIdReelsQuery(id)
+const UsersReels = ({ userInfo }) => {
+    const { data, isFetching, error, isError } = useGetUserReelsQuery(1)
     const { userReels, totalCount } = data || {};
     const { isModalPostDetails, isModalPostMoreLogged } = useSelector(state => state.Features);
     const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const UserReelsById = ({ id, userById }) => {
     useEffect(() => {
         if (page > 1) {
             dispatch(
-                ReelsApi.endpoints.useGetMoreUserByIdReelsQuery.initiate(page)
+                ReelsApi.endpoints.GetMoreUserReels.initiate(page)
             );
         }
     }, [page, dispatch]);
@@ -53,7 +53,7 @@ const UserReelsById = ({ id, userById }) => {
                 <div className='my-8'>
                     <div className='block text-center space-y-5'>
                         <p className='block font-bold text-4xl'>Reels</p>
-                        <p>No reels posted by this user</p>
+                        <p>Upload your first reel</p>
                     </div>
                 </div>
             </>
@@ -81,7 +81,7 @@ const UserReelsById = ({ id, userById }) => {
                                 {userReels && userReels?.map((post) => (
                                     <div onClick={() => {
                                         MobileView ?
-                                            navigate(`/p/${post?._id}?profile=${userById.username}`)
+                                            navigate(`/p/${post?._id}?profile=${userInfo.username}`)
                                             :
                                             dispatch(FeatureAction.Show_ModalPostDetails(true)); setPostID(post?._id); setPostDetails(post)
                                     }}
@@ -106,4 +106,5 @@ const UserReelsById = ({ id, userById }) => {
         </>
     )
 }
-export default UserReelsById
+
+export default UsersReels

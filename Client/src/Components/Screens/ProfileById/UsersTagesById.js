@@ -5,7 +5,7 @@ const UsersTagesById = () => {
     const EmptyTagges = () => {
         return (
             <>
-                <div className='flex mt-28 justify-center'>
+                <div className='flex mt-[8.55rem] justify-center'>
                     <div className='border-black border-[3px] flex items-center rounded-full p-5'>
                         <BsPersonCircle size={40} />
                     </div>

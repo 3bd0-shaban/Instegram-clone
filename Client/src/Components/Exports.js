@@ -14,7 +14,7 @@ export { default as Users } from './Dashboard/Users';
 
 export { default as UserSaves } from './Screens/Profile/UserSaves';
 export { default as UsersPosts } from './Screens/Profile/UsersPosts';
-export { default as UsersTages } from './Screens/Profile/UsersTages';
+export { default as UsersReels } from './Screens/Profile/UsersReels';
 
 export { default as UserReelsById } from './Screens/ProfileById/UserReelsById';
 export { default as UsersPostsById } from './Screens/ProfileById/UsersPostsById';
@@ -37,6 +37,7 @@ export { default as ModalUnFollowConfirm } from './Home/Modals/ModalUnFollowConf
 export { default as ModalThanksReport } from './Home/Modals/ModalThanksReport';
 export { default as ModalChangeProfile } from './Home/Modals/ModalChangeProfile';
 export { default as ModalUserByIdSettings } from './Home/Modals/ModalUserByIdSettings';
+export { default as ModalSendPost } from './Home/Modals/ModalSendPost';
 export { default as ModalPostMoreLogged } from './Home/Modals/ModalPostMoreLogged';
 export { default as PostMore } from './Home/Modals/PostMore';
 

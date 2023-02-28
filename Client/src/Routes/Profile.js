@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SideBar, useTitle, UserSaves, UsersPosts, UsersTages, Footer, ModalSettings, ModalFollowers, ModalFollowing, ModalChangeProfile } from '../Components/Exports'
+import { SideBar, useTitle, UserSaves, UsersPosts, UsersReels, Footer, ModalSettings, ModalFollowers, ModalFollowing, ModalChangeProfile } from '../Components/Exports'
 import { BsBookmarks, BsGear, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
@@ -17,7 +17,7 @@ const Profile = () => {
     const location = useLocation();
     const posts = (location.search === `?posts` || location.search === ``)
     const saved = (location.search === `?saves`)
-    const tagged = (location.search === `?tages`)
+    const Reels = (location.search === `?reels`)
     return (
         <div className='bg-white'>
             <SideBar />
@@ -41,7 +41,7 @@ const Profile = () => {
                             <div className='hidden rounded-full group-hover:flex text-white items-center justify-center absolute p-2 inset-0 hover:bg-black/20'>
                                 <FiPlus />
                             </div>
-                            <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userInfo?.avatar?.url ? userInfo?.avatar?.url: process.env.REACT_APP_DefaultIcon} alt='' />
+                            <img className='w-40 h-40 lg:w-48 lg:h-48 rounded-full col-span-2 flex justify-center items-center object-cover' src={userInfo?.avatar?.url ? userInfo?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt='' />
                         </button>
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                             <div className='space-y-5'>
@@ -84,7 +84,7 @@ const Profile = () => {
                             <BsBookmarks />
                             <p>Saved</p>
                         </Link>
-                        <Link to='?tages' className={tagged ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
+                        <Link to='?reels' className={Reels ? 'profileitems !text-black border-t border-black' : 'profileitems'}>
                             <BsPersonLinesFill />
                             <p>Reels</p>
                         </Link>
@@ -92,7 +92,7 @@ const Profile = () => {
                 </div>
                 {posts && <UsersPosts userInfo={userInfo} />}
                 {saved && <UserSaves userInfo={userInfo} />}
-                {tagged && <UsersTages />}
+                {Reels && <UsersReels userInfo={userInfo} />}
             </div>
             <div className='mt-40'>
                 <Footer />

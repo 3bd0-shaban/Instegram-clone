@@ -223,7 +223,7 @@ const ModalPostDetails = ({ id }) => {
                 animate='animate'
                 exit='exit'
                 className='fixed inset-x-0 h-[70%] top-[15%] xl:h-full xl:top-[5%] p-4 container max-w-[75%] z-20 duration-300'>
-                <div className="relative bg-white rounded-lg shadow md:h-[90%]">
+                <div className="relative bg-white rounded-lg overflow-hidden shadow md:h-[90%]">
                     {isFetching ? <p className='flex justify-center items-center text-3xl font-medium h-full animate-spin'><ImSpinner3 /></p> :
                         isError ?
                             <div className='flex justify-center items-center text-lg font-medium h-full'><p>{error?.data?.msg}</p></div> :

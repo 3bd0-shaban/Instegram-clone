@@ -1,4 +1,5 @@
 import { apiSlice } from '../ApiSlice';
+import { setSingleMSGNotify } from '../Slices/MessageSlice';
 import getSocket from '../SocketRTK';
 // const userId = localStorage.getItem('id')
 
@@ -106,6 +107,8 @@ export const MessageApi = apiSlice.injectEndpoints({
                                 };
                             })
                         );
+                        dispatch(setSingleMSGNotify({ image, sender, receiver, chatId, createdAt, msg }))
+
                         dispatch(
                             apiSlice.util.updateQueryData("UserChats", 1, (draft) => {
                                 // UPDATE LAST MASSAGE IN CHATS WNEN NEW MESSAGE SEND OR RECIEVED 

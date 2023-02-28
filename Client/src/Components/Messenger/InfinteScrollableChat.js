@@ -74,7 +74,7 @@ const InfinteScrollableChat = ({ userById, id, }) => {
                     className='hideScrollBare flex flex-col-reverse'
                     scrollableTarget="scrollableDiv"
                 >
-                    {typing && <p className='mx-3'>typing ....</p>}
+                    {typing && <p className='m-3'>typing ....</p>}
                     {MSGs?.map((message, index) => (
                         <div ref={ScrollRef} key={index}>
                             <Message message={message} FollowerChating={message?.sender === userById?._id} />

@@ -6,14 +6,18 @@ import { useDeleteAllMSGsMutation } from '../../Redux/APIs/MessageApi'
 import { FeatureAction } from './../../Redux/Slices/FeaturesSlice'
 import { ModalBlockConfirm } from './../Exports'
 
-const CoversationCTRL = ({ setDetails, details, id, userById }) => {
+const CoversationCTRL = ({ setDetails, setSelected, details, id, userById }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const { isModalBlockConfirm } = useSelector(state => state.Features);
     const [DeleteAllMSGs, { isLoading, isError, error }] = useDeleteAllMSGsMutation();
     const DeleteAll = async () => {
         await DeleteAllMSGs(id).unwrap()
-            .then(() => navigate('/messages'))
+            .then(() => {
+                setDetails(false);
+                setSelected(false)
+                navigate('/messages');
+            })
     }
 
     return (

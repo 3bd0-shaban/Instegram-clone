@@ -58,7 +58,7 @@ const Notifications = () => {
                     next={fetchMore}
                     hasMore={hasMore}
                     loader={<h4>Loading...</h4>}
-                    className='overflow-y-scroll !h-full hideScrollBare mt-10 lg:mt-0'
+                    className='overflow-y-scroll space-y-3 !h-full hideScrollBare mt-10 lg:mt-0'
                 >
                     {notifies?.map(res => (
                         <Link
@@ -80,7 +80,7 @@ const Notifications = () => {
                                         <ImSpinner3 />
                                     </div> :
                                     'Confirm'}</button>
-                                <button onClick={() => HandleRequestDelete(res?.sender?._id)} className='bg-gray-200 text-black font-medium text-lg rounded-md px-3 py-1'>{loadingCancel ?
+                                <button onClick={() => HandleRequestDelete(res?.sender?._id)} className='bg-gray-200 text-slate-800 font-medium text-lg rounded-md px-3 py-1'>{loadingCancel ?
                                     <div className='flex justify-center items-center px-3 animate-spin'>
                                         <ImSpinner3 />
                                     </div> :

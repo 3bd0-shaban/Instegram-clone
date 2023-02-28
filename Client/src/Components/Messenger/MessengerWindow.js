@@ -12,7 +12,7 @@ const MessengerWindow = () => {
 
     const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
     const lapview = (breakpoint === 'xxxl' || breakpoint === 'xxl' || breakpoint === 'xl');
-    
+
     useEffect(() => {
         if (id && username) {
             setSelected(true)
@@ -31,7 +31,7 @@ const MessengerWindow = () => {
                     }
                     <div className={`col-span-2 relative ${MobileView && '!col-span-3'}`}>
                         {selected ?
-                            <ChatBox />
+                            <ChatBox setSelected={setSelected} />
                             :
                             <MainNoSelection />
                         }

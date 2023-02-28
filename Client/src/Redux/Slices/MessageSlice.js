@@ -2,20 +2,20 @@ import { createSlice } from "@reduxjs/toolkit"
 const MessageSlice = createSlice({
     name: 'MSGs',
     initialState: {
-        MSGs: [],
-        singleMSG: {},
+        MSGsNotify: [],
+        singleMSGNotify: {},
     },
     reducers: {
-        setTotalMSGs(state, action) {
+        setTotalMSGsNotify(state, action) {
             state.MSGs = action.payload;
         },
-        setSingleMSG(state, action) {
+        setSingleMSGNotify(state, action) {
             state.singleMSG = action.payload;
 
         },
     }
 })
-export const { setTotalMSGs, setSingleMSG } = MessageSlice.actions;
+export const { setTotalMSGsNotify, setSingleMSGNotify } = MessageSlice.actions;
 export default MessageSlice.reducer
 
 // export const selectTotalPosts = (state) => state.Posts.posts

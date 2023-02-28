@@ -1,10 +1,12 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { motion } from 'framer-motion';
 import AnimModal from '../../../Animation/AnimModal';
 import { Link, useNavigate } from 'react-router-dom';
 const Website = process.env.REACT_APP_Website
 const PostMore = ({ PostId, postDetails }) => {
+    const { isModalPostDetails } = useSelector(state => state.Features)
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     return (
@@ -38,12 +40,23 @@ const PostMore = ({ PostId, postDetails }) => {
                     {/* <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Add to favorite</span><hr /> */}
 
                     <Link to={`/p/${PostId}`}
-                        onClick={() => dispatch(FeatureAction.Show_isPostMore(false))}
+                        onClick={() => {
+                            dispatch(FeatureAction.Show_isPostMore(false))
+                            if (isModalPostDetails) {
+                                dispatch(FeatureAction.Show_ModalPostDetails(false));
+                            }
+                        }}
                         className='block py-4 hover:bg-gray-100 cursor-pointer'>Go to post
                     </Link><hr />
 
                     <div
-                        onClick={() => { dispatch(FeatureAction.Show_isPostMore(false)); navigate(`/${postDetails?.user?.username}`) }}
+                        onClick={() => {
+                            dispatch(FeatureAction.Show_isPostMore(false));
+                            navigate(`/${postDetails?.user?.username}`)
+                            if (isModalPostDetails) {
+                                dispatch(FeatureAction.Show_ModalPostDetails(false));
+                            }
+                        }}
                         className='block py-4 hover:bg-gray-100 cursor-pointer'>About this account</div><hr />
 
                     <span

@@ -46,6 +46,7 @@ const Profile = () => {
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                             <div className='space-y-5'>
                                 <p className='text-lg font-semibold'>{userInfo?.fullname}</p>
+                                <p className='text-lg text-gray-500'>{userInfo?.bio}</p>
                                 <div className='flex items-center gap-6'>
                                     <Link to='/settings/edit' className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 focus:bg-gray-300'>Edit Profile</Link>
                                     <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsGear size={24} /></button>

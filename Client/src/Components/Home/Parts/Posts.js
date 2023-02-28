@@ -45,8 +45,8 @@ const Posts = () => {
       </AnimatePresence>
       {isModalReports && <ModalReports />}
       {isShare && <ModalSendPost PostId={postID} />}
-      {isModalThanksReport && <ModalThanksReport postDetails={postDetails} />}
-      {isModalUnfollowConfirm && <ModalUnFollowConfirm postDetails={postDetails} />}
+      {isModalThanksReport && <ModalThanksReport userById={postDetails?.user} />}
+      {isModalUnfollowConfirm && <ModalUnFollowConfirm userById={postDetails?.user} />}
       {isModalBlockConfirm && <ModalBlockConfirm UserByIdDetails={postDetails?.user} />}
       {isPostMore && <PostMore onClose={() => dispatch(FeatureAction.Show_isPostMore(false))} PostId={postID} postDetails={postDetails} />}
       {isModalPostMoreLogged && <ModalPostMoreLogged PostId={postID} postDetails={postDetails} onDeleteSuccess={() => { isModalPostDetails && dispatch(FeatureAction.Show_ModalPostDetails(false)) }} />}

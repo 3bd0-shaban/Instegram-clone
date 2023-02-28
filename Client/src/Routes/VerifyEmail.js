@@ -63,9 +63,6 @@ const VerifyEmail = () => {
                             {isError && <span className="text-red-500 pb-3 font-poppins font-medium">{error?.data?.msg}</span>}
                         </form>
                     </div>
-                    <div className='md:border rounded-lg max-w-[90%] border-gray-300 justify-center flex mt-5 md:bg-white'>
-                        <Link to="/signup" className='font-semibold text-blue-400 py-4'>Back to login</Link>
-                    </div>
                 </div>
             </div>
             <div className='flex text-center justify-center mx-auto max-w-xs'>

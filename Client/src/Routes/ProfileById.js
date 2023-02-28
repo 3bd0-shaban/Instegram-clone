@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
     SideBar, useTitle, Footer, UsersTagesById,
     UserReelsById, UsersPostsById, ModalUserByIdSettings,
-    ModalFollowing, ModalFollowers, ModalFollowerCTRL, SkilProfileById
+    ModalFollowing, ModalFollowers, ModalFollowerCTRL, SkilProfileById, ModalReports, ModalThanksReport, ModalUnFollowConfirm, ModalBlockConfirm
 } from '../Components/Exports'
 import { BsBookmarks, BsThreeDots, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
 import { useState } from 'react';
@@ -25,7 +25,9 @@ const Profile = () => {
     const { username } = useParams();
     const { data: userById, isError, isFetching, error } = useGetUserByIdQuery(username) || {};
     // const { data: getfollowerchatID } = useSingleChatQuery(id) || {};
-    const { isModalFollowersList, isModalFollowingList, isModalFollowerCTRL, isModalSettings } = useSelector(state => state.Features);
+    const {
+        isModalFollowersList, isModalFollowingList, isModalFollowerCTRL, isModalSettings,
+        isModalBlockConfirm, isModalUnfollowConfirm, isModalThanksReport, isModalReports } = useSelector(state => state.Features);
     useTitle(userById?.username);
     const navigate = useNavigate();
     const userInfo = useSelector(selectCurrentUser)
@@ -77,6 +79,10 @@ const Profile = () => {
             {isModalFollowersList && <ModalFollowers id={userById?._id} />}
             {isModalFollowerCTRL && <ModalFollowerCTRL userInfo={userById} />}
             {isModalSettings && <ModalUserByIdSettings id={userById?._id} />}
+            {isModalReports && <ModalReports />}
+            {isModalThanksReport && <ModalThanksReport userById={userById} />}
+            {isModalUnfollowConfirm && <ModalUnFollowConfirm userById={userById} />}
+            {isModalBlockConfirm && <ModalBlockConfirm userById={userById} />}
             {isFetching ?
                 <SkilProfileById />
                 : isError ? <NotFounded /> :
@@ -91,6 +97,7 @@ const Profile = () => {
                                             <p className='text-lg font-semibold'>{userById?.fullname}</p>
                                             <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsThreeDots size={24} /></button>
                                         </div>
+                                        <p className='text-lg text-gray-500'>{userById?.bio}</p>
                                         <div className='flex gap-3'>
                                             {isFollowing ?
                                                 <>

@@ -15,8 +15,8 @@ const ImagesSlider = ({ Details }) => {
     const videoRefs = useRef([]);
 
     useEffect(() => {
-        const firstVideoRef = videoRefs.current[0];
-        firstVideoRef.play();
+        const firstVideoRef = videoRefs?.current[0];
+        firstVideoRef?.play();
         setIsPlaying(true);
 
     }, []);
@@ -60,7 +60,9 @@ const ImagesSlider = ({ Details }) => {
                                 <source src={vid?.url} />
                             </video>
                             {ispaused &&
-                                <div className='absolute bottom-0 top-[40%] left-[40%] cursor-pointer pointer-events-none text-white/50 text-3xl rounded-full h-28 w-28 flex justify-center items-center border-white/50 border-2'>
+                                <div
+                                    className='absolute bottom-0 top-[40%] left-[40%] cursor-pointer pointer-events-none
+                                     text-white/50 text-3xl rounded-full h-28 w-28 flex justify-center items-center border-white/50 border-2'>
                                     <BsPlayFill size={100} />
                                 </div>
                             }

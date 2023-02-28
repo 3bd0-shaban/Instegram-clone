@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { motion } from 'framer-motion';
 import AnimModal from '../../../Animation/AnimModal';
@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDeletePostsMutation, useHideLikesMutation, useTurnCommentsMutation } from '../../../Redux/APIs/PostsApi';
 
 const ModalPostMoreLogged = ({ PostId, postDetails, onDeleteSuccess }) => {
+    const { isModalPostDetails } = useSelector(state => state.Features)
     const dispatch = useDispatch();
     const [DeletePosts] = useDeletePostsMutation();
     const [HideLikes] = useHideLikesMutation();
@@ -13,7 +14,7 @@ const ModalPostMoreLogged = ({ PostId, postDetails, onDeleteSuccess }) => {
     const id = PostId
     const HandleDeletePost = () => {
         DeletePosts(id).unwrap()
-            .then(payload => {
+            .then(() => {
                 dispatch(FeatureAction.Show_ModalPostMoreLogged(false))
                 onDeleteSuccess();
             }).catch(err => {
@@ -22,7 +23,7 @@ const ModalPostMoreLogged = ({ PostId, postDetails, onDeleteSuccess }) => {
     }
     const HandleHideLikes = () => {
         HideLikes(id).unwrap()
-            .then(payload => {
+            .then(() => {
                 dispatch(FeatureAction.Show_ModalPostMoreLogged(false));
             }).catch(err => {
                 console.log(err?.data?.msg)
@@ -30,7 +31,7 @@ const ModalPostMoreLogged = ({ PostId, postDetails, onDeleteSuccess }) => {
     }
     const HandleTurnComments = () => {
         TurnoffComments(id).unwrap()
-            .then(payload => {
+            .then(() => {
                 dispatch(FeatureAction.Show_ModalPostMoreLogged(false));
             }).catch(err => {
                 console.log(err?.data?.msg)
@@ -52,13 +53,24 @@ const ModalPostMoreLogged = ({ PostId, postDetails, onDeleteSuccess }) => {
                     <div className='w-full text-center mx-auto'>
                         <span onClick={HandleDeletePost} className='block text-red-600 py-4 hover:bg-gray-100 font-medium cursor-pointer'>Delete</span><hr />
                         {/* <span className='block py-4 hover:bg-gray-100 cursor-pointer'>Edit</span><hr /> */}
-                        <span onClick={HandleHideLikes} className='block py-4 hover:bg-gray-100 cursor-pointer'>{postDetails?.hiddenlikes ? 'Show like count' : 'Hide like count'}</span><hr />
-                        <span onClick={HandleTurnComments} className='block py-4 hover:bg-gray-100 cursor-pointer'>{postDetails?.turnoffcomments ? 'Turn on commeting' : 'Turn off commenting'}</span><hr />
+                        <span onClick={HandleHideLikes} className='block py-4 hover:bg-gray-100 cursor-pointer'>
+                            {postDetails?.hiddenlikes ?
+                                'Show like count' : 'Hide like count'}</span><hr />
+                        <span onClick={HandleTurnComments} className='block py-4 hover:bg-gray-100 cursor-pointer'>
+                            {postDetails?.turnoffcomments ?
+                                'Turn on commeting' : 'Turn off commenting'}</span><hr />
                         <Link to={`/p/${PostId}`}
-                            onClick={() => dispatch(FeatureAction.Show_ModalPostMoreLogged(false))}
+                            onClick={() => {
+                                dispatch(FeatureAction.Show_ModalPostMoreLogged(false));
+                                if (isModalPostDetails) {
+                                    dispatch(FeatureAction.Show_ModalPostDetails(false));
+                                }
+                            }}
                             className='block py-4 hover:bg-gray-100 cursor-pointer'>Go to post
                         </Link><hr />
-                        <span className='block py-4 hover:bg-gray-100 cursor-pointer' onClick={() => dispatch(FeatureAction.Show_ModalPostMoreLogged(false))} >Cancel</span>
+                        <span className='block py-4 hover:bg-gray-100 cursor-pointer'
+                            onClick={() => dispatch(FeatureAction.Show_ModalPostMoreLogged(false))} >Cancel
+                        </span>
                     </div>
                 </div>
             </motion.div>

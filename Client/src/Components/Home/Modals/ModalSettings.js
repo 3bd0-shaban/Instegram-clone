@@ -5,7 +5,7 @@ import AnimModal from '../../../Animation/AnimModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogOutMutation } from '../../../Redux/APIs/AuthApi';
 
-const ModalSettings = (props) => {
+const ModalSettings = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [LogOut] = useLogOutMutation();

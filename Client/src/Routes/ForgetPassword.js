@@ -62,7 +62,7 @@ const ForgetPassword = () => {
                         </form>
                     </div>
                     <div className='md:border rounded-lg max-w-[90%] border-gray-300 justify-center flex mt-5 md:bg-white'>
-                        <Link to="/signup" className='font-semibold text-blue-400 py-4'>Back to login</Link>
+                        <Link to="/signin" className='font-semibold text-blue-400 py-4'>Back to login</Link>
                     </div>
                 </div>
             </div>

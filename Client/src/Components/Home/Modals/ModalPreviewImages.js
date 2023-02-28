@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper'
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { BsArrowLeft } from 'react-icons/bs';
+import { BsArrowLeft, BsPlayFill } from 'react-icons/bs';
 import { selectCurrentUser } from './../../../Redux/Slices/UserSlice';
 import { AnimatePresence, motion } from 'framer-motion';
 import AnimDropdown from './../../../Animation/AnimDropdown';
@@ -58,22 +58,35 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
         }
         setNext(true)
     }
-    // const ImageDesicription = ({ image, index }) => {
-    //     const [imageDes, setImagesdes] = useState('');
-    //     return (
-    //         <div key={index} className='flex gap-3'>
-    //             <img className='h-10 w-10 object-cover'
-    //                 src={image}
-    //                 alt=''
-    //             />
-    //             <input type='text'
-    //                 onChange={(e) => setImagesdes(e.target.value)}
-    //                 value={imageDes}
-    //                 className='outline-none border rounded-lg w-full px-2'
-    //                 placeholder='write alt text ...' />
-    //         </div>
-    //     )
-    // }
+    const [ispaused, setIsPaused] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const videoRefs = useRef([]);
+
+    useEffect(() => {
+        const firstVideoRef = videoRefs?.current[0];
+        firstVideoRef?.play();
+        setIsPlaying(true);
+
+    }, []);
+
+    const handleVideoClick = (index) => {
+        const currentVideoRef = videoRefs.current[index];
+
+        if (currentVideoRef.paused) {
+            currentVideoRef.play();
+            setIsPlaying(true);
+        } else {
+            currentVideoRef.pause();
+            setIsPlaying(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isPlaying === false) {
+            return setIsPaused(true);
+        }
+        setIsPaused(false);
+    }, [isPlaying]);
 
     return (
         <>
@@ -98,14 +111,22 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
                                                 spaceBetween={0}
                                                 slidesPerView={1}
                                                 pagination={{ clickable: true }}
-                                                className={videos && 'h-fdull'}
+                                                className={videos && 'h-full'}
                                             >
                                                 {videos &&
                                                     videos?.map((vid, index) => (
                                                         <SwiperSlide key={index}>
-                                                            <video className='h-full object-cover relative' autoPlay loop playsInline>
+                                                            <video
+                                                                onClick={() => handleVideoClick(index)}
+                                                                ref={(el) => (videoRefs.current[index] = el)}
+                                                                className='h-full w-full object-cover relative' loop playsInline>
                                                                 <source src={vid} />
                                                             </video>
+                                                            {ispaused &&
+                                                                <div className='absolute bottom-0 top-[40%] left-[40%] cursor-pointer pointer-events-none text-white/50 text-3xl rounded-full h-28 w-28 flex justify-center items-center border-white/50 border-2'>
+                                                                    <BsPlayFill size={100} />
+                                                                </div>
+                                                            }
                                                         </SwiperSlide>
                                                     ))
                                                 }

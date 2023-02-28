@@ -5,11 +5,11 @@ import AnimModal from '../../../Animation/AnimModal';
 import { BsX } from 'react-icons/bs';
 import { useUnFollowMutation } from '../../../Redux/APIs/UserApi';
 
-const ModalUnFollowConfirm = ({ postDetails }) => {
+const ModalUnFollowConfirm = ({ userById }) => {
     const dispatch = useDispatch();
     const [UnFollow] = useUnFollowMutation();
     const UnFollowHandle = () => {
-        const id = postDetails?.user?._id
+        const id = userById?._id
         UnFollow(id).unwrap()
             .then(payload => dispatch(FeatureAction.setIsModalUnfollowConfirm(false)))
             .catch(err => console.log(err))
@@ -30,10 +30,10 @@ const ModalUnFollowConfirm = ({ postDetails }) => {
                 </button>
                 <div>
                     <div className='w-full flex justify-center py-5'>
-                        <img className='h-28 w-28 rounded-full col-span-2 object-cover flex justify-center items-center my-1' src={postDetails?.user?.avatar?.url ? postDetails?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt='' />
+                        <img className='h-28 w-28 rounded-full col-span-2 object-cover flex justify-center items-center my-1' src={userById?.avatar?.url ? userById?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt='' />
 
                     </div>
-                    <p className='text-lg flex justify-center mt-2'>UnFollow {postDetails?.user?.username} ?</p>
+                    <p className='text-lg flex justify-center mt-2'>UnFollow {userById?.username} ?</p>
                 </div><hr className='mt-6' />
 
                 <div className='w-full text-center mx-auto'>

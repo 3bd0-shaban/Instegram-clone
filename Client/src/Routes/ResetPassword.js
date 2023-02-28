@@ -15,7 +15,7 @@ const ResetPassword = () => {
     })
     const [searchQuery] = useSearchParams();
     const email = searchQuery.get('email')
-
+    const [error, setError] = useState('');
     const [inputs, setInputs] = useState({
         password: '',
         confirmpassword: ''
@@ -32,11 +32,20 @@ const ResetPassword = () => {
     useEffect(() => {
         userRef.current.focus()
     }, []);
-    const [ResetPassword, { isError, error, isLoading }] = useResetPasswordMutation();
+    const [ResetPassword, { isError, error: errorres, isLoading }] = useResetPasswordMutation();
     const handleSubmit = async (event) => {
+        event.preventDefault();
         const { confirmpassword, password } = inputs;
         const data = { confirmpassword, password, email }
-        event.preventDefault();
+        if (!password || !confirmpassword) {
+            return setError('Fill all fields');
+        }
+        if (password !== confirmpassword) {
+            return setError('Passwords do not match');
+        }
+        if (password.length <= 6) {
+            return setError('Passowrd must be more than 6 characters');
+        }
         await ResetPassword(data).unwrap()
             .then((payload) => {
                 navigate(`/`)
@@ -75,11 +84,9 @@ const ResetPassword = () => {
                             </div>
 
                             <Link to='/signup' className='text-blue-800 focus:text-blue-300 md:mb-7 text-sm font-medium mt-3'>Create New Account ?</Link>
-                            {isError && <span className="text-red-500 pb-3 font-poppins font-medium">{error?.data?.msg}</span>}
+                            {isError && <span className="text-red-500 pb-3 font-poppins font-medium">{errorres?.data?.msg}</span>}
+                            {error && <span className="text-red-500 pb-3 font-poppins font-medium">{error}</span>}
                         </form>
-                    </div>
-                    <div className='md:border rounded-lg max-w-[90%] border-gray-300 justify-center flex mt-5 md:bg-white'>
-                        <Link to="/signup" className='font-semibold text-blue-400 py-4'>Back to login</Link>
                     </div>
                 </div>
             </div>

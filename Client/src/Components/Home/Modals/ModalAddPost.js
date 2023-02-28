@@ -26,7 +26,7 @@ const ModalAddPost = () => {
             if (singlefile.type.startsWith('video/')) {
                 reader.readAsDataURL(singlefile);
                 reader.onload = () => {
-                    setVideos((imgs) => [...imgs, reader.result]);
+                    setVideos((vids) => vids ? [...vids, reader.result] : [reader.result]);
                 }
                 // urls.push(URL.createObjectURL(singlefile));
                 // setVideos(urls)

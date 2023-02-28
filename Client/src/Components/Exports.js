@@ -47,6 +47,8 @@ export { default as SignIn } from '../Routes/SignIn';
 export { default as SignUp } from '../Routes/SignUp';
 export { default as SetBirthday } from '../Routes/SetBirthday';
 export { default as ForgetPassword } from '../Routes/ForgetPassword';
+export { default as ResetPassword } from '../Routes/ResetPassword';
+export { default as VerifyEmail } from '../Routes/VerifyEmail';
 export { default as Confirm } from '../Routes/Confirm';
 export { default as Home } from '../Routes/Home';
 export { default as Profile } from '../Routes/Profile';

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Footer, useTitle } from '../Components/Exports';
 import { ImSpinner7 } from 'react-icons/im'
 import { IoLockOpenOutline } from 'react-icons/io5';
-import { useForgetPasswordMutation } from '../Redux/APIs/AuthApi';
-const ForgetPassword = () => {
+import { useResetPasswordMutation } from '../Redux/APIs/AuthApi';
+const ResetPassword = () => {
     useTitle('Forget Password');
     const navigate = useNavigate();
     const userRef = useRef();
@@ -13,20 +13,36 @@ const ForgetPassword = () => {
             navigate("/");
         }
     })
-    const [email, setEMail] = useState('')
+    const [searchQuery] = useSearchParams();
+    const email = searchQuery.get('email')
+
+    const [inputs, setInputs] = useState({
+        password: '',
+        confirmpassword: ''
+    });
+    const handleChange = ({ currentTarget: input }) => {
+        setInputs({ ...inputs, [input.name]: input.value });
+    };
+    useEffect(() => {
+        if (localStorage.getItem("persist") === true) {
+            navigate("/");
+        }
+    })
 
     useEffect(() => {
         userRef.current.focus()
     }, []);
-    const [ForgetPassword, { isError, error, isLoading }] = useForgetPasswordMutation();
+    const [ResetPassword, { isError, error, isLoading }] = useResetPasswordMutation();
     const handleSubmit = async (event) => {
+        const { confirmpassword, password } = inputs;
+        const data = { confirmpassword, password, email }
         event.preventDefault();
-        await ForgetPassword(email).unwrap()
+        await ResetPassword(data).unwrap()
             .then((payload) => {
-                navigate(`/verify?email=${email}&code=`)
+                navigate(`/`)
             })
             .catch((err) => {
-                console.log(err?.data?.msg);
+                console.log(err);
             });
     }
 
@@ -44,13 +60,14 @@ const ForgetPassword = () => {
                             </div>
                         </div>
                         <div className='text-lg space-y-2 py-4'>
-                            <p className='font-medium'>Trouble logging in?</p>
-                            <p className='text-gray-400 text-sm'>Enter your email, phone, or username and we'll send you a link to get back into your account.</p>
+                            <p className='font-medium'>Reset Password</p>
+                            <p className='text-gray-400 text-sm'>Please Enter your new password</p>
                         </div>
                         <form className='flex flex-col' onSubmit={handleSubmit}>
-                            <input type='email' ref={userRef} onChange={(e) => setEMail(e.target.value)} name='email' className='inputfield' placeholder='Phone number username,or email' />
+                            <input type='password' ref={userRef} onChange={handleChange} name='password' className='inputfield' placeholder='Password' />
+                            <input type='password' onChange={handleChange} name='confirmpassword' className='inputfield' placeholder='Confirm Password' />
                             <button type='submit' className='btn-primary mt-4 !mb-8' disabled={isLoading}>
-                                {isLoading ? <span className='flex items-center justify-center text-2xl py-1 animate-spin'><ImSpinner7 /> </span> : 'Send Otp Reset'}</button>
+                                {isLoading ? <span className='flex items-center justify-center text-2xl py-1 animate-spin'><ImSpinner7 /> </span> : 'Confirm'}</button>
                             <div className='flex justify-center mt-4'>
                                 <hr className='w-[40%] mt-3'></hr>
                                 <p className='mx-3 font-semibold text-gray-500'>OR</p>
@@ -74,4 +91,4 @@ const ForgetPassword = () => {
     )
 }
 
-export default ForgetPassword
+export default ResetPassword

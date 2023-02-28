@@ -117,7 +117,7 @@ export const AuthApi = apiSlice.injectEndpoints({
         VerifyEmailtoResest: builder.mutation({
             query: ({ email, code }) => ({
                 url: `/api/auth/verifyOtp?email=${email}&code=${code}`,
-                method: 'GET',
+                method: 'POST',
             }),
             invalidatesTags: ['Auth'],
         }),
@@ -131,8 +131,8 @@ export const AuthApi = apiSlice.injectEndpoints({
         }),
         ForgetPassword: builder.mutation({
             query: (email) => ({
-                url: `/api/auth/generateOtp?email=${email}&code=`,
-                method: 'GET',
+                url: `/api/auth/forgetpassword?email=${email}&code=`,
+                method: 'POST',
                 // body: data
             }),
             invalidatesTags: ['Auth'],
@@ -140,7 +140,7 @@ export const AuthApi = apiSlice.injectEndpoints({
         ResetPassword: builder.mutation({
             query: (data) => ({
                 url: '/api/auth/resetpassword',
-                method: 'PUT',
+                method: 'POst',
                 body: data
             }),
             invalidatesTags: ['Auth'],

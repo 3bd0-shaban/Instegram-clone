@@ -138,8 +138,11 @@ export const RefreshToken = asyncHandler(async (req, res, next) => {
     return res.json({ accessToken, user })
 });
 
-export const GenerateOtp = asyncHandler(async (req, res, next) => {
+export const ForgetPassword = asyncHandler(async (req, res, next) => {
     const { email } = req.query
+    if (!email) {
+        return next(new ErrorHandler('Email is required', 400));
+    }
     req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
     const user = await Users.findOneAndUpdate({ email }, { otp: req.app.locals.OTP }, { new: true });
     const to = user.email
@@ -180,7 +183,7 @@ export const ChangePassword = asyncHandler(async (req, res, next) => {
         return next(new ErrorHandler('Invalid Email Or Password', 400));
     }
     if (newpassword !== confirmpassword) {
-        return next(new ErrorHandler('password did not match', 400));
+        return next(new ErrorHandler('Passwords do not match', 400));
     }
     if (newpassword.length <= 6) {
         return next(new ErrorHandler('Passowrd must be more than 6 characters', 400));
@@ -195,10 +198,10 @@ export const ChangePassword = asyncHandler(async (req, res, next) => {
 
 export const ResetPassword = asyncHandler(async (req, res, next) => {
 
-    if (!req.app.locals.resetsession) {
-        return next(new ErrorHandler('Session Expired !', 400));
-    }
     const { password, confirmpassword, email } = req.body;
+    if (!req.app.locals.resetsession) {
+        return next(new ErrorHandler('Session Expired !', 401));
+    }
     if (!password || !confirmpassword) {
         return next(new ErrorHandler('Fill all fields'), 400)
     }

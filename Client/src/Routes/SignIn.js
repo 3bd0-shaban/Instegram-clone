@@ -10,6 +10,11 @@ const SignIn = () => {
     email: '',
     password: ''
   });
+    useEffect(() => {
+    if (localStorage.getItem("persist") === true) {
+      navigate("/");
+    }
+  })
   const navigate = useNavigate();
   const handleChange = ({ currentTarget: input }) => {
     setInputs({ ...inputs, [input.name]: input.value });
@@ -56,7 +61,7 @@ const SignIn = () => {
                 </div>
                 <p className=' focus:text-blue-300 ml-2 text-base text-blue-900 font-medium'>Log in with facebook</p>
               </button>
-              <Link to='birthday' className='text-blue-800 focus:text-blue-300 md:mb-7 text-sm mt-2'>Forgot password ?</Link>
+              <Link to='/forgetpassword' className='text-blue-800 focus:text-blue-300 md:mb-7 text-sm mt-2'>Forgot password ?</Link>
               {isError && <span className="text-red-500 pb-3 font-poppins font-medium">{error?.data?.msg}</span>}
             </form>
           </div>
@@ -66,7 +71,7 @@ const SignIn = () => {
         </div>
       </div>
       <div className='flex text-center justify-center mx-auto max-w-xs'>
-        <img src='/images/Meta.png' className='h-16' alt=''></img>
+      <img src='https://res.cloudinary.com/abdo9/image/upload/v1676229220/Meta_y7ivww.png' className='h-16' alt=''></img>
       </div>
       <Footer />
     </>

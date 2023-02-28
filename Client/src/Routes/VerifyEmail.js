@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Footer, useTitle } from '../Components/Exports';
 import { ImSpinner7 } from 'react-icons/im'
 import { IoLockOpenOutline } from 'react-icons/io5';
-import { useForgetPasswordMutation } from '../Redux/APIs/AuthApi';
-const ForgetPassword = () => {
-    useTitle('Forget Password');
+import { useVerifyEmailtoResestMutation } from '../Redux/APIs/AuthApi';
+const VerifyEmail = () => {
+    useTitle('Verify Password');
     const navigate = useNavigate();
     const userRef = useRef();
     useEffect(() => {
@@ -13,17 +13,19 @@ const ForgetPassword = () => {
             navigate("/");
         }
     })
-    const [email, setEMail] = useState('')
+    const [code, setCode] = useState('')
+    const [searchQuery] = useSearchParams();
+    const email = searchQuery.get('email')
 
     useEffect(() => {
         userRef.current.focus()
     }, []);
-    const [ForgetPassword, { isError, error, isLoading }] = useForgetPasswordMutation();
+    const [VerifyEmailtoResest, { isError, error, isLoading }] = useVerifyEmailtoResestMutation();
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await ForgetPassword(email).unwrap()
+        await VerifyEmailtoResest({ email, code }).unwrap()
             .then((payload) => {
-                navigate(`/verify?email=${email}&code=`)
+                navigate(`/reset?email=${email}`)
             })
             .catch((err) => {
                 console.log(err?.data?.msg);
@@ -44,13 +46,13 @@ const ForgetPassword = () => {
                             </div>
                         </div>
                         <div className='text-lg space-y-2 py-4'>
-                            <p className='font-medium'>Trouble logging in?</p>
-                            <p className='text-gray-400 text-sm'>Enter your email, phone, or username and we'll send you a link to get back into your account.</p>
+                            <p className='font-medium'>Verify Email</p>
+                            <p className='text-gray-400 text-sm'>Please Enter opt code we send to {email}</p>
                         </div>
                         <form className='flex flex-col' onSubmit={handleSubmit}>
-                            <input type='email' ref={userRef} onChange={(e) => setEMail(e.target.value)} name='email' className='inputfield' placeholder='Phone number username,or email' />
+                            <input type='number' ref={userRef} onChange={(e) => setCode(e.target.value)} name='code' className='inputfield appearance-none' placeholder='Enter Opt Code' />
                             <button type='submit' className='btn-primary mt-4 !mb-8' disabled={isLoading}>
-                                {isLoading ? <span className='flex items-center justify-center text-2xl py-1 animate-spin'><ImSpinner7 /> </span> : 'Send Otp Reset'}</button>
+                                {isLoading ? <span className='flex items-center justify-center text-2xl py-1 animate-spin'><ImSpinner7 /> </span> : 'Verify Email'}</button>
                             <div className='flex justify-center mt-4'>
                                 <hr className='w-[40%] mt-3'></hr>
                                 <p className='mx-3 font-semibold text-gray-500'>OR</p>
@@ -67,11 +69,11 @@ const ForgetPassword = () => {
                 </div>
             </div>
             <div className='flex text-center justify-center mx-auto max-w-xs'>
-                <img src='https://res.cloudinary.com/abdo9/image/upload/v1676229220/Meta_y7ivww.png' className='h-16' alt=''></img>
+            <img src='https://res.cloudinary.com/abdo9/image/upload/v1676229220/Meta_y7ivww.png' className='h-16' alt=''></img>
             </div>
             <Footer />
         </>
     )
 }
 
-export default ForgetPassword
+export default VerifyEmail

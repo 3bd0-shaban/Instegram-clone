@@ -77,7 +77,7 @@ const SignUp = () => {
                 </div>
             </div>
             <div className='flex text-center justify-center mx-auto max-w-xs'>
-                <img src='/images/Meta.png' className='h-16' alt=''></img>
+            <img src='https://res.cloudinary.com/abdo9/image/upload/v1676229220/Meta_y7ivww.png' className='h-16' alt=''></img>
             </div>
             <Footer />
         </div>

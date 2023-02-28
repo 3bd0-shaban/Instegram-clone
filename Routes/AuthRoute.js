@@ -1,7 +1,7 @@
 import express from "express";
 import {
-    SignUp, SignIn, ResetPassword, SetBirthday, RefreshToken,
-    LogOut, activateEmail, Request2OTPActivate, ChangePassword
+    SignUp, SignIn, ResetPassword, SetBirthday, RefreshToken, VerifyOtp,
+    LogOut, activateEmail, Request2OTPActivate, ChangePassword, ForgetPassword
 } from '../Controllers/AuthCTRL.js'
 import { auth, authorizeRoles } from '../Middlewares/Auth.js'
 const router = express.Router();
@@ -15,7 +15,9 @@ router.post("/logout", auth, LogOut);
 router.put("/activateEmail", activateEmail);
 router.put("/changepassword", auth, ChangePassword);
 router.put("/request2otpactivate", Request2OTPActivate);
-router.post('/resetpassword:', ResetPassword);
+router.post('/resetpassword', ResetPassword);
+router.post('/verifyOtp', VerifyOtp);
+router.post('/forgetpassword', ForgetPassword);
 
 
 

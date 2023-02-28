@@ -4,7 +4,6 @@ import { FaRegHeart, FaRegComment, FaRegSmile, FaHeart } from 'react-icons/fa'
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { useCreateCommentMutation, useLikeMutation, useUnLikeMutation } from '../../../Redux/APIs/CommentsApi';
-import { IoMdPaperPlane } from 'react-icons/io';
 import { useSaveMutation, useUnsaveMutation } from '../../../Redux/APIs/SavesApi';
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useDispatch, useSelector } from 'react-redux';

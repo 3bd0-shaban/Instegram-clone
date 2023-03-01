@@ -1,35 +1,34 @@
 import { apiSlice } from '../ApiSlice';
 export const ReelsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        GetFollowersReels: builder.query({
+        GetAllReels: builder.query({
             query: (page) => ({
-                url: `/api/post/get/followers/reels?page=${page}`,
+                url: `/api/post/getall/reels?page=${page}`,
                 method: 'GET',
             }),
             transformResponse(apiResponse, meta) {
                 // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
 
                 return {
-                    FollowersReel: apiResponse,
+                    AllReels: apiResponse,
                     totalCount: Number(apiResponse.length)
                 };
             },
         }),
-        GetMoreFollowersReels: builder.query({
+        GetMoreAllReels: builder.query({
             query: (page) => ({
-                url: `/api/post/get/followers/reels?page=${page}`,
+                url: `/api/post/getall/reels?page=${page}`,
                 method: 'GET',
             }),
             async onQueryStarted(args, { queryFulfilled, dispatch }) {
-                console.log('ddddddddddddddddddddd')
                 try {
 
                     const { data } = await queryFulfilled;
                     dispatch(
-                        apiSlice.util.updateQueryData("GetFollowersReels", 1, (draft) => {
+                        apiSlice.util.updateQueryData("GetAllReels", 1, (draft) => {
                             return {
-                                FollowersReel: [
-                                    ...draft.FollowersReel,
+                                AllReels: [
+                                    ...draft.AllReels,
                                     ...data,
                                 ],
                                 totalCount: Number(data.length),
@@ -171,8 +170,8 @@ export const ReelsApi = apiSlice.injectEndpoints({
 });
 
 export const {
-    useGetFollowersReelsQuery,
-    useGetMoreFollowersReelsQuery,
+    useGetAllReelsQuery,
+    useGetMoreAllReelsQuery,
     useGetUserReelsQuery,
     useGetMoreUserReelsQuery,
     useGetUserByIdReelsQuery,

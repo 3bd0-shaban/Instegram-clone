@@ -18,6 +18,20 @@ export const FollowersReel = asyncHandler(async (req, res, next) => {
     return res.json(FollowersReel);
 });
 
+export const AllReelsPaginated = asyncHandler(async (req, res, next) => {
+    const resultperpage = 2;
+    const features = new Features(Posts.find({ isReel: true }), req.query).Pagination(resultperpage)
+    const AllReels = await features.query
+        .populate('user', 'username avatar followers')
+        .select('-comments')
+        .sort("-createdAt");
+    if (!AllReels) {
+        return next(new ErrorHandler('No Reels For that user'), 400)
+    }
+    return res.json(AllReels);
+});
+
+
 
 export const User_Reels_ById = asyncHandler(async (req, res, next) => {
     const resultperpage = 4;

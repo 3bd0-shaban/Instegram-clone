@@ -23,7 +23,7 @@ const FeaturesSlice = createSlice({
         isModalLoadingUpload: false,
         isNewMSG: false,
         isShare: false,
-
+        isReelComments: false
     },
     reducers: {
         ShowSideBar(state) {
@@ -91,6 +91,9 @@ const FeaturesSlice = createSlice({
         },
         setIsShare(state) {
             state.isShare = !state.isShare;
+        },
+        setIsPostComments(state) {
+            state.isReelComments = !state.isReelComments;
         },
     },
 });

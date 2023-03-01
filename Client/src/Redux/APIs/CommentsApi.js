@@ -55,6 +55,13 @@ export const CommentsApi = apiSlice.injectEndpoints({
                             draft.numLikes = updatedPost.numLikes
                         })
                     )
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetAllReels", 1, (draft) => {
+                            const Reel = draft?.AllReels?.find((item) => item?._id === id);
+                            Reel.likes = updatedPost.likes
+                            Reel.numLikes = updatedPost.numLikes
+                        })
+                    )
                 } catch (err) {
                     console.log(err)
                 }
@@ -82,6 +89,13 @@ export const CommentsApi = apiSlice.injectEndpoints({
                         apiSlice.util.updateQueryData("getPostDetails", id, (draft) => {
                             draft.likes = updatedPost.likes
                             draft.numLikes = updatedPost.numLikes
+                        })
+                    )
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetAllReels", 1, (draft) => {
+                            const Reel = draft?.AllReels?.find((item) => item?._id === id);
+                            Reel.likes = updatedPost.likes
+                            Reel.numLikes = updatedPost.numLikes
                         })
                     )
                 } catch (err) {

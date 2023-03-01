@@ -82,7 +82,7 @@ const Posts = () => {
                 <SinglePost postDetail={post} postID={postID} setPostID={setPostID} setPostDetails={setPostDetails} />
               </div>
             ))}
-            {(followersposts?.length === 0) && <p className='w-full text-center font-medium text-lg text-gray-600'>No posts yet , follow users to get posts</p>}
+            {(followersposts?.length === 0) && <p className='w-full text-center font-medium text-lg text-gray-600 my-16'>No posts yet , follow users to get posts</p>}
           </InfiniteScroll>
       }
     </>

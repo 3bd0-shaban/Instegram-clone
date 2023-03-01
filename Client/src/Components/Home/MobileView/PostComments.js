@@ -30,7 +30,7 @@ const PostComments = () => {
     }
     return (
         <>
-            <SideBar />
+            {id && <SideBar />}
             <div className='container px-0 max-w-6xl gap-5 flex bg-white border'>
                 <div className='container px-2 max-w-5xl'>
                     <div className='flex justify-between items-center border-b'>

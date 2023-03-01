@@ -5,12 +5,13 @@ import { useSearchQuery } from '../../Redux/APIs/UserApi'
 import { motion } from 'framer-motion';
 import AnimSlide from './../../Animation/AnimSlode';
 import { Scrollup } from '../../Helpers/Scroll';
+import { SkilSuggestion } from '../Exports';
 
 const Search = () => {
   const [keyword, setKeyword] = useState('');
   // eslint-disable-next-line
   const [pagnum, setPagenum] = useState(1);
-  const { data: result } = useSearchQuery({ keyword, pagnum }) || {};
+  const { data: result, isLoading, isError, error } = useSearchQuery({ keyword, pagnum }) || {};
   Scrollup()
   return (
     <motion.div
@@ -36,20 +37,29 @@ const Search = () => {
             placeholder="Search" required="" />
         </div>
       </div><hr className='mt-5' />
-      {result?.map(res => (
-        <Link
-          to={`/${res.username}`}
-          key={res._id}
-          className='flex items-center py-3'
-        // onMouseEnter={() => setOpenSearch(true)}
-        >
-          <img className="p-1 w-16 h-16 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
-          <div className='ml-2'>
-            <p className='text-md font-poppins font-medium'>{res?.username}</p>
-            <p className='text-sm font-poppins text-gray-500'>{res?.fullname}</p>
-          </div>
-        </Link>
-      ))}
+      {isLoading ?
+        <div className='space-y-7 py-5'>
+          <SkilSuggestion />
+          <SkilSuggestion />
+          <SkilSuggestion />
+          <SkilSuggestion />
+          <SkilSuggestion />
+        </div>
+        : isError ? <p>{error?.data?.msg}</p> :
+          result?.map(res => (
+            <Link
+              to={`/${res.username}`}
+              key={res._id}
+              className='flex items-center py-3'
+            // onMouseEnter={() => setOpenSearch(true)}
+            >
+              <img className="p-1 w-16 h-16 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
+              <div className='ml-2'>
+                <p className='text-md font-poppins font-medium'>{res?.username}</p>
+                <p className='text-sm font-poppins text-gray-500'>{res?.fullname}</p>
+              </div>
+            </Link>
+          ))}
     </motion.div>
   )
 }

@@ -40,7 +40,7 @@ const Video = ({ Reel }) => {
                 <p>Reels</p>
                 <p><BsCamera size={25} /></p>
             </span>
-            <div  ref={elementRef}  className='w-full px-5 absolute bottom-5'>
+            <div  ref={elementRef}  className='w-full px-5 absolute bottom-0 p-5'>
                 <div className='flex justify-between items-end'>
                     <div className='space-y-2'>
                         <Link to={`/${Reel?.user?.username}`} className='flex items-center'>
@@ -56,11 +56,11 @@ const Video = ({ Reel }) => {
                         <p>{Reel?.des}</p>
                     </div>
                     <div className='z-10'>
-                        <div className='mx-auto space-y-5 flex-col justify-center items-center'>
-                            <button ><BsHeart size={25} /></button>
-                            <BsChat size={25} />
-                            <IoMdPaperPlane size={25} />
-                            <BsThreeDotsVertical size={25} />
+                        <div className='space-y-5'>
+                            <button className='mx-auto block'><BsHeart size={25} /></button>
+                            <button className='mx-auto block'><BsChat size={25} /></button>
+                            <button className='mx-auto block'><IoMdPaperPlane size={25} /></button>
+                            <button className='mx-auto block'><BsThreeDotsVertical size={25} /></button>
                             <div className='w-10 h-10 rounded-md border-2 overflow-hidden'>
                                 <img className="object-cover focus:ring-2 focus:ring-gray-300"
                                     src={Reel?.user?.avatar?.url ? Reel?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}

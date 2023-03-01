@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 import Video from './Video';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ImSpinner3 } from 'react-icons/im';
+import { SkilReelVideo } from '../../Exports';
 const ReelsSecion = () => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
@@ -47,32 +47,36 @@ const ReelsSecion = () => {
                     spaceBetween={0}
                     mousewheel={true}
                     modules={[Mousewheel, Pagination]}
-                    className="flex justify-center items-center max-w-3xl h-screen container  px-0 cursor-pointer text-white"
+                    className="flex justify-center items-center max-w-3xl h-screen container px-0 cursor-pointer text-white"
                 >
-                    {isFetching ? <p></p> : isError ? <p>{error?.data?.msg}</p> :
-                        <InfiniteScroll
-                            dataLength={FollowersReel.length}
-                            next={fetchMore}
-                            className='h-full'
-                            hasMore={hasMore}
-                            height={window.innerHeight - 50}
-                            loader={
-                                <div className='flex justify-center items-center my-5 animate-spin'>
-                                    <ImSpinner3 size={25} />
-                                </div>
-                            }
-                            endMessage={
-                                <div className='flex justify-center my-5 text-lg font-semibold'>
-                                    <p>You see it all</p>
-                                </div>}
-                            style={{ marginBottom: '3rem', overflow: 'hidden', height: '100%' }}
-                        >
-                            {FollowersReel?.map(Reel => (
-                                <SwiperSlide className='h-full' key={Reel._id}>
-                                    <Video Reel={Reel} />
-                                </SwiperSlide>
-                            ))}
-                        </InfiniteScroll>
+                    {isFetching ?
+                        <SwiperSlide className='h-screen bg-zinc-800 animate-pulse relative w-full'>
+                            <SkilReelVideo />
+                        </SwiperSlide>
+                        : isError ? <p>{error?.data?.msg}</p> :
+                            <InfiniteScroll
+                                dataLength={FollowersReel.length}
+                                next={fetchMore}
+                                className='h-full'
+                                hasMore={hasMore}
+                                height={window.innerHeight - 50}
+                                loader={
+                                    <SwiperSlide className='h-screen bg-zinc-800 animate-pulse relative w-full'>
+                                        <SkilReelVideo />
+                                    </SwiperSlide>
+                                }
+                                endMessage={
+                                    <div className='flex justify-center my-5 text-lg font-semibold'>
+                                        <p>You see it all</p>
+                                    </div>}
+                                style={{ marginBottom: '3rem', overflow: 'hidden', height: '100%' }}
+                            >
+                                {FollowersReel?.map(Reel => (
+                                    <SwiperSlide className='h-full' key={Reel._id}>
+                                        <Video Reel={Reel} />
+                                    </SwiperSlide>
+                                ))}
+                            </InfiniteScroll>
                     }
 
                 </Swiper>

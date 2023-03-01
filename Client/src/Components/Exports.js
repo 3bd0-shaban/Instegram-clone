@@ -81,7 +81,10 @@ export { default as Settings } from './Home/Settings/Settings';
 
 ///////////////////////////MobileView /////////////////////////
 export { default as SkilProfileById } from '../Skilitons/SkilProfileById'
+export { default as SkilSinglePost } from '../Skilitons/SkilSinglePost'
 export { default as SkilMSGs } from '../Skilitons/SkilMSGs'
+export { default as SkilSuggestion } from '../Skilitons/SkilSuggestion'
+export { default as SkilReelVideo } from '../Skilitons/SkilReelVideo'
 
 
 export { default as DrobDownMore } from '../Components/Layouts/DrobDownMore'

@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useFollowMutation, useSuggestionQuery } from '../../../Redux/APIs/UserApi'
 import { ImSpinner3 } from 'react-icons/im';
+import { SkilSuggestion } from '../../Exports';
 
 const Suggestions = () => {
-  const { data } = useSuggestionQuery() || {};
+  const { data, isFetching, isError, error } = useSuggestionQuery() || {};
 
 
   const FollowCart = ({ res }) => {
@@ -46,11 +47,20 @@ const Suggestions = () => {
         <p className='font-semibold text-gray-600'>Suggestion for yor</p>
         {/* <Link to='/'>See All</Link> */}
       </div>
-      {data?.map(res => (
-        <div key={res._id} className='flex justify-between items-center'>
-          <FollowCart res={res} />
+      {isFetching ?
+        <div className='space-y-2'>
+          <SkilSuggestion />
+          <SkilSuggestion />
+          <SkilSuggestion />
+          <SkilSuggestion />
+          <SkilSuggestion />
         </div>
-      ))}
+        : isError ? <p>{error?.data?.msg}</p> :
+          data?.map(res => (
+            <div key={res._id} className='flex justify-between items-center'>
+              <FollowCart res={res} />
+            </div>
+          ))}
     </>
   )
 }

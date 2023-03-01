@@ -7,6 +7,7 @@ import { ChatApi } from './../../Redux/APIs/ChatApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useUserChatsQuery } from './../../Redux/APIs/ChatApi';
 import { selectCurrentUser } from '../../Redux/Slices/UserSlice';
+import { SkilSuggestion } from '../Exports';
 
 const SideBarChats = () => {
     const [page, setPage] = useState(1);
@@ -57,9 +58,14 @@ const SideBarChats = () => {
                 </div>
             </div>
             {isFetching ?
-                <div>
-
-                </div> : isError ? <p>{error?.data?.msg}</p> :
+                <div className='space-y-7 py-5'>
+                    <SkilSuggestion />
+                    <SkilSuggestion />
+                    <SkilSuggestion />
+                    <SkilSuggestion />
+                    <SkilSuggestion />
+                </div>
+                : isError ? <p>{error?.data?.msg}</p> :
                     <InfiniteScroll
                         dataLength={Chats.length}
                         next={fetchMore}

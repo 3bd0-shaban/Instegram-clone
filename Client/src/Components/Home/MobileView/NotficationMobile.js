@@ -98,6 +98,7 @@ const NotficationMobile = () => {
                         ))}
                     </InfiniteScroll>
                 }
+                {(notifies?.length === 0) && <p className='text-lg font-medium text-gray-600'> No notification founded</p>}
             </div>
         </>
     )

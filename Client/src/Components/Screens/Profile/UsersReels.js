@@ -10,11 +10,13 @@ import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useGetUserReelsQuery, ReelsApi } from '../../../Redux/APIs/ReelsApi';
+import { preventScroll } from '../../../Helpers/PreventScroll';
 
 const UsersReels = ({ userInfo }) => {
     const { data, isFetching, error, isError } = useGetUserReelsQuery(1)
     const { userReels, totalCount } = data || {};
     const { isModalPostDetails, isModalPostMoreLogged } = useSelector(state => state.Features);
+    preventScroll(isModalPostDetails || isModalPostMoreLogged)
     const dispatch = useDispatch();
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);

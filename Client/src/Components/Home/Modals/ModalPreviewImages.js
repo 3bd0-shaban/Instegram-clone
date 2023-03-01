@@ -26,7 +26,6 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
     const [isPikerVisiable, setIsPikerVisable] = useState(false);
     const [des, setDes] = useState('');
     const [location, setLocation] = useState('');
-
     const HandleBack = () => {
         if (next) {
             setNext(false)
@@ -93,7 +92,8 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
             {IsModalPreviewImages &&
                 <>
                     <div className="fixed inset-0 bg-black/30 z-10" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(true))}></div>
-                    <div className={`fixed inset-x-0 top-[10%] container px-0 duration-500 max-w-[26rem] sm:max-w-[40rem] md:max-w-[50rem] lg:max-w-4xl min-h-[35rem] sm:h-[47.5rem] md:h-[52rem] z-20 bg-white rounded-lg max-h-[60rem] overflow-hidden shadow ${next && 'lg:!max-w-7xl'}`}>
+                    <div className={`fixed inset-x-0 top-[10%] container px-0 duration-500 max-w-[26rem] sm:max-w-[40rem] md:max-w-[50rem] lg:max-w-4xl 
+                                        min-h-[35rem] sm:h-[47.5rem] md:h-[52rem] z-20 bg-white rounded-lg max-h-[60rem] overflow-hidden shadow ${next && 'lg:!max-w-7xl'}`}>
                         <div className="h-full">
                             <div className="flex justify-between items-start py-2 rounded-t border-b px-4">
                                 <div
@@ -123,7 +123,8 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
                                                                 <source src={vid} />
                                                             </video>
                                                             {ispaused &&
-                                                                <div className='absolute bottom-0 top-[40%] left-[40%] cursor-pointer pointer-events-none text-white/50 text-3xl rounded-full h-28 w-28 flex justify-center items-center border-white/50 border-2'>
+                                                                <div className='absolute bottom-0 top-[40%] left-[40%] cursor-pointer pointer-events-none
+                                                                         text-white/50 text-3xl rounded-full h-28 w-28 flex justify-center items-center border-white/50 border-2'>
                                                                     <BsPlayFill size={100} />
                                                                 </div>
                                                             }
@@ -152,7 +153,7 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
                                                     value={des}
                                                     className='outline-none w-full h-52 resize-none'
                                                     placeholder='Write a caption' cols='10' />
-                                                <div className='absolute bottom-2'>
+                                                <div className='absolute bottom-2 z-20'>
                                                     <div
                                                         onClick={() => setIsPikerVisable(!isPikerVisiable)}
                                                         className='text-2xl text-gray-600 pl-1 pr-2 cursor-pointer'>
@@ -165,7 +166,7 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
                                                                 initial='initial'
                                                                 animate='animated'
                                                                 exit='exit'
-                                                                className='absolute top-8 -left-5'>
+                                                                className='absolute top-8 right-0'>
                                                                 <Emoji
                                                                     setComment={setDes}
                                                                     comment={des} />

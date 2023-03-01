@@ -7,12 +7,15 @@ import { AnimatePresence } from 'framer-motion';
 import { ClipAlerts } from '../../Layouts/Alerts';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ImSpinner3 } from 'react-icons/im';
+import { preventScroll } from './../../../Helpers/PreventScroll';
 const Posts = () => {
   const dispatch = useDispatch();
   const {
     isModalPostDetails, isPostMore, isClipAlert, isModalReports, isShare,
     isModalThanksReport, isModalUnfollowConfirm, isModalBlockConfirm, isModalPostMoreLogged
   } = useSelector(state => state.Features);
+  preventScroll(isModalPostDetails || isPostMore || isModalReports ||
+    isModalThanksReport || isModalUnfollowConfirm || isModalBlockConfirm || isModalPostMoreLogged)
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [postID, setPostID] = useState('');

@@ -19,6 +19,7 @@ import { useNewChatMutation } from '../Redux/APIs/ChatApi';
 import { ImSpinner3 } from 'react-icons/im';
 import { selectCurrentUser } from '../Redux/Slices/UserSlice';
 import NotFounded from '../Utils/NotFounded';
+import { preventScroll } from '../Helpers/PreventScroll';
 
 const Profile = () => {
 
@@ -28,6 +29,8 @@ const Profile = () => {
     const {
         isModalFollowersList, isModalFollowingList, isModalFollowerCTRL, isModalSettings,
         isModalBlockConfirm, isModalUnfollowConfirm, isModalThanksReport, isModalReports } = useSelector(state => state.Features);
+        preventScroll(isModalFollowersList || isModalFollowingList || isModalFollowerCTRL || isModalReports ||
+            isModalThanksReport || isModalUnfollowConfirm || isModalBlockConfirm || isModalSettings)
     useTitle(userById?.username);
     const navigate = useNavigate();
     const userInfo = useSelector(selectCurrentUser)

@@ -8,10 +8,12 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../Redux/Slices/UserSlice';
 import { LoadingAlerts } from '../Components/Layouts/Alerts';
 import { FiPlus } from 'react-icons/fi';
+import { preventScroll } from '../Helpers/PreventScroll';
 
 const Profile = () => {
     const userInfo = useSelector(selectCurrentUser)
     const { isModalFollowersList, isModalFollowingList, isModalSettings, isModalChangeProfile } = useSelector(state => state.Features);
+    preventScroll(isModalFollowersList || isModalFollowingList || isModalSettings || isModalChangeProfile)
     useTitle(userInfo?.fullname);
     const dispatch = useDispatch();
     const location = useLocation();

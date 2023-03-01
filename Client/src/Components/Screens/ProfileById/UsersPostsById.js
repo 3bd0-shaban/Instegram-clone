@@ -8,6 +8,7 @@ import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { preventScroll } from '../../../Helpers/PreventScroll';
 
 const UsersPostsById = ({ id, userById }) => {
     const { data, isFetching, error, isError } = useGetUserPostsByIdQuery(id);
@@ -15,6 +16,7 @@ const UsersPostsById = ({ id, userById }) => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const { isModalPostDetails, isPostMore } = useSelector(state => state.Features);
+    preventScroll(isModalPostDetails || isPostMore)
     const [postID, setPostID] = useState('');
     const dispatch = useDispatch();
     const breakpoint = useBreakpoint();

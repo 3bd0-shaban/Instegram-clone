@@ -2,6 +2,7 @@ import { BiChevronLeft } from 'react-icons/bi'
 import { MdOutlineInfo } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { preventScroll } from '../../Helpers/PreventScroll'
 import { useDeleteAllMSGsMutation } from '../../Redux/APIs/MessageApi'
 import { FeatureAction } from './../../Redux/Slices/FeaturesSlice'
 import { ModalBlockConfirm } from './../Exports'
@@ -10,6 +11,7 @@ const CoversationCTRL = ({ setDetails, setSelected, details, id, userById }) => 
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const { isModalBlockConfirm } = useSelector(state => state.Features);
+    preventScroll(isModalBlockConfirm)
     const [DeleteAllMSGs, { isLoading, isError, error }] = useDeleteAllMSGsMutation();
     const DeleteAll = async () => {
         await DeleteAllMSGs(id).unwrap()

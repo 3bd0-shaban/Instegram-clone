@@ -4,6 +4,7 @@ import { BsBookmarks, BsFillChatFill } from 'react-icons/bs'
 import { ImSpinner3 } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { preventScroll } from '../../../Helpers/PreventScroll';
 import { useGetSaveQuery } from '../../../Redux/APIs/SavesApi';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import {
@@ -15,6 +16,9 @@ const UserSaves = ({ userInfo }) => {
     const { data: usersaves, isFetching, error, isError } = useGetSaveQuery() || {};
     const { isModalPostDetails, isModalPostMoreLogged, isPostMore,
         isModalReports, isModalBlockConfirm, isModalUnfollowConfirm, isModalThanksReport } = useSelector(state => state.Features);
+        
+    preventScroll(isModalPostDetails || isPostMore || isModalReports ||
+        isModalThanksReport || isModalUnfollowConfirm || isModalBlockConfirm || isModalPostMoreLogged)
     const dispatch = useDispatch()
     const [postID, setPostID] = useState('');
     const breakpoint = useBreakpoint();

@@ -58,7 +58,7 @@ const ImageSwiper = ({ post }) => {
                     )
                 }
                 {post?.images?.map(image => (
-                    <SwiperSlide key={image?.url}>
+                    <SwiperSlide key={image?._id}>
                         <img className='rounded-md overflow-hidden h-[30rem] min-w-full object-cover'
                             src={image?.url}
                             alt={post?.user?.username}

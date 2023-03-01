@@ -6,55 +6,55 @@ export const UserApi = apiSlice.injectEndpoints({
                 url: `/api/user/search?keyword=${keyword}&page=${pagnum}`,
                 method: 'GET',
             }),
-            providesTags: ['Auth'],
+            providesTags: ['User'],
         }),
         getUserById: builder.query({
             query: (username) => ({
                 url: `/api/user/get/${username}`,
             }),
-            providesTags: ['Auth'],
+            providesTags: ['User', 'UserFollow'],
         }),
         getUser: builder.query({
             query: () => ({
                 url: '/api/user/info',
                 method: 'GET',
             }),
-            providesTags: ['Auth', 'Saves'],
+            providesTags: ['User', 'Saves', 'UserFollow'],
         }),
         Suggestion: builder.query({
             query: () => ({
                 url: '/api/user/suggestion',
                 method: 'GET',
             }),
-            // providesTags: ['Auth'],
+            providesTags: ['User', 'UserFollow'],
         }),
         getAllUsers: builder.query({
             query: () => ({
                 url: '/api/user/getall',
                 method: 'GET',
             }),
-            providesTags: ['Auth'],
+            providesTags: ['User'],
         }),
         FollowersList: builder.query({
             query: (id) => ({
                 url: `/api/user/fowllowerslist/${id}`,
                 method: 'GET',
             }),
-            providesTags: ['Auth'],
+            providesTags: ['User'],
         }),
         FollowingList: builder.query({
             query: (id) => ({
                 url: `/api/user/followinglist/${id}`,
                 method: 'GET',
             }),
-            providesTags: ['Auth'],
+            providesTags: ['User'],
         }),
         DeleteUser: builder.mutation({
             query: (id) => ({
                 url: `/api/user/get/deleteuser/${id}`,
                 method: 'POST',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         updateUserInfo: builder.mutation({
             query: (data) => ({
@@ -62,7 +62,7 @@ export const UserApi = apiSlice.injectEndpoints({
                 method: 'PUT',
                 body: data,
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         UpdateProfilePic: builder.mutation({
             query: (data) => ({
@@ -70,77 +70,77 @@ export const UserApi = apiSlice.injectEndpoints({
                 method: 'PUT',
                 body: data,
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         updateUserRole: builder.mutation({
             query: (id) => ({
                 url: `/api/user/updateuserrole/${id}`,
                 method: 'POST',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         Block: builder.mutation({
             query: (id) => ({
                 url: `/api/user/block/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         UnBlock: builder.mutation({
             query: (id) => ({
                 url: `/api/user/block/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         Follow: builder.mutation({
             query: (id) => ({
                 url: `/api/user/follow/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['UserFollow'],
         }),
         FollowPrivate: builder.mutation({
             query: (id) => ({
                 url: `/api/user/followprivate/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['UserFollow'],
         }),
         UnFollow: builder.mutation({
             query: (id) => ({
                 url: `/api/user/unfollow/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['UserFollow'],
         }),
         ConfirmFollowing: builder.mutation({
             query: (id) => ({
                 url: `/api/user/confirm/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         CancelFollowRequest: builder.mutation({
             query: (id) => ({
                 url: `/api/user/cancelrequest/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         RefuseFollowRequest: builder.mutation({
             query: (id) => ({
                 url: `/api/user/refuse/${id}`,
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
         ChangePrivacy: builder.mutation({
             query: () => ({
                 url: '/api/user/privacy',
                 method: 'PUT',
             }),
-            invalidatesTags: ['Auth'],
+            invalidatesTags: ['User'],
         }),
     }),
 

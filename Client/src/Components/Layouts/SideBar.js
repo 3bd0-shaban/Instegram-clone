@@ -83,7 +83,6 @@ const SideBar = () => {
                         </Link>
                     </div>
                     <ModalAddPost />
-
                     {DrobdownMore && <DrobDownMore />}
                 </div>}
 
@@ -129,11 +128,10 @@ const SideBar = () => {
                                         </div>}
                                         OnClickEvent={() => dispatch(FeatureAction.ShowModalAddPost(true))}
                                         Title='Create' />
-                                    <SideLink Icon={<BsHeart size={25} />} Title='Notification' />
+                                    <SideLink Linkdirect='/notifies' Icon={<BsHeart size={25} />} Title='Notification' />
                                 </div>
                             </div>
                             <ModalAddPost />
-
                         </>
                     }
 

@@ -60,6 +60,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 url: `/api/post/get/all/${id}?page=${1}`,
                 method: 'GET',
             }),
+            providesTags: ['UserFollow'],
             transformResponse(apiResponse, meta) {
                 // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
 
@@ -99,6 +100,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 url: `/api/post/get/followers/posts?page=${page}`,
                 method: 'GET',
             }),
+            providesTags: ['UserFollow'],
             transformResponse(apiResponse, meta) {
                 // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
 

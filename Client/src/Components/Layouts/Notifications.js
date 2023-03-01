@@ -61,32 +61,46 @@ const Notifications = () => {
                     className='overflow-y-scroll space-y-3 !h-full hideScrollBare mt-10 lg:mt-0'
                 >
                     {notifies?.map(res => (
-                        <Link
-                            to={`/${res.sender?.username}`}
+                        <div
                             key={res._id}
                             className='flex items-center justify-between'
-                        // onMouseEnter={() => setOpenSearch(true)}
                         >
-                            <div className='flex gap-1'>
-                                <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
+                            <Link
+                                to={`/${res.sender?.username}`}
+                                className='flex gap-1'>
+                                <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
+                                    src={res?.sender?.avatar?.url ? res?.sender?.avatar?.url : process.env.REACT_APP_DefaultIcon}
+                                    alt=""
+                                />
                                 <div className='ml-1'>
                                     <p className='text-md font-poppins font-medium'>{res?.sender?.username}</p>
                                     <p className='text-sm font-poppins text-gray-500'>{res?.sender?.fullname}</p>
                                 </div>
-                            </div>
+                            </Link>
+
                             <div className='flex gap-3'>
-                                <button onClick={() => HandleConfirmFollow(res?.sender?._id)} className='bg-blue-500 text-white font-medium text-lg rounded-md px-3 py-1'>{loadingconfirm ?
-                                    <div className='flex justify-center items-center px-3 animate-spin'>
-                                        <ImSpinner3 />
-                                    </div> :
-                                    'Confirm'}</button>
-                                <button onClick={() => HandleRequestDelete(res?.sender?._id)} className='bg-gray-200 text-slate-800 font-medium text-lg rounded-md px-3 py-1'>{loadingCancel ?
-                                    <div className='flex justify-center items-center px-3 animate-spin'>
-                                        <ImSpinner3 />
-                                    </div> :
-                                    'Delete'}</button>
+
+                                <button
+                                    onClick={() => HandleConfirmFollow(res?.sender?._id)}
+                                    className='bg-blue-500 text-white font-medium text-lg rounded-md px-3 py-1'>
+                                    {loadingconfirm ?
+                                        <div className='flex justify-center items-center px-3 animate-spin'>
+                                            <ImSpinner3 />
+                                        </div> :
+                                        'Confirm'}
+                                </button>
+                                <button
+                                    onClick={() => HandleRequestDelete(res?.sender?._id)}
+                                    className='bg-gray-200 text-slate-800 font-medium text-lg rounded-md px-3 py-1'>
+                                    {loadingCancel ?
+                                        <div className='flex justify-center items-center px-3 animate-spin'>
+                                            <ImSpinner3 />
+                                        </div> :
+                                        'Delete'}
+                                </button>
+
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </InfiniteScroll>
             }

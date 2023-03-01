@@ -1,7 +1,7 @@
 import {
   Home, SignIn, SignUp, MessengerWindow, Dashboard, RequireAuth,
-  Layout, Profile, Settings, PersistLogin, ProfileById, SetBirthday,
-  ReelsSecion, SearchMobileView, PostComments, Confirm, ForgetPassword, ResetPassword,VerifyEmail
+  Layout, Profile, Settings, PersistLogin, ProfileById, SetBirthday, NotficationMobile,
+  ReelsSecion, SearchMobileView, PostComments, Confirm, ForgetPassword, ResetPassword, VerifyEmail
 } from './Components/Exports'
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ROLES } from './Config/Roles';
@@ -32,6 +32,7 @@ function App() {
               <Route path="reels" element={<ReelsSecion />} />
               <Route path="messages" element={<MessengerWindow />} />
               <Route path="search" element={<SearchMobileView />} />
+              <Route path="notifies" element={<NotficationMobile />} />
               <Route path="p/:id" element={<PostComments />} />
               <Route path={userInfo?.username} element={<Profile />} />
               <Route path='/settings' element={<Settings />} />

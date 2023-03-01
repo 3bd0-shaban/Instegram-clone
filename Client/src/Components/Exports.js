@@ -91,6 +91,7 @@ export { default as Search } from '../Components/Layouts/Search'
 export { default as Notifications } from '../Components/Layouts/Notifications'
 ///////////////////////////MobileView /////////////////////////
 export { default as SearchMobileView } from './Home/MobileView/SearchMobileView'
+export { default as NotficationMobile } from './Home/MobileView/NotficationMobile'
 export { default as PostComments } from './Home/MobileView/PostComments'
 export { default as Comments } from './Home/MobileView/Comments'
 

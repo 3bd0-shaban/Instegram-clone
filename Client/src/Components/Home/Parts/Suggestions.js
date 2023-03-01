@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useFollowMutation, useSuggestionQuery } from '../../../Redux/APIs/UserApi'
+import { ImSpinner3 } from 'react-icons/im';
 
 const Suggestions = () => {
   const { data } = useSuggestionQuery() || {};
-  const [Follow] = useFollowMutation() || {};
 
 
   const FollowCart = ({ res }) => {
+    const [Follow, { isLoading }] = useFollowMutation() || {};
     const [isFollowing, setIsFollowing] = useState(false);
     const FollowUser = (id) => {
       Follow(id).unwrap()
@@ -33,7 +34,8 @@ const Suggestions = () => {
         </Link>
         <button onClick={() => FollowUser(res._id)}
           disabled={isFollowing}
-          className='font-semibold text-blue-400'>{isFollowing ? 'Following' : 'Follow'}</button>
+          className='font-semibold text-blue-400'>{isFollowing ? 'Following' : isLoading ?
+            <span className='mx-auto'><ImSpinner3 size={25} /> </span> : 'Follow'}</button>
       </>
     )
   }
@@ -42,7 +44,7 @@ const Suggestions = () => {
     <>
       <div className='flex justify-between p-5'>
         <p className='font-semibold text-gray-600'>Suggestion for yor</p>
-        <Link to='/'>See All</Link>
+        {/* <Link to='/'>See All</Link> */}
       </div>
       {data?.map(res => (
         <div key={res._id} className='flex justify-between items-center'>

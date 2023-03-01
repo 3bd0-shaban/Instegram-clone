@@ -7,7 +7,7 @@ import {
     Get_PostDetails,
     DeletePost,
     Hide_Likes,
-    TurnoffComments,
+    TurnoffComments, Get_Users_With_Active_Reels,
 } from '../Controllers/PostsCTRL.js';
 import { FollowersReel, User_Reels, User_Reels_ById } from '../Controllers/ReelsCTRL.js'
 import { auth, authorizeRoles, ChechPrivacy } from '../Middlewares/Auth.js'
@@ -24,6 +24,7 @@ router.get('/get/followers/posts', auth, FollowersPosts);
 router.delete('/delete/:id', auth, DeletePost);
 
 
+router.get('/activeReels', auth, Get_Users_With_Active_Reels);
 router.get('/get/followers/reels', auth, FollowersReel);
 router.get('/userreels', auth, User_Reels);
 router.get('/get/userbyidreels/:id', auth, ChechPrivacy, User_Reels_ById);

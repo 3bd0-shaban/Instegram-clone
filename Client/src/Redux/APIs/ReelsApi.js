@@ -122,6 +122,51 @@ export const ReelsApi = apiSlice.injectEndpoints({
                 }
             },
         }),
+
+
+        GetUsersWithActiveReels: builder.query({
+            query: (id) => ({
+                url: `/api/post/activeReels?page=${1}`,
+                method: 'GET',
+            }),
+            transformResponse(apiResponse, meta) {
+                // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
+
+                return {
+                    ActiveReels: apiResponse,
+                    totalCount: Number(apiResponse.length)
+                };
+            },
+        }),
+
+        GetMoreUsersWithActiveReels: builder.query({
+            query: ({ id, page }) => ({
+                url: `/api/post/activeReels?page=${1}`,
+                method: 'GET',
+            }),
+            async onQueryStarted(args, { queryFulfilled, dispatch }) {
+
+                try {
+
+                    const { data } = await queryFulfilled;
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetUserByIdReels", 1, (draft) => {
+                            return {
+                                ActiveReels: [
+                                    ...draft.ActiveReels,
+                                    ...data,
+                                ],
+                                totalCount: Number(data.length),
+                            };
+                        })
+                    )
+                } catch (err) {
+                    console.log(err)
+                }
+            },
+        }),
+
+
     }),
 });
 
@@ -131,5 +176,7 @@ export const {
     useGetUserReelsQuery,
     useGetMoreUserReelsQuery,
     useGetUserByIdReelsQuery,
-    useGetMoreUserByIdReelsQuery
+    useGetMoreUserByIdReelsQuery,
+    useGetUsersWithActiveReelsQuery,
+    useGetMoreUsersWithActiveReelsQuery,
 } = ReelsApi;

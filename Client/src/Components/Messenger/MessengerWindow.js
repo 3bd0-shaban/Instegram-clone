@@ -24,7 +24,7 @@ const MessengerWindow = () => {
     return (
         <div className='h-screen flex lg:items-center bg-white overflow-hidden'>
             <SideBar />
-            <div className='container px-0 max-w-full lg:max-w-[60rem] xxxl:max-w-[70rem] border rounded-md bg-white'>
+            <div className='container px-0 max-w-full lg:max-w-[50rem] xl:max-w-[60rem] xxxl:max-w-[70rem] border rounded-md bg-white'>
                 <div className='grid grid-cols-3 h-screen'>
                     {(lapview || (!username && !id && MobileView)) &&
                         <div className='col-span-3 lg:col-span-1 border-r h-full'>

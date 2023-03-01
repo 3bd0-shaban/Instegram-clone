@@ -6,9 +6,9 @@ const useBreakpoint = () => {
         0: 'xs',
         370: 'sm',
         576: 'md',
-        768: 'lg',
-        992: 'xl',
-        1200: 'xxl',
+        620: 'lg',
+        800: 'xl',
+        1000: 'xxl',
         1400: 'xxxl',
     };
     const [breakpoint, setBreakPoint] = useState('');
@@ -33,17 +33,17 @@ const useBreakpoint = () => {
         if (370 < windowSize.width && windowSize.width < 576) {
             setBreakPoint(breakpoints[370]); //sm
         }
-        if (576 < windowSize.width && windowSize.width < 768) {
+        if (576 < windowSize.width && windowSize.width < 620) {
             setBreakPoint(breakpoints[576]); //md
         }
-        if (768 < windowSize.width && windowSize.width < 992) {
-            setBreakPoint(breakpoints[768]); //lg
+        if (620 < windowSize.width && windowSize.width < 800) {
+            setBreakPoint(breakpoints[620]); //lg
         }
-        if (992 < windowSize.width && windowSize.width < 1200) {
-            setBreakPoint(breakpoints[992]); //xl
+        if (800 < windowSize.width && windowSize.width < 1000) {
+            setBreakPoint(breakpoints[800]); //xl
         }
-        if (1200 < windowSize.width && windowSize.width < 1400) {
-            setBreakPoint(breakpoints[1200]); //xxl
+        if (1000 < windowSize.width && windowSize.width < 1400) {
+            setBreakPoint(breakpoints[1000]); //xxl
         }
         if (windowSize.width >= 1400) { //xxxl
             setBreakPoint(breakpoints[1400]);

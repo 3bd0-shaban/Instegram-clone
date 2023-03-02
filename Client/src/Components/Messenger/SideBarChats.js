@@ -70,7 +70,7 @@ const SideBarChats = () => {
                         dataLength={Chats.length}
                         next={fetchMore}
                         hasMore={hasMore}
-                        loader={<h4>Loading...</h4>}
+                        // loader={<h4>Loading...</h4>}
                         className='overflow-y-scroll !h-full hideScrollBare mt-10 lg:mt-0'
                     >
                         {Chats?.map(chat => (

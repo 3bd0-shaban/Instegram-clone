@@ -91,9 +91,9 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
         <>
             {IsModalPreviewImages &&
                 <>
-                    <div className="fixed inset-0 bg-black/30 z-10" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(true))}></div>
+                    <div className="fixed inset-0 bg-black/30 z-20" onClick={() => dispatch(FeatureAction.Show_ModalConfirm(true))}></div>
                     <div className={`fixed inset-x-0 top-[10%] container px-0 duration-500 max-w-[26rem] sm:max-w-[40rem] md:max-w-[50rem] lg:max-w-4xl 
-                                        min-h-[35rem] sm:h-[47.5rem] md:h-[52rem] z-20 bg-white rounded-lg max-h-[60rem] overflow-hidden shadow ${next && 'lg:!max-w-7xl'}`}>
+                                        min-h-[35rem] sm:h-[47.5rem] md:h-[52rem] z-30 bg-white rounded-lg max-h-[60rem] overflow-hidden shadow ${next && 'lg:!max-w-7xl'}`}>
                         <div className="h-full">
                             <div className="flex justify-between items-start py-2 rounded-t border-b px-4">
                                 <div

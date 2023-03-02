@@ -58,7 +58,7 @@ const ModalAddPost = () => {
             {IsModalPreviewImages && <ModalPreviewImages images={images} setImages={setImages} videos={videos} setVideos={setVideos} setSuccess={setSuccess} createPost={createPost} />}
             {isModalAddPost &&
                 <>
-                    <div onClick={() => dispatch(FeatureAction.ShowModalAddPost(false))} className="fixed inset-0 bg-black/30 z-10"></div>
+                    <div onClick={() => dispatch(FeatureAction.ShowModalAddPost(false))} className="fixed inset-0 bg-black/30 z-20"></div>
                     <motion.div
                         variants={AnimModal}
                         initial='initial'

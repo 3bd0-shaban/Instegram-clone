@@ -20,7 +20,6 @@ const SocketServer = (socket) => {
 
     });
 
-    console.log(onlineUsers)
 
     const handler = (sender, receiver, { type, reactionType, post }) => {
         const receiverSocket = findConnectedUser(receiver.username);

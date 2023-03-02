@@ -43,7 +43,6 @@ const Video = ({ Reel, setPostID, setPostDetails, ID, count, index }) => {
         Save ? setIsSaved(true) : setIsSaved(false);
     }, [Reel, userInfo]);
 
-    console.log(isFollowing)
     useEffect(() => {// eslint-disable-next-line
         const isInclude = Reel?.user?.followers?.some(p => p == userInfo?._id);
         isInclude ? setIsFollowing(true) : setIsFollowing(false);
@@ -150,10 +149,14 @@ const Video = ({ Reel, setPostID, setPostDetails, ID, count, index }) => {
                         <div className='space-y-2 flex gap-2 items-start'>
                             <div>
                                 <div ref={elementRef} className='flex gap-2'>
-                                    <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
-                                        src={Reel?.user?.avatar?.url ? Reel?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}
-                                        alt=""
-                                    />
+                                    <Link to={`/${Reel?.user?.username}`}>
+                                        <div>
+                                            <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
+                                                src={Reel?.user?.avatar?.url ? Reel?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}
+                                                alt=""
+                                            />
+                                        </div>
+                                    </Link>
                                     <div className='flex-col space-y-1' >
                                         <Link to={`/${Reel?.user?.username}`} className='text-md font-poppins font-medium mt-3'>{Reel?.user?.username}</Link>
                                         {id && (
@@ -236,8 +239,8 @@ const Video = ({ Reel, setPostID, setPostDetails, ID, count, index }) => {
                                             videoRef.current.pause();
                                         }
                                     }}
-                                    className='hover:text-gray-500 mx-auto block'><BsThreeDotsVertical size={25} /></button>
-                                <Link to={`/${Reel?.user?.username}`} >
+                                    className='hover:text-gray-500 mx-auto pb-4 block'><BsThreeDotsVertical size={25} /></button>
+                                <Link to={`/${Reel?.user?.username}`} className='py-3 ' >
                                     <div className='hover:border-gray-500 w-10 h-10 rounded-md border-2 overflow-hidden'>
                                         <img className="object-cover focus:ring-2 focus:ring-gray-300"
                                             src={Reel?.user?.avatar?.url ? Reel?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}

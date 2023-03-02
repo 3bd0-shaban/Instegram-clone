@@ -79,14 +79,18 @@ const SinglePost = ({ postDetail, setPostID, setPostDetails }) => {
     return (
         <div className='w-full h-full pb-5 bg-white border-b overflow-hidden'>
             <div className='flex justify-between mt-3 px-3'>
-                <Link to={`/${postDetail?.user?.username}`} className='flex'>
-                    <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
-                        src={postDetail?.user?.avatar?.url ? postDetail?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}
-                        alt=""
-                    />
+                <div className='flex'>
+                    <Link to={`/${postDetail?.user?.username}`}>
+                        <div>
+                            <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
+                                src={postDetail?.user?.avatar?.url ? postDetail?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}
+                                alt=""
+                            />
+                        </div>
+                    </Link>
                     <div className='ml-2 mt-2 flex '>
                         <div>
-                            <span className='text-md font-poppins font-medium flex gap-2'>{postDetail?.user?.username}
+                            <Link to={`/${postDetail?.user?.username}`} className='text-md font-poppins font-medium flex gap-2'>{postDetail?.user?.username}
                                 {postDetail?.user?.isVerified &&
                                     <div className='text-blue-600 mt-1 inline'>
                                         <BsPatchCheckFill size={15} />
@@ -95,11 +99,11 @@ const SinglePost = ({ postDetail, setPostID, setPostDetails }) => {
                                 <p className='font-light text-xs my-1 inline mx-2 text-gray-500'>
                                     . {moment(postDetail?.createdAt).from()}
                                 </p>
-                            </span>
+                            </Link>
                             <p className='font-then text-sm'>{postDetail?.location}</p>
                         </div>
                     </div>
-                </Link>
+                </div>
                 <button
                     onClick={() => { checkModal(); setPostID(postDetail?._id); setPostDetails(postDetail) }}
                     className='hover:text-gray-500'>

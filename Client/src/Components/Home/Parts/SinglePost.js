@@ -183,7 +183,7 @@ const SinglePost = ({ postDetail, setPostID, setPostDetails }) => {
             <div className='ml-4 mt-4'>
                 {!postDetail?.hiddenlikes && <p className='text-md font-semibold'>{postDetail?.numLikes} Likes</p>}
                 <Link className='font-bold mr-2'>{postDetail?.user?.username}</Link>
-                <p className=' inline font-semilight'>{postDetail?.des}</p>
+                <p className=' inline font-semilight ellipse-2'>{postDetail?.des}</p>
                 {
                     (MobileView && !postDetail?.turnoffcomments) ?
                         <Link

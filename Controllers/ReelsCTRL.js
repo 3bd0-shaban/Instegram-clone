@@ -37,7 +37,7 @@ export const User_Reels_ById = asyncHandler(async (req, res, next) => {
     const resultperpage = 2;
     const features = new Features(Posts.find({ user: req.params.id, isReel: true }), req.query).Pagination(resultperpage)
     const userReels = await features.query
-        .populate('user', 'username avatar')
+        .populate('user', 'username avatar followers')
         .populate('comments.user', 'username avatar')
         .sort("-createdAt");
     const count = await Posts.countDocuments({ user: req.params.id, isReel: true });

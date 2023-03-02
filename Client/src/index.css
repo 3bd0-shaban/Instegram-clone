@@ -46,7 +46,20 @@ html {
 .swiper-wrapper{
   height: 100% !important;
 }
-.inputfield {
+.ellipse-2{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+@layer base {
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }.inputfield {
     @apply
     text-sm font-medium text-gray-900 border py-3 pl-3 rounded-md mb-3 bg-zinc-50 focus:outline-none focus:border-gray-500 block placeholder:font-extralight
 }

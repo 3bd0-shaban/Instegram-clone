@@ -166,7 +166,7 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
                                                                 initial='initial'
                                                                 animate='animated'
                                                                 exit='exit'
-                                                                className='absolute top-8 right-0'>
+                                                                className='absolute top-8 lrft-0 md:right-0'>
                                                                 <Emoji
                                                                     setComment={setDes}
                                                                     comment={des} />

@@ -113,7 +113,7 @@ const FollowersReels = () => {
                             >
                                 {userReels?.map((Reel, index) => (
                                     <SwiperSlide className='h-full' key={Reel._id}>
-                                        <Video Reel={Reel} setPostID={setPostID} setPostDetails={setPostDetails} count={count} index={index} />
+                                        <Video Reel={Reel} setPostID={setPostID} setPostDetails={setPostDetails} count={count} ID={id} index={index} />
                                     </SwiperSlide>
                                 ))}
                             </InfiniteScroll>

@@ -8,7 +8,7 @@ const Stories = () => {
   const { data, isFetching, isError, error } = useGetUsersWithActiveReelsQuery()
   const { ActiveReels } = data || {}
   return (
-    <div className='w-full xl:px-5'>
+    <div className='container max-w-full sm:max-w-xl px-0 xl:px-5'>
       <Swiper
         spaceBetween={0}
         // slidesPerView={6}

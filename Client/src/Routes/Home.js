@@ -22,13 +22,11 @@ const Home = () => {
     <div>
       {isNewMSG && <MessageAlert singleMSG={singleMSG} />}
       <SideBar />
-      <div className='container px-0 max-w-5xl md:max-w-3xl xl:max-w-3xl xxl:max-w-5xl py-3 mt-16 lg:mt-0 lg:mr-10 xl:mr-60 xxxl:mr-[26rem]'>
+      <div className='container px-0 max-w-5xl md:max-w-3xl xl:max-w-3xl xxl:max-w-5xl py-3 mt-12 lg:mt-0 lg:mr-10 xl:mr-60 xxxl:mr-[26rem]'>
         <div className='lg:grid lg:grid-cols-5 gap-3 duration-300 xl:mt-5'>
           <div className='gap-3 col-span-3'>
             <Stories />
-            <div className='mt-5'>
-              <Posts />
-            </div>
+            <Posts />
           </div>
           {!MobileView &&
             <div className='col-span-2'>

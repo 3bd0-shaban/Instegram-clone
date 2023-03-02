@@ -40,6 +40,7 @@ export const CommentsApi = apiSlice.injectEndpoints({
                 try {
                     // const userInfo = getState().auth.user
                     const { data: updatedPost } = await queryFulfilled;
+                    const userIdOfReel = updatedPost?.user
                     // replace the likes array inside followers posts array with the new array of likes 
                     dispatch(
                         apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
@@ -62,6 +63,13 @@ export const CommentsApi = apiSlice.injectEndpoints({
                             Reel.numLikes = updatedPost.numLikes
                         })
                     )
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetUserByIdReels", userIdOfReel, (draft) => {
+                            const Reel = draft?.userReels?.find((item) => item?._id === id);
+                            Reel.likes = updatedPost.likes
+                            Reel.numLikes = updatedPost.numLikes
+                        })
+                    )
                 } catch (err) {
                     console.log(err)
                 }
@@ -76,6 +84,7 @@ export const CommentsApi = apiSlice.injectEndpoints({
                 try {
                     // const userInfo = getState().auth.user
                     const { data: updatedPost } = await queryFulfilled;
+                    const userIdOfReel = updatedPost?.user
                     // replace the likes array inside followers posts array with the new array of likes 
                     dispatch(
                         apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
@@ -94,6 +103,13 @@ export const CommentsApi = apiSlice.injectEndpoints({
                     dispatch(
                         apiSlice.util.updateQueryData("GetAllReels", 1, (draft) => {
                             const Reel = draft?.AllReels?.find((item) => item?._id === id);
+                            Reel.likes = updatedPost.likes
+                            Reel.numLikes = updatedPost.numLikes
+                        })
+                    )
+                    dispatch(
+                        apiSlice.util.updateQueryData("GetUserByIdReels", userIdOfReel, (draft) => {
+                            const Reel = draft?.userReels?.find((item) => item?._id === id);
                             Reel.likes = updatedPost.likes
                             Reel.numLikes = updatedPost.numLikes
                         })

@@ -1,5 +1,5 @@
 import {
-  Home, SignIn, SignUp, MessengerWindow, Dashboard, RequireAuth,
+  Home, SignIn, SignUp, MessengerWindow, Dashboard, RequireAuth,FollowersReels,
   Layout, Profile, Settings, PersistLogin, ProfileById, SetBirthday, NotficationMobile,
   ReelsSecion, SearchMobileView, PostComments, Confirm, ForgetPassword, ResetPassword, VerifyEmail
 } from './Components/Exports'
@@ -34,6 +34,7 @@ function App() {
               <Route path="search" element={<SearchMobileView />} />
               <Route path="notifies" element={<NotficationMobile />} />
               <Route path="p/:id" element={<PostComments />} />
+              <Route path=":username/reel/:id" element={<FollowersReels />} />
               <Route path={userInfo?.username} element={<Profile />} />
               <Route path='/settings' element={<Settings />} />
               <Route path='/settings/:link' element={<Settings />} />

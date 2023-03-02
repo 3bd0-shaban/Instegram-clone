@@ -33,10 +33,13 @@ const UserReelsById = ({ id, userById }) => {
     useEffect(() => {
         if (page > 1) {
             dispatch(
-                ReelsApi.endpoints.useGetMoreUserByIdReelsQuery.initiate(page)
+                ReelsApi.endpoints.GetMoreUserByIdReels.initiate({
+                    id,
+                    page
+                })
             );
         }
-    }, [page, dispatch]);
+    }, [page, dispatch,id]);
 
     useEffect(() => {
         if (totalCount === 0) {

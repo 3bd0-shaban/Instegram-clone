@@ -6,6 +6,7 @@ export { default as Stories } from './Home/Stories';
 export { default as Posts } from './Home/Parts/Posts';
 export { default as Emoji } from './Home/Parts/Emoji';
 export { default as ReelsSecion } from './Home/Reels/ReelsSecion';
+export { default as FollowersReels } from './Home/Reels/FollowersReels';
 export { default as Video } from './Home/Reels/Video';
 export { default as SinglePost } from './Home/Parts/SinglePost';
 export { default as DashboardNavBar } from './Dashboard/DashboardNavBar';

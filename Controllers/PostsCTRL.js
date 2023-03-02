@@ -158,16 +158,3 @@ export const Get_PostDetails = asyncHandler(async (req, res, next) => {
     return res.json(PostDetails);
 });
 
-export const Get_Users_With_Active_Reels = asyncHandler(async (req, res, next) => {
-    const resultperpage = 10;
-    const newarr = [...req.user.following, req.user.id]
-    const features = new Features(Posts.find({ user: newarr, videos: { $ne: [] } }), req.query).Pagination(resultperpage)
-    const ActiveReels = await features.query
-        .populate('user', 'username avatar')
-        .select('user')
-        .sort("-createdAt");
-    if (!ActiveReels) {
-        return next(new ErrorHandler('No Posts For that user'), 400)
-    }
-    return res.json(ActiveReels);
-});

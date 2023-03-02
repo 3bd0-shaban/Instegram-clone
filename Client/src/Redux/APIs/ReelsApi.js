@@ -59,7 +59,7 @@ export const ReelsApi = apiSlice.injectEndpoints({
                 url: `/api/post/userreels?page=${page}`,
                 method: 'GET',
             }),
-            async onQueryStarted(args, { queryFulfilled, dispatch }) {
+            async onQueryStarted(id, { queryFulfilled, dispatch }) {
 
                 try {
 
@@ -89,30 +89,32 @@ export const ReelsApi = apiSlice.injectEndpoints({
                 // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
 
                 return {
-                    userReels: apiResponse,
-                    totalCount: Number(apiResponse.length)
+                    userReels: apiResponse.userReels,
+                    count: apiResponse.count,
+                    totalCount: Number(apiResponse.userReels.length)
                 };
             },
         }),
 
         GetMoreUserByIdReels: builder.query({
             query: ({ id, page }) => ({
-                url: `/api/post/get/userbyidreels${id}?page=${page}`,
+                url: `/api/post/get/userbyidreels/${id}?page=${page}`,
                 method: 'GET',
             }),
-            async onQueryStarted(args, { queryFulfilled, dispatch }) {
-
+            async onQueryStarted({ id }, { queryFulfilled, dispatch }) {
+console.log(id)
                 try {
 
                     const { data } = await queryFulfilled;
                     dispatch(
-                        apiSlice.util.updateQueryData("GetUserByIdReels", 1, (draft) => {
+                        apiSlice.util.updateQueryData("GetUserByIdReels", id, (draft) => {
                             return {
                                 userReels: [
                                     ...draft.userReels,
-                                    ...data,
+                                    ...data.userReels,
                                 ],
-                                totalCount: Number(data.length),
+                                count: draft.count,
+                                totalCount: Number(data.userReels.length),
                             };
                         })
                     )

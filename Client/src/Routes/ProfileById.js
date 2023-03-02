@@ -194,7 +194,7 @@ const Profile = () => {
                         {tagged && <UsersTagesById />}
                     </div>
             }
-            {(error?.status === 404 || error?.status === 500) && <NotFounded />}
+            {/* {(error?.status === 404 || error?.status === 500) && <NotFounded />} */}
             <div className='mt-40'>
                 <Footer />
             </div>

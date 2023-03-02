@@ -149,7 +149,7 @@ const Video = ({ Reel, setPostID, setPostDetails }) => {
                             {(isFollowing && (userInfo?._id !== Reel?.user?._id)) ? <button
                                 // onClick={() => dispatch(FeatureAction.setIsModalUnfollowConfirm(true))}
                                 className='font-then text-sm border px-3 py-1.5 rounded-lg -mt-1'>Following</button>
-                                : (userInfo?._id !== Reel?.user?._id) &&
+                                : (isFollowing && (userInfo?._id !== Reel?.user?._id)) &&
                                 <button onClick={FollowUser} disabled={isLoading} className='font-then text-sm px-3 py-1.5 rounded-lg -mt-1'>{isLoading ? <ImSpinner3 size={25} /> : 'Follow'}</button>}
                             <p>{Reel?.des}</p>
                         </div>

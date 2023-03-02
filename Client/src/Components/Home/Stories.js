@@ -6,7 +6,7 @@ import 'swiper/css/pagination';
 import { useGetUsersWithActiveReelsQuery } from '../../Redux/APIs/ReelsApi';
 const Stories = () => {
   const { data, isFetching, isError, error } = useGetUsersWithActiveReelsQuery()
-  const { ActiveReels, totalCount } = data || {}
+  const { ActiveReels } = data || {}
   return (
     <div className='w-full xl:px-5'>
       <Swiper
@@ -59,9 +59,9 @@ const Stories = () => {
           : isError ? <p>{error?.data?.msg}</p> :
             ActiveReels?.map((item, index) => (
               <SwiperSlide key={item?._id}>
-                <Link key={index} to='/stories/abdo/215' className='w-full'>
-                  <img className="w-16 h-16 mx-auto rounded-full p-0.5 bg-origin-border ringStory" src="/Images/profile.jpg" alt="" />
-                  <p className='text-sm flex justify-center text-start mt-3 overflow-hidden'>AbdElrahaman</p>
+                <Link key={index} to={`/${item?.user?.username}/reel/${item?.user?._id}`} className='w-full'>
+                  <img className="w-16 h-16 mx-auto rounded-full p-0.5 bg-origin-border object-cover ringStory" src={item?.user?.avatar?.url ? item?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
+                  <p className='text-sm flex justify-center text-start mt-3 overflow-hidden'>{item?.user.username}</p>
                 </Link>
               </SwiperSlide>
             ))}

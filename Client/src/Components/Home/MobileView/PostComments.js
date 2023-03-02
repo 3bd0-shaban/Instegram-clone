@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { BiChevronLeft } from 'react-icons/bi'
 import { ImSpinner3 } from 'react-icons/im'
-import { IoMdPaperPlane } from 'react-icons/io'
 import { useSelector } from 'react-redux'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useCreateCommentMutation } from '../../../Redux/APIs/CommentsApi'
@@ -36,7 +35,9 @@ const PostComments = () => {
                     <div className='flex justify-between items-center border-b'>
                         <Link to={user ? `/${user}` : '/'} className=''><BiChevronLeft size={30} /></Link>
                         <p className='m-2 font-medium text-3xl'>Comments</p>
-                        <button className='hover:text-gray-500 cursor-pointer'><IoMdPaperPlane size={30} /></button>
+                        <button className='hover:text-gray-500 cursor-pointer'>
+                            {/* <IoMdPaperPlane size={30} /> */}
+                        </button>
                     </div>
                     {(!postDetails?.turnoffcomments) &&
                         <div className='flex gap-2 justify-center items-center my-5 px-2'>

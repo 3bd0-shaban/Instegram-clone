@@ -2,7 +2,7 @@ import React from 'react'
 
 const SkilSinglePost = () => {
     return (
-        <div className='container max-w-[22.5rem] xsm:max-w-[24rem] sm:max-w-xl pt-5 lg:mt-0 mt-5 px-0'>
+        <div className='container max-w-full sm:max-w-xl mt-5 px-0'>
             <div className='container px-1 max-w-[40rem]'>
                 <div className='flex justify-between items-center lg:px-1'>
                     <div className='flex items-center gap-2'>

@@ -126,8 +126,8 @@ const Video = ({ Reel, setPostID, setPostDetails, count, index }) => {
                 </div>} */}
             {isModalUnfollowConfirm && <ModalUnFollowConfirm userById={Reel?.user} />}
 
-            <div className='h-full' onClick={handleVideo}>
-                <video ref={videoRef} className='h-full object-cover ' autoPlay loop playsInline>
+            <div className='h-full w-full' onClick={handleVideo}>
+                <video ref={videoRef} className='h-full w-full object-cover ' autoPlay loop playsInline>
                     <source src={Reel?.videos[0]?.url} />
                 </video>
                 {ispaused &&
@@ -138,14 +138,14 @@ const Video = ({ Reel, setPostID, setPostDetails, count, index }) => {
                 <div className='absolute top-0 mt-1 w-full flex gap-2'>
                     <LoopIndicator />
                 </div>
-                <span className='absolute top-0 font-medium text-xl p-5 uppercase font-poppins flex justify-between w-full'>
+                <span className='absolute top-0 font-medium text-xl p-3 lg:p-5 uppercase font-poppins flex justify-between w-full'>
                     <div className='flex gap-2'>
-                        <Link to='/'className='lg:hidden' ><BsArrowLeft size={25} /></Link>
+                        <Link to='/' className='lg:hidden' ><BsArrowLeft size={25} /></Link>
                         <p>Reels</p>
                     </div>
                     <p><BsCamera size={25} /></p>
                 </span>
-                <div className='w-full px-5 absolute bottom-0 p-5'>
+                <div className='w-full absolute bottom-0 mb-10 p-1 lg:p-5'>
                     <div className='flex justify-between items-end z-10'>
                         <div className='space-y-2 flex gap-2 items-start'>
                             <Link ref={elementRef} to={`/${Reel?.user?.username}`} className='flex gap-2'>

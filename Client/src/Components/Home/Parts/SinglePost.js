@@ -85,17 +85,19 @@ const SinglePost = ({ postDetail, setPostID, setPostDetails }) => {
                         alt=""
                     />
                     <div className='ml-2 mt-2 flex '>
-                        <span className='text-md font-poppins font-medium flex gap-2'>{postDetail?.user?.username}
-                            {postDetail?.user?.isVerified &&
-                                <div className='text-blue-600 mt-1 inline'>
-                                    <BsPatchCheckFill size={15} />
-                                </div>
-                            }
-                            <p className='font-light text-xs my-1 inline mx-2 text-gray-500'>
-                                . {moment(postDetail?.createdAt).from()}
-                            </p>
-                        </span>
-                        <p className='font-then text-sm'>{postDetail?.location}</p>
+                        <div>
+                            <span className='text-md font-poppins font-medium flex gap-2'>{postDetail?.user?.username}
+                                {postDetail?.user?.isVerified &&
+                                    <div className='text-blue-600 mt-1 inline'>
+                                        <BsPatchCheckFill size={15} />
+                                    </div>
+                                }
+                                <p className='font-light text-xs my-1 inline mx-2 text-gray-500'>
+                                    . {moment(postDetail?.createdAt).from()}
+                                </p>
+                            </span>
+                            <p className='font-then text-sm'>{postDetail?.location}</p>
+                        </div>
                     </div>
                 </Link>
                 <button

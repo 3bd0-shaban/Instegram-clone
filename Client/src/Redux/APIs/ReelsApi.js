@@ -130,6 +130,7 @@ export const ReelsApi = apiSlice.injectEndpoints({
                 url: `/api/post/activeReels?page=${1}`,
                 method: 'GET',
             }),
+            providesTags: ['UserFollow'],
             transformResponse(apiResponse, meta) {
                 // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
 

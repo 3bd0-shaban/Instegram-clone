@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from './../../Redux/Slices/UserSlice';
+import { BsPatchCheckFill } from 'react-icons/bs';
 
 const FollowerCart = ({ chat, username, SendPost }) => {
     const [followerchat, setFollowerchat] = useState();
@@ -26,7 +27,14 @@ const FollowerCart = ({ chat, username, SendPost }) => {
                 src={followerchat?.avatar?.url ? followerchat?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt=""
             ></img>
             <div className='ml-3 my-auto'>
-                <p>{followerchat?.username}</p>
+                <div className='flex gap-2'>
+                    <p className='text-md font-poppins font-medium'>{followerchat?.username}</p>
+                    {followerchat?.isVerified &&
+                        <div className='text-blue-600 mt-1'>
+                            <BsPatchCheckFill size={15} />
+                        </div>
+                    }
+                </div>
                 <p className='text-gray-500 text-sm'>{chat?.lastMSG}</p>
             </div>
             {chat.isOnline &&

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { SideBar, useTitle, UserSaves, UsersPosts, UsersReels, Footer, ModalSettings, ModalFollowers, ModalFollowing, ModalChangeProfile } from '../Components/Exports'
-import { BsBookmarks, BsGear, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
+import { BsBookmarks, BsGear, BsGrid, BsPersonLinesFill, BsPatchCheckFill } from 'react-icons/bs';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -47,7 +47,14 @@ const Profile = () => {
                         </button>
                         <div className='col-span-4 md:col-span-5 flex justify-start mt-10'>
                             <div className='space-y-5'>
-                                <p className='text-lg font-semibold'>{userInfo?.fullname}</p>
+                                <div className='flex gap-2'>
+                                    <p className='text-lg font-semibold'>{userInfo?.fullname}</p>
+                                    {userInfo?.isVerified &&
+                                        <div className='text-blue-600 mt-1'>
+                                            <BsPatchCheckFill size={15} />
+                                        </div>
+                                    }
+                                </div>
                                 <p className='text-lg text-gray-500'>{userInfo?.bio}</p>
                                 <div className='flex items-center gap-6'>
                                     <Link to='/settings/edit' className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 focus:bg-gray-300'>Edit Profile</Link>

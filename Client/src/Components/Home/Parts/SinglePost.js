@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BsBookmark, BsBookmarkFill, BsThreeDots } from 'react-icons/bs'
+import { BsBookmark, BsBookmarkFill, BsPatchCheckFill, BsThreeDots } from 'react-icons/bs'
 import { FaRegHeart, FaRegComment, FaRegSmile, FaHeart } from 'react-icons/fa'
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -84,9 +84,14 @@ const SinglePost = ({ postDetail, setPostID, setPostDetails }) => {
                         src={postDetail?.user?.avatar?.url ? postDetail?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon}
                         alt=""
                     />
-                    <div className='ml-2 mt-2'>
-                        <span className='text-md font-poppins font-medium'>{postDetail?.user?.username}
-                            <p className='font-light text-xs my-3 inline mx-2 text-gray-500'>
+                    <div className='ml-2 mt-2 flex '>
+                        <span className='text-md font-poppins font-medium flex gap-2'>{postDetail?.user?.username}
+                            {postDetail?.user?.isVerified &&
+                                <div className='text-blue-600 mt-1 inline'>
+                                    <BsPatchCheckFill size={15} />
+                                </div>
+                            }
+                            <p className='font-light text-xs my-1 inline mx-2 text-gray-500'>
                                 . {moment(postDetail?.createdAt).from()}
                             </p>
                         </span>

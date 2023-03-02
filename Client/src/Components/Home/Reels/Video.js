@@ -14,7 +14,7 @@ import { useFollowMutation } from '../../../Redux/APIs/UserApi';
 // import { preventScroll } from './../../../Helpers/PreventScroll';
 import { ImSpinner3 } from 'react-icons/im';
 
-const Video = ({ Reel, setPostID, setPostDetails }) => {
+const Video = ({ Reel, setPostID, setPostDetails, count, index }) => {
 
     const { elementRef, isInViewPort } = useIntersection();
 
@@ -48,7 +48,13 @@ const Video = ({ Reel, setPostID, setPostDetails }) => {
         const isInclude = Reel?.user?.followers?.some(p => p == userInfo?._id);
         isInclude ? setIsFollowing(true) : setIsFollowing(false);
     }, [Reel, userInfo]);
-
+    const LoopIndicator = () => {
+        const Indicator = []
+        for (let i = 0; i < count; i++) {
+            Indicator.push(<span key={i} className={`bg-white/60 rounded-md h-2 w-full ${(i === index) && 'bg-black/50'}`}></span>);
+        }
+        return Indicator
+    }
 
     const LikeSubmit = async (id) => {
         await Like(id).unwrap()
@@ -129,9 +135,12 @@ const Video = ({ Reel, setPostID, setPostDetails }) => {
                         <BsPlayFill size={100} />
                     </div>
                 }
+                <div className='absolute top-0 mt-1 w-full flex gap-2'>
+                    <LoopIndicator />
+                </div>
                 <span className='absolute top-0 font-medium text-xl p-5 uppercase font-poppins flex justify-between w-full'>
                     <div className='flex gap-2'>
-                        <Link to='/'><BsArrowLeft size={25} /></Link>
+                        <Link to='/'className='lg:hidden' ><BsArrowLeft size={25} /></Link>
                         <p>Reels</p>
                     </div>
                     <p><BsCamera size={25} /></p>
@@ -166,6 +175,7 @@ const Video = ({ Reel, setPostID, setPostDetails }) => {
 
                                             className='hover:text-gray-500 cursor-pointer mx-auto block'>
                                             <BsHeartFill size={28} style={{ color: 'red' }} />
+                                            <p className='text-sm hover:text-white'>{Reel?.numLikes}</p>
                                         </motion.button>
                                     </AnimatePresence>
                                     : (!Reel?.hiddenlikes) &&
@@ -177,6 +187,7 @@ const Video = ({ Reel, setPostID, setPostDetails }) => {
                                         onClick={() => LikeSubmit(Reel?._id)}
                                         className='hover:text-gray-500 cursor-pointer mx-auto block'>
                                         <BsHeart size={25} />
+                                        <p className='text-sm'>{Reel?.numLikes}</p>
                                     </motion.button>
                                 }
 
@@ -186,6 +197,7 @@ const Video = ({ Reel, setPostID, setPostDetails }) => {
                                 // onClick={() => dispatch(FeatureAction.setIsPostComments(true))}
                                 >
                                     <BsChat size={25} />
+                                    <p className='text-sm'>{Reel?.numComments}</p>
                                 </button>
                                 {isSaved ?
                                     <AnimatePresence>

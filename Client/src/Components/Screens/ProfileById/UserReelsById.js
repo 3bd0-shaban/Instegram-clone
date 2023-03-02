@@ -75,7 +75,7 @@ const UserReelsById = ({ id, userById }) => {
             <div className='container max-w-5xl px-0'>
                 {isFetching ? <p className='flex justify-center h-96 items-center text-5xl text-gray-600 font-medium animate-spin'><ImSpinner3 /></p>
                     :
-                    isError ? <p>{error?.data?.msg}</p>
+                    isError ? <p className='w-full text-center py-16 font-medium lg:text-lg'>{error?.data?.msg}</p>
                         :
                         <InfiniteScroll
                             dataLength={userReels.length}

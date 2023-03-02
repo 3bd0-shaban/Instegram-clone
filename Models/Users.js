@@ -28,6 +28,10 @@ const usesrSchema = new mongoose.Schema(
       min: 6,
       select: false
     },
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
     bio: {
       type: String,
     },

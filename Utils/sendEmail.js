@@ -36,9 +36,9 @@ const send_Email = async (to, txt, otp) => {
     const EmailOption = {
         from: SENDER_EMAIL_ADDRESS,
         to: to, // list of receivers
-        subject: 'Market-Tech',
+        subject: 'Instegram-Clone',
         html: ` <div style="max-width: 700px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%;">
-                <h2 style="text-align: center; text-transform: uppercase;color: teal;">Welcome to the Market Tech.</h2>
+                <h2 style="text-align: center; text-transform: uppercase;color: teal;">Welcome to Instegram</h2>
                 <p>${txt}</p><p>${otp}</p>
                         
                 <p>If the it doesn't work for any reason, return to website and ask for anthor otp code</p>

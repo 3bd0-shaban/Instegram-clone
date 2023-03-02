@@ -2,7 +2,6 @@ import { useDispatch } from 'react-redux';
 import { FeatureAction } from '../../../Redux/Slices/FeaturesSlice';
 import { motion } from 'framer-motion';
 import AnimModal from '../../../Animation/AnimModal';
-import { AiOutlineStar } from 'react-icons/ai';
 import { BsX } from 'react-icons/bs';
 import { useUnFollowMutation } from '../../../Redux/APIs/UserApi';
 
@@ -32,12 +31,25 @@ const ModalFollowerCTRL = ({ userInfo }) => {
                 </button>
                 <div className='w-full flex justify-center py-5'>
                     <div>
-                        <img className='h-28 max-w-28 rounded-full col-span-2  flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
+                        <img className='h-28 w-28 rounded-full col-span-2 object-cover flex justify-center items-center' src={userInfo?.avatar?.url} alt='' />
                         <p className='text-lg font-semibold flex justify-center'>{userInfo?.username}</p>
                     </div>
                 </div><hr />
                 <div className='w-full text-start mx-auto !mt-0'>
-                    <div className='flex justify-between items-center px-5 cursor-pointer focus:bg-gray-500 py-4 hover:bg-gray-100'>
+                    <span onClick={
+                        () => {
+                            dispatch(FeatureAction.setIsModalBlockConfirm(true));
+                            dispatch(FeatureAction.setIsModalFollowerCTRL(true));
+                        }
+                    }
+                        className='block cursor-pointer text-red-600 font-bold p-5 hover:bg-gray-100'>Block</span><hr />
+                    {/* <span className='block cursor-pointer text-red-600 font-bold py-4 hover:bg-gray-100'>Restrict</span><hr /> */}
+                    <span onClick={
+                        () => {
+                            dispatch(FeatureAction.setIsModalReports(true));
+                            dispatch(FeatureAction.setIsModalFollowerCTRL(true))
+                        }} className='block cursor-pointer text-red-600 font-bold p-5 hover:bg-gray-100'>Report</span><hr />
+                    {/* <div className='flex justify-between items-center px-5 cursor-pointer focus:bg-gray-500 py-4 hover:bg-gray-100'>
                         <span >Add to close friends list</span>
                         <span className='rounded-full border-2 border-black p-1 flex justify-center items-center'>
                             <AiOutlineStar size={17} />
@@ -46,15 +58,15 @@ const ModalFollowerCTRL = ({ userInfo }) => {
                     <div className='flex justify-between items-center px-5 cursor-pointer focus:bg-gray-500 py-4 hover:bg-gray-100'>
                         <span >Add to favorites</span> <AiOutlineStar size={25} />
                     </div><hr />
-                    <span className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'>Mute</span><hr />
+                    <span className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'>Mute</span><hr /> */}
                     {/* <span className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'>Restrict</span><hr /> */}
                     <span
                         onClick={UnFollowHandle}
-                        className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'>Unfollow
+                        className='block cursor-pointer p-5 focus:bg-gray-500 hover:bg-gray-100'>Unfollow
                     </span>
                     <hr />
                     <span
-                        className='block cursor-pointer px-5 focus:bg-gray-500 py-4 hover:bg-gray-100'
+                        className='block cursor-pointer p-5 focus:bg-gray-500 hover:bg-gray-100'
                         onClick={() => dispatch(FeatureAction.setIsModalFollowerCTRL(false))} >Cancel
                     </span>
                 </div>

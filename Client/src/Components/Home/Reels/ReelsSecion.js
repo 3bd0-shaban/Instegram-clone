@@ -21,7 +21,7 @@ const ReelsSecion = () => {
     const [hasMore, setHasMore] = useState(true);
     const dispatch = useDispatch();
     const { data, isFetching, isError, error } = useGetAllReelsQuery(1);
-    const { AllReels, totalCount } = data || {};
+    const { AllReels, totalCount, count } = data || {};
     const {
         isModalPostDetails, isPostMore, isClipAlert, isModalReports, isShare,
         isModalThanksReport, isModalUnfollowConfirm, isModalBlockConfirm, isModalPostMoreLogged
@@ -76,7 +76,12 @@ const ReelsSecion = () => {
                     slidesPerView={1}
                     spaceBetween={0}
                     mousewheel={true}
-                    onScroll={() => {
+                    // onScroll={() => {
+                    //     if (totalCount !== 0) {
+                    //         setPage((prevPage) => prevPage + 1)
+                    //     }
+                    // }}
+                    onSlideChange={() => {
                         if (totalCount !== 0) {
                             setPage((prevPage) => prevPage + 1)
                         }
@@ -106,9 +111,9 @@ const ReelsSecion = () => {
                                     </div>}
                             // style={{ marginBottom: '3rem', overflow: 'hidden', height: '100%' }}
                             >
-                                {AllReels?.map(Reel => (
+                                {AllReels?.map((Reel, index) => (
                                     <SwiperSlide className='h-full' key={Reel._id}>
-                                        <Video Reel={Reel} setPostID={setPostID} setPostDetails={setPostDetails} />
+                                        <Video Reel={Reel} setPostID={setPostID} setPostDetails={setPostDetails} count={count} index={index} />
                                     </SwiperSlide>
                                 ))}
                             </InfiniteScroll>

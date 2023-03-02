@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BsHeart, BsHouseDoorFill, BsImages, BsInstagram, BsList, BsSearch } from 'react-icons/bs'
+import { BsHeart, BsHouse, BsImages, BsInstagram, BsList, BsSearch } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { InstegramFont, DrobDownMore, ModalAddPost } from '../Exports'
 import { RiMessengerLine } from 'react-icons/ri'
@@ -55,7 +55,7 @@ const SideBar = () => {
                         <BsInstagram size={30} />
                     </Link>
                     <div className='mt-16'>
-                        <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={30} />} Title='Home' />
+                        <SideLink Linkdirect='/' Icon={<BsHouse size={30} />} Title='Home' />
                         <SideLink Icon={<BsSearch size={30} />} Title='Search' OnClickEvent={HandleOpenSearch} />
                         {/* <SideLink Icon={<IoHeartDislikeCircleOutline size={30} />} Title='Explore' /> */}
                         <SideLink Linkdirect='/reels' Icon={<BsImages size={25} />} Title='Reels' />
@@ -138,7 +138,7 @@ const SideBar = () => {
                     {!id &&
                         <div className='fixed w-full bottom-0 bg-white border-t lg:hidden block z-10'>
                             <div className='flex gap-5 py-1 w-full'>
-                                <SideLink Linkdirect='/' Icon={<BsHouseDoorFill size={23} />} Title='Home' />
+                                <SideLink Linkdirect='/' Icon={<BsHouse size={23} />} Title='Home' />
                                 <SideLink Linkdirect='/search' Icon={<BsSearch size={23} />} Title='Search' />
                                 <SideLink Linkdirect='/reels' Icon={<BsImages size={21} />} Title='Reels' />
                                 <SideLink Linkdirect='/messages' Icon={<RiMessengerLine size={23} />} Title='Messages' />

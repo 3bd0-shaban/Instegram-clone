@@ -2,6 +2,7 @@ import moment from "moment"
 import { Link } from "react-router-dom"
 import { FeatureAction } from './../../../Redux/Slices/FeaturesSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { BsPatchCheckFill } from "react-icons/bs";
 
 const Comments = ({ postDetails, id }) => {
     const { isModalPostDetails } = useSelector(state => state.Features)
@@ -26,10 +27,16 @@ const Comments = ({ postDetails, id }) => {
                                 <img className=" mx-auto p-1 w-14 h-14 rounded-full object-cover focus:ring-2 focus:ring-gray-300"
                                     src={comment?.user?.avatar?.url ? comment?.user?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
                             </Link>
+
                             <div className='col-span-10 mt-2'>
                                 <div className='flex gap-3'>
                                     <div className='flex text-[1.1rem] font-poppins font-medium'>
                                         <Link to={`/${postDetails?.user?.username}`} >{comment?.user?.username}</Link>
+                                        {postDetails?.user?.isVerified &&
+                                            <div className='text-blue-600 mt-1 ml-2'>
+                                                <BsPatchCheckFill size={15} />
+                                            </div>
+                                        }
                                         <p className='font-poppins text-[1rem] font-thin inline mx-3'>{comment?.comment}</p>
                                     </div>
                                 </div>

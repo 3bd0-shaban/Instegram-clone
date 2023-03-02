@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useFollowMutation, useSuggestionQuery } from '../../../Redux/APIs/UserApi'
 import { ImSpinner3 } from 'react-icons/im';
 import { SkilSuggestion } from '../../Exports';
+import { BsPatchCheckFill } from 'react-icons/bs';
 
 const Suggestions = () => {
   const { data, isFetching, isError, error } = useSuggestionQuery() || {};
@@ -28,15 +29,23 @@ const Suggestions = () => {
         >
           <img className="p-1 w-14 h-14 object-cover rounded-full focus:ring-2 focus:ring-gray-300"
             src={res?.avatar?.url ? res?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
-          <div className='ml-2 mt-1'>
-            <p className='text-md font-poppins font-medium'>{res?.username}</p>
-            <p className='text-sm text-gray-500'>{res?.fullname}</p>
+          <div className='flex gap-2'>
+            <div className='ml-2 mt-1'>
+              <p className='text-md font-poppins font-medium'>{res?.username}</p>
+              <p className='text-sm text-gray-500'>{res?.fullname}</p>
+            </div>
+            {res.isVerified &&
+              <div className='text-blue-600 mt-1'>
+                <BsPatchCheckFill size={15} />
+              </div>
+            }
           </div>
         </Link>
         <button onClick={() => FollowUser(res._id)}
           disabled={isFollowing}
           className='font-semibold text-blue-400'>{isFollowing ? 'Following' : isLoading ?
-            <span className='mx-auto'><ImSpinner3 size={25} /> </span> : 'Follow'}</button>
+            <span className='mx-auto'><ImSpinner3 size={25} /> </span> : 'Follow'}
+        </button>
       </>
     )
   }

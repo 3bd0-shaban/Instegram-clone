@@ -5,7 +5,7 @@ import {
     UserReelsById, UsersPostsById, ModalUserByIdSettings,
     ModalFollowing, ModalFollowers, ModalFollowerCTRL, SkilProfileById, ModalReports, ModalThanksReport, ModalUnFollowConfirm, ModalBlockConfirm
 } from '../Components/Exports'
-import { BsBookmarks, BsThreeDots, BsGrid, BsPersonLinesFill } from 'react-icons/bs';
+import { BsBookmarks, BsThreeDots, BsGrid, BsPersonLinesFill, BsPatchCheckFill } from 'react-icons/bs';
 import { useState } from 'react';
 import { FeatureAction } from '../Redux/Slices/FeaturesSlice';
 import { useDispatch } from 'react-redux';
@@ -24,13 +24,13 @@ import { preventScroll } from '../Helpers/PreventScroll';
 const Profile = () => {
 
     const { username } = useParams();
-    const { data: userById, isError, isFetching, error } = useGetUserByIdQuery(username) || {};
+    const { data: userById, isError, isFetching } = useGetUserByIdQuery(username) || {};
     // const { data: getfollowerchatID } = useSingleChatQuery(id) || {};
     const {
         isModalFollowersList, isModalFollowingList, isModalFollowerCTRL, isModalSettings,
         isModalBlockConfirm, isModalUnfollowConfirm, isModalThanksReport, isModalReports } = useSelector(state => state.Features);
-        preventScroll(isModalFollowersList || isModalFollowingList || isModalFollowerCTRL || isModalReports ||
-            isModalThanksReport || isModalUnfollowConfirm || isModalBlockConfirm || isModalSettings)
+    preventScroll(isModalFollowersList || isModalFollowingList || isModalFollowerCTRL || isModalReports ||
+        isModalThanksReport || isModalUnfollowConfirm || isModalBlockConfirm || isModalSettings)
     useTitle(userById?.username);
     const navigate = useNavigate();
     const userInfo = useSelector(selectCurrentUser)
@@ -98,6 +98,11 @@ const Profile = () => {
                                     <div className='space-y-5'>
                                         <div className='flex items-center gap-2'>
                                             <p className='text-lg font-semibold'>{userById?.fullname}</p>
+                                            {userById?.isVerified &&
+                                                <div className='text-blue-600 mt-1'>
+                                                    <BsPatchCheckFill size={15} />
+                                                </div>
+                                            }
                                             <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsThreeDots size={24} /></button>
                                         </div>
                                         <p className='text-lg text-gray-500'>{userById?.bio}</p>

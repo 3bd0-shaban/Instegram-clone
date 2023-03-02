@@ -22,7 +22,7 @@ const FollowersReels = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const { data, isFetching, isError, error } = useGetUserByIdReelsQuery(id)
-    const { userReels, totalCount } = data || {};
+    const { userReels, totalCount, count } = data || {};
     const {
         isModalPostDetails, isPostMore, isClipAlert, isModalReports, isShare,
         isModalThanksReport, isModalUnfollowConfirm, isModalBlockConfirm, isModalPostMoreLogged
@@ -81,7 +81,7 @@ const FollowersReels = () => {
                     slidesPerView={1}
                     spaceBetween={0}
                     mousewheel={true}
-                    onScroll={() => {
+                    onSlideChange={() => {
                         if (totalCount !== 0) {
                             setPage((prevPage) => prevPage + 1)
                         }
@@ -111,9 +111,9 @@ const FollowersReels = () => {
                                     </div>}
                             // style={{ marginBottom: '3rem', overflow: 'hidden', height: '100%' }}
                             >
-                                {userReels?.map(Reel => (
+                                {userReels?.map((Reel, index) => (
                                     <SwiperSlide className='h-full' key={Reel._id}>
-                                        <Video Reel={Reel} setPostID={setPostID} setPostDetails={setPostDetails} />
+                                        <Video Reel={Reel} setPostID={setPostID} setPostDetails={setPostDetails} count={count} index={index} />
                                     </SwiperSlide>
                                 ))}
                             </InfiniteScroll>

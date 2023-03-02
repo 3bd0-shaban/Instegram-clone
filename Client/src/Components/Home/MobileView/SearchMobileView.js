@@ -7,6 +7,7 @@ import AnimSlide from '../../../Animation/AnimSlode';
 import SideBar from '../../Layouts/SideBar';
 import { useBreakpoint, SkilSuggestion } from '../../Exports';
 import { Scrollup } from './../../../Helpers/Scroll';
+import { BsPatchCheckFill } from 'react-icons/bs';
 
 const SearchMobileView = () => {
     Scrollup()
@@ -61,7 +62,14 @@ const SearchMobileView = () => {
                             >
                                 <img className="p-1 w-16 h-16 object-cover rounded-full focus:ring-2 focus:ring-gray-300" src={res?.avatar?.url ? res?.avatar?.url : process.env.REACT_APP_DefaultIcon} alt="" />
                                 <div className='ml-2'>
-                                    <p className='text-md font-poppins font-medium'>{res?.username}</p>
+                                    <div className='flex gap-2'>
+                                        <p className='text-md font-poppins font-medium'>{res?.username}</p>
+                                        {res?.isVerified &&
+                                            <div className='text-blue-600 mt-1'>
+                                                <BsPatchCheckFill size={15} />
+                                            </div>
+                                        }
+                                    </div>
                                     <p className='text-sm font-poppins text-gray-500'>{res?.fullname}</p>
                                 </div>
                             </Link>

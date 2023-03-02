@@ -7,6 +7,7 @@ import { ImSpinner3 } from 'react-icons/im';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { BsPatchCheckFill } from 'react-icons/bs';
 
 const Notifications = () => {
     const [page, setPage] = useState(1);
@@ -73,7 +74,14 @@ const Notifications = () => {
                                     alt=""
                                 />
                                 <div className='ml-1'>
-                                    <p className='text-md font-poppins font-medium'>{res?.sender?.username}</p>
+                                    <div className='flex gap-2'>
+                                        <p className='text-md font-poppins font-medium'>{res?.sender?.username}</p>
+                                        {res?.sender?.isVerified &&
+                                            <div className='text-blue-600 mt-1'>
+                                                <BsPatchCheckFill size={15} />
+                                            </div>
+                                        }
+                                    </div>
                                     <p className='text-sm font-poppins text-gray-500'>{res?.sender?.fullname}</p>
                                 </div>
                             </Link>

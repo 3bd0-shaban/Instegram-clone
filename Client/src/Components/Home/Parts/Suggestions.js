@@ -4,11 +4,13 @@ import { useFollowMutation, useSuggestionQuery } from '../../../Redux/APIs/UserA
 import { ImSpinner3 } from 'react-icons/im';
 import { SkilSuggestion } from '../../Exports';
 import { BsPatchCheckFill } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from './../../../Redux/Slices/UserSlice';
 
 const Suggestions = () => {
   const { data, isFetching, isError, error } = useSuggestionQuery() || {};
-
-
+  const UserInfo = useSelector(selectCurrentUser)
+  const suggestion = data?.filter(p => p._id !== UserInfo._id);
   const FollowCart = ({ res }) => {
     const [Follow, { isLoading }] = useFollowMutation() || {};
     const [isFollowing, setIsFollowing] = useState(false);
@@ -65,7 +67,7 @@ const Suggestions = () => {
           <SkilSuggestion />
         </div>
         : isError ? <p>{error?.data?.msg}</p> :
-          data?.map(res => (
+          suggestion?.map(res => (
             <div key={res._id} className='flex justify-between items-center'>
               <FollowCart res={res} />
             </div>

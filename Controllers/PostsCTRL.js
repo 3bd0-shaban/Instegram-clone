@@ -7,18 +7,18 @@ import Features from './../Utils/Features.js';
 export const New_Post = asyncHandler(async (req, res, next) => {
     const { des, location, turnoffcomments, hiddenlikes, imageDes } = req.body
     let received = [...req.body.images];
-    let videos = [...req.body.videos];
+    let videos =  req.body.video && [...req.body.videos];
     let imagesLink = []
     let VideosLink = []
     let isReel = false
 
-    if (videos.length > 0 && Array.isArray(videos)) {
+    if (videos?.length > 0 && Array.isArray(videos)) {
         for (let i = 0; i < videos.length; i++) {
             isReel = true
             const result = await cloudinary.uploader.upload(videos[i], {
                 folder: "Instegram/posts",
                 transformation: [
-                    { width: 2000, quality: 'auto' }
+                    { width: 1000, quality: 'auto' }
                 ],
                 resource_type: 'auto'
             });
@@ -33,7 +33,7 @@ export const New_Post = asyncHandler(async (req, res, next) => {
         const result = await cloudinary.uploader.upload(received[i], {
             folder: "Instegram/posts",
             transformation: [
-                { width: 2000, quality: 'auto' }
+                { width: 1000, quality: 'auto' }
             ],
             resource_type: 'auto'
         });

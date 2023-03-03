@@ -45,9 +45,10 @@ export const CommentsApi = apiSlice.injectEndpoints({
                     dispatch(
                         apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
                             const post = draft?.followersposts?.find((item) => item?._id === id);
-                            // post?.likes?.push(userInfo._id)
-                            post.likes = updatedPost.likes
-                            post.numLikes = updatedPost.numLikes
+                            if (post) {
+                                post.likes = updatedPost.likes
+                                post.numLikes = updatedPost.numLikes
+                            }
                         })
                     )
                     dispatch(
@@ -66,8 +67,10 @@ export const CommentsApi = apiSlice.injectEndpoints({
                     dispatch(
                         apiSlice.util.updateQueryData("GetUserByIdReels", userIdOfReel, (draft) => {
                             const Reel = draft?.userReels?.find((item) => item?._id === id);
-                            Reel.likes = updatedPost.likes
-                            Reel.numLikes = updatedPost.numLikes
+                            if (Reel) {
+                                Reel.likes = updatedPost.likes
+                                Reel.numLikes = updatedPost.numLikes
+                            }
                         })
                     )
                 } catch (err) {
@@ -89,9 +92,11 @@ export const CommentsApi = apiSlice.injectEndpoints({
                     dispatch(
                         apiSlice.util.updateQueryData("getFollowersPosts", 1, (draft) => {
                             const post = draft?.followersposts?.find((item) => item?._id === id);
-                            // post?.likes?.push(userInfo._id)
-                            post.likes = updatedPost.likes
-                            post.numLikes = updatedPost.numLikes
+                            if (post) {
+                                post.likes = updatedPost.likes
+                                post.numLikes = updatedPost.numLikes
+                            }
+
                         })
                     )
                     dispatch(
@@ -110,8 +115,10 @@ export const CommentsApi = apiSlice.injectEndpoints({
                     dispatch(
                         apiSlice.util.updateQueryData("GetUserByIdReels", userIdOfReel, (draft) => {
                             const Reel = draft?.userReels?.find((item) => item?._id === id);
-                            Reel.likes = updatedPost.likes
-                            Reel.numLikes = updatedPost.numLikes
+                            if (Reel) {
+                                Reel.likes = updatedPost.likes
+                                Reel.numLikes = updatedPost.numLikes
+                            }
                         })
                     )
                 } catch (err) {

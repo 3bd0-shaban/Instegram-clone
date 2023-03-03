@@ -87,10 +87,10 @@ const ReelsSecion = () => {
                         }
                     }}
                     modules={[Mousewheel, Pagination]}
-                    className="flex justify-center items-center max-w-3xl h-screen container px-0 cursor-pointer text-white"
+                    className="flex justify-center items-center max-w-3xl h-screen !fixed !inset-x-0 container px-0 cursor-pointer text-white"
                 >
                     {isFetching ?
-                        <SwiperSlide className='h-screen bg-zinc-800 animate-pulse relative w-full'>
+                        <SwiperSlide className='bg-zinc-800 animate-pulse relative w-full'>
                             <SkilReelVideo />
                         </SwiperSlide>
                         : isError ? <p>{error?.data?.msg}</p> :
@@ -101,7 +101,7 @@ const ReelsSecion = () => {
                                 className='h-full'
                                 // height={window.innerHeight - 50}
                                 loader={
-                                    <SwiperSlide className='h-screen bg-zinc-800 animate-pulse relative w-full'>
+                                    <SwiperSlide className='bg-zinc-800 animate-pulse relative w-full'>
                                         <SkilReelVideo />
                                     </SwiperSlide>
                                 }

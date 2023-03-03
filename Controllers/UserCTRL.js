@@ -190,6 +190,10 @@ export const updateProfilePic = asyncHandler(async (req, res, next) => {
     const file = req.body.avatar;
     const result = await cloudinary.uploader.upload(file, {
         folder: "Instegram/User",
+        transformation: [
+            { width: 500, quality: 'auto' }
+        ],
+        resource_type: 'auto'
     });
     const user = await Users.findByIdAndUpdate({ _id: req.user.id },
         {

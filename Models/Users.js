@@ -56,6 +56,7 @@ const usesrSchema = new mongoose.Schema(
     },
     isVerified: {
       type: Boolean,
+      default: false
     },
     followers: [
       {

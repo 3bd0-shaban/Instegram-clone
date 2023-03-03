@@ -99,8 +99,8 @@ export const activateEmail = asyncHandler(async (req, res, next) => {
     if (user) {
         if (user.otp == parseInt(code)) {
             req.app.locals.OTP = null;
-            // await Users.updateOne({ email: user.email },
-            //     { isVerified: true }, { new: true });
+            await Users.updateOne({ email: user.email },
+                { isEmailActivated: true }, { new: true });
             const accessToken = createAccessToken({ id: user.id, roles: user.roles });
             const refresh_Token = createRefreshToken({ id: user._id, roles: user.roles });
             res.cookie('Jwt', refresh_Token, {

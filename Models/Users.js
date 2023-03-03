@@ -58,6 +58,10 @@ const usesrSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    isEmailActivated: {
+      type: Boolean,
+      default: false
+    },
     followers: [
       {
         type: mongoose.Types.ObjectId,

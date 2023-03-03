@@ -42,7 +42,7 @@ const ImageSwiper = ({ post }) => {
             >
                 {post?.videos?.length > 0 &&
                     post?.videos?.map((vid, index) =>
-                        <SwiperSlide key={vid?._id} className='!h-[30rem] relative w-full overflow-hidden'>
+                        <SwiperSlide key={index} className='!h-[30rem] relative w-full overflow-hidden'>
                             <video
                                 onClick={() => handleVideoClick(index)}
                                 ref={(el) => (videoRefs.current[index] = el)}
@@ -57,8 +57,8 @@ const ImageSwiper = ({ post }) => {
                         </SwiperSlide>
                     )
                 }
-                {post?.images?.map(image => (
-                    <SwiperSlide key={image?._id}>
+                {post?.images?.map((image,index) => (
+                    <SwiperSlide key={index}>
                         <img className='rounded-md overflow-hidden h-[30rem] min-w-full object-cover'
                             src={image?.url}
                             alt={post?.user?.username}

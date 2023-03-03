@@ -4,6 +4,8 @@ import { InstegramFont, Footer } from '../Components/Exports';
 
 import { useRequestOTP2Mutation, useVerifyEmailMutation } from '../Redux/APIs/AuthApi';
 import { ImSpinner7 } from 'react-icons/im';
+import { setCredentials } from '../Redux/Slices/UserSlice';
+import { useDispatch } from 'react-redux';
 const Confirm = () => {
     const [code, setCode] = useState('');
     const [success, setSuccess] = useState('');
@@ -11,7 +13,7 @@ const Confirm = () => {
     useEffect(() => {
         userRef.current.focus()
     }, []);
-
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const [SearchQuery] = useSearchParams();
     const email = SearchQuery.get('email');
@@ -32,8 +34,10 @@ const Confirm = () => {
         event.preventDefault();
         const data = { email }
         await RequestOTP2(data).unwrap()
-            .then(payload => {
+            .then(({ accessToken, user }) => {
                 setSuccess(`A new confirmation code send to ${email}`)
+                dispatch(setCredentials({ accessToken, user }));
+
             }).catch(err => {
                 console.log(err?.data?.msg)
             })

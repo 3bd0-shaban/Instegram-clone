@@ -17,6 +17,9 @@ export const SignUp = asyncHandler(async (req, res, next) => {
     if (password !== confirmpassword) {
         return next(new ErrorHandler('Passwords do not match', 400));
     }
+    if (username.includes(' ')) {
+        return next(new ErrorHandler('Spaces at username are not allowed', 400));
+    }
     if (!validateEmail(email)) {
         return next(new ErrorHandler('Invalid Email', 400));
     }
@@ -33,7 +36,7 @@ export const SignUp = asyncHandler(async (req, res, next) => {
         req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
 
         new Users({
-            email, password: HashedPassword, fullname, username, otp: req.app.locals.OTP
+            email, password: HashedPassword, fullname, username: username.trim().toLowerCase(), otp: req.app.locals.OTP
         }).save()
             .then(newuser => {
 

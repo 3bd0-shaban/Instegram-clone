@@ -10,7 +10,7 @@ const SkilReelVideo = () => {
                 </div>
                 <div className='w-12 h-12 rounded-full bg-gray-200'></div>
             </div>
-            <div className='absolute bottom-0 mb-14 px-2 lg:px-5 flex justify-between items-end  w-full text-gray-400'>
+            <div className='absolute bottom-0 px-2 lg:px-5 flex justify-between items-end  w-full text-gray-400'>
                 <div className='flex items-center gap-2'>
                     <div className="rounded-full bg-gray-200 w-12 h-12 "></div>
                     <div className='space-y-2'>

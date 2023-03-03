@@ -144,7 +144,7 @@ const Video = ({ Reel, setPostID, setPostDetails, ID, count, index }) => {
                     </div>
                     <p><BsCamera size={25} /></p>
                 </span>
-                <div className='w-full absolute bottom-0 mb-14 p-2 lg:p-5'>
+                <div className='w-full absolute bottom-0 p-2 lg:p-5'>
                     <div className='flex justify-between items-end z-10'>
                         <div className='space-y-2 flex gap-2 items-start'>
                             <div>

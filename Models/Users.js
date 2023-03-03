@@ -28,10 +28,6 @@ const usesrSchema = new mongoose.Schema(
       min: 6,
       select: false
     },
-    isVerified: {
-      type: Boolean,
-      default: false
-    },
     bio: {
       type: String,
     },
@@ -57,6 +53,9 @@ const usesrSchema = new mongoose.Schema(
     isprivat: {
       type: Boolean,
       default: false
+    },
+    isVerified: {
+      type: Boolean,
     },
     followers: [
       {

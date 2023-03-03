@@ -7,32 +7,28 @@ import Features from './../Utils/Features.js';
 export const New_Post = asyncHandler(async (req, res, next) => {
     const { des, location, turnoffcomments, hiddenlikes, imageDes } = req.body
     let received = [...req.body.images];
-    let videos = [...req.body.videos]
-    if (typeof req.body.images === "string") {
-        received.push(req.body.images);
-    } else {
-        received = req.body.images;
-    }
+    let videos = [...req.body.videos];
     let imagesLink = []
     let VideosLink = []
     let isReel = false
-    if (videos.length > 0) {
-        isReel = true
+
+    if (videos.length > 0 && Array.isArray(videos)) {
+        for (let i = 0; i < videos.length; i++) {
+            isReel = true
+            const result = await cloudinary.uploader.upload(videos[i], {
+                folder: "Instegram/posts",
+                transformation: [
+                    { width: 2000, quality: 'auto' }
+                ],
+                resource_type: 'auto'
+            });
+            VideosLink.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+                imageDes: imageDes
+            });
+        };
     }
-    for (let i = 0; i < videos.length; i++) {
-        const result = await cloudinary.uploader.upload(videos[i], {
-            folder: "Instegram/posts",
-            transformation: [
-                { width: 2000, quality: 'auto' }
-            ],
-            resource_type: 'auto'
-        });
-        VideosLink.push({
-            public_id: result.public_id,
-            url: result.secure_url,
-            imageDes: imageDes
-        });
-    };
     for (let i = 0; i < received.length; i++) {
         const result = await cloudinary.uploader.upload(received[i], {
             folder: "Instegram/posts",
@@ -51,7 +47,7 @@ export const New_Post = asyncHandler(async (req, res, next) => {
         user: req.user.id, images: imagesLink, location, des, turnoffcomments, hiddenlikes, isReel,
         videos: VideosLink
     })
-    newPost.populate('user', 'username avatar')
+    newPost.populate('user', 'username avatar isVerified')
     // newPost.populate('comments.user', 'username avatar');
     newPost.save()
         .then(post => {
@@ -61,7 +57,6 @@ export const New_Post = asyncHandler(async (req, res, next) => {
         }).catch(error => {
             return next(new ErrorHandler(error.message, 500));
         })
-
 });
 
 export const DeletePost = asyncHandler(async (req, res, next) => {
@@ -139,7 +134,7 @@ export const FollowersPosts = asyncHandler(async (req, res, next) => {
     const newarr = [...req.user.following, req.user.id]
     const features = new Features(Posts.find({ user: newarr }), req.query).Pagination(resultperpage)
     const followersposts = await features.query
-        .populate('user', 'username avatar')
+        .populate('user', 'username avatar isVerified')
         .select('-comments')
         .sort("-createdAt");
     if (!followersposts) {

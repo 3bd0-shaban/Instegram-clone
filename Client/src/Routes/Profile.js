@@ -55,7 +55,7 @@ const Profile = () => {
                                         </div>
                                     }
                                 </div>
-                                <p className='text-lg text-gray-500'>{userInfo?.bio}</p>
+                                <p className='text-lg max-w-[15rem] md:max-w-sm ellipse-2 text-gray-500'>{userInfo?.bio}</p>
                                 <div className='flex items-center gap-6'>
                                     <Link to='/settings/edit' className='bg-gray-200 font-medium rounded-md flex items-center px-3 py-2 focus:bg-gray-300'>Edit Profile</Link>
                                     <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsGear size={24} /></button>

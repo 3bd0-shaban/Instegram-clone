@@ -4,12 +4,9 @@ import { InstegramFont, Footer } from '../Components/Exports';
 
 import { useRequestOTP2Mutation, useVerifyEmailMutation } from '../Redux/APIs/AuthApi';
 import { ImSpinner7 } from 'react-icons/im';
-import { setCredentials } from '../Redux/Slices/UserSlice';
-import { useDispatch } from 'react-redux';
 const Confirm = () => {
     const [code, setCode] = useState('');
     const [success, setSuccess] = useState('');
-    const dispatch = useDispatch();
     const userRef = useRef();
     useEffect(() => {
         userRef.current.focus()
@@ -24,16 +21,12 @@ const Confirm = () => {
 
     const SubmitActivateEmail = async (event) => {
         event.preventDefault();
-        try {
-            const { accessToken, user } = await VerifyEmail({ code, email }).unwrap()
-            dispatch(setCredentials({ accessToken, user }));
-            localStorage.setItem('persist', true)
-            localStorage.setItem('id', user._id)
-            setCode('');
-            navigate(`/birthday?email=${email}`)
-        } catch (error) {
-            console.log(error?.data?.msg)
-        }
+        await VerifyEmail({ code, email }).unwrap()
+            .then(() => {
+
+                navigate(`/birthday?email=${email}`)
+                setCode('');
+            })
     }
     const RequestOTP2Activate = async (event) => {
         event.preventDefault();

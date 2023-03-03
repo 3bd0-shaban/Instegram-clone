@@ -105,7 +105,7 @@ const Profile = () => {
                                             }
                                             <button onClick={() => dispatch(FeatureAction.Show_iSModalSittings(true))}><BsThreeDots size={24} /></button>
                                         </div>
-                                        <p className='text-lg text-gray-500'>{userById?.bio}</p>
+                                        <p className='text-lg max-w-[15rem] md:max-w-sm ellipse-2 text-gray-500'>{userById?.bio}</p>
                                         <div className='flex gap-3'>
                                             {isFollowing ?
                                                 <>

@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper'
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { BsArrowLeft, BsPlayFill } from 'react-icons/bs';
+import { BsArrowLeft, BsPlayFill, BsPatchCheckFill } from 'react-icons/bs';
 import { selectCurrentUser } from './../../../Redux/Slices/UserSlice';
 import { AnimatePresence, motion } from 'framer-motion';
 import AnimDropdown from './../../../Animation/AnimDropdown';
@@ -143,8 +143,13 @@ const ModalPreviewImages = ({ images, setImages, setVideos, videos, setSuccess, 
                                         </div>
                                         {next && <div className='border-l col-span-8 md:col-span-2'>
                                             <div className='flex px-4 items-center my-3 gap-5'>
-                                                <img src={userInfo?.avatar?.url} className='w-12 h-12 object-cover rounded-full' alt='' />
+                                                <img src={userInfo?.avatar?.url ? userInfo?.avatar?.url : process.env.REACT_APP_DefaultIcon} className='w-12 h-12 object-cover rounded-full' alt='' />
                                                 <p>{userInfo?.username}</p>
+                                                {userInfo?.isVerified &&
+                                                    <div className='text-blue-600 mt-1 inline'>
+                                                        <BsPatchCheckFill size={15} />
+                                                    </div>
+                                                }
                                             </div>
                                             <div className='relative px-4'>
                                                 <textarea

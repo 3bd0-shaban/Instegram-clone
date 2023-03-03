@@ -97,7 +97,7 @@ const ReelsSecion = () => {
                         }
                     }}
                     modules={[Mousewheel, Pagination]}
-                    className="flex justify-center items-center  h-screen max-w-3xl !fixed !inset-x-0 container px-0 cursor-pointer text-white"
+                    className="flex justify-center items-center h-screen max-w-3xl !fixed !inset-x-0 container px-0 cursor-pointer text-white"
                 >
                     {isFetching ?
                         <SwiperSlide className='bg-zinc-800  animate-pulse relative w-full'>

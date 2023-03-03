@@ -45,6 +45,7 @@ export const ReelsApi = apiSlice.injectEndpoints({
                 url: `/api/post/userreels?page=${page}`,
                 method: 'GET',
             }),
+            providesTags: ['UploadPost'],
             transformResponse(apiResponse, meta) {
                 // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
 

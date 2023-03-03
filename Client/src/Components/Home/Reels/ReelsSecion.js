@@ -80,7 +80,7 @@ const ReelsSecion = () => {
                 <Link to='/'> <img className="h-8 " src="/Images/Font.png" alt="" /></Link>
                 <Link to='/'><BsX size={30} /></Link>
             </div>
-            <div className='fixed inset-0 bg-[#1A1A1A]'>
+            <div className='h-screen bg-[#1A1A1A] '>
                 <Swiper
                     direction={"vertical"}
                     slidesPerView={1}
@@ -97,10 +97,10 @@ const ReelsSecion = () => {
                         }
                     }}
                     modules={[Mousewheel, Pagination]}
-                    className="flex justify-center items-center max-w-3xl h-screen !fixed !inset-x-0 container px-0 cursor-pointer text-white"
+                    className="flex justify-center items-center  h-screen max-w-3xl !fixed !inset-x-0 container px-0 cursor-pointer text-white"
                 >
                     {isFetching ?
-                        <SwiperSlide className='bg-zinc-800 animate-pulse relative w-full'>
+                        <SwiperSlide className='bg-zinc-800  animate-pulse relative w-full'>
                             <SkilReelVideo />
                         </SwiperSlide>
                         : isError ? <p>{error?.data?.msg}</p> :

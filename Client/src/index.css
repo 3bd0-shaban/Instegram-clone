@@ -7,10 +7,14 @@
 html {
     -webkit-tap-highlight-color:transparent;
 }
-body{
+body {
     min-height: 100vh;
     /* mobile viewport bug fix */
     min-height: -webkit-fill-available;
+    }
+    
+html {
+    height: -webkit-fill-available;
 }
 .ringStory {
     border: double 3px transparent;

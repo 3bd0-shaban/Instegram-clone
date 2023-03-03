@@ -20,6 +20,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 url: `/api/post/getuser?page=${page}`,
                 method: 'GET',
             }),
+            providesTags: ['UploadPost'],
             transformResponse(apiResponse, meta) {
                 // const totalCount = Number(meta.response.headers.get('X-Total-Count'));
 
@@ -150,7 +151,7 @@ export const PostsApi = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            // invalidatesTags: ['Posts'],
+            invalidatesTags: ['UploadPost'],
             async onQueryStarted(args, { queryFulfilled, dispatch }) {
 
                 try {

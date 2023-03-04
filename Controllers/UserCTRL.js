@@ -236,7 +236,7 @@ export const AllUsers = asyncHandler(async (req, res, next) => {
     return res.json(users);
 });
 export const Suggestion = asyncHandler(async (req, res, next) => {
-    const newarr = [...req.user.following, req.user.id]
+    const newarr = [...req.user.following, ...req.user.blocklist, req.user.id]
     const num = req.query.num || 10;
     const users = await Users.aggregate([
         { $match: { _id: { $nin: newarr } } },

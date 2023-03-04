@@ -4,7 +4,7 @@ I will be very happy if you like it and put stare.
 
 This is an Instagram clone web application that is fully responsive built using the MERN (MongoDB, Express, React, Node) stack. It is a fully functional social media platform that mimics the features and functionality of the original Instegram ,In this project I focused to implement almost all main user function in instegram also I designed the pages to be similer to instegram webiste specially for mobile devices that the website is fully responsive for all screens.
 
-**Demo**: https://instegram-clone.onrender.com/
+**Demo**: https://instegram-clone.vercel.app/
 
 
 ## Features
@@ -13,7 +13,7 @@ This is an Instagram clone web application that is fully responsive built using 
 * Fully user authentication and auzorization functions
 * confirm and reset password by otp email 
 * Create, edit and delete posts
-* Create, edit and delete Reels
+* Create, and delete Reels
 * Can Upload both images and videos
 * Like and comment on posts
 * Full functions for privat account
@@ -25,6 +25,8 @@ This is an Instagram clone web application that is fully responsive built using 
 * Edit profile information (profile picture, bio, etc.)
 * Search by username
 * infinite scroll in each posts, chats and even messages
+* Verification mark
+* typing indicator
 * Suggestion menu
 * Save and Unsave posts
 * notifications page.

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { ImSpinner3 } from 'react-icons/im';
 import { useBreakpoint, SkilMSGs } from '../Exports';
 
-const InfinteScrollableChat = ({ userById, id, }) => {
+const InfinteScrollableChat = ({ userById, id, image, isLoading }) => {
     const breakpoint = useBreakpoint();
     const MobileView = (breakpoint === 'xs' || breakpoint === 'sm' || breakpoint === 'md' || breakpoint === 'lg');
 
@@ -74,6 +74,15 @@ const InfinteScrollableChat = ({ userById, id, }) => {
                     className='hideScrollBare flex flex-col-reverse'
                     scrollableTarget="scrollableDiv"
                 >
+                    {image &&
+                        <div className='flex justify-end m-3'>
+                            <div className='max-w-[10rem] md:max-w-[15rem] relative'>
+                                <img src={image} accept="image/*" alt='' className='rounded-xl w-full flex justify-end' />
+                                {isLoading && <div className='absolute inset-0 bg-white/50 flex justify-center items-center text-gray-500'>
+                                    <span className=' animate-spin'> <ImSpinner3 size={30} /></span>
+                                </div>}
+                            </div>
+                        </div>}
                     {typing && <p className='m-3'>typing ....</p>}
                     {MSGs?.map((message, index) => (
                         <div ref={ScrollRef} key={index}>

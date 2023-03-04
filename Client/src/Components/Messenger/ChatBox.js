@@ -9,7 +9,6 @@ import { useNewMessageMutation } from './../../Redux/APIs/MessageApi'
 import { BiChevronLeft } from 'react-icons/bi'
 import { motion } from 'framer-motion';
 import AnimDropdown from './../../Animation/AnimDropdown'
-import { ImSpinner3 } from 'react-icons/im';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../Redux/Slices/UserSlice'
 import { Scrolldown } from '../../Helpers/Scroll'
@@ -106,18 +105,9 @@ const ChatBox = ({ setSelected }) => {
                 </div>
                 <div className='h-full'>
                     <>
-                        <InfinteScrollableChat userById={userById} id={id} />
+                        <InfinteScrollableChat userById={userById} id={id} image={image} isLoading={isLoading} />
 
                         {/* {isTyping && <p className='mx-3'>typing ....</p>} */}
-                        {image &&
-                            <div className='flex justify-end'>
-                                <div className='max-w-[10rem] md:max-w-[15rem] relative'>
-                                    <img src={image} accept="image/*" alt='' className='rounded-xl w-full flex justify-end' />
-                                    {isLoading && <div className='absolute inset-0 bg-white/50 flex justify-center items-center text-gray-500'>
-                                        <span className=' animate-spin'> <ImSpinner3 size={30} /></span>
-                                    </div>}
-                                </div>
-                            </div>}
                         {!(error?.status === 400) ?
 
                             <form
